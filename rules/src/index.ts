@@ -1,3 +1,3 @@
-export { GameTemplateRules } from './GameTemplateRules'
-export { GameTemplateOptionsSpec } from './GameTemplateOptions'
-export { GameTemplateSetup } from './GameTemplateSetup'
+export { KingOfTokyoDuelRules } from './KingOfTokyoDuelRules'
+export { KingOfTokyoDuelOptionsSpec } from './KingOfTokyoDuelOptions'
+export { KingOfTokyoDuelSetup } from './KingOfTokyoDuelSetup'

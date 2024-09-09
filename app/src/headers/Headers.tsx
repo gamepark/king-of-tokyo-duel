@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { RuleId } from '@gamepark/game-template/rules/RuleId'
+import { RuleId } from '@gamepark/king-of-tokyo-duel/rules/RuleId'
 import { ComponentType } from 'react'
 import { PlayerTurnHeader } from './PlayerTurnHeader'
 
