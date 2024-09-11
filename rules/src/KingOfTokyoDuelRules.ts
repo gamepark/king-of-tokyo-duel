@@ -1,4 +1,4 @@
-import { hideItemId, MaterialGame, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules, TimeLimit } from '@gamepark/rules-api'
+import { FillGapStrategy, hideItemId, MaterialGame, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules, TimeLimit } from '@gamepark/rules-api'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { MonsterBoard } from './material/MonsterBoard'
@@ -26,6 +26,12 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<MonsterBoard, Mate
     [MaterialType.EnergyCard]: {
       [LocationType.EnergyCardOnBoard]: new PositiveSequenceStrategy(),
       [LocationType.EnergyCardDeck]: new PositiveSequenceStrategy(),
+    },
+    [MaterialType.Buzz]: {
+      [LocationType.BuzzStock]: new FillGapStrategy()
+    },
+    [MaterialType.Dice]: {
+      [LocationType.PlayerDice]: new PositiveSequenceStrategy()
     }
   }
 

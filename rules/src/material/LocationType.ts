@@ -5,5 +5,8 @@ export enum LocationType {
   EnergyCardOnBoard,
   HealthCounter,
   FameTrack,
-  DestructionTrack
+  DestructionTrack,
+  BuzzStock,
+  PlayerDice,
+  DiceStock
 }

@@ -13,11 +13,19 @@ export class EnergyCardOnBoardLocator extends ListLocator {
   getPositionOnParent(_location: Location, _context: MaterialContext): XYCoordinates {
     return {
       x: 23,
-      y: -17.5
+      y: -17.7
     }
   }
 
-  gap = { x: energyCardDescription.width + 1.57 }
+  getHoverTransform() {
+    return [
+      'translateZ(10em)',
+      'scale(2)',
+      'translateY(25%)'
+    ]
+  }
+
+  gap = { x: energyCardDescription.width + 1.2 }
 
 }
 

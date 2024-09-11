@@ -1,6 +1,8 @@
 import { MaterialGameSetup } from '@gamepark/rules-api'
 import { KingOfTokyoDuelOptions } from './KingOfTokyoDuelOptions'
 import { KingOfTokyoDuelRules } from './KingOfTokyoDuelRules'
+import { allBuzz } from './material/Buzz'
+import { DiceColor } from './material/DiceColor'
 import { energyCards } from './material/EnergyCard'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
@@ -20,6 +22,19 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, Materi
     this.setupBoardCards()
     this.setupHealthCounter()
     this.setupPawns()
+    this.setupBuzzToken()
+    this.setupDice()
+  }
+
+  setupBuzzToken() {
+    const items = allBuzz.map((b) => ({
+      id: b,
+      location: {
+        type: LocationType.BuzzStock
+      }
+    }))
+
+    this.material(MaterialType.Buzz).createItems(items)
   }
 
   setupPawns() {
@@ -29,7 +44,7 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, Materi
         location: {
           type: LocationType.FameTrack,
           id: Pawn.Fame,
-          x: 14,
+          x: 14
         }
       })
 
@@ -38,7 +53,7 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, Materi
         id: Pawn.Destruction,
         location: {
           type: LocationType.DestructionTrack,
-          x: 14,
+          x: 14
         }
       })
   }
@@ -50,7 +65,7 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, Materi
           location: {
             type: LocationType.HealthCounter,
             player: index + 1,
-            rotation: 2
+            rotation: 1
           }
         })
     }
@@ -81,6 +96,32 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, Materi
     this.material(MaterialType.EnergyCard).createItems(cards)
     this.material(MaterialType.EnergyCard).shuffle()
   }
+
+
+  setupDice() {
+
+    for (let index = 0; index < 6; index++) {
+      if (index % 3 === 0) {
+        this.material(MaterialType.Dice).createItem(({
+          id: DiceColor.White,
+          location: {
+            type: LocationType.PlayerDice,
+            player: 1
+          }
+        }))
+      }
+      this.material(MaterialType.Dice).createItem(({
+        id: DiceColor.Red,
+        location: {
+          type: LocationType.PlayerDice,
+          player: 1
+        }
+      }))
+    }
+
+    this.material(MaterialType.Dice).rollItems()
+  }
+
 
   setupBoardCards() {
     this.material(MaterialType.EnergyCard)

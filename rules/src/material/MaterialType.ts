@@ -3,5 +3,7 @@ export enum MaterialType {
   MainBoard,
   MonsterBoard,
   HealthCounter,
-  Pawn
+  Pawn,
+  Buzz,
+  Dice
 }

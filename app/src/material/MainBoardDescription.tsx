@@ -3,8 +3,8 @@ import { BoardDescription } from '@gamepark/react-game'
 import Board from '../images/board/board.jpg'
 
 export class MainBoardDescription extends BoardDescription {
-  width = 31.5
-  height = 20
+  width = 30
+  height = 19
 
   image = Board
 

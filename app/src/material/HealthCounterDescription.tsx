@@ -5,8 +5,11 @@ import CounterA from '../images/player_counter/CounterA.png'
 import CounterB from '../images/player_counter/CounterB.png'
 import HealCounter from '../images/player_counter/CounterValue.png'
 
+// TODO: remove it
+export const rotation = 20
+
 export class HealthCounterDescription extends RoundTokenDescription {
-  diameter = 10
+  diameter = 12.5
 
   image = HealCounter
 
@@ -18,7 +21,7 @@ export class HealthCounterDescription extends RoundTokenDescription {
         background: url("${player === 1? CounterA: CounterB}");
         background-size: contain;
         background-repeat: no-repeat;
-        transform: rotateZ(${(20 - item.location.rotation) * 17.6}deg);
+        transform: rotateZ(${-getHearthRotation(rotation)}deg);
         height: 100%;
         width: 100%;
         position: absolute;
@@ -34,6 +37,31 @@ export class HealthCounterDescription extends RoundTokenDescription {
     images.push(CounterB)
     return images
   }
+}
+
+export const getHearthRotation = (rotation: number) => {
+  return [
+    0, // 0
+    17,
+    32.5,
+    48.5,
+    64.5,
+    80.5, // 5
+    97,
+    113,
+    128.5,
+    144.5,
+    161.5, // 10
+    178.5,
+    195.5,
+    213,
+    229.5,
+    247, // 15
+    264,
+    281,
+    298,
+    315,
+    335.5][rotation]
 }
 
 export const healthCounterDescription = new HealthCounterDescription()
