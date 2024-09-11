@@ -7,6 +7,7 @@ import { destructionPawnTrackLocator } from './DestructionPawnTrackLocator'
 import { diceStockLocator } from './DiceStockLocator'
 import { energyCardDeckLocator } from './EnergyCardDeckLocator'
 import { energyCardOnBoardLocator } from './EnergyCardOnBoardLocator'
+import { energyStockLocator } from './EnergyStockLocator'
 import { famePawnTrackLocator } from './FamePawnTrackLocator'
 import { healthCounterLocator } from './HealthCounterLocator'
 import { monsterBoardLocator } from './MonsterBoardLocator'
@@ -21,5 +22,6 @@ export const Locators: Partial<Record<LocationType, Locator<MonsterBoard, Materi
   [LocationType.DestructionTrack]: destructionPawnTrackLocator,
   [LocationType.BuzzStock]: buzzStockLocator,
   [LocationType.PlayerDice]: playerDiceLocator,
-  [LocationType.DiceStock]: diceStockLocator
+  [LocationType.DiceStock]: diceStockLocator,
+  [LocationType.EnergyStock]: energyStockLocator
 }

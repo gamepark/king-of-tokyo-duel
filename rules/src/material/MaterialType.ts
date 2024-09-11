@@ -5,5 +5,6 @@ export enum MaterialType {
   HealthCounter,
   Pawn,
   Buzz,
-  Dice
+  Dice,
+  Energy
 }
