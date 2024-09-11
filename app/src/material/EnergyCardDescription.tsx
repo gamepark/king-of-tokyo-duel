@@ -1,6 +1,6 @@
 import { EnergyCard } from '@gamepark/king-of-tokyo-duel/material/EnergyCard'
 import { CardDescription } from '@gamepark/react-game'
-import Back from '../images/cards/en/AcidAttack.jpg'
+import Back from '../images/cards/Back.jpg'
 import AcidAttack from '../images/cards/en/AcidAttack.jpg'
 import AdrenalineAugment from '../images/cards/en/AdrenalineAugment.jpg'
 import AlienMetabolism from '../images/cards/en/AlienMetabolism.jpg'
@@ -53,6 +53,8 @@ import Unstoppable from '../images/cards/en/Unstoppable.jpg'
 import UtterDestruction from '../images/cards/en/UtterDestruction.jpg'
 
 export class EnergyCardDescription extends CardDescription {
+  height = 8.8
+  width = 6.3
   image = Back
 
   images = {

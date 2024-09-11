@@ -1,4 +1,4 @@
-export enum MonterBoard {
+export enum MonsterBoard {
   Alienoid = 1,
   CyberKitty,
   Gigazaur,

@@ -1,7 +1,7 @@
-import { MaterialGame, MaterialMove, MaterialRules, TimeLimit } from '@gamepark/rules-api'
+import { hideItemId, MaterialGame, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules, TimeLimit } from '@gamepark/rules-api'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
-import { PlayerColor } from './PlayerColor'
+import { MonsterBoard } from './material/MonsterBoard'
 import { PlayerTurn } from './rules/PlayerTurn'
 import { RuleId } from './rules/RuleId'
 
@@ -10,10 +10,23 @@ import { RuleId } from './rules/RuleId'
  * This class implements the rules of the board game.
  * It must follow Game Park "Rules" API so that the Game Park server can enforce the rules.
  */
-export class KingOfTokyoDuelRules extends MaterialRules<PlayerColor, MaterialType, LocationType>
-  implements TimeLimit<MaterialGame<PlayerColor, MaterialType, LocationType>, MaterialMove<PlayerColor, MaterialType, LocationType>, PlayerColor> {
+export class KingOfTokyoDuelRules extends SecretMaterialRules<MonsterBoard, MaterialType, LocationType>
+  implements TimeLimit<MaterialGame<MonsterBoard, MaterialType, LocationType>, MaterialMove<MonsterBoard, MaterialType, LocationType>, MonsterBoard> {
   rules = {
     [RuleId.PlayerTurn]: PlayerTurn
+  }
+
+  hidingStrategies = {
+    [MaterialType.EnergyCard]: {
+      [LocationType.EnergyCardDeck]: hideItemId
+    }
+  }
+
+  locationsStrategies = {
+    [MaterialType.EnergyCard]: {
+      [LocationType.EnergyCardOnBoard]: new PositiveSequenceStrategy(),
+      [LocationType.EnergyCardDeck]: new PositiveSequenceStrategy(),
+    }
   }
 
   giveTime(): number {

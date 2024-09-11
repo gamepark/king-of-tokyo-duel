@@ -1,11 +1,11 @@
-import { OptionsSpec } from '@gamepark/rules-api'
+import { getEnumValues, OptionsSpec } from '@gamepark/rules-api'
 import { TFunction } from 'i18next'
-import { PlayerColor, playerColors } from './PlayerColor'
+import { MonsterBoard } from './material/MonsterBoard'
 
 /**
  * This is the options for each player in the game.
  */
-type PlayerOptions = { id: PlayerColor }
+type PlayerOptions = { monster: MonsterBoard }
 
 /**
  * This is the type of object that the game receives when a new game is started.
@@ -21,23 +21,10 @@ export type KingOfTokyoDuelOptions = {
  */
 export const KingOfTokyoDuelOptionsSpec: OptionsSpec<KingOfTokyoDuelOptions> = {
   players: {
-    id: {
-      label: (t: TFunction) => t('Player color'),
-      values: playerColors,
-      valueSpec: color => ({ label: t => getPlayerName(color, t) })
+    monster: {
+      label: (t: TFunction) => t('option.monster'),
+      values: getEnumValues(MonsterBoard),
+      valueSpec: monster => ({ label: t => t(`monster.${monster}`) })
     }
-  }
-}
-
-export function getPlayerName(playerId: PlayerColor, t: TFunction) {
-  switch (playerId) {
-    case PlayerColor.Red:
-      return t('Red')
-    case PlayerColor.Blue:
-      return t('Blue')
-    case PlayerColor.Green:
-      return t('Green')
-    case PlayerColor.Yellow:
-      return t('Yellow')
   }
 }

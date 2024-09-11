@@ -20,6 +20,7 @@ export const GameDisplay: FC<GameDisplayProps> = () => {
 }
 
 const centerNavigationCss = css`
+  display: none;
   left: 50%;
   transform: translateX(-50%);
 `

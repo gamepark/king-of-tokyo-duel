@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { PlayerColor } from '@gamepark/king-of-tokyo-duel/PlayerColor'
 import { StyledPlayerPanel, usePlayers } from '@gamepark/react-game'
 import { FC } from 'react'
 import { createPortal } from 'react-dom'
@@ -18,7 +17,6 @@ export const PlayerPanels: FC<any> = () => {
         <StyledPlayerPanel
           key={player.id}
           player={player}
-          color={playerColorCode[player.id]}
           css={[panelPosition, index === 0 ? topLeft : topRight]}
         />
       )}
@@ -41,10 +39,3 @@ const panelPosition = css`
   position: absolute;
   width: 28em;
 `
-
-export const playerColorCode: Record<PlayerColor, string> = {
-  [PlayerColor.Red]: 'red',
-  [PlayerColor.Blue]: 'blue',
-  [PlayerColor.Green]: 'green',
-  [PlayerColor.Yellow]: 'yellow'
-}
