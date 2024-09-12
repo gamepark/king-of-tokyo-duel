@@ -7,6 +7,7 @@ import { energyCards } from './material/EnergyCard'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { MonsterBoard } from './material/MonsterBoard'
+import { monsterBoardDescriptions } from './material/MonsterBoardDescription'
 import { Pawn } from './material/Pawn'
 import { Memory } from './rules/Memory'
 import { RuleId } from './rules/RuleId'
@@ -18,13 +19,25 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, Materi
   Rules = KingOfTokyoDuelRules
 
   setupMaterial(options: KingOfTokyoDuelOptions) {
-    this.setupMonsters(options)
     this.setupDeck()
     this.setupBoardCards()
-    this.setupHealthCounter()
     this.setupPawns()
     this.setupBuzzToken()
     this.setupDice()
+    this.setupPlayers(options)
+  }
+
+  setupPlayers(options: KingOfTokyoDuelOptions) {
+    for (let index = 0; index < this.players.length; index++) {
+      this.setupPlayer(options, index)
+    }
+  }
+
+  setupPlayer(options: KingOfTokyoDuelOptions, index: number) {
+    const monster = options.players[index].monster
+    const playerId = index + 1
+    this.setupPlayerMonster(playerId, monster)
+    this.setupPlayerHealthCounter(playerId, monster)
   }
 
   setupBuzzToken() {
@@ -59,44 +72,37 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, Materi
       })
   }
 
-  setupHealthCounter() {
-    for (let index = 0; index < this.players.length; index++) {
-      this.material(MaterialType.HealthCounter)
-        .createItem({
-          location: {
-            type: LocationType.HealthCounter,
-            player: index + 1,
-            rotation: 1
-          }
-        })
-    }
+  setupPlayerHealthCounter(playerId: number, monster: MonsterBoard) {
+    this.material(MaterialType.HealthCounter)
+      .createItem({
+        location: {
+          type: LocationType.HealthCounter,
+          player: playerId,
+          rotation: monsterBoardDescriptions[monster].health
+        }
+      })
   }
 
-  setupMonsters(options: KingOfTokyoDuelOptions): void {
-    for (let index = 0; index < this.players.length; index++) {
-      const monster = options.players[index].monster
-      const playerId = index + 1
-      console.log(monster)
-      this.material(MaterialType.MonsterBoard)
-        .createItem({
-          id: monster,
-          location: {
-            type: LocationType.MonsterBoard,
-            player: playerId
-          }
-        })
-
-      if (monster === MonsterBoard.TheKing) {
-        for (let index = 0; index < 2; index++) {
-          this.material(MaterialType.Buzz)
-            .createItem({
-              id: Buzz.TheKingBuzz,
-              location: {
-                type: LocationType.PlayerBuzzToken,
-                player: playerId
-              }
-            })
+  setupPlayerMonster(playerId: number, monster: MonsterBoard): void {
+    this.material(MaterialType.MonsterBoard)
+      .createItem({
+        id: monster,
+        location: {
+          type: LocationType.MonsterBoard,
+          player: playerId
         }
+      })
+
+    if (monster === MonsterBoard.TheKing) {
+      for (let index = 0; index < 2; index++) {
+        this.material(MaterialType.Buzz)
+          .createItem({
+            id: Buzz.TheKingBuzz,
+            location: {
+              type: LocationType.PlayerBuzzToken,
+              player: playerId
+            }
+          })
       }
     }
   }
