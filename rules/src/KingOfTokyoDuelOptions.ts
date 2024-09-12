@@ -5,7 +5,7 @@ import { MonsterBoard } from './material/MonsterBoard'
 /**
  * This is the options for each player in the game.
  */
-type PlayerOptions = { monster: MonsterBoard }
+type PlayerOptions = { id: MonsterBoard }
 
 /**
  * This is the type of object that the game receives when a new game is started.
@@ -21,7 +21,7 @@ export type KingOfTokyoDuelOptions = {
  */
 export const KingOfTokyoDuelOptionsSpec: OptionsSpec<KingOfTokyoDuelOptions> = {
   players: {
-    monster: {
+    id: {
       label: (t: TFunction) => t('option.monster'),
       values: getEnumValues(MonsterBoard),
       valueSpec: monster => ({ label: t => t(`monster.${monster}`) })

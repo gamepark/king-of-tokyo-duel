@@ -18,26 +18,24 @@ import { RuleId } from './rules/RuleId'
 export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, MaterialType, LocationType, KingOfTokyoDuelOptions> {
   Rules = KingOfTokyoDuelRules
 
-  setupMaterial(options: KingOfTokyoDuelOptions) {
+  setupMaterial() {
     this.setupDeck()
     this.setupBoardCards()
     this.setupPawns()
     this.setupBuzzToken()
     this.setupDice()
-    this.setupPlayers(options)
+    this.setupPlayers()
   }
 
-  setupPlayers(options: KingOfTokyoDuelOptions) {
-    for (let index = 0; index < this.players.length; index++) {
-      this.setupPlayer(options, index)
+  setupPlayers() {
+    for (const monster of this.players) {
+      this.setupPlayer(monster)
     }
   }
 
-  setupPlayer(options: KingOfTokyoDuelOptions, index: number) {
-    const monster = options.players[index].monster
-    const playerId = index + 1
-    this.setupPlayerMonster(playerId, monster)
-    this.setupPlayerHealthCounter(playerId, monster)
+  setupPlayer(monster: MonsterBoard) {
+    this.setupPlayerMonster(monster)
+    this.setupPlayerHealthCounter(monster)
   }
 
   setupBuzzToken() {
@@ -72,24 +70,24 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, Materi
       })
   }
 
-  setupPlayerHealthCounter(playerId: number, monster: MonsterBoard) {
+  setupPlayerHealthCounter(monster: MonsterBoard) {
     this.material(MaterialType.HealthCounter)
       .createItem({
         location: {
           type: LocationType.HealthCounter,
-          player: playerId,
+          player: monster,
           rotation: monsterBoardDescriptions[monster].health
         }
       })
   }
 
-  setupPlayerMonster(playerId: number, monster: MonsterBoard): void {
+  setupPlayerMonster(monster: MonsterBoard): void {
     this.material(MaterialType.MonsterBoard)
       .createItem({
         id: monster,
         location: {
           type: LocationType.MonsterBoard,
-          player: playerId
+          player: monster
         }
       })
 
@@ -100,7 +98,7 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, Materi
             id: Buzz.TheKingBuzz,
             location: {
               type: LocationType.PlayerBuzzToken,
-              player: playerId
+              player: monster
             }
           })
       }
@@ -121,7 +119,6 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, Materi
 
 
   setupDice() {
-
     for (let index = 0; index < 6; index++) {
       if (index % 3 === 0) {
         this.material(MaterialType.Dice).createItem(({
@@ -155,6 +152,6 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, Materi
 
   start() {
     this.memorize(Memory.Round, 1)
-    this.startPlayerTurn(RuleId.PlayerTurn, this.game.players[0])
+    this.startPlayerTurn(RuleId.RollDice, this.game.players[0])
   }
 }

@@ -2,7 +2,7 @@ import { FillGapStrategy, hideItemId, MaterialGame, MaterialMove, PositiveSequen
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { MonsterBoard } from './material/MonsterBoard'
-import { PlayerTurn } from './rules/PlayerTurn'
+import { RollDiceRule } from './rules/RollDiceRule'
 import { RuleId } from './rules/RuleId'
 
 
@@ -13,7 +13,7 @@ import { RuleId } from './rules/RuleId'
 export class KingOfTokyoDuelRules extends SecretMaterialRules<MonsterBoard, MaterialType, LocationType>
   implements TimeLimit<MaterialGame<MonsterBoard, MaterialType, LocationType>, MaterialMove<MonsterBoard, MaterialType, LocationType>, MonsterBoard> {
   rules = {
-    [RuleId.PlayerTurn]: PlayerTurn
+    [RuleId.RollDice]: RollDiceRule
   }
 
   hidingStrategies = {
