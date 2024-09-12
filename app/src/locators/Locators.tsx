@@ -11,6 +11,7 @@ import { energyStockLocator } from './EnergyStockLocator'
 import { famePawnTrackLocator } from './FamePawnTrackLocator'
 import { healthCounterLocator } from './HealthCounterLocator'
 import { monsterBoardLocator } from './MonsterBoardLocator'
+import { playerBuzzLocator } from './PlayerBuzzLocator'
 import { playerDiceLocator } from './PlayerDiceLocator'
 
 export const Locators: Partial<Record<LocationType, Locator<MonsterBoard, MaterialType, LocationType>>> = {
@@ -23,5 +24,6 @@ export const Locators: Partial<Record<LocationType, Locator<MonsterBoard, Materi
   [LocationType.BuzzStock]: buzzStockLocator,
   [LocationType.PlayerDice]: playerDiceLocator,
   [LocationType.DiceStock]: diceStockLocator,
-  [LocationType.EnergyStock]: energyStockLocator
+  [LocationType.EnergyStock]: energyStockLocator,
+  [LocationType.PlayerBuzzToken]: playerBuzzLocator
 }

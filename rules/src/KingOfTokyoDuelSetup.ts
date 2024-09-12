@@ -1,13 +1,14 @@
 import { MaterialGameSetup } from '@gamepark/rules-api'
 import { KingOfTokyoDuelOptions } from './KingOfTokyoDuelOptions'
 import { KingOfTokyoDuelRules } from './KingOfTokyoDuelRules'
-import { allBuzz } from './material/Buzz'
+import { Buzz, commonBuzz } from './material/Buzz'
 import { DiceColor } from './material/DiceColor'
 import { energyCards } from './material/EnergyCard'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { MonsterBoard } from './material/MonsterBoard'
 import { Pawn } from './material/Pawn'
+import { Memory } from './rules/Memory'
 import { RuleId } from './rules/RuleId'
 
 /**
@@ -16,8 +17,8 @@ import { RuleId } from './rules/RuleId'
 export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, MaterialType, LocationType, KingOfTokyoDuelOptions> {
   Rules = KingOfTokyoDuelRules
 
-  setupMaterial() {
-    this.setupMonsters()
+  setupMaterial(options: KingOfTokyoDuelOptions) {
+    this.setupMonsters(options)
     this.setupDeck()
     this.setupBoardCards()
     this.setupHealthCounter()
@@ -27,7 +28,7 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, Materi
   }
 
   setupBuzzToken() {
-    const items = allBuzz.map((b) => ({
+    const items = commonBuzz.map((b) => ({
       id: b,
       location: {
         type: LocationType.BuzzStock
@@ -71,17 +72,32 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, Materi
     }
   }
 
-  setupMonsters(): void {
+  setupMonsters(options: KingOfTokyoDuelOptions): void {
     for (let index = 0; index < this.players.length; index++) {
-      const monster = this.players[index]
+      const monster = options.players[index].monster
+      const playerId = index + 1
+      console.log(monster)
       this.material(MaterialType.MonsterBoard)
         .createItem({
           id: monster,
           location: {
             type: LocationType.MonsterBoard,
-            player: index + 1
+            player: playerId
           }
         })
+
+      if (monster === MonsterBoard.TheKing) {
+        for (let index = 0; index < 2; index++) {
+          this.material(MaterialType.Buzz)
+            .createItem({
+              id: Buzz.TheKingBuzz,
+              location: {
+                type: LocationType.PlayerBuzzToken,
+                player: playerId
+              }
+            })
+        }
+      }
     }
   }
 
@@ -132,6 +148,7 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, Materi
   }
 
   start() {
+    this.memorize(Memory.Round, 1)
     this.startPlayerTurn(RuleId.PlayerTurn, this.game.players[0])
   }
 }

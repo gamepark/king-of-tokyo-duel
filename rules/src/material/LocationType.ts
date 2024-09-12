@@ -9,5 +9,6 @@ export enum LocationType {
   BuzzStock,
   PlayerDice,
   DiceStock,
-  EnergyStock
+  EnergyStock,
+  PlayerBuzzToken
 }

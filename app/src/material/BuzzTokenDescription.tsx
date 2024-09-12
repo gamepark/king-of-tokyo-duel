@@ -24,7 +24,7 @@ export class BuzzTokenDescription extends TokenDescription {
   images = {
     [Buzz.Buzz1]: Buzz1,
     [Buzz.Buzz2]: Buzz2,
-    [Buzz.Buzz3]: Buzz3,
+    [Buzz.TheKingBuzz]: Buzz3,
     [Buzz.Buzz4]: Buzz4,
     [Buzz.Buzz5]: Buzz5,
     [Buzz.Buzz6]: Buzz6,
@@ -42,7 +42,7 @@ export const buzzTokenDescription = new BuzzTokenDescription()
 export const tokenSizes: Record<Buzz, { height: number, width: number }> = {
   [Buzz.Buzz1]: { height: 3.0, width: 2.3},
   [Buzz.Buzz2]: { height: 3.0, width: 2.3},
-  [Buzz.Buzz3]: { height: 3.0, width: 2.3},
+  [Buzz.TheKingBuzz]: { height: 3.0, width: 2.3},
   [Buzz.Buzz4]: { height: 3.0, width: 2.3},
   [Buzz.Buzz5]: { height: 3.0, width: 2.3},
   [Buzz.Buzz6]: { height: 2.71, width: 4.776},

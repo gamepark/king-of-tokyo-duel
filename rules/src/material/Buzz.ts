@@ -4,7 +4,7 @@ export enum Buzz {
   //
   Buzz1 = 1,
   Buzz2,
-  Buzz3,
+  TheKingBuzz,
   Buzz4,
   Buzz5,
   Buzz6,
@@ -17,3 +17,5 @@ export enum Buzz {
 }
 
 export const allBuzz = getEnumValues(Buzz)
+export const commonBuzz = allBuzz.filter((buzz) => buzz !== Buzz.TheKingBuzz)
+export const theKingBuzz = allBuzz.find((buzz) => buzz === Buzz.TheKingBuzz)

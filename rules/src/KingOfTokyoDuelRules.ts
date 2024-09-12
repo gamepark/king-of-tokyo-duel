@@ -28,7 +28,8 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<MonsterBoard, Mate
       [LocationType.EnergyCardDeck]: new PositiveSequenceStrategy(),
     },
     [MaterialType.Buzz]: {
-      [LocationType.BuzzStock]: new FillGapStrategy()
+      [LocationType.BuzzStock]: new FillGapStrategy(),
+      [LocationType.PlayerBuzzToken]: new FillGapStrategy()
     },
     [MaterialType.Dice]: {
       [LocationType.PlayerDice]: new PositiveSequenceStrategy()
