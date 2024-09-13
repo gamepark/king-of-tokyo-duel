@@ -5,7 +5,7 @@ import { tokenSizes } from '../material/BuzzTokenDescription'
 
 export class PlayerBuzzLocator extends ListLocator {
   getCoordinates(location: Location, context: MaterialContext) {
-    if (location.player === (context.player ?? context.rules.players[0])) {
+    if (location.player === context.rules.players[0]) {
       return { x: -30, y: -3.8, z: 0.05 }
     }
 

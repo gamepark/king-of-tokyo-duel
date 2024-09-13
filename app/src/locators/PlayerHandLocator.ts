@@ -10,7 +10,7 @@ export class PlayerHandLocator extends FlexLocator {
   getCoordinates(location: Location, context: MaterialContext) {
     console.log(location)
     if (!isItemContext(context)) return {}
-    if (location.player === (context.player ?? context.rules.players[0])) {
+    if (location.player === context.rules.players[0]) {
       return { x: -25.1, y: 5, z: 0 }
     }
 

@@ -5,7 +5,7 @@ import { FC } from 'react'
 import { createPortal } from 'react-dom'
 
 export const PlayerPanels: FC<any> = () => {
-  const players = usePlayers({ sortFromMe: true })
+  const players = usePlayers()
   const root = document.getElementById('root')
   if (!root) {
     return null
