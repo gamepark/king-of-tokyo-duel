@@ -2,6 +2,7 @@ import { FillGapStrategy, MaterialGame, MaterialMove, PositiveSequenceStrategy, 
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { Monster } from './material/Monster'
+import { BuyRule } from './rules/BuyRule'
 import { GainEnergyRule } from './rules/GainEnergyRule'
 import { MovePawnsRule } from './rules/MovePawnsRule'
 import { RollDiceRule } from './rules/RollDiceRule'
@@ -19,7 +20,8 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     [RuleId.RollDice]: RollDiceRule,
     [RuleId.MovePawns]: MovePawnsRule,
     [RuleId.GainEnergy]: GainEnergyRule,
-    [RuleId.Smash]: SmashRule
+    [RuleId.Smash]: SmashRule,
+    [RuleId.Buy]: BuyRule
   }
 
   hidingStrategies = {

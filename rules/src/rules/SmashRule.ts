@@ -32,7 +32,7 @@ export class SmashRule extends PlayerTurnRule {
   get claws() {
     return this
       .dice
-      .rotation((r) => r === DiceFace.Claw)
+      .rotation(DiceFace.Claw)
       .length
   }
 }
