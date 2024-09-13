@@ -1,11 +1,11 @@
 import { getEnumValues, OptionsSpec } from '@gamepark/rules-api'
 import { TFunction } from 'i18next'
-import { MonsterBoard } from './material/MonsterBoard'
+import { Monster } from './material/Monster'
 
 /**
  * This is the options for each player in the game.
  */
-type PlayerOptions = { id: MonsterBoard }
+type PlayerOptions = { id: Monster }
 
 /**
  * This is the type of object that the game receives when a new game is started.
@@ -23,7 +23,7 @@ export const KingOfTokyoDuelOptionsSpec: OptionsSpec<KingOfTokyoDuelOptions> = {
   players: {
     id: {
       label: (t: TFunction) => t('option.monster'),
-      values: getEnumValues(MonsterBoard),
+      values: getEnumValues(Monster),
       valueSpec: monster => ({ label: t => t(`monster.${monster}`) })
     }
   }

@@ -7,8 +7,11 @@ export enum LocationType {
   FameTrack,
   DestructionTrack,
   BuzzStock,
-  PlayerDice,
+  PlayerHand,
   DiceStock,
   EnergyStock,
-  PlayerBuzzToken
+  PlayerBuzzToken,
+  PlayerRolledDice,
+  WhiteDiceStock,
+  PlayerEnergy
 }

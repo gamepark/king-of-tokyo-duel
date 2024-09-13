@@ -1,15 +1,15 @@
-import { MonsterBoard } from './MonsterBoard'
+import { Monster } from './Monster'
 
 export type MonsterBoardDescription = {
   health: number,
   // TODO: EFFECTS
 }
 
-export const monsterBoardDescriptions: Record<MonsterBoard, MonsterBoardDescription> = {
-  [MonsterBoard.Alienoid]: { health: 14},
-  [MonsterBoard.CyberKitty]: { health: 13},
-  [MonsterBoard.Gigazaur]: { health: 14},
-  [MonsterBoard.MekaDragon]: { health: 12},
-  [MonsterBoard.SpacePenguin]: { health: 13},
-  [MonsterBoard.TheKing]: { health: 15},
+export const monsterBoardDescriptions: Record<Monster, MonsterBoardDescription> = {
+  [Monster.Alienoid]: { health: 14},
+  [Monster.CyberKitty]: { health: 13},
+  [Monster.Gigazaur]: { health: 14},
+  [Monster.MekaDragon]: { health: 12},
+  [Monster.SpacePenguin]: { health: 13},
+  [Monster.TheKing]: { health: 15},
 }

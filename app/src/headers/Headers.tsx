@@ -6,5 +6,5 @@ import { RollDiceHeader } from './RollDiceHeader'
 
 export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.RollDice]: RollDiceHeader,
-  [RuleId.PlayerTurn]: PlayerTurnHeader
+  [RuleId.MovePawns]: PlayerTurnHeader
 }

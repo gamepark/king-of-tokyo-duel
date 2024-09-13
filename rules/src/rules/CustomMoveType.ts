@@ -1,4 +1,4 @@
 export enum CustomMoveType {
-  RollDice = 1,
-  Stop
+  Roll = 1,
+  ReRoll
 }

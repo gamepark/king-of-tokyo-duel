@@ -1,4 +1,4 @@
-import { MonsterBoard } from '@gamepark/king-of-tokyo-duel/material/MonsterBoard'
+import { Monster } from '@gamepark/king-of-tokyo-duel/material/Monster'
 import { BoardDescription } from '@gamepark/react-game'
 import Alienoid from '../images/monsters/en/Alienoid.jpg'
 import CyberKitty from '../images/monsters/en/CyberKitty.jpg'
@@ -13,12 +13,12 @@ export class MonsterBoardDescription extends BoardDescription {
   borderRadius = 0.3
 
   images = {
-    [MonsterBoard.Alienoid]: Alienoid,
-    [MonsterBoard.CyberKitty]: CyberKitty,
-    [MonsterBoard.Gigazaur]: Gigazaur,
-    [MonsterBoard.MekaDragon]: MekaDragon,
-    [MonsterBoard.SpacePenguin]: SpacePenguin,
-    [MonsterBoard.TheKing]: TheKing,
+    [Monster.Alienoid]: Alienoid,
+    [Monster.CyberKitty]: CyberKitty,
+    [Monster.Gigazaur]: Gigazaur,
+    [Monster.MekaDragon]: MekaDragon,
+    [Monster.SpacePenguin]: SpacePenguin,
+    [Monster.TheKing]: TheKing,
   }
 }
 

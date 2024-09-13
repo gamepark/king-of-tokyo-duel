@@ -5,7 +5,7 @@ import { PlayMoveButton, useLegalMove } from '@gamepark/react-game'
 import { isCustomMoveType } from "@gamepark/rules-api"
 
 export const RollDiceHeader = () => {
-  const roll = useLegalMove((move) => isCustomMoveType(CustomMoveType.RollDice)(move))
+  const roll = useLegalMove((move) => isCustomMoveType(CustomMoveType.Roll)(move))
   return (
     <PlayMoveButton move={roll}>Roll</PlayMoveButton>
   )

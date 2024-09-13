@@ -1,5 +1,5 @@
-import { CustomMove, PlayerTurnRule } from '@gamepark/rules-api'
-import { DiceColor } from '../material/DiceColor'
+import { CustomMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
+import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { CustomMoveType } from './CustomMoveType'
 import { Memory } from './Memory'
@@ -10,52 +10,59 @@ export class RollDiceRule extends PlayerTurnRule {
     const rollCount = this.rollCount
 
     if (!rollCount) {
-      return [this.customMove(CustomMoveType.RollDice)]
+      return [this.customMove(CustomMoveType.Roll)]
     }
 
+    const takeDiceInHand = this.rolledDice.moveItems(({ location: { x, type, ...rest }}) => ({ ...rest, type: LocationType.PlayerHand }))
     return [
-      this.startRule(RuleId.PlayerTurn)
+      ...takeDiceInHand,
+      this.customMove(CustomMoveType.Roll),
+      this.goToPhase2()
     ]
   }
 
-  onCustomMove(_move: CustomMove) {
-    const redDice = this.redDice
-    const whiteDice = this.whiteDice
+  onCustomMove(move: CustomMove) {
+    const moves: MaterialMove[] = []
+    this.memorize(Memory.RollCount, (roll: number) => (roll ?? 0) + 1)
+    if (move.type === CustomMoveType.Roll) {
+      moves.push(
+        ...this.diceInHand.rollItems({
+          type: LocationType.PlayerRolledDice,
+          player: this.player
+        })
+      )
+    }
 
-    this.memorize(Memory.RollCount, (roll) => roll++)
-    return [
-      ...redDice.rollItems(),
-      ...whiteDice.rollItems(),
-    ]
+    if (this.rollCount === 3) {
+      moves.push(this.goToPhase2())
+    }
+
+    return moves
   }
 
-  get redDice() {
-    return this
-      .material(MaterialType.Dice)
-      .id(DiceColor.Red)
-      .location((location) => !this.isFirstPlayerVeryFirstTurn? true: location.x !== 1)
-  }
-
-  get isFirstPlayerVeryFirstTurn() {
-    return this.round === 1 && this.player === this.game.players[0]
+  goToPhase2(): MaterialMove {
+    return this.startRule(RuleId.GainEnergy)
   }
 
   get round() {
     return this.remind(Memory.Round)
   }
 
-  get whiteDice() {
-    return this
-      .material(MaterialType.Dice)
-      .id(DiceColor.White)
-      .limit(this.additionalDice)
-  }
-
-  get additionalDice() {
-    return this.remind(Memory.WhiteDice) ?? 0
-  }
-
   get rollCount() {
     return this.remind(Memory.RollCount)
+  }
+
+  get rolledDice() {
+    return this
+      .material(MaterialType.Dice)
+      .location(LocationType.PlayerRolledDice)
+      .player(this.player)
+  }
+
+  get diceInHand() {
+    return this
+      .material(MaterialType.Dice)
+      .location(LocationType.PlayerHand)
+      .player(this.player)
   }
 }

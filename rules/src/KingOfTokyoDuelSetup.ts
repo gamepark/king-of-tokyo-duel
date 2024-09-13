@@ -6,7 +6,7 @@ import { DiceColor } from './material/DiceColor'
 import { energyCards } from './material/EnergyCard'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
-import { MonsterBoard } from './material/MonsterBoard'
+import { Monster } from './material/Monster'
 import { monsterBoardDescriptions } from './material/MonsterBoardDescription'
 import { Pawn } from './material/Pawn'
 import { Memory } from './rules/Memory'
@@ -15,7 +15,7 @@ import { RuleId } from './rules/RuleId'
 /**
  * This class creates a new Game based on the game options
  */
-export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, MaterialType, LocationType, KingOfTokyoDuelOptions> {
+export class KingOfTokyoDuelSetup extends MaterialGameSetup<Monster, MaterialType, LocationType, KingOfTokyoDuelOptions> {
   Rules = KingOfTokyoDuelRules
 
   setupMaterial() {
@@ -33,7 +33,7 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, Materi
     }
   }
 
-  setupPlayer(monster: MonsterBoard) {
+  setupPlayer(monster: Monster) {
     this.setupPlayerMonster(monster)
     this.setupPlayerHealthCounter(monster)
   }
@@ -70,7 +70,7 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, Materi
       })
   }
 
-  setupPlayerHealthCounter(monster: MonsterBoard) {
+  setupPlayerHealthCounter(monster: Monster) {
     this.material(MaterialType.HealthCounter)
       .createItem({
         location: {
@@ -81,7 +81,7 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, Materi
       })
   }
 
-  setupPlayerMonster(monster: MonsterBoard): void {
+  setupPlayerMonster(monster: Monster): void {
     this.material(MaterialType.MonsterBoard)
       .createItem({
         id: monster,
@@ -91,7 +91,7 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, Materi
         }
       })
 
-    if (monster === MonsterBoard.TheKing) {
+    if (monster === Monster.TheKing) {
       for (let index = 0; index < 2; index++) {
         this.material(MaterialType.Buzz)
           .createItem({
@@ -120,25 +120,24 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<MonsterBoard, Materi
 
   setupDice() {
     for (let index = 0; index < 6; index++) {
-      if (index % 3 === 0) {
-        this.material(MaterialType.Dice).createItem(({
-          id: DiceColor.White,
-          location: {
-            type: LocationType.PlayerDice,
-            player: 1
-          }
-        }))
-      }
-      this.material(MaterialType.Dice).createItem(({
+      this.material(MaterialType.Dice).createItem({
         id: DiceColor.Red,
         location: {
-          type: LocationType.PlayerDice,
-          player: 1
+          type: LocationType.PlayerHand,
+          player: this.players[index === 0? 1: 0]
+        }
+      })
+    }
+
+    for (let index = 0; index < 2; index++) {
+      this.material(MaterialType.Dice).createItem(({
+        id: DiceColor.White,
+        location: {
+          type: LocationType.WhiteDiceStock,
+          player: this.players[0]
         }
       }))
     }
-
-    this.material(MaterialType.Dice).rollItems()
   }
 
 

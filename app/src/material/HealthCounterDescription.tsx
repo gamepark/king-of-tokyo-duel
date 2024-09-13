@@ -15,7 +15,7 @@ export class HealthCounterDescription extends RoundTokenDescription {
     return css`
       &:after {
         content: '';
-        background: url("${player === 1? CounterA: CounterB}");
+        background: url("${player === _context.rules.players[0]? CounterA: CounterB}");
         background-size: contain;
         background-repeat: no-repeat;
         transform: rotateZ(${-getHearthRotation(item.location.rotation)}deg);

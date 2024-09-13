@@ -1,6 +1,8 @@
 import { DiceColor } from '@gamepark/king-of-tokyo-duel/material/DiceColor'
+import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType'
+import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType'
 import { CubicDiceDescription, ItemContext } from '@gamepark/react-game'
-import { MaterialItem } from '@gamepark/rules-api'
+import { isMoveItemType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
 import Red_Claw from '../images/dice/red/Red_Claw.png'
 import Red_Destruction from '../images/dice/red/Red_Destruction.png'
 import Red_Energy from '../images/dice/red/Red_Energy.png'
@@ -21,12 +23,12 @@ export class DiceDescription extends CubicDiceDescription {
 
   images = {
     [DiceColor.Red]: [
-      Red_Star,
       Red_Claw,
       Red_Destruction,
       Red_Energy,
       Red_Heart,
       Red_Power,
+      Red_Star,
     ],
     [DiceColor.White]: [
       White_Claw,
@@ -36,6 +38,13 @@ export class DiceDescription extends CubicDiceDescription {
       White_Power,
       White_Star,
     ]
+  }
+
+  canShortClick(move: MaterialMove, context: ItemContext) {
+    if (!isMoveItemType(MaterialType.Dice)(move) || move.location.type !== LocationType.PlayerHand) return false
+    const item = context.rules.material(MaterialType.Dice).getItem(move.itemIndex)!
+    if (item.location.type !== LocationType.PlayerRolledDice) return false
+    return move.itemIndex === context.index
   }
 
   getRotations(item: MaterialItem, context: ItemContext) {

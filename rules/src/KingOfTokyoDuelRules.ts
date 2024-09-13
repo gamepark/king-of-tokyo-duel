@@ -1,24 +1,30 @@
-import { FillGapStrategy, hideItemId, MaterialGame, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules, TimeLimit } from '@gamepark/rules-api'
+import { FillGapStrategy, MaterialGame, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules, TimeLimit } from '@gamepark/rules-api'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
-import { MonsterBoard } from './material/MonsterBoard'
+import { Monster } from './material/Monster'
+import { GainEnergyRule } from './rules/GainEnergyRule'
+import { MovePawnsRule } from './rules/MovePawnsRule'
 import { RollDiceRule } from './rules/RollDiceRule'
 import { RuleId } from './rules/RuleId'
+import { SmashRule } from './rules/SmashRule'
 
 
 /**
  * This class implements the rules of the board game.
  * It must follow Game Park "Rules" API so that the Game Park server can enforce the rules.
  */
-export class KingOfTokyoDuelRules extends SecretMaterialRules<MonsterBoard, MaterialType, LocationType>
-  implements TimeLimit<MaterialGame<MonsterBoard, MaterialType, LocationType>, MaterialMove<MonsterBoard, MaterialType, LocationType>, MonsterBoard> {
+export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialType, LocationType>
+  implements TimeLimit<MaterialGame<Monster, MaterialType, LocationType>, MaterialMove<Monster, MaterialType, LocationType>, Monster> {
   rules = {
-    [RuleId.RollDice]: RollDiceRule
+    [RuleId.RollDice]: RollDiceRule,
+    [RuleId.MovePawns]: MovePawnsRule,
+    [RuleId.GainEnergy]: GainEnergyRule,
+    [RuleId.Smash]: SmashRule
   }
 
   hidingStrategies = {
     [MaterialType.EnergyCard]: {
-      [LocationType.EnergyCardDeck]: hideItemId
+      //[LocationType.EnergyCardDeck]: hideItemId
     }
   }
 
@@ -32,7 +38,9 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<MonsterBoard, Mate
       [LocationType.PlayerBuzzToken]: new FillGapStrategy()
     },
     [MaterialType.Dice]: {
-      [LocationType.PlayerDice]: new PositiveSequenceStrategy()
+      [LocationType.PlayerHand]: new PositiveSequenceStrategy(),
+      [LocationType.PlayerRolledDice]: new FillGapStrategy(),
+      [LocationType.WhiteDiceStock]: new PositiveSequenceStrategy()
     }
   }
 

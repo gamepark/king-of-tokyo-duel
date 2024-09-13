@@ -1,6 +1,6 @@
 import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType'
 import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType'
-import { MonsterBoard } from '@gamepark/king-of-tokyo-duel/material/MonsterBoard'
+import { Monster } from '@gamepark/king-of-tokyo-duel/material/Monster'
 import { Locator } from '@gamepark/react-game'
 import { buzzStockLocator } from './BuzzStockLocator'
 import { destructionPawnTrackLocator } from './DestructionPawnTrackLocator'
@@ -12,9 +12,12 @@ import { famePawnTrackLocator } from './FamePawnTrackLocator'
 import { healthCounterLocator } from './HealthCounterLocator'
 import { monsterBoardLocator } from './MonsterBoardLocator'
 import { playerBuzzLocator } from './PlayerBuzzLocator'
-import { playerDiceLocator } from './PlayerDiceLocator'
+import { playerEnergyLocator } from './PlayerEnergyLocator'
+import { playerHandLocator } from './PlayerHandLocator'
+import { playerRolledDiceLocator } from './PlayerRolledDiceLocator'
+import { whiteDiceStockLocator } from './WhiteDiceStockLocator'
 
-export const Locators: Partial<Record<LocationType, Locator<MonsterBoard, MaterialType, LocationType>>> = {
+export const Locators: Partial<Record<LocationType, Locator<Monster, MaterialType, LocationType>>> = {
   [LocationType.MonsterBoard]: monsterBoardLocator,
   [LocationType.EnergyCardOnBoard]: energyCardOnBoardLocator,
   [LocationType.EnergyCardDeck]: energyCardDeckLocator,
@@ -22,8 +25,11 @@ export const Locators: Partial<Record<LocationType, Locator<MonsterBoard, Materi
   [LocationType.FameTrack]: famePawnTrackLocator,
   [LocationType.DestructionTrack]: destructionPawnTrackLocator,
   [LocationType.BuzzStock]: buzzStockLocator,
-  [LocationType.PlayerDice]: playerDiceLocator,
+  [LocationType.PlayerHand]: playerHandLocator,
+  [LocationType.PlayerRolledDice]: playerRolledDiceLocator,
   [LocationType.DiceStock]: diceStockLocator,
   [LocationType.EnergyStock]: energyStockLocator,
-  [LocationType.PlayerBuzzToken]: playerBuzzLocator
+  [LocationType.PlayerBuzzToken]: playerBuzzLocator,
+  [LocationType.WhiteDiceStock]: whiteDiceStockLocator,
+  [LocationType.PlayerEnergy]: playerEnergyLocator
 }
