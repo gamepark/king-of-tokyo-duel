@@ -1,4 +1,4 @@
-import { EnergyCard } from '@gamepark/king-of-tokyo-duel/material/EnergyCard'
+import { EnergyCard } from '@gamepark/king-of-tokyo-duel/material/cards/EnergyCard'
 import { CardDescription } from '@gamepark/react-game'
 import Back from '../images/cards/Back.jpg'
 import AcidAttack from '../images/cards/en/AcidAttack.jpg'

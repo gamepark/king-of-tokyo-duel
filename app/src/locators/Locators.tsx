@@ -5,6 +5,8 @@ import { Locator } from '@gamepark/react-game'
 import { buzzStockLocator } from './BuzzStockLocator'
 import { destructionPawnTrackLocator } from './DestructionPawnTrackLocator'
 import { diceStockLocator } from './DiceStockLocator'
+import { diceToSolveLocator } from './DiceToSolveLocator'
+import { discardLocator } from './DiscardLocator'
 import { energyCardDeckLocator } from './EnergyCardDeckLocator'
 import { energyCardOnBoardLocator } from './EnergyCardOnBoardLocator'
 import { energyStockLocator } from './EnergyStockLocator'
@@ -14,6 +16,7 @@ import { monsterBoardLocator } from './MonsterBoardLocator'
 import { playerBuzzLocator } from './PlayerBuzzLocator'
 import { playerEnergyLocator } from './PlayerEnergyLocator'
 import { playerHandLocator } from './PlayerHandLocator'
+import { playerKeepCards } from './PlayerKeepCardsLocator'
 import { playerRolledDiceLocator } from './PlayerRolledDiceLocator'
 import { whiteDiceStockLocator } from './WhiteDiceStockLocator'
 
@@ -31,5 +34,9 @@ export const Locators: Partial<Record<LocationType, Locator<Monster, MaterialTyp
   [LocationType.EnergyStock]: energyStockLocator,
   [LocationType.PlayerBuzzToken]: playerBuzzLocator,
   [LocationType.WhiteDiceStock]: whiteDiceStockLocator,
-  [LocationType.PlayerEnergy]: playerEnergyLocator
+  [LocationType.PlayerEnergy]: playerEnergyLocator,
+  [LocationType.Discard]: discardLocator,
+  [LocationType.PlayerKeepCards]: playerKeepCards,
+  // TODO: REPLACE
+  [LocationType.DiceToSolve]: diceToSolveLocator
 }

@@ -1,6 +1,6 @@
 import { getEnumValues } from '@gamepark/rules-api'
 
-export enum Buzz {
+  export enum Buzz {
   //
   Buzz1 = 1,
   Buzz2,

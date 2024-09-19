@@ -3,5 +3,7 @@ export enum RuleId {
   MovePawns,
   GainEnergy,
   Smash,
-  Buy
+  Buy,
+  ResolveDice,
+  ChangePlayer
 }

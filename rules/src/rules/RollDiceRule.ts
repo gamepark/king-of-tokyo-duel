@@ -44,10 +44,6 @@ export class RollDiceRule extends PlayerTurnRule {
     return this.startRule(RuleId.GainEnergy)
   }
 
-  get round() {
-    return this.remind(Memory.Round)
-  }
-
   get rollCount() {
     return this.remind(Memory.RollCount)
   }
@@ -64,5 +60,6 @@ export class RollDiceRule extends PlayerTurnRule {
       .material(MaterialType.Dice)
       .location(LocationType.PlayerHand)
       .player(this.player)
+      .sort((item) => item.location.x!)
   }
 }

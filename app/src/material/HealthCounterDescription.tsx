@@ -1,31 +1,17 @@
-import { css } from '@emotion/react'
-import { ItemContext, RoundTokenDescription } from '@gamepark/react-game'
-import { MaterialItem } from '@gamepark/rules-api'
+import { HealthCounter } from '@gamepark/king-of-tokyo-duel/material/HealthCounter'
+import { WheelDescription } from '@gamepark/react-game'
 import CounterA from '../images/player_counter/CounterA.png'
 import CounterB from '../images/player_counter/CounterB.png'
-import HealCounter from '../images/player_counter/CounterValue.png'
+import HealthWheel from '../images/player_counter/CounterValue.png'
 
-export class HealthCounterDescription extends RoundTokenDescription {
-  diameter = 12.5
+export class HealthCounterDescription extends WheelDescription {
+  width = 12.5
+  height = 12.5
 
-  image = HealCounter
-
-  getItemExtraCss(item: MaterialItem, _context: ItemContext) {
-    const player = item.location.player
-    return css`
-      &:after {
-        content: '';
-        background: url("${player === _context.rules.players[0]? CounterA: CounterB}");
-        background-size: contain;
-        background-repeat: no-repeat;
-        transform: rotateZ(${-getHearthRotation(item.location.rotation)}deg);
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
-    `
+  wheelImage = HealthWheel
+  images = {
+    [HealthCounter.Red]: CounterA,
+    [HealthCounter.Blue]: CounterB
   }
 
   getImages() {
@@ -34,10 +20,8 @@ export class HealthCounterDescription extends RoundTokenDescription {
     images.push(CounterB)
     return images
   }
-}
 
-export const getHearthRotation = (rotation: number) => {
-  return [
+  angles = [
     0, // 0
     17,
     32.5,
@@ -58,7 +42,7 @@ export const getHearthRotation = (rotation: number) => {
     281,
     298,
     315,
-    335.5][rotation]
+    335.5]
 }
 
 export const healthCounterDescription = new HealthCounterDescription()

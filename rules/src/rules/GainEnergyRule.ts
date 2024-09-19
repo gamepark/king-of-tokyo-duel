@@ -8,7 +8,6 @@ export class GainEnergyRule extends PlayerTurnRule {
 
   onRuleStart() {
     const energies = this.energyDice
-    console.log(energies)
     if (!energies) return [this.startRule(RuleId.Smash)]
     return [
       this.material(MaterialType.Energy).createItem({

@@ -1,17 +1,25 @@
-import { PlayerTurnRule } from "@gamepark/rules-api";
+import { CustomMove, PlayerTurnRule } from '@gamepark/rules-api'
 import { DiceFace } from '../material/DiceFace'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
+import { CustomMoveType } from './CustomMoveType'
 import { RuleId } from './RuleId'
 
 export class SmashRule extends PlayerTurnRule {
 
   onRuleStart() {
     const claws = this.claws
-    if (!claws) return [this.startRule(RuleId.MovePawns)]
+    if (!claws.length) return [this.startRule(RuleId.MovePawns)]
+    return [this.customMove(CustomMoveType.Smash, {
+      type: MaterialType.Dice,
+      indexes: claws.getIndexes()
+    })]
+  }
+
+  onCustomMove(move: CustomMove) {
     return [
       // TODO: OPPONENT FAILS ?
-      this.opponentCounter.rotateItem((item) => Math.max(item.location.rotation - claws, 0)),
+      this.opponentCounter.rotateItem((item) => Math.max(item.location.rotation - move.data.indexes.length, 0)),
       this.startRule(RuleId.MovePawns)
     ]
   }
@@ -33,6 +41,5 @@ export class SmashRule extends PlayerTurnRule {
     return this
       .dice
       .rotation(DiceFace.Claw)
-      .length
   }
 }

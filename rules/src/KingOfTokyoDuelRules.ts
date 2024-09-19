@@ -3,8 +3,10 @@ import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { Monster } from './material/Monster'
 import { BuyRule } from './rules/BuyRule'
+import { ChangePlayerRule } from './rules/ChangePlayerRule'
 import { GainEnergyRule } from './rules/GainEnergyRule'
 import { MovePawnsRule } from './rules/MovePawnsRule'
+import { ResolveDiceRule } from './rules/ResolveDiceRule'
 import { RollDiceRule } from './rules/RollDiceRule'
 import { RuleId } from './rules/RuleId'
 import { SmashRule } from './rules/SmashRule'
@@ -21,7 +23,9 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     [RuleId.MovePawns]: MovePawnsRule,
     [RuleId.GainEnergy]: GainEnergyRule,
     [RuleId.Smash]: SmashRule,
-    [RuleId.Buy]: BuyRule
+    [RuleId.Buy]: BuyRule,
+    [RuleId.ResolveDice]: ResolveDiceRule,
+    [RuleId.ChangePlayer]: ChangePlayerRule
   }
 
   hidingStrategies = {
@@ -34,6 +38,7 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     [MaterialType.EnergyCard]: {
       [LocationType.EnergyCardOnBoard]: new PositiveSequenceStrategy(),
       [LocationType.EnergyCardDeck]: new PositiveSequenceStrategy(),
+      [LocationType.PlayerKeepCards]: new PositiveSequenceStrategy()
     },
     [MaterialType.Buzz]: {
       [LocationType.BuzzStock]: new FillGapStrategy(),

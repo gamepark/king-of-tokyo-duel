@@ -1,6 +1,5 @@
 import { Locator, MaterialContext } from '@gamepark/react-game'
 import { Location } from '@gamepark/rules-api'
-import { getHearthRotation } from '../material/HealthCounterDescription'
 
 export class HealthCounterLocator extends Locator {
 
@@ -10,10 +9,6 @@ export class HealthCounterLocator extends Locator {
     }
 
     return { x: 22, y: -3.2, z: 0 }
-  }
-
-  getRotateZ(location: Location) {
-    return getHearthRotation(location.rotation)
   }
 }
 

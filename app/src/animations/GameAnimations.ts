@@ -5,12 +5,25 @@ import { isMoveItemType } from '@gamepark/rules-api'
 
 export const gameAnimations = new MaterialGameAnimations()
 
+
 gameAnimations
   .when()
   .move((move, context) => {
       return isMoveItemType(MaterialType.Dice)(move) &&
         move.location.type === LocationType.PlayerHand &&
-        context.rules.material(MaterialType.Dice).getItem(move.itemIndex)!.location.type === LocationType.PlayerRolledDice
+        context.rules.game.items[MaterialType.Dice]![move.itemIndex].location.type === LocationType.PlayerRolledDice
     }
   )
-.duration(0.1)
+  .mine()
+  .duration(0.1)
+
+gameAnimations
+  .when()
+  .move((move, context) => {
+      return isMoveItemType(MaterialType.Dice)(move) &&
+        move.location.type === LocationType.DiceToSolve &&
+        context.rules.game.items[MaterialType.Dice]![move.itemIndex].location.type === LocationType.PlayerRolledDice
+    }
+  )
+  .mine()
+  .duration(0.1)

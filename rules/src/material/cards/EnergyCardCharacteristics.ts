@@ -1,0 +1,62 @@
+import { Buzz } from '../Buzz'
+import { EnergyCard } from './EnergyCard'
+import { Timing } from './Timing'
+
+export type CardCharacteristics = {
+  cost: number,
+  timing: Timing
+  buzz?: Buzz
+}
+
+export const energyCardCharacteristics: Record<EnergyCard, CardCharacteristics> = {
+  [EnergyCard.AcidAttack]: { cost: 6, timing: Timing.Keep },
+  [EnergyCard.AdrenalineAugment]: { cost: 5, timing: Timing.Keep },
+  [EnergyCard.AlienMetabolism]: { cost: 2, timing: Timing.Keep },
+  [EnergyCard.AntimatterPellets]: { cost: 5, timing: Timing.Keep },
+  [EnergyCard.ArmorPlating]: { cost: 6, timing: Timing.Keep },
+  [EnergyCard.BreakingNews]: { cost: 6, timing: Timing.Keep },
+  [EnergyCard.Camouflage]: { cost: 4, timing: Timing.Keep },
+  [EnergyCard.CannonBall]: { cost: 7, timing: Timing.Discard },
+  [EnergyCard.Dominate]: { cost: 3, timing: Timing.Discard },
+  [EnergyCard.ElectricalAura]: { cost: 4, timing: Timing.Keep },
+  [EnergyCard.Energize]: { cost: 10, timing: Timing.Discard },
+  [EnergyCard.ExtraHead]: { cost: 7, timing: Timing.Keep },
+  [EnergyCard.EyeOfTheStorm]: { cost: 2, timing: Timing.Keep },
+  [EnergyCard.Frenzy]: { cost: 6, timing: Timing.Discard },
+  [EnergyCard.GentleGiant]: { cost: 5, timing: Timing.Keep },
+  [EnergyCard.GiantBrain]: { cost: 4, timing: Timing.Keep },
+  [EnergyCard.Hibernation]: { cost: 5, timing: Timing.Keep },
+  [EnergyCard.HorsDOeuvre]: { cost: 3, timing: Timing.Discard },
+  [EnergyCard.InShape]: { cost: 4, timing: Timing.Keep },
+  [EnergyCard.InTheShadows]: { cost: 5, timing: Timing.Keep },
+  [EnergyCard.JetsScrambled]: { cost: 5, timing: Timing.Discard},
+  [EnergyCard.Kaijutsu]: { cost: 5, timing: Timing.Discard },
+  [EnergyCard.LightingSpeed]: { cost: 4, timing: Timing.Keep },
+  [EnergyCard.MadeInALab]: { cost: 2, timing: Timing.Keep },
+  [EnergyCard.MomentOfRespite]: { cost: 4, timing: Timing.Discard },
+  [EnergyCard.MonsterCoaster]: { cost: 7, timing: Timing.Discard },
+  [EnergyCard.Monumental]: { cost: 5, timing: Timing.Discard },
+  [EnergyCard.NaturalSelection]: { cost: 4, timing: Timing.Keep },
+  [EnergyCard.OperationMedia]: { cost: 6, timing: Timing.Discard },
+  [EnergyCard.Photoshoot]: { cost: 2, timing: Timing.Discard },
+  [EnergyCard.Rebooting]: { cost: 3, timing: Timing.Keep },
+  [EnergyCard.Regeneration]: { cost: 4, timing: Timing.Keep },
+  [EnergyCard.SackTheStadium]: { cost: 8, timing: Timing.Discard },
+  [EnergyCard.Scrappy]: { cost: 2, timing: Timing.Keep },
+  [EnergyCard.SeismicTest]: { cost: 5, timing: Timing.Discard },
+  [EnergyCard.SignatureMove]: { cost: 6, timing: Timing.Keep },
+  [EnergyCard.SnackTime]: { cost: 3, timing: Timing.Discard },
+  [EnergyCard.SpikedTail]: { cost: 4, timing: Timing.Keep },
+  [EnergyCard.Superconductor]: { cost: 2, timing: Timing.Keep },
+  [EnergyCard.TeslaImpulse]: { cost: 6, timing: Timing.Discard },
+  [EnergyCard.ThePartyIsOver]: { cost: 4, timing: Timing.Discard },
+  [EnergyCard.ThermonuclearCooking]: { cost: 7, timing: Timing.Discard },
+  [EnergyCard.ThunderStomp]: { cost: 4, timing: Timing.Keep },
+  [EnergyCard.TitanicBatteries]: { cost: 4, timing: Timing.Keep },
+  [EnergyCard.TooCute]: { cost: 3, timing: Timing.Discard },
+  [EnergyCard.TrendSetter]: { cost: 3, timing: Timing.Keep },
+  [EnergyCard.Unchained]: { cost: 3, timing: Timing.Keep },
+  [EnergyCard.UnstableDna]: { cost: 3, timing: Timing.Keep },
+  [EnergyCard.Unstoppable]: { cost: 3, timing: Timing.Keep },
+  [EnergyCard.UtterDestruction]: { cost: 4, timing: Timing.Keep },
+}

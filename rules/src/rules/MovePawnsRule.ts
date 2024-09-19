@@ -11,20 +11,21 @@ export class MovePawnsRule extends PlayerTurnRule {
     const destructionDice = this.destructionDice
     const moves: MaterialMove[] = []
     const isLeft = this.game.players[0] === this.player
-
-    if (fameDice) {
+    const fameCount = fameDice > 3? (fameDice % 3 + 1): 0
+    const destructionCount = destructionDice > 3? (destructionDice % 3 + 1): 0
+    if (fameCount) {
       if (isLeft) {
-        moves.push(this.fameToken.moveItem((item) => ({ ...item.location, x: Math.max(0, item.location.x! - fameDice)})))
+        moves.push(this.fameToken.moveItem((item) => ({ ...item.location, x: Math.max(0, item.location.x! - (fameCount * 2))})))
       } else {
-        moves.push(this.fameToken.moveItem((item) => ({ ...item.location, x: Math.min(0, item.location.x! + fameDice)})))
+        moves.push(this.fameToken.moveItem((item) => ({ ...item.location, x: Math.min(0, item.location.x! + (fameCount * 2))})))
       }
     }
 
-    if (destructionDice) {
+    if (destructionCount) {
       if (isLeft) {
-        moves.push(this.destructionToken.moveItem((item) => ({ ...item.location, x: Math.max(0, item.location.x! - destructionDice)})))
+        moves.push(this.destructionToken.moveItem((item) => ({ ...item.location, x: Math.max(0, item.location.x! - (destructionCount * 2))})))
       } else {
-        moves.push(this.destructionToken.moveItem((item) => ({ ...item.location, x: Math.min(0, item.location.x! + destructionDice)})))
+        moves.push(this.destructionToken.moveItem((item) => ({ ...item.location, x: Math.min(0, item.location.x! + (destructionCount * 2))})))
       }
     }
 

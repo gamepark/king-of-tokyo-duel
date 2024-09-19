@@ -13,5 +13,9 @@ export enum LocationType {
   PlayerBuzzToken,
   PlayerRolledDice,
   WhiteDiceStock,
-  PlayerEnergy
+  PlayerEnergy,
+  Discard,
+  PlayerKeepCards,
+  SolvedDice,
+  DiceToSolve
 }

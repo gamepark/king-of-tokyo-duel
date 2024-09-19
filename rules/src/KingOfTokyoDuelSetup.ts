@@ -2,8 +2,9 @@ import { MaterialGameSetup } from '@gamepark/rules-api'
 import { KingOfTokyoDuelOptions } from './KingOfTokyoDuelOptions'
 import { KingOfTokyoDuelRules } from './KingOfTokyoDuelRules'
 import { Buzz, commonBuzz } from './material/Buzz'
+import { energyCards } from './material/cards/EnergyCard'
 import { DiceColor } from './material/DiceColor'
-import { energyCards } from './material/EnergyCard'
+import { HealthCounter } from './material/HealthCounter'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { Monster } from './material/Monster'
@@ -73,6 +74,7 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<Monster, MaterialTyp
   setupPlayerHealthCounter(monster: Monster) {
     this.material(MaterialType.HealthCounter)
       .createItem({
+        id: this.rules.players[0] === monster? HealthCounter.Red: HealthCounter.Blue,
         location: {
           type: LocationType.HealthCounter,
           player: monster,
