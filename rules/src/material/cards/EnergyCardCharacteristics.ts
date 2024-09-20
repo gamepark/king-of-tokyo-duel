@@ -5,7 +5,7 @@ import { Timing } from './Timing'
 export type CardCharacteristics = {
   cost: number,
   timing: Timing
-  buzz?: Buzz
+  buzz?: Buzz,
 }
 
 export const energyCardCharacteristics: Record<EnergyCard, CardCharacteristics> = {

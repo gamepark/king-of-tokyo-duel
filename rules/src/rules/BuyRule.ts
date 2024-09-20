@@ -9,6 +9,7 @@ export class BuyRule extends PlayerTurnRule {
   onRuleStart() {
     const buyable = this.river
       .filter((item) => this.canBuyCard(item))
+    // TODO: let player take token
     if (!buyable.length) return this.gainEnergy()
     return []
   }
@@ -33,7 +34,7 @@ export class BuyRule extends PlayerTurnRule {
           type: LocationType.PlayerEnergy,
           player: this.player
         },
-        quantity: 3
+        quantity: 1
       }),
       this.startRule(RuleId.ChangePlayer)
     ]

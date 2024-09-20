@@ -20,6 +20,7 @@ export class DiceDescription extends CubicDiceDescription {
   getColor(itemId: DiceColor): string {
     return itemId === DiceColor.Red? '#ed5c65': '#fae8c6'
   }
+  borderRadius = 0.1
 
   images = {
     [DiceColor.Red]: [
