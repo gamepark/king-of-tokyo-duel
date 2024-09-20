@@ -12,7 +12,7 @@ export enum EffectType {
   OperationMedia
 }
 
-export type Effect = PullFame | PullDestruction | FreeTurn | Smash | GainEnergy;
+export type Effect = PullFame | PullDestruction | Heal | FreeTurn | Smash | GainEnergy | WhiteDiceToken | { type: EffectType };
 
 export type PullFame = {
   type: EffectType.PullFame,
@@ -35,11 +35,16 @@ export type FreeTurn = {
 
 export type Smash = {
   type: EffectType.Smash,
-  smash?: number,
-  rivalSmash?: number
+  me?: number,
+  rival?: number
 }
 
 export type GainEnergy = {
   type: EffectType.GainEnergy,
+  count: number,
+}
+
+export type WhiteDiceToken = {
+  type: EffectType.WhiteDiceToken,
   count: number,
 }

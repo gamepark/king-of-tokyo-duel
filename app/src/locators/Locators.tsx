@@ -4,7 +4,6 @@ import { Monster } from '@gamepark/king-of-tokyo-duel/material/Monster'
 import { Locator } from '@gamepark/react-game'
 import { buzzStockLocator } from './BuzzStockLocator'
 import { destructionPawnTrackLocator } from './DestructionPawnTrackLocator'
-import { diceStockLocator } from './DiceStockLocator'
 import { discardLocator } from './DiscardLocator'
 import { energyCardDeckLocator } from './EnergyCardDeckLocator'
 import { energyCardOnBoardLocator } from './EnergyCardOnBoardLocator'
@@ -29,8 +28,7 @@ export const Locators: Partial<Record<LocationType, Locator<Monster, MaterialTyp
   [LocationType.BuzzStock]: buzzStockLocator,
   [LocationType.PlayerHand]: playerHandLocator,
   [LocationType.PlayerRolledDice]: playerRolledDiceLocator,
-  [LocationType.DiceStock]: diceStockLocator,
-  [LocationType.EnergyStock]: energyStockLocator,
+  [LocationType .EnergyStock]: energyStockLocator,
   [LocationType.PlayerBuzzToken]: playerBuzzLocator,
   [LocationType.WhiteDiceStock]: whiteDiceStockLocator,
   [LocationType.PlayerEnergy]: playerEnergyLocator,

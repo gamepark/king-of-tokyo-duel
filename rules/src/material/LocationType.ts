@@ -8,7 +8,6 @@ export enum LocationType {
   DestructionTrack,
   BuzzStock,
   PlayerHand,
-  DiceStock,
   EnergyStock,
   PlayerBuzzToken,
   PlayerRolledDice,
