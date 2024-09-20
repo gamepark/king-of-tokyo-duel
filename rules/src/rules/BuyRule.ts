@@ -26,7 +26,7 @@ export class BuyRule extends PlayerTurnRule {
   }
 
   get boughtCards() {
-    return this.remind(Memory.BoughtCards) ?? []
+    return this.remind(Memory.BoughtCards) ?? [ ]
   }
 
   gainEnergy() {
