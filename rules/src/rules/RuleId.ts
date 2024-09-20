@@ -4,6 +4,6 @@ export enum RuleId {
   GainEnergy,
   Smash,
   Buy,
-  ResolveDice,
-  ChangePlayer
+  ChangePlayer,
+  Effect
 }

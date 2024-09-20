@@ -1,4 +1,5 @@
 export enum Memory {
   Round = 1,
-  RollCount
+  RollCount,
+  BoughtCards
 }

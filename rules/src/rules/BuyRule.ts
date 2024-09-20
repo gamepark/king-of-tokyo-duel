@@ -3,14 +3,12 @@ import { energyCardCharacteristics } from '../material/cards/EnergyCardCharacter
 import { Timing } from '../material/cards/Timing'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
+import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class BuyRule extends PlayerTurnRule {
   onRuleStart() {
-    const buyable = this.river
-      .filter((item) => this.canBuyCard(item))
-    // TODO: let player take token
-    if (!buyable.length) return this.gainEnergy()
+    if (!this.purchasableCards.length && !this.boughtCards.length) return this.gainEnergy()
     return []
   }
 
@@ -25,6 +23,10 @@ export class BuyRule extends PlayerTurnRule {
   get purchasableCards() {
     return this.river
       .filter((item) => this.canBuyCard(item))
+  }
+
+  get boughtCards() {
+    return this.remind(Memory.BoughtCards) ?? []
   }
 
   gainEnergy() {
@@ -59,6 +61,7 @@ export class BuyRule extends PlayerTurnRule {
     if (!isMoveItemType(MaterialType.EnergyCard)(move) || move.location.type === LocationType.EnergyCardOnBoard) return []
     const moves: MaterialMove[] = []
     const energyCardDeck = this.energyCardDeck
+    this.memorizeBoughtCard(move.itemIndex)
     if (this.energyCardDeck.length) moves.push(energyCardDeck.dealOne({ type: LocationType.EnergyCardOnBoard }))
     if (!this.purchasableCards.length) moves.push(this.startRule(RuleId.ChangePlayer))
     return moves
@@ -86,6 +89,17 @@ export class BuyRule extends PlayerTurnRule {
       type: LocationType.PlayerKeepCards,
       player: this.player
     }
+  }
+
+  memorizeBoughtCard(index: number) {
+    this.memorize(Memory.BoughtCards, (cards: number[]) => {
+      if (!cards) {
+        return [index]
+      }
+
+      cards.push(index)
+      return cards
+    })
   }
 
   get energies() {

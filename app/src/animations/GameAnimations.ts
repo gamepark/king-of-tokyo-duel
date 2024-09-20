@@ -16,14 +16,3 @@ gameAnimations
   )
   .mine()
   .duration(0.1)
-
-gameAnimations
-  .when()
-  .move((move, context) => {
-      return isMoveItemType(MaterialType.Dice)(move) &&
-        move.location.type === LocationType.DiceToSolve &&
-        context.rules.game.items[MaterialType.Dice]![move.itemIndex].location.type === LocationType.PlayerRolledDice
-    }
-  )
-  .mine()
-  .duration(0.1)

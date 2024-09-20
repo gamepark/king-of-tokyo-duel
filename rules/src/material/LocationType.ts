@@ -16,6 +16,4 @@ export enum LocationType {
   PlayerEnergy,
   Discard,
   PlayerKeepCards,
-  SolvedDice,
-  DiceToSolve
 }

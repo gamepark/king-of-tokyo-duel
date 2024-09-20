@@ -44,8 +44,7 @@ export class DiceDescription extends CubicDiceDescription {
   canShortClick(move: MaterialMove, context: ItemContext) {
     if (!isMoveItemType(MaterialType.Dice)(move) || move.location.type !== LocationType.PlayerHand) return false
     const item = context.rules.material(MaterialType.Dice).getItem(move.itemIndex)!
-    if (item.location.type !== LocationType.PlayerRolledDice
-      && item.location.type !== LocationType.DiceToSolve) return false
+    if (item.location.type !== LocationType.PlayerRolledDice) return false
     return move.itemIndex === context.index
   }
 
