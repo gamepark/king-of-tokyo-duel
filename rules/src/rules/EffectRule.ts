@@ -20,7 +20,15 @@ export class EffectRule extends PlayerTurnRule {
     const effects = this.effects
     if (!effects.length) return [this.startRule(RuleId.Buy)]
     const effect = this.effect
-    return getEffectRule(this.game, effect).getMoves(effect)
+    const moves = getEffectRule(this.game, effect).getMoves(effect)
+
+    if (effects.length > 1) {
+      moves.push(this.startRule(RuleId.Effect))
+    } else {
+      moves.push(this.startRule(RuleId.Buy))
+    }
+
+    return moves
   }
 
   get effect() {
@@ -29,6 +37,11 @@ export class EffectRule extends PlayerTurnRule {
 
   get effects() {
     return this.remind<Effect[]>(Memory.Effects) ?? []
+  }
+
+  onRuleEnd() {
+    this.memorize(Memory.Effects, (effects: Effect[]) => effects.slice(1))
+    return []
   }
 }
 

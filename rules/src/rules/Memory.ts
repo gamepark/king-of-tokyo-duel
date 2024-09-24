@@ -2,5 +2,6 @@ export enum Memory {
   Round = 1,
   RollCount,
   BoughtCards,
-  Effects
+  Effects,
+  FreeTurn
 }

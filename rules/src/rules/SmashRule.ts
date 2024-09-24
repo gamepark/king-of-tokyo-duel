@@ -2,7 +2,7 @@ import { CustomMove, PlayerTurnRule } from '@gamepark/rules-api'
 import { DiceFace } from '../material/DiceFace'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
-import { CustomMoveType } from './CustomMoveType'
+import { SmashHelper } from './helper/SmashHelper'
 import { RuleId } from './RuleId'
 
 export class SmashRule extends PlayerTurnRule {
@@ -10,18 +10,18 @@ export class SmashRule extends PlayerTurnRule {
   onRuleStart() {
     const claws = this.claws
     if (!claws.length) return [this.startRule(RuleId.MovePawns)]
-    return [this.customMove(CustomMoveType.Smash, {
-      type: MaterialType.Dice,
-      indexes: claws.getIndexes()
-    })]
+    return new SmashHelper(this.game, this.rival).smash(MaterialType.Dice, claws.getIndexes(), claws.length)
   }
 
   onCustomMove(move: CustomMove) {
     return [
-      // TODO: OPPONENT FAILS ?
-      this.opponentCounter.rotateItem((item) => Math.max(item.location.rotation - move.data.indexes.length, 0)),
+      ...new SmashHelper(this.game, this.rival).onSmash(move.data.damages),
       this.startRule(RuleId.MovePawns)
     ]
+  }
+
+  get rival() {
+    return this.game.players.find((p) => p !== this.player)!
   }
 
   get opponentCounter() {

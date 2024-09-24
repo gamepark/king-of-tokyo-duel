@@ -6,5 +6,6 @@ export enum MaterialType {
   Pawn,
   Buzz,
   Dice,
-  Energy
+  Energy,
+  DiceToken
 }

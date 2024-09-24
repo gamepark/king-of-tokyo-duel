@@ -1,15 +1,24 @@
 import { MaterialMove, MaterialRulesPart } from "@gamepark/rules-api";
-import { Effect } from './EffectType'
+import { Memory } from '../Memory'
+import { Effect, EffectType } from './EffectType'
 
-export abstract class AbstractEffectRule extends MaterialRulesPart {
+export abstract class AbstractEffectRule<E extends Effect = { type: EffectType }> extends MaterialRulesPart {
 
-  abstract getMoves(effect: Effect): MaterialMove[];
+  abstract getMoves(_effect: E): MaterialMove[];
 
   get player() {
     return this.game.rule!.player!
   }
 
   get rival() {
-    return this.game.players.find((p) => p !== this.player)
+    return this.game.players.find((p) => p !== this.player)!
+  }
+
+  get effect(): E & { cardIndex: number } {
+    return this.remind(Memory.Effects)[0]!
+  }
+
+  get cardIndex() {
+    return this.effect.cardIndex
   }
 }

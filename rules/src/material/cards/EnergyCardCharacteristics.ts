@@ -1,4 +1,4 @@
-import { Effect, EffectType } from '../../effect/EffectType'
+import { Effect, EffectType } from '../../rules/effects/EffectType'
 import { Buzz } from '../Buzz'
 import { EnergyCard } from './EnergyCard'
 import { Timing } from './Timing'
@@ -155,7 +155,7 @@ export const energyCardCharacteristics: Record<EnergyCard, CardCharacteristics> 
     buzz: Buzz.Buzz9,
     effects: [
       { type: EffectType.Heal, count: 2 },
-      { type: EffectType.WhiteDiceToken, rival: 1 },
+      { type: EffectType.WhiteDiceToken, count: 1 },
     ]
   },
   [EnergyCard.MonsterCoaster]: {

@@ -72,7 +72,6 @@ export class BuyRule extends PlayerTurnRule {
   }
 
   getCost(item: MaterialItem) {
-    console.log("COST", item.location.x)
     if (item.location.x! === 0) return energyCardCharacteristics[item.id].cost - 1
     return energyCardCharacteristics[item.id].cost
   }
