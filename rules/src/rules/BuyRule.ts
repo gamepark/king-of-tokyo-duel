@@ -1,4 +1,4 @@
-import { isMoveItemType, ItemMove, MaterialItem, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
+import { isCreateItemType, isMoveItemType, ItemMove, MaterialItem, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
 import { energyCardCharacteristics } from '../material/cards/EnergyCardCharacteristics'
 import { Timing } from '../material/cards/Timing'
 import { LocationType } from '../material/LocationType'
@@ -26,7 +26,7 @@ export class BuyRule extends PlayerTurnRule {
   }
 
   get boughtCards() {
-    return this.remind(Memory.BoughtCards) ?? [ ]
+    return this.remind(Memory.BoughtCards) ?? []
   }
 
   gainEnergy() {
@@ -58,12 +58,18 @@ export class BuyRule extends PlayerTurnRule {
   }
 
   afterItemMove(move: ItemMove) {
-    if (!isMoveItemType(MaterialType.EnergyCard)(move) || move.location.type === LocationType.EnergyCardOnBoard) return []
     const moves: MaterialMove[] = []
-    const energyCardDeck = this.energyCardDeck
-    this.memorizeBoughtCard(move.itemIndex)
-    if (this.energyCardDeck.length) moves.push(energyCardDeck.dealOne({ type: LocationType.EnergyCardOnBoard }))
-    if (!this.purchasableCards.length) moves.push(this.startRule(RuleId.ChangePlayer))
+    if (isMoveItemType(MaterialType.EnergyCard)(move) && move.location.type !== LocationType.EnergyCardOnBoard) {
+      const energyCardDeck = this.energyCardDeck
+      this.memorizeBoughtCard(move.itemIndex)
+      if (this.energyCardDeck.length) moves.push(energyCardDeck.dealOne({ type: LocationType.EnergyCardOnBoard }))
+      if (!this.purchasableCards.length) moves.push(this.startRule(RuleId.ChangePlayer))
+    }
+
+    if (isCreateItemType(MaterialType.Energy)(move)) {
+      moves.push(this.startRule(RuleId.ChangePlayer))
+    }
+
     return moves
   }
 

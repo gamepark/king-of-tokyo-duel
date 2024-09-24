@@ -16,8 +16,6 @@ export class PullFameEffectRule extends AbstractEffectRule<PullFame> {
       fameToken
         .moveItem((item) => ({ ...item.location, x: newX }))
     ]
-
-    return []
   }
 
   get fameToken() {

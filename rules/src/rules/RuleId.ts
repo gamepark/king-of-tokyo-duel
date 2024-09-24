@@ -5,5 +5,6 @@ export enum RuleId {
   Smash,
   Buy,
   ChangePlayer,
-  Effect
+  Effect,
+  Heal,
 }

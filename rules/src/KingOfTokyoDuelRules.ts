@@ -6,6 +6,7 @@ import { BuyRule } from './rules/BuyRule'
 import { ChangePlayerRule } from './rules/ChangePlayerRule'
 import { EffectRule } from './rules/EffectRule'
 import { GainEnergyRule } from './rules/GainEnergyRule'
+import { HealRule } from './rules/HealRule'
 import { MovePawnsRule } from './rules/MovePawnsRule'
 import { RollDiceRule } from './rules/RollDiceRule'
 import { RuleId } from './rules/RuleId'
@@ -25,7 +26,8 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     [RuleId.Smash]: SmashRule,
     [RuleId.Buy]: BuyRule,
     [RuleId.ChangePlayer]: ChangePlayerRule,
-    [RuleId.Effect]: EffectRule
+    [RuleId.Effect]: EffectRule,
+    [RuleId.Heal]: HealRule
   }
 
   hidingStrategies = {

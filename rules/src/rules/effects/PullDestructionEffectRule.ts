@@ -16,8 +16,6 @@ export class PullDestructionEffectRule extends AbstractEffectRule<PullDestructio
       destructionToken
         .moveItem((item) => ({ ...item.location, x: newX }))
     ]
-
-    return []
   }
 
   get destructionToken() {

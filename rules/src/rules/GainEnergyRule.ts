@@ -8,7 +8,7 @@ export class GainEnergyRule extends PlayerTurnRule {
 
   onRuleStart() {
     const energies = this.energyDice
-    if (!energies) return [this.startRule(RuleId.Smash)]
+    if (!energies) return [this.startRule(RuleId.Heal)]
     return [
       this.material(MaterialType.Energy).createItem({
         location: {
@@ -17,7 +17,7 @@ export class GainEnergyRule extends PlayerTurnRule {
         },
         quantity: energies
       }),
-      this.startRule(RuleId.Smash)
+      this.startRule(RuleId.Heal)
     ]
   }
 
@@ -31,7 +31,7 @@ export class GainEnergyRule extends PlayerTurnRule {
   get energyDice() {
     return this
       .dice
-      .rotation((r) => r === (DiceFace.Energy))
+      .rotation(DiceFace.Energy)
       .length
   }
 }
