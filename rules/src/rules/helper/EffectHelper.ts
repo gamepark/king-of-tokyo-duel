@@ -11,9 +11,9 @@ export class EffectHelper extends MaterialRulesPart {
   }
 
   applyEffectMoves() {
-    const lastBought = this.lastBought
-    if (!lastBought) return [];
-    const effects = energyCardCharacteristics[lastBought.id].effects ?? []
+    const lastCard = this.lastCard
+    if (!lastCard) return [];
+    const effects = energyCardCharacteristics[lastCard.id].effects ?? []
     if (effects.length) {
       this.memorize(Memory.Effects, JSON.parse(JSON.stringify(effects)))
       return [this.startRule(RuleId.Effect)]
@@ -22,10 +22,10 @@ export class EffectHelper extends MaterialRulesPart {
     return []
   }
 
-  get lastBought() {
-    const lastBought = this.remind(Memory.BoughtCards)[0]
-    if (lastBought) {
-      return this.material(MaterialType.EnergyCard).getItem(lastBought)!
+  get lastCard() {
+    const lastBoughtCards = this.remind(Memory.BoughtCards) ?? []
+    if (lastBoughtCards.length) {
+      return this.material(MaterialType.EnergyCard).getItem(lastBoughtCards[lastBoughtCards.length - 1])!
     }
 
     return

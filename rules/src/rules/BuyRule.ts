@@ -80,7 +80,6 @@ export class BuyRule extends PlayerTurnRule {
 
       // If the player
       if (buzz) {
-        this.memorize(Memory.Buzz, buzz)
         moves.push(this.startRule(RuleId.MoveBuzzToken))
         return moves
       }

@@ -4,5 +4,4 @@ export enum Memory {
   BoughtCards,
   Effects,
   FreeTurn,
-  Buzz
 }
