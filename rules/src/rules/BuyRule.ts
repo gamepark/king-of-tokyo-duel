@@ -8,21 +8,32 @@ import { RuleId } from './RuleId'
 
 export class BuyRule extends PlayerTurnRule {
   onRuleStart() {
-    if (!this.purchasableCards.length && !this.boughtCards.length) return this.gainEnergy()
+    if (!this.getPurchasableCards().length) {
+      if (this.boughtCards.length) {
+        return [this.startRule(RuleId.ChangePlayer)]
+      }
+
+      return this.gainEnergy()
+    }
+
     return []
   }
 
   getPlayerMoves() {
-    return [
-      ...this.purchasableCards
-        .moveItems((item) => this.buyCard(item)),
-      this.startRule(RuleId.ChangePlayer)
-    ]
+    const moves: MaterialMove[] = []
+    if (!this.boughtCards.length) moves.push(...this.gainEnergy())
+
+    moves.push(
+      ...this.getPurchasableCards()
+        .moveItems((item) => this.buyCard(item))
+    )
+
+    return moves
   }
 
-  get purchasableCards() {
+  getPurchasableCards(energy: number = this.energies.getQuantity()) {
     return this.river
-      .filter((item) => this.canBuyCard(item))
+      .filter((item) => this.canBuyCard(item, energy))
   }
 
   get boughtCards() {
@@ -37,8 +48,7 @@ export class BuyRule extends PlayerTurnRule {
           player: this.player
         },
         quantity: 1
-      }),
-      this.startRule(RuleId.ChangePlayer)
+      })
     ]
   }
 
@@ -46,7 +56,7 @@ export class BuyRule extends PlayerTurnRule {
     if (!isMoveItemType(MaterialType.EnergyCard)(move) || move.location.type === LocationType.EnergyCardOnBoard) return []
     const item = this.material(MaterialType.EnergyCard).getItem(move.itemIndex)!
     return [
-      this.energies.deleteItem(this.getCost(item)),
+      this.energies.deleteItem(this.getCost(item))
     ]
   }
 
@@ -63,7 +73,17 @@ export class BuyRule extends PlayerTurnRule {
       const energyCardDeck = this.energyCardDeck
       this.memorizeBoughtCard(move.itemIndex)
       if (this.energyCardDeck.length) moves.push(energyCardDeck.dealOne({ type: LocationType.EnergyCardOnBoard }))
-      if (!this.purchasableCards.length) moves.push(this.startRule(RuleId.ChangePlayer))
+
+      const item = this.material(MaterialType.EnergyCard).getItem(move.itemIndex)!
+      const effects = energyCardCharacteristics[item.id].effects ?? []
+      if (effects.length) {
+        this.memorize(Memory.Effects, JSON.parse(JSON.stringify(effects)))
+        moves.push(this.startRule(RuleId.Effect))
+        return moves
+      }
+      if (!this.getPurchasableCards(this.energies.getQuantity() - this.getCost(item)).length) {
+        moves.push(this.startRule(RuleId.ChangePlayer))
+      }
     }
 
     if (isCreateItemType(MaterialType.Energy)(move)) {
@@ -73,8 +93,8 @@ export class BuyRule extends PlayerTurnRule {
     return moves
   }
 
-  canBuyCard(item: MaterialItem) {
-    return this.getCost(item) <= this.energies.getQuantity()
+  canBuyCard(item: MaterialItem, energy: number) {
+    return this.getCost(item) <= energy
   }
 
   getCost(item: MaterialItem) {

@@ -8,11 +8,9 @@ export const gameAnimations = new MaterialGameAnimations()
 
 gameAnimations
   .when()
-  .move((move, context) => {
+  .move((move) => {
       return isMoveItemType(MaterialType.Dice)(move) &&
-        move.location.type === LocationType.PlayerHand &&
-        context.rules.game.items[MaterialType.Dice]![move.itemIndex].location.type === LocationType.PlayerRolledDice
+        (move.location.type === LocationType.PlayerHand || move.location.type === LocationType.PlayerRolledDice)
     }
   )
-  .mine()
   .duration(0.1)

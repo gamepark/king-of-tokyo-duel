@@ -7,4 +7,5 @@ export enum RuleId {
   ChangePlayer,
   Effect,
   Heal,
+  Dominate
 }

@@ -1,4 +1,6 @@
 import { MaterialMove, MaterialRulesPart } from "@gamepark/rules-api";
+import { LocationType } from '../../material/LocationType'
+import { MaterialType } from '../../material/MaterialType'
 import { Memory } from '../Memory'
 import { Effect, EffectType } from './EffectType'
 
@@ -20,5 +22,19 @@ export abstract class AbstractEffectRule<E extends Effect = { type: EffectType }
 
   get cardIndex() {
     return this.effect.cardIndex
+  }
+
+  get rivalKeepCards() {
+    return this
+      .material(MaterialType.EnergyCard)
+      .location(LocationType.PlayerKeepCards)
+      .player(this.rival)
+  }
+
+  get playerKeepCards() {
+    return this
+      .material(MaterialType.EnergyCard)
+      .location(LocationType.PlayerKeepCards)
+      .player(this.player)
   }
 }

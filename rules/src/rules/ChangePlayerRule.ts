@@ -8,7 +8,7 @@ import { RuleId } from './RuleId'
 export class ChangePlayerRule extends PlayerTurnRule {
 
   onRuleStart() {
-    const nextPlayer = this.nextPlayer
+    const nextPlayer = this.hasFreeTurn? this.player: this.nextPlayer
     return [
       this.whiteDice
         .moveItemsAtOnce({
@@ -22,6 +22,10 @@ export class ChangePlayerRule extends PlayerTurnRule {
         }),
       this.startPlayerTurn(RuleId.RollDice, nextPlayer)
     ]
+  }
+
+  get hasFreeTurn() {
+    return !!this.remind(Memory.FreeTurn)
   }
 
   get whiteDice() {
@@ -40,6 +44,9 @@ export class ChangePlayerRule extends PlayerTurnRule {
 
   onRuleEnd() {
     this.forget(Memory.RollCount)
+    this.forget(Memory.BoughtCards)
+    this.forget(Memory.FreeTurn)
+    this.forget(Memory.Effects)
     this.memorize(Memory.Round, (round: number) => round + 1)
     return []
   }

@@ -14,8 +14,10 @@ export class RollDiceRule extends PlayerTurnRule {
     }
 
     const takeDiceInHand = this.rolledDice.moveItems(({ location: { x, type, ...rest }}) => ({ ...rest, type: LocationType.PlayerHand }))
+    const undoTakeDice = this.diceInHand.moveItems(({ location: { x, type, ...rest }}) => ({ ...rest, type: LocationType.PlayerRolledDice }))
     return [
       ...takeDiceInHand,
+      ...undoTakeDice,
       this.customMove(CustomMoveType.Roll),
       this.goToPhase2()
     ]
