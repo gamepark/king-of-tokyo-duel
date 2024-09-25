@@ -3,6 +3,7 @@ import { energyCardCharacteristics } from '../material/cards/EnergyCardCharacter
 import { Timing } from '../material/cards/Timing'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
+import { EffectHelper } from './helper/EffectHelper'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
@@ -75,12 +76,21 @@ export class BuyRule extends PlayerTurnRule {
       if (this.energyCardDeck.length) moves.push(energyCardDeck.dealOne({ type: LocationType.EnergyCardOnBoard }))
 
       const item = this.material(MaterialType.EnergyCard).getItem(move.itemIndex)!
-      const effects = energyCardCharacteristics[item.id].effects ?? []
-      if (effects.length) {
-        this.memorize(Memory.Effects, JSON.parse(JSON.stringify(effects)))
-        moves.push(this.startRule(RuleId.Effect))
+      const buzz = energyCardCharacteristics[item.id].buzz
+
+      // If the player
+      if (buzz) {
+        this.memorize(Memory.Buzz, buzz)
+        moves.push(this.startRule(RuleId.MoveBuzzToken))
         return moves
       }
+
+      const effects = new EffectHelper(this.game, this.player).applyEffectMoves()
+      if (effects.length) {
+        moves.push(...effects)
+        return moves
+      }
+
       if (!this.getPurchasableCards(this.energies.getQuantity() - this.getCost(item)).length) {
         moves.push(this.startRule(RuleId.ChangePlayer))
       }

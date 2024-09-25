@@ -8,6 +8,7 @@ import { DominateRule } from './rules/DominateRule'
 import { EffectRule } from './rules/EffectRule'
 import { GainEnergyRule } from './rules/GainEnergyRule'
 import { HealRule } from './rules/HealRule'
+import { MoveBuzzTokenRule } from './rules/MoveBuzzTokenRule'
 import { MovePawnsRule } from './rules/MovePawnsRule'
 import { RollDiceRule } from './rules/RollDiceRule'
 import { RuleId } from './rules/RuleId'
@@ -29,7 +30,8 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     [RuleId.ChangePlayer]: ChangePlayerRule,
     [RuleId.Effect]: EffectRule,
     [RuleId.Heal]: HealRule,
-    [RuleId.Dominate]: DominateRule
+    [RuleId.Dominate]: DominateRule,
+    [RuleId.MoveBuzzToken]: MoveBuzzTokenRule
   }
 
   hidingStrategies = {

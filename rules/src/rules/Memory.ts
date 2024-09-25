@@ -3,5 +3,6 @@ export enum Memory {
   RollCount,
   BoughtCards,
   Effects,
-  FreeTurn
+  FreeTurn,
+  Buzz
 }
