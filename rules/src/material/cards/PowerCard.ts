@@ -1,6 +1,6 @@
 import { getEnumValues } from '@gamepark/rules-api'
 
-export enum EnergyCard {
+export enum PowerCard {
   AcidAttack = 1,
   AdrenalineAugment,
   AlienMetabolism,
@@ -53,4 +53,4 @@ export enum EnergyCard {
   UtterDestruction,
 }
 
-export const energyCards = getEnumValues(EnergyCard)
+export const powerCards = getEnumValues(PowerCard)

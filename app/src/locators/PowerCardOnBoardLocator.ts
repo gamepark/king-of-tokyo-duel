@@ -1,9 +1,9 @@
 import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType'
 import { ListLocator, MaterialContext } from '@gamepark/react-game'
 import { Location, XYCoordinates } from '@gamepark/rules-api'
-import { energyCardDescription } from '../material/EnergyCardDescription'
+import { powerCardDescription } from '../material/PowerCardDescription'
 
-export class EnergyCardOnBoardLocator extends ListLocator {
+export class PowerCardOnBoardLocator extends ListLocator {
   parentItemType = MaterialType.MainBoard
 
   getPositionOnParent(_location: Location, _context: MaterialContext): XYCoordinates {
@@ -21,8 +21,8 @@ export class EnergyCardOnBoardLocator extends ListLocator {
     ]
   }
 
-  gap = { x: -(energyCardDescription.width + 1.2) }
+  gap = { x: -(powerCardDescription.width + 1.2) }
 
 }
 
-export const energyCardOnBoardLocator = new EnergyCardOnBoardLocator()
+export const powerCardOnBoardLocator = new PowerCardOnBoardLocator()

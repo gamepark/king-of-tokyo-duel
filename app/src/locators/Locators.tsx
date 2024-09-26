@@ -5,8 +5,8 @@ import { Locator } from '@gamepark/react-game'
 import { buzzStockLocator } from './BuzzStockLocator'
 import { destructionPawnTrackLocator } from './DestructionPawnTrackLocator'
 import { discardLocator } from './DiscardLocator'
-import { energyCardDeckLocator } from './EnergyCardDeckLocator'
-import { energyCardOnBoardLocator } from './EnergyCardOnBoardLocator'
+import { powerCardDeckLocator } from './PowerCardDeckLocator'
+import { powerCardOnBoardLocator } from './PowerCardOnBoardLocator'
 import { energyStockLocator } from './EnergyStockLocator'
 import { famePawnTrackLocator } from './FamePawnTrackLocator'
 import { healthCounterLocator } from './HealthCounterLocator'
@@ -20,15 +20,15 @@ import { whiteDiceStockLocator } from './WhiteDiceStockLocator'
 
 export const Locators: Partial<Record<LocationType, Locator<Monster, MaterialType, LocationType>>> = {
   [LocationType.MonsterBoard]: monsterBoardLocator,
-  [LocationType.EnergyCardOnBoard]: energyCardOnBoardLocator,
-  [LocationType.EnergyCardDeck]: energyCardDeckLocator,
+  [LocationType.PowerCardOnBoard]: powerCardOnBoardLocator,
+  [LocationType.PowerCardDeck]: powerCardDeckLocator,
   [LocationType.HealthCounter]: healthCounterLocator,
   [LocationType.FameTrack]: famePawnTrackLocator,
   [LocationType.DestructionTrack]: destructionPawnTrackLocator,
   [LocationType.BuzzStock]: buzzStockLocator,
   [LocationType.PlayerHand]: playerHandLocator,
   [LocationType.PlayerRolledDice]: playerRolledDiceLocator,
-  [LocationType .EnergyStock]: energyStockLocator,
+  [LocationType.EnergyStock]: energyStockLocator,
   [LocationType.PlayerBuzzToken]: playerBuzzLocator,
   [LocationType.WhiteDiceStock]: whiteDiceStockLocator,
   [LocationType.PlayerEnergy]: playerEnergyLocator,

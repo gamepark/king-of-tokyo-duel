@@ -1,14 +1,14 @@
 import { DropAreaDescription, isItemContext, ListLocator, MaterialContext } from '@gamepark/react-game'
 import { Location, MaterialItem } from '@gamepark/rules-api'
-import { energyCardDescription } from '../material/EnergyCardDescription'
+import { powerCardDescription } from '../material/PowerCardDescription'
 
 export class PlayerKeepCardsLocator extends ListLocator {
-  gap = { x: -2 }
+  gap = { y: -3 }
   getCoordinates(location: Location, context: MaterialContext) {
     let coordinates = this.getAreaCoordinates(location, context)
 
     if (isItemContext(context)) {
-      coordinates.y += this.locationDescription.height / 2 - energyCardDescription.height / 2 - 0.5
+      coordinates.y += this.locationDescription.height / 2 - powerCardDescription.height / 2 - 0.5
     }
 
     return coordinates
@@ -36,6 +36,7 @@ export class PlayerKeepCardsLocator extends ListLocator {
     if (!isLeft) transform.push('translateX(-25%)')
 
     if (item.location.x === 0) transform.push('translateY(-25%)')
+    if (item.location.x === 1) transform.push('translateY(-5%)')
 
     return transform
   }
@@ -53,9 +54,9 @@ export class PlayerKeepCardsLocator extends ListLocator {
 }
 
 export class PlayerKeepCardsDescription extends DropAreaDescription {
-  height = energyCardDescription.height * 3.8
-  width = energyCardDescription.width + 1
-  borderRadius = energyCardDescription.borderRadius
+  height = powerCardDescription.height * 3.8
+  width = powerCardDescription.width + 1
+  borderRadius = powerCardDescription.borderRadius
 }
 
 export const playerKeepCards = new PlayerKeepCardsLocator()

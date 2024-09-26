@@ -43,6 +43,7 @@ export class ChangePlayerRule extends PlayerTurnRule {
   }
 
   onRuleEnd() {
+    // TODO: forget all player memory
     this.forget(Memory.RollCount)
     this.forget(Memory.BoughtCards)
     this.forget(Memory.FreeTurn)

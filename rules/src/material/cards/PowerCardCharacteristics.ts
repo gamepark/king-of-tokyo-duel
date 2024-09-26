@@ -1,6 +1,6 @@
 import { Effect, EffectType } from '../../rules/effects/EffectType'
 import { Buzz } from '../Buzz'
-import { EnergyCard } from './EnergyCard'
+import { PowerCard } from './PowerCard'
 import { Timing } from './Timing'
 
 export type CardCharacteristics = {
@@ -10,40 +10,40 @@ export type CardCharacteristics = {
   effects?: Effect[]
 }
 
-export const energyCardCharacteristics: Record<EnergyCard, CardCharacteristics> = {
-  [EnergyCard.AcidAttack]: {
+export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = {
+  [PowerCard.AcidAttack]: {
     cost: 6,
     timing: Timing.Keep,
     buzz: Buzz.Buzz5
   },
-  [EnergyCard.AdrenalineAugment]: {
+  [PowerCard.AdrenalineAugment]: {
     cost: 5,
     timing: Timing.Keep
   },
-  [EnergyCard.AlienMetabolism]: {
+  [PowerCard.AlienMetabolism]: {
     cost: 2,
     timing: Timing.Keep,
     buzz: Buzz.Buzz7
   },
-  [EnergyCard.AntimatterPellets]: {
+  [PowerCard.AntimatterPellets]: {
     cost: 5,
     timing: Timing.Keep
   },
-  [EnergyCard.ArmorPlating]: {
+  [PowerCard.ArmorPlating]: {
     cost: 6,
     timing: Timing.Keep,
     buzz: Buzz.Buzz1
   },
-  [EnergyCard.BreakingNews]: {
+  [PowerCard.BreakingNews]: {
     cost: 6,
     timing: Timing.Keep,
     buzz: Buzz.Buzz8
   },
-  [EnergyCard.Camouflage]: {
+  [PowerCard.Camouflage]: {
     cost: 4,
     timing: Timing.Keep
   },
-  [EnergyCard.CannonBall]: {
+  [PowerCard.CannonBall]: {
     cost: 7,
     timing: Timing.Discard,
     buzz: Buzz.Buzz7,
@@ -53,7 +53,7 @@ export const energyCardCharacteristics: Record<EnergyCard, CardCharacteristics> 
       { type: EffectType.GainEnergy, count: 4 },
     ]
   },
-  [EnergyCard.Dominate]: {
+  [PowerCard.Dominate]: {
     cost: 3,
     timing: Timing.Discard,
     buzz: Buzz.Buzz10,
@@ -61,12 +61,12 @@ export const energyCardCharacteristics: Record<EnergyCard, CardCharacteristics> 
       { type: EffectType.Dominate }
     ]
   },
-  [EnergyCard.ElectricalAura]: {
+  [PowerCard.ElectricalAura]: {
     cost: 4,
     timing: Timing.Keep,
     buzz: Buzz.Buzz6
   },
-  [EnergyCard.Energize]: {
+  [PowerCard.Energize]: {
     cost: 10,
     timing: Timing.Discard,
     buzz: Buzz.Buzz6,
@@ -75,36 +75,36 @@ export const energyCardCharacteristics: Record<EnergyCard, CardCharacteristics> 
       { type: EffectType.WhiteDiceToken, count: 1 },
     ]
   },
-  [EnergyCard.ExtraHead]: {
+  [PowerCard.ExtraHead]: {
     cost: 7,
     timing: Timing.Keep
   },
-  [EnergyCard.EyeOfTheStorm]: {
+  [PowerCard.EyeOfTheStorm]: {
     cost: 2,
     timing: Timing.Keep,
     buzz: Buzz.Buzz8
   },
-  [EnergyCard.Frenzy]: {
+  [PowerCard.Frenzy]: {
     cost: 6,
     timing: Timing.Discard,
     effects: [
       { type: EffectType.FreeTurn }
     ]
   },
-  [EnergyCard.GentleGiant]: {
+  [PowerCard.GentleGiant]: {
     cost: 5,
     timing: Timing.Keep,
     buzz: Buzz.Buzz4
   },
-  [EnergyCard.GiantBrain]: {
+  [PowerCard.GiantBrain]: {
     cost: 4,
     timing: Timing.Keep
   },
-  [EnergyCard.Hibernation]: {
+  [PowerCard.Hibernation]: {
     cost: 5,
     timing: Timing.Keep
   },
-  [EnergyCard.HorsDOeuvre]: {
+  [PowerCard.HorsDOeuvre]: {
     cost: 3,
     timing: Timing.Discard,
     buzz: Buzz.Buzz1,
@@ -113,16 +113,16 @@ export const energyCardCharacteristics: Record<EnergyCard, CardCharacteristics> 
       { type: EffectType.PullDestruction, count: 2 },
     ]
   },
-  [EnergyCard.InShape]: {
+  [PowerCard.InShape]: {
     cost: 4,
     timing: Timing.Keep
   },
-  [EnergyCard.InTheShadows]: {
+  [PowerCard.InTheShadows]: {
     cost: 5,
     timing: Timing.Keep,
     buzz: Buzz.Buzz9
   },
-  [EnergyCard.JetsScrambled]: {
+  [PowerCard.JetsScrambled]: {
     cost: 5,
     timing: Timing.Discard,
     buzz: Buzz.Buzz12,
@@ -130,7 +130,7 @@ export const energyCardCharacteristics: Record<EnergyCard, CardCharacteristics> 
       { type: EffectType.Smash, me: 5, rival: 5 },
     ]
   },
-  [EnergyCard.Kaijutsu]: {
+  [PowerCard.Kaijutsu]: {
     cost: 5,
     timing: Timing.Discard,
     buzz: Buzz.Buzz10,
@@ -139,17 +139,17 @@ export const energyCardCharacteristics: Record<EnergyCard, CardCharacteristics> 
       { type: EffectType.Smash, rival: 2 },
     ]
   },
-  [EnergyCard.LightingSpeed]: {
+  [PowerCard.LightingSpeed]: {
     cost: 4,
     timing: Timing.Keep,
     buzz: Buzz.Buzz9
   },
-  [EnergyCard.MadeInALab]: {
+  [PowerCard.MadeInALab]: {
     cost: 2,
     timing: Timing.Keep,
     buzz: Buzz.Buzz5
   },
-  [EnergyCard.MomentOfRespite]: {
+  [PowerCard.MomentOfRespite]: {
     cost: 4,
     timing: Timing.Discard,
     buzz: Buzz.Buzz9,
@@ -158,14 +158,14 @@ export const energyCardCharacteristics: Record<EnergyCard, CardCharacteristics> 
       { type: EffectType.WhiteDiceToken, count: 1 },
     ]
   },
-  [EnergyCard.MonsterCoaster]: {
+  [PowerCard.MonsterCoaster]: {
     cost: 7,
     timing: Timing.Discard,
     effects: [
       { type: EffectType.PullDestruction, count: 3 },
     ]
   },
-  [EnergyCard.Monumental]: {
+  [PowerCard.Monumental]: {
     cost: 5,
     timing: Timing.Discard,
     buzz: Buzz.Buzz2,
@@ -174,11 +174,11 @@ export const energyCardCharacteristics: Record<EnergyCard, CardCharacteristics> 
       { type: EffectType.PullFame, count: 1 },
     ]
   },
-  [EnergyCard.NaturalSelection]: {
+  [PowerCard.NaturalSelection]: {
     cost: 4,
     timing: Timing.Keep
   },
-  [EnergyCard.OperationMedia]: {
+  [PowerCard.OperationMedia]: {
     cost: 6,
     timing: Timing.Discard,
     buzz: Buzz.Buzz7,
@@ -186,7 +186,7 @@ export const energyCardCharacteristics: Record<EnergyCard, CardCharacteristics> 
       { type: EffectType.OperationMedia }
     ]
   },
-  [EnergyCard.Photoshoot]: {
+  [PowerCard.Photoshoot]: {
     cost: 2,
     timing: Timing.Discard,
     buzz: Buzz.Buzz4,
@@ -194,16 +194,16 @@ export const energyCardCharacteristics: Record<EnergyCard, CardCharacteristics> 
       { type: EffectType.PullFame, count: 1 },
     ]
   },
-  [EnergyCard.Rebooting]: {
+  [PowerCard.Rebooting]: {
     cost: 3,
     timing: Timing.Keep,
     buzz: Buzz.Buzz1
   },
-  [EnergyCard.Regeneration]: {
+  [PowerCard.Regeneration]: {
     cost: 4,
     timing: Timing.Keep
   },
-  [EnergyCard.SackTheStadium]: {
+  [PowerCard.SackTheStadium]: {
     cost: 8,
     timing: Timing.Discard,
     buzz: Buzz.Buzz11,
@@ -212,39 +212,39 @@ export const energyCardCharacteristics: Record<EnergyCard, CardCharacteristics> 
       { type: EffectType.PullFame, count: 2 },
     ]
   },
-  [EnergyCard.Scrappy]: {
+  [PowerCard.Scrappy]: {
     cost: 2,
     timing: Timing.Keep,
     buzz: Buzz.Buzz6
   },
-  [EnergyCard.SeismicTest]: {
+  [PowerCard.SeismicTest]: {
     cost: 5,
     timing: Timing.Discard,
     effects: [
       { type: EffectType.PullDestruction, count: 2 }
     ]
   },
-  [EnergyCard.SignatureMove]: {
+  [PowerCard.SignatureMove]: {
     cost: 6,
     timing: Timing.Keep,
     buzz: Buzz.Buzz11
   },
-  [EnergyCard.SnackTime]: {
+  [PowerCard.SnackTime]: {
     cost: 3,
     timing: Timing.Discard,
     effects: [
       { type: EffectType.Heal, count: 3 }
     ]
   },
-  [EnergyCard.SpikedTail]: {
+  [PowerCard.SpikedTail]: {
     cost: 4,
     timing: Timing.Keep
   },
-  [EnergyCard.Superconductor]: {
+  [PowerCard.Superconductor]: {
     cost: 2,
     timing: Timing.Keep
   },
-  [EnergyCard.TeslaImpulse]: {
+  [PowerCard.TeslaImpulse]: {
     cost: 6,
     timing: Timing.Discard,
     buzz: Buzz.Buzz12,
@@ -252,7 +252,7 @@ export const energyCardCharacteristics: Record<EnergyCard, CardCharacteristics> 
       { type: EffectType.TeslaImpulse }
     ]
   },
-  [EnergyCard.ThePartyIsOver]: {
+  [PowerCard.ThePartyIsOver]: {
     cost: 4,
     timing: Timing.Discard,
     buzz: Buzz.Buzz11,
@@ -260,7 +260,7 @@ export const energyCardCharacteristics: Record<EnergyCard, CardCharacteristics> 
       { type: EffectType.ThePartyIsOver }
     ]
   },
-  [EnergyCard.ThermonuclearCooking]: {
+  [PowerCard.ThermonuclearCooking]: {
     cost: 7,
     timing: Timing.Discard,
     buzz: Buzz.Buzz2,
@@ -270,16 +270,16 @@ export const energyCardCharacteristics: Record<EnergyCard, CardCharacteristics> 
       { type: EffectType.GainEnergy, count: 2 },
     ]
   },
-  [EnergyCard.ThunderStomp]: {
+  [PowerCard.ThunderStomp]: {
     cost: 4,
     timing: Timing.Keep
   },
-  [EnergyCard.TitanicBatteries]: {
+  [PowerCard.TitanicBatteries]: {
     cost: 4,
     timing: Timing.Keep,
     buzz: Buzz.Buzz10
   },
-  [EnergyCard.TooCute]: {
+  [PowerCard.TooCute]: {
     cost: 3,
     timing: Timing.Discard,
     buzz: Buzz.Buzz4,
@@ -287,26 +287,26 @@ export const energyCardCharacteristics: Record<EnergyCard, CardCharacteristics> 
       { type: EffectType.Smash, rival: 2 }
     ]
   },
-  [EnergyCard.TrendSetter]: {
+  [PowerCard.TrendSetter]: {
     cost: 3,
     timing: Timing.Keep,
     buzz: Buzz.Buzz8
   },
-  [EnergyCard.Unchained]: {
+  [PowerCard.Unchained]: {
     cost: 3,
     timing: Timing.Keep,
     buzz: Buzz.Buzz12
   },
-  [EnergyCard.UnstableDna]: {
+  [PowerCard.UnstableDna]: {
     cost: 3,
     timing: Timing.Keep,
     buzz: Buzz.Buzz5
   },
-  [EnergyCard.Unstoppable]: {
+  [PowerCard.Unstoppable]: {
     cost: 3,
     timing: Timing.Keep
   },
-  [EnergyCard.UtterDestruction]: {
+  [PowerCard.UtterDestruction]: {
     cost: 4,
     timing: Timing.Keep,
     buzz: Buzz.Buzz2

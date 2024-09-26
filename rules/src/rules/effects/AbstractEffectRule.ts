@@ -26,14 +26,14 @@ export abstract class AbstractEffectRule<E extends Effect = { type: EffectType }
 
   get rivalKeepCards() {
     return this
-      .material(MaterialType.EnergyCard)
+      .material(MaterialType.PowerCard)
       .location(LocationType.PlayerKeepCards)
       .player(this.rival)
   }
 
   get playerKeepCards() {
     return this
-      .material(MaterialType.EnergyCard)
+      .material(MaterialType.PowerCard)
       .location(LocationType.PlayerKeepCards)
       .player(this.player)
   }

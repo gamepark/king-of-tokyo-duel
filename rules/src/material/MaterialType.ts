@@ -1,5 +1,5 @@
 export enum MaterialType {
-  EnergyCard = 1,
+  PowerCard = 1,
   MainBoard,
   MonsterBoard,
   HealthCounter,

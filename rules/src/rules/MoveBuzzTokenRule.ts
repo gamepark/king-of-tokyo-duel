@@ -1,5 +1,5 @@
 import { PlayerTurnRule } from '@gamepark/rules-api'
-import { energyCardCharacteristics } from '../material/cards/EnergyCardCharacteristics'
+import { powerCardCharacteristics } from '../material/cards/PowerCardCharacteristics'
 import { MaterialType } from '../material/MaterialType'
 import { EffectHelper } from './helper/EffectHelper'
 import { Memory } from './Memory'
@@ -23,8 +23,8 @@ export class MoveBuzzTokenRule extends PlayerTurnRule {
       console.error("If we are in move token rule, a bought card MUST be present")
     }
 
-    const item = this.material(MaterialType.EnergyCard).getItem(card)!
-    const buzz = energyCardCharacteristics[item.id].buzz
+    const item = this.material(MaterialType.PowerCard).getItem(card)!
+    const buzz = powerCardCharacteristics[item.id].buzz
     if (buzz === undefined) {
       console.error("The last bought card has NO buzz token")
     }

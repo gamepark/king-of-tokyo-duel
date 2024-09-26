@@ -6,13 +6,13 @@ import { tokenSizes } from '../material/BuzzTokenDescription'
 export class PlayerBuzzLocator extends ListLocator {
   getCoordinates(location: Location, context: MaterialContext) {
     if (location.player === context.rules.players[0]) {
-      return { x: -30, y: -3.8, z: 0.05 }
+      return { x: -16.7, y: 4.6, z: 0.05 }
     }
 
-    return { x: 30, y: -3.8, z: 0.05 }
+    return { x: 16.7, y: 4.6, z: 0.05 }
   }
 
-  gap = { y: tokenSizes[Buzz.TheKingBuzz].height + 0.5 }
+  gap = { y: tokenSizes[Buzz.TheKingBuzz].height + 0.2 }
 }
 
 export const playerBuzzLocator = new PlayerBuzzLocator()

@@ -1,5 +1,5 @@
 import { isCreateItemType, isMoveItemType, ItemMove, MaterialItem, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
-import { energyCardCharacteristics } from '../material/cards/EnergyCardCharacteristics'
+import { powerCardCharacteristics } from '../material/cards/PowerCardCharacteristics'
 import { Timing } from '../material/cards/Timing'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
@@ -54,29 +54,29 @@ export class BuyRule extends PlayerTurnRule {
   }
 
   beforeItemMove(move: ItemMove) {
-    if (!isMoveItemType(MaterialType.EnergyCard)(move) || move.location.type === LocationType.EnergyCardOnBoard) return []
-    const item = this.material(MaterialType.EnergyCard).getItem(move.itemIndex)!
+    if (!isMoveItemType(MaterialType.PowerCard)(move) || move.location.type === LocationType.PowerCardOnBoard) return []
+    const item = this.material(MaterialType.PowerCard).getItem(move.itemIndex)!
     return [
       this.energies.deleteItem(this.getCost(item))
     ]
   }
 
-  get energyCardDeck() {
+  get powerCardDeck() {
     return this
-      .material(MaterialType.EnergyCard)
-      .location(LocationType.EnergyCardDeck)
+      .material(MaterialType.PowerCard)
+      .location(LocationType.PowerCardDeck)
       .deck()
   }
 
   afterItemMove(move: ItemMove) {
     const moves: MaterialMove[] = []
-    if (isMoveItemType(MaterialType.EnergyCard)(move) && move.location.type !== LocationType.EnergyCardOnBoard) {
-      const energyCardDeck = this.energyCardDeck
+    if (isMoveItemType(MaterialType.PowerCard)(move) && move.location.type !== LocationType.PowerCardOnBoard) {
+      const powerCardDeck = this.powerCardDeck
       this.memorizeBoughtCard(move.itemIndex)
-      if (this.energyCardDeck.length) moves.push(energyCardDeck.dealOne({ type: LocationType.EnergyCardOnBoard }))
+      if (this.powerCardDeck.length) moves.push(powerCardDeck.dealOne({ type: LocationType.PowerCardOnBoard }))
 
-      const item = this.material(MaterialType.EnergyCard).getItem(move.itemIndex)!
-      const buzz = energyCardCharacteristics[item.id].buzz
+      const item = this.material(MaterialType.PowerCard).getItem(move.itemIndex)!
+      const buzz = powerCardCharacteristics[item.id].buzz
 
       // If the player
       if (buzz) {
@@ -107,12 +107,12 @@ export class BuyRule extends PlayerTurnRule {
   }
 
   getCost(item: MaterialItem) {
-    if (item.location.x! === 0) return energyCardCharacteristics[item.id].cost - 1
-    return energyCardCharacteristics[item.id].cost
+    if (item.location.x! === 0) return powerCardCharacteristics[item.id].cost - 1
+    return powerCardCharacteristics[item.id].cost
   }
 
   buyCard(item: MaterialItem) {
-    const characteristics = energyCardCharacteristics[item.id]
+    const characteristics = powerCardCharacteristics[item.id]
     if (characteristics.timing === Timing.Discard) {
       return {
         type: LocationType.Discard
@@ -145,7 +145,7 @@ export class BuyRule extends PlayerTurnRule {
 
   get river() {
     return this
-      .material(MaterialType.EnergyCard)
-      .location(LocationType.EnergyCardOnBoard)
+      .material(MaterialType.PowerCard)
+      .location(LocationType.PowerCardOnBoard)
   }
 }

@@ -35,15 +35,15 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
   }
 
   hidingStrategies = {
-    [MaterialType.EnergyCard]: {
-      //[LocationType.EnergyCardDeck]: hideItemId
+    [MaterialType.PowerCard]: {
+      //[LocationType.PowerCardDeck]: hideItemId
     }
   }
 
   locationsStrategies = {
-    [MaterialType.EnergyCard]: {
-      [LocationType.EnergyCardOnBoard]: new PositiveSequenceStrategy(),
-      [LocationType.EnergyCardDeck]: new PositiveSequenceStrategy(),
+    [MaterialType.PowerCard]: {
+      [LocationType.PowerCardOnBoard]: new PositiveSequenceStrategy(),
+      [LocationType.PowerCardDeck]: new PositiveSequenceStrategy(),
       [LocationType.Discard]: new PositiveSequenceStrategy(),
       [LocationType.PlayerKeepCards]: new PositiveSequenceStrategy()
     },

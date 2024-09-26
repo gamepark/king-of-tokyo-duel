@@ -1,8 +1,8 @@
 export enum LocationType {
   MainBoard = 1,
   MonsterBoard,
-  EnergyCardDeck,
-  EnergyCardOnBoard,
+  PowerCardDeck,
+  PowerCardOnBoard,
   HealthCounter,
   FameTrack,
   DestructionTrack,

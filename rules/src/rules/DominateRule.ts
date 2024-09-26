@@ -29,7 +29,7 @@ export class DominateRule extends PlayerTurnRule {
   }
 
   afterItemMove(move: ItemMove) {
-    if (!isMoveItemType(MaterialType.EnergyCard)(move)) return []
+    if (!isMoveItemType(MaterialType.PowerCard)(move)) return []
     return [this.startPlayerTurn(RuleId.RollDice, this.rival)]
   }
 
@@ -39,7 +39,7 @@ export class DominateRule extends PlayerTurnRule {
 
   get keepCards() {
     return this
-      .material(MaterialType.EnergyCard)
+      .material(MaterialType.PowerCard)
       .location(LocationType.PlayerKeepCards)
       .player(this.player)
   }

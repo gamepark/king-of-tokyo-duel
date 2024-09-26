@@ -2,7 +2,7 @@ import { MaterialGameSetup } from '@gamepark/rules-api'
 import { KingOfTokyoDuelOptions } from './KingOfTokyoDuelOptions'
 import { KingOfTokyoDuelRules } from './KingOfTokyoDuelRules'
 import { Buzz, commonBuzz } from './material/Buzz'
-import { energyCards } from './material/cards/EnergyCard'
+import { powerCards } from './material/cards/PowerCard'
 import { DiceColor } from './material/DiceColor'
 import { HealthCounter } from './material/HealthCounter'
 import { LocationType } from './material/LocationType'
@@ -108,15 +108,15 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<Monster, MaterialTyp
   }
 
   setupDeck() {
-    const cards = energyCards.map((c) => ({
+    const cards = powerCards.map((c) => ({
       id: c,
       location: {
-        type: LocationType.EnergyCardDeck
+        type: LocationType.PowerCardDeck
       }
     }))
 
-    this.material(MaterialType.EnergyCard).createItems(cards)
-    this.material(MaterialType.EnergyCard).shuffle()
+    this.material(MaterialType.PowerCard).createItems(cards)
+    this.material(MaterialType.PowerCard).shuffle()
   }
 
 
@@ -144,10 +144,10 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<Monster, MaterialTyp
 
 
   setupBoardCards() {
-    this.material(MaterialType.EnergyCard)
+    this.material(MaterialType.PowerCard)
       .deck()
       .deal({
-        type: LocationType.EnergyCardOnBoard
+        type: LocationType.PowerCardOnBoard
       }, 3)
   }
 
