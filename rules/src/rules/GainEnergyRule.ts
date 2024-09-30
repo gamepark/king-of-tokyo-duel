@@ -1,7 +1,8 @@
-import { PlayerTurnRule } from "@gamepark/rules-api";
+import { PlayerTurnRule } from '@gamepark/rules-api'
 import { DiceFace } from '../material/DiceFace'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
+import { EnergyHelper } from './helper/EnergyHelper'
 import { RuleId } from './RuleId'
 
 export class GainEnergyRule extends PlayerTurnRule {
@@ -10,13 +11,7 @@ export class GainEnergyRule extends PlayerTurnRule {
     const energies = this.energyDice
     if (!energies) return [this.startRule(RuleId.Heal)]
     return [
-      this.material(MaterialType.Energy).createItem({
-        location: {
-          type: LocationType.PlayerEnergy,
-          player: this.player
-        },
-        quantity: energies
-      }),
+      ...new EnergyHelper(this.game, this.player).gain(energies),
       this.startRule(RuleId.Heal)
     ]
   }

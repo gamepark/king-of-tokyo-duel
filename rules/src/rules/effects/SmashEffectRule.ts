@@ -12,16 +12,14 @@ export class SmashEffectRule extends AbstractEffectRule<Smash> {
     if (myDamages > 0) {
       const helper = new SmashHelper(this.game, this.player)
       moves.push(
-        ...helper.smash(MaterialType.PowerCard, [this.cardIndex], myDamages),
-        ...helper.onSmash(myDamages)
+        ...helper.doSmash(MaterialType.PowerCard, [this.cardIndex], myDamages),
       )
     }
 
     if (rivalDamages > 0) {
       const helper = new SmashHelper(this.game, this.rival)
       moves.push(
-        ...helper.smash(MaterialType.PowerCard, [this.cardIndex], rivalDamages),
-        ...helper.onSmash(rivalDamages)
+        ...helper.doSmash(MaterialType.PowerCard, [this.cardIndex], rivalDamages)
       )
     }
 

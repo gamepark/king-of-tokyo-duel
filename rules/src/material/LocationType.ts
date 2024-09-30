@@ -15,4 +15,5 @@ export enum LocationType {
   PlayerEnergy,
   Discard,
   PlayerKeepCards,
+  PlayerDiceToken
 }

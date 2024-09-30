@@ -1,19 +1,29 @@
-import { PlayerTurnRule } from '@gamepark/rules-api'
+import { RuleMove } from '@gamepark/rules-api'
 import { powerCardCharacteristics } from '../material/cards/PowerCardCharacteristics'
 import { MaterialType } from '../material/MaterialType'
-import { EffectHelper } from './helper/EffectHelper'
+import { BasePlayerTurnRule } from './BasePlayerTurnRule'
+import { Effect } from './effects/EffectType'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
-export class MoveBuzzTokenRule extends PlayerTurnRule {
+export class MoveBuzzTokenRule extends BasePlayerTurnRule {
   onRuleStart() {
     // TODO: don't go to the buy rule immediately, but allow the player :
     // 1. Place the token if it is not already placed
     // 2. Move the token if it is already on board
+    return this.getNextRuleMove()
+  }
 
-    const effectMoves = new EffectHelper(this.game, this.player).applyEffectMoves()
-    if (effectMoves.length) return effectMoves
-    return [this.startRule(RuleId.Buy)]
+  getNextRule(): RuleMove {
+    if (this.effects.length) {
+      return this.startRule(RuleId.Effect)
+    }
+
+    return this.startRule(RuleId.ChangePlayer)
+  }
+
+  get effects() {
+    return this.remind<Effect[]>(Memory.Effects) ?? []
   }
 
   get buzz() {

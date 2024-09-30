@@ -3,6 +3,8 @@ import { KingOfTokyoDuelOptions } from './KingOfTokyoDuelOptions'
 import { KingOfTokyoDuelRules } from './KingOfTokyoDuelRules'
 import { Buzz, commonBuzz } from './material/Buzz'
 import { powerCards } from './material/cards/PowerCard'
+import { powerCardCharacteristics } from './material/cards/PowerCardCharacteristics'
+import { Timing } from './material/cards/Timing'
 import { DiceColor } from './material/DiceColor'
 import { HealthCounter } from './material/HealthCounter'
 import { LocationType } from './material/LocationType'
@@ -108,7 +110,9 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<Monster, MaterialTyp
   }
 
   setupDeck() {
-    const cards = powerCards.map((c) => ({
+    const cards = powerCards
+      .filter((c) => powerCardCharacteristics[c].timing === Timing.Keep)
+      .map((c) => ({
       id: c,
       location: {
         type: LocationType.PowerCardDeck
@@ -116,7 +120,7 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<Monster, MaterialTyp
     }))
 
     this.material(MaterialType.PowerCard).createItems(cards)
-    this.material(MaterialType.PowerCard).shuffle()
+    //this.material(MaterialType.PowerCard).shuffle()
   }
 
 

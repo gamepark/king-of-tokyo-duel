@@ -2,17 +2,26 @@ import { FillGapStrategy, MaterialGame, MaterialMove, PositiveSequenceStrategy, 
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { Monster } from './material/Monster'
+import { AfterDiceResolutionRule } from './rules/AfterDiceResolutionRule'
 import { BuyRule } from './rules/BuyRule'
+import { CamouflageRule } from './rules/CamouflageRule'
 import { ChangePlayerRule } from './rules/ChangePlayerRule'
 import { DominateRule } from './rules/DominateRule'
 import { EffectRule } from './rules/EffectRule'
 import { GainEnergyRule } from './rules/GainEnergyRule'
 import { HealRule } from './rules/HealRule'
+import { HibernationRule } from './rules/HibernationRule'
+import { InShapeRule } from './rules/InShapeRule'
+import { MadeInALabRule } from './rules/MadeInALabRule'
 import { MoveBuzzTokenRule } from './rules/MoveBuzzTokenRule'
-import { MovePawnsRule } from './rules/MovePawnsRule'
+import { PullPawnRule } from './rules/PullPawnRule'
+import { RebootingRule } from './rules/RebootingRule'
 import { RollDiceRule } from './rules/RollDiceRule'
 import { RuleId } from './rules/RuleId'
 import { SmashRule } from './rules/SmashRule'
+import { SuperConductorRule } from './rules/SuperConductorRule'
+import { TitanicBatteriesRule } from './rules/TitanicBatteriesRule'
+import { UnstableDnaRule } from './rules/UnstableDnaRule'
 
 
 /**
@@ -23,7 +32,7 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
   implements TimeLimit<MaterialGame<Monster, MaterialType, LocationType>, MaterialMove<Monster, MaterialType, LocationType>, Monster> {
   rules = {
     [RuleId.RollDice]: RollDiceRule,
-    [RuleId.MovePawns]: MovePawnsRule,
+    [RuleId.PullPawn]: PullPawnRule,
     [RuleId.GainEnergy]: GainEnergyRule,
     [RuleId.Smash]: SmashRule,
     [RuleId.Buy]: BuyRule,
@@ -31,7 +40,16 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     [RuleId.Effect]: EffectRule,
     [RuleId.Heal]: HealRule,
     [RuleId.Dominate]: DominateRule,
-    [RuleId.MoveBuzzToken]: MoveBuzzTokenRule
+    [RuleId.MoveBuzzToken]: MoveBuzzTokenRule,
+    [RuleId.Hibernation]: HibernationRule,
+    [RuleId.InShape]: InShapeRule,
+    [RuleId.MadeInALab]: MadeInALabRule,
+    [RuleId.Rebooting]: RebootingRule,
+    [RuleId.Camouflage]: CamouflageRule,
+    [RuleId.SuperConductor]: SuperConductorRule,
+    [RuleId.TitanicBatteries]: TitanicBatteriesRule,
+    [RuleId.UnstableDna]: UnstableDnaRule,
+    [RuleId.AfterDiceResolution]: AfterDiceResolutionRule,
   }
 
   hidingStrategies = {

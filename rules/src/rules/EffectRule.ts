@@ -1,4 +1,5 @@
-import { MaterialGame, PlayerTurnRule } from '@gamepark/rules-api'
+import { MaterialGame } from '@gamepark/rules-api'
+import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { AbstractEffectRule } from './effects/AbstractEffectRule'
 import { DominateEffectRule } from './effects/DominateEffectRule'
 import { Effect, EffectType } from './effects/EffectType'
@@ -15,20 +16,24 @@ import { WhiteDiceTokenEffectRule } from './effects/WhiteDiceTokenEffectRule'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
-export class EffectRule extends PlayerTurnRule {
+export class EffectRule extends BasePlayerTurnRule {
   onRuleStart() {
     const effects = this.effects
-    if (!effects.length) return [this.startRule(RuleId.Buy)]
+    if (!effects.length) return this.getNextRuleMove()
     const effect = this.effect
     const moves = getEffectRule(this.game, effect).getMoves(effect)
 
     if (effects.length > 1) {
       moves.push(this.startRule(RuleId.Effect))
     } else {
-      moves.push(this.startRule(RuleId.Buy))
+      moves.push(...this.getNextRuleMove())
     }
 
     return moves
+  }
+
+  getNextRule() {
+    return this.startRule(RuleId.Buy)
   }
 
   get effect() {

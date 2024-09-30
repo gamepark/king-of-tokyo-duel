@@ -1,5 +1,8 @@
 export enum CustomMoveType {
   Roll = 1,
   Smash,
-  Dominated
+  Dominated,
+  Pass,
+  ChangePlayer,
+  RollAll
 }

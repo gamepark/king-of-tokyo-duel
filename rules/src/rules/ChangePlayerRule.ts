@@ -1,31 +1,55 @@
-import { PlayerTurnRule } from "@gamepark/rules-api";
-import { DiceColor } from "../material/DiceColor";
+import { CustomMove, isCustomMoveType, isStartRule, PlayerTurnRule } from '@gamepark/rules-api'
+import { DiceColor } from '../material/DiceColor'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
+import { CustomMoveType } from './CustomMoveType'
+import { KeepHelper } from './helper/KeepHelper'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class ChangePlayerRule extends PlayerTurnRule {
 
   onRuleStart() {
-    const nextPlayer = this.hasFreeTurn? this.player: this.nextPlayer
+    const white = this.whiteDice
+    const additionalDice = Math.min(new KeepHelper(this.game).additionalDice, 2)
+    const removedDice = this.removedDice
+    const nextPlayer = this.computeNextPlayer()
     return [
-      this.whiteDice
-        .moveItemsAtOnce({
-          type: LocationType.WhiteDiceStock,
-          player: nextPlayer
-        }),
       this.redDice
+        .limit(6 - removedDice)
         .moveItemsAtOnce({
           type: LocationType.PlayerHand,
           player: nextPlayer
         }),
-      this.startPlayerTurn(RuleId.RollDice, nextPlayer)
+      white.limit(additionalDice)
+        .moveItemsAtOnce({
+        type: LocationType.PlayerHand,
+        player: nextPlayer
+      }),
+      white.limit(2 - additionalDice)
+        .moveItemsAtOnce({
+          type: LocationType.WhiteDiceStock,
+          player: nextPlayer
+        }),
+      this.customMove(CustomMoveType.ChangePlayer),
     ]
+  }
+
+  onCustomMove(move: CustomMove) {
+    const nextPlayer = this.computeNextPlayer()
+    if (!isCustomMoveType(CustomMoveType.ChangePlayer)(move)) return []
+    const atEndMoves = new KeepHelper(this.game).atEndOfTurn()
+    if (atEndMoves.some(isStartRule)) return atEndMoves
+    this.forget(Memory.FreeTurn)
+    return [this.startPlayerTurn(RuleId.RollDice, nextPlayer)]
   }
 
   get hasFreeTurn() {
     return !!this.remind(Memory.FreeTurn)
+  }
+
+  computeNextPlayer() {
+    return this.hasFreeTurn? this.player: this.nextPlayer
   }
 
   get whiteDice() {
@@ -42,12 +66,20 @@ export class ChangePlayerRule extends PlayerTurnRule {
       .player(this.player)
   }
 
+  get removedDice() {
+    return this.remind(Memory.DecreaseDiceCount) ?? 0
+  }
+
   onRuleEnd() {
     // TODO: forget all player memory
     this.forget(Memory.RollCount)
     this.forget(Memory.BoughtCards)
-    this.forget(Memory.FreeTurn)
     this.forget(Memory.Effects)
+    this.forget(Memory.FreeTurn)
+    this.forget(Memory.KeepCardPlayed)
+    this.forget(Memory.SmashCount)
+    this.forget(Memory.RivalSmashCount)
+    this.forget(Memory.DecreaseDiceCount)
     this.memorize(Memory.Round, (round: number) => round + 1)
     return []
   }

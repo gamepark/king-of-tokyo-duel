@@ -1,6 +1,6 @@
 export enum RuleId {
   RollDice = 1,
-  MovePawns,
+  PullPawn,
   GainEnergy,
   Smash,
   Buy,
@@ -8,5 +8,14 @@ export enum RuleId {
   Effect,
   Heal,
   Dominate,
-  MoveBuzzToken
+  MoveBuzzToken,
+  Hibernation,
+  InShape,
+  MadeInALab,
+  Rebooting,
+  Camouflage,
+  SuperConductor,
+  TitanicBatteries,
+  UnstableDna,
+  AfterDiceResolution
 }

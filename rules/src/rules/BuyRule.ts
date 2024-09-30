@@ -1,28 +1,37 @@
-import { isCreateItemType, isMoveItemType, ItemMove, MaterialItem, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
+import { CustomMove, isCreateItemType, isCustomMoveType, isMoveItemType, ItemMove, MaterialItem, MaterialMove, RuleMove } from '@gamepark/rules-api'
 import { powerCardCharacteristics } from '../material/cards/PowerCardCharacteristics'
 import { Timing } from '../material/cards/Timing'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
+import { BasePlayerTurnRule } from './BasePlayerTurnRule'
+import { CustomMoveType } from './CustomMoveType'
 import { EffectHelper } from './helper/EffectHelper'
+import { EnergyHelper } from './helper/EnergyHelper'
+import { KeepHelper } from './helper/KeepHelper'
+import { isChangingRule } from './IsChangingRule'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
-export class BuyRule extends PlayerTurnRule {
-  onRuleStart() {
+export class BuyRule extends BasePlayerTurnRule {
+  onRuleStart(_move: RuleMove): MaterialMove[] {
     if (!this.getPurchasableCards().length) {
       if (this.boughtCards.length) {
         return [this.startRule(RuleId.ChangePlayer)]
       }
 
-      return this.gainEnergy()
+      return [this.customMove(CustomMoveType.Pass)]
     }
 
     return []
   }
 
+  getNextRule(): RuleMove {
+    return this.startRule(RuleId.ChangePlayer)
+  }
+
   getPlayerMoves() {
     const moves: MaterialMove[] = []
-    if (!this.boughtCards.length) moves.push(...this.gainEnergy())
+    if (!this.boughtCards.length) moves.push(this.customMove(CustomMoveType.Pass))
 
     moves.push(
       ...this.getPurchasableCards()
@@ -41,24 +50,17 @@ export class BuyRule extends PlayerTurnRule {
     return this.remind(Memory.BoughtCards) ?? []
   }
 
-  gainEnergy() {
-    return [
-      this.material(MaterialType.Energy).createItem({
-        location: {
-          type: LocationType.PlayerEnergy,
-          player: this.player
-        },
-        quantity: 1
-      })
-    ]
-  }
-
   beforeItemMove(move: ItemMove) {
     if (!isMoveItemType(MaterialType.PowerCard)(move) || move.location.type === LocationType.PowerCardOnBoard) return []
     const item = this.material(MaterialType.PowerCard).getItem(move.itemIndex)!
     return [
       this.energies.deleteItem(this.getCost(item))
     ]
+  }
+
+  onCustomMove(move: CustomMove) {
+    if (!isCustomMoveType(CustomMoveType.Pass)(move)) return []
+    return new EnergyHelper(this.game, this.player).gain(1)
   }
 
   get powerCardDeck() {
@@ -78,7 +80,9 @@ export class BuyRule extends PlayerTurnRule {
       const item = this.material(MaterialType.PowerCard).getItem(move.itemIndex)!
       const buzz = powerCardCharacteristics[item.id].buzz
 
-      // If the player
+      moves.push(...new KeepHelper(this.game).onBuyPowerCard())
+      if (isChangingRule(move)) return moves
+
       if (buzz) {
         moves.push(this.startRule(RuleId.MoveBuzzToken))
         return moves
@@ -91,12 +95,12 @@ export class BuyRule extends PlayerTurnRule {
       }
 
       if (!this.getPurchasableCards(this.energies.getQuantity() - this.getCost(item)).length) {
-        moves.push(this.startRule(RuleId.ChangePlayer))
+        moves.push(...this.getNextRuleMove())
       }
     }
 
     if (isCreateItemType(MaterialType.Energy)(move)) {
-      moves.push(this.startRule(RuleId.ChangePlayer))
+      moves.push(...this.getNextRuleMove())
     }
 
     return moves

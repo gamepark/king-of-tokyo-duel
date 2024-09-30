@@ -4,4 +4,10 @@ export enum Memory {
   BoughtCards,
   Effects,
   FreeTurn,
+  KeepCardPlayed,
+  SmashCount,
+  RivalSmashCount,
+  DecreaseDiceCount,
+  PreviousRule,
+  SuspendedDamages
 }

@@ -176,7 +176,11 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   },
   [PowerCard.NaturalSelection]: {
     cost: 4,
-    timing: Timing.Keep
+    timing: Timing.Keep,
+    effects: [
+      { type: EffectType.GainEnergy, count: 4 },
+      { type: EffectType.Heal, count: 4 }
+    ]
   },
   [PowerCard.OperationMedia]: {
     cost: 6,
