@@ -57,7 +57,8 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<Monster, MaterialTyp
         location: {
           type: LocationType.FameTrack,
           id: Pawn.Fame,
-          x: 14
+          x: 0,
+          y: 0
         }
       })
 
@@ -66,7 +67,8 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<Monster, MaterialTyp
         id: Pawn.Destruction,
         location: {
           type: LocationType.DestructionTrack,
-          x: 14
+          x: 0,
+          y: 0
         }
       })
   }

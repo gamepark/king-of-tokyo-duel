@@ -3,13 +3,13 @@ import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType
 import { Monster } from '@gamepark/king-of-tokyo-duel/material/Monster'
 import { Locator } from '@gamepark/react-game'
 import { buzzStockLocator } from './BuzzStockLocator'
-import { destructionPawnTrackLocator } from './DestructionPawnTrackLocator'
+import { destructionTrackLocator } from './DestructionTrackLocator'
 import { discardLocator } from './DiscardLocator'
 import { onPowerCardLocator } from './OnPowerCardLocator'
 import { powerCardDeckLocator } from './PowerCardDeckLocator'
 import { powerCardOnBoardLocator } from './PowerCardOnBoardLocator'
 import { energyStockLocator } from './EnergyStockLocator'
-import { famePawnTrackLocator } from './FamePawnTrackLocator'
+import { fameTrackLocator } from './FameTrackLocator'
 import { healthCounterLocator } from './HealthCounterLocator'
 import { monsterBoardLocator } from './MonsterBoardLocator'
 import { playerBuzzLocator } from './PlayerBuzzLocator'
@@ -24,8 +24,8 @@ export const Locators: Partial<Record<LocationType, Locator<Monster, MaterialTyp
   [LocationType.PowerCardOnBoard]: powerCardOnBoardLocator,
   [LocationType.PowerCardDeck]: powerCardDeckLocator,
   [LocationType.HealthCounter]: healthCounterLocator,
-  [LocationType.FameTrack]: famePawnTrackLocator,
-  [LocationType.DestructionTrack]: destructionPawnTrackLocator,
+  [LocationType.FameTrack]: fameTrackLocator,
+  [LocationType.DestructionTrack]: destructionTrackLocator,
   [LocationType.BuzzStock]: buzzStockLocator,
   [LocationType.PlayerHand]: playerHandLocator,
   [LocationType.PlayerRolledDice]: playerRolledDiceLocator,
