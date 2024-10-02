@@ -3,12 +3,10 @@ import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType
 import { Pawn } from '@gamepark/king-of-tokyo-duel/material/Pawn'
 import { HexagonalGridLocator, ItemContext } from '@gamepark/react-game'
 import { Coordinates, MaterialItem } from '@gamepark/rules-api'
-import { HexagonalGridDropAreaDescription } from './HexagonalGridDropAreaDescription'
 
 export abstract class TrackLocator extends HexagonalGridLocator {
   parentItemType = MaterialType.MainBoard
   size = { x: 1.27, y: 1.8 }
-  locationDescription = new HexagonalGridDropAreaDescription()
   boundaries = { xMin: -7, xMax: 7 }
 
   getItemCoordinates(item: MaterialItem, context: ItemContext): Partial<Coordinates> {
