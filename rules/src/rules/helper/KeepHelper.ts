@@ -6,8 +6,6 @@ import { LocationType } from '../../material/LocationType'
 import { MaterialType } from '../../material/MaterialType'
 import { Monster } from '../../material/Monster'
 import { Pawn } from '../../material/Pawn'
-import { DamageSource } from './DamageSource'
-import { KeepRule } from '../keep/KeepRule'
 import { AcidAttackKeepRule } from '../keep/card/AcidAttackKeepRule'
 import { AdrenalineAugmentKeepRule } from '../keep/card/AdrenalineAugmentKeepRule'
 import { AlienMetabolismKeepRule } from '../keep/card/AlienMetabolismKeepRule'
@@ -39,12 +37,15 @@ import { UnchainedKeepRule } from '../keep/card/UnchainedKeepRule'
 import { UnstableDnaKeepRule } from '../keep/card/UnstableDnaKeepRule'
 import { UnstoppableKeepRule } from '../keep/card/UnstoppableKeepRule'
 import { UtterDestructionKeepRule } from '../keep/card/UtterDestructionKeepRule'
+import { KeepRule } from '../keep/KeepRule'
+import { DamageSource } from './DamageSource'
 
 export class KeepHelper extends MaterialRulesPart {
   private keepCards: Material
   private keepCardsIndexes: number[]
+
   constructor(game: MaterialGame) {
-    super(game);
+    super(game)
     this.keepCards = this
       .material(MaterialType.PowerCard)
       .location(LocationType.PlayerKeepCards)
@@ -103,9 +104,9 @@ export class KeepHelper extends MaterialRulesPart {
       .flatMap((index) => this.getEffectRule(index)?.onSmashTaken(player, source) ?? [])
   }
 
-  afterSmashTakenComputed(player: Monster, source: DamageSource): MaterialMove[] {
+  afterSmashTakenComputed(player: Monster, damages: number): MaterialMove[] {
     return this.keepCardsIndexes
-      .flatMap((index) => this.getEffectRule(index)?.afterSmashTakenComputed(player, source) ?? [])
+      .flatMap((index) => this.getEffectRule(index)?.afterSmashTakenComputed(player, damages) ?? [])
   }
 
   ignoredSmash(player: Monster, damages?: number): number {
@@ -180,5 +181,5 @@ const keepEffects: Partial<Record<PowerCard, KeepRuleCreator>> = {
   [PowerCard.Unchained]: UnchainedKeepRule,
   [PowerCard.UnstableDna]: UnstableDnaKeepRule,
   [PowerCard.Unstoppable]: UnstoppableKeepRule,
-  [PowerCard.UtterDestruction]: UtterDestructionKeepRule,
+  [PowerCard.UtterDestruction]: UtterDestructionKeepRule
 }

@@ -14,8 +14,10 @@ import { HibernationRule } from './rules/HibernationRule'
 import { InShapeRule } from './rules/InShapeRule'
 import { MadeInALabRule } from './rules/MadeInALabRule'
 import { MoveBuzzTokenRule } from './rules/MoveBuzzTokenRule'
-import { PullPawnRule } from './rules/PullPawnRule'
+import { PullDestructionPawnRule } from './rules/PullDestructionPawnRule'
+import { PullFamePawnRule } from './rules/PullFamePawnRule'
 import { RebootingRule } from './rules/RebootingRule'
+import { ResolveDiceRule } from './rules/ResolveDiceRule'
 import { RollDiceRule } from './rules/RollDiceRule'
 import { RuleId } from './rules/RuleId'
 import { SmashRule } from './rules/SmashRule'
@@ -32,7 +34,8 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
   implements TimeLimit<MaterialGame<Monster, MaterialType, LocationType>, MaterialMove<Monster, MaterialType, LocationType>, Monster> {
   rules = {
     [RuleId.RollDice]: RollDiceRule,
-    [RuleId.PullPawn]: PullPawnRule,
+    [RuleId.PullFamePawn]: PullFamePawnRule,
+    [RuleId.PullDestructionPawn]: PullDestructionPawnRule,
     [RuleId.GainEnergy]: GainEnergyRule,
     [RuleId.Smash]: SmashRule,
     [RuleId.Buy]: BuyRule,
@@ -50,6 +53,7 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     [RuleId.TitanicBatteries]: TitanicBatteriesRule,
     [RuleId.UnstableDna]: UnstableDnaRule,
     [RuleId.AfterDiceResolution]: AfterDiceResolutionRule,
+    [RuleId.ResolveDice]: ResolveDiceRule,
   }
 
   hidingStrategies = {
@@ -72,7 +76,8 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     [MaterialType.Dice]: {
       [LocationType.PlayerHand]: new PositiveSequenceStrategy(),
       [LocationType.PlayerRolledDice]: new FillGapStrategy(),
-      [LocationType.WhiteDiceStock]: new PositiveSequenceStrategy()
+      [LocationType.WhiteDiceStock]: new PositiveSequenceStrategy(),
+      [LocationType.OnPowerCard]: new FillGapStrategy(),
     }
   }
 

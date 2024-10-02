@@ -19,21 +19,17 @@ import { RuleId } from './RuleId'
 export class EffectRule extends BasePlayerTurnRule {
   onRuleStart() {
     const effects = this.effects
-    if (!effects.length) return this.getNextRuleMove()
+    if (!effects.length) return [this.startRule(RuleId.Buy)]
     const effect = this.effect
     const moves = getEffectRule(this.game, effect).getMoves(effect)
 
     if (effects.length > 1) {
       moves.push(this.startRule(RuleId.Effect))
     } else {
-      moves.push(...this.getNextRuleMove())
+      moves.push(this.startRule(RuleId.Buy))
     }
 
     return moves
-  }
-
-  getNextRule() {
-    return this.startRule(RuleId.Buy)
   }
 
   get effect() {

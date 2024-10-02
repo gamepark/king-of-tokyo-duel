@@ -11,7 +11,7 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
     // TODO: don't go to the buy rule immediately, but allow the player :
     // 1. Place the token if it is not already placed
     // 2. Move the token if it is already on board
-    return this.getNextRuleMove()
+    return [this.getNextRule()]
   }
 
   getNextRule(): RuleMove {

@@ -12,6 +12,6 @@ export class NaturalSelectionKeepRule extends KeepRule {
   afterRollingDice(): MaterialMove[] {
     if (this.getActivePlayer() !== this.cardPlayer) return []
     if (this.maxNumberOfAKind < 4) return []
-    return new SmashHelper(this.game, this.getActivePlayer()!).doSmash(MaterialType.PowerCard, [this.cardIndex], 10)
+    return new SmashHelper(this.game, this.getActivePlayer()!).smash(MaterialType.PowerCard, [this.cardIndex], 10)
   }
 }

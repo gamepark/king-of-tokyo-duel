@@ -4,5 +4,6 @@ export enum CustomMoveType {
   Dominated,
   Pass,
   ChangePlayer,
-  RollAll
+  RollAll,
+  Ignore
 }

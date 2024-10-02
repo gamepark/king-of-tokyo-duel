@@ -1,12 +1,13 @@
-import { CustomMove, isCustomMoveType, isEndGame, isStartPlayerTurn, isStartRule, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
+import { CustomMove, isCustomMoveType, isEndGame, isStartPlayerTurn, isStartRule, MaterialMove } from '@gamepark/rules-api'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
+import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
 import { KeepHelper } from './helper/KeepHelper'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
-export class RollDiceRule extends PlayerTurnRule {
+export class RollDiceRule extends BasePlayerTurnRule {
   onRuleStart() {
     return new KeepHelper(this.game).atStartOfTurn()
   }
@@ -52,12 +53,11 @@ export class RollDiceRule extends PlayerTurnRule {
   }
 
   onCustomMove(move: CustomMove) {
-    const moves: MaterialMove[] = []
+    const moves: MaterialMove[] = super.onCustomMove(move)
     if (isCustomMoveType(CustomMoveType.RollAll)(move)) {
-      return [
-        ...this.getDiceInHand(),
-        this.customMove(CustomMoveType.Roll)
-      ]
+      moves.push(...this.getDiceInHand())
+      moves.push(this.customMove(CustomMoveType.Roll))
+      return moves
     }
 
     this.memorize(Memory.RollCount, (roll: number) => (roll ?? 0) + 1)
@@ -88,7 +88,7 @@ export class RollDiceRule extends PlayerTurnRule {
       return moves
     }
 
-    moves.push(this.startRule(RuleId.GainEnergy))
+    moves.push(this.startRule(RuleId.ResolveDice))
     return moves
   }
 

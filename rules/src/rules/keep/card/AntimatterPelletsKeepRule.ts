@@ -9,7 +9,7 @@ export class AntimatterPelletsKeepRule extends KeepRule {
   afterRollingDice(): MaterialMove[] {
     if (this.getActivePlayer() !== this.cardPlayer) return []
     if (this.maxNumberOfAKind >= 5) {
-      const moves: MaterialMove[] = new SmashHelper(this.game, this.rival).doSmash(MaterialType.PowerCard, [this.cardIndex], 4)
+      const moves: MaterialMove[] = new SmashHelper(this.game, this.rival).smash(MaterialType.PowerCard, [this.cardIndex], 4)
 
       moves.push(
         ...new PullPawnHelper(this.game, this.getActivePlayer()!).pull(Pawn.Destruction, 2)

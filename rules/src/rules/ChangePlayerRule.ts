@@ -1,4 +1,4 @@
-import { CustomMove, isCustomMoveType, isStartRule, PlayerTurnRule } from '@gamepark/rules-api'
+import { CustomMove, isCustomMoveType, isStartRule, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
 import { DiceColor } from '../material/DiceColor'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
@@ -14,25 +14,39 @@ export class ChangePlayerRule extends PlayerTurnRule {
     const additionalDice = Math.min(new KeepHelper(this.game).additionalDice, 2)
     const removedDice = this.removedDice
     const nextPlayer = this.computeNextPlayer()
-    return [
-      this.redDice
+    const moves: MaterialMove[] = []
+
+    moves.push(
+      this
+        .redDice
         .limit(6 - removedDice)
         .moveItemsAtOnce({
           type: LocationType.PlayerHand,
           player: nextPlayer
-        }),
-      white.limit(additionalDice)
-        .moveItemsAtOnce({
-        type: LocationType.PlayerHand,
-        player: nextPlayer
-      }),
+        })
+    )
+
+    if (additionalDice) {
+      moves.push(
+        white.limit(additionalDice)
+          .moveItemsAtOnce({
+            type: LocationType.PlayerHand,
+            player: nextPlayer
+          })
+      )
+    }
+
+    moves.push(
       white.limit(2 - additionalDice)
         .moveItemsAtOnce({
           type: LocationType.WhiteDiceStock,
           player: nextPlayer
-        }),
-      this.customMove(CustomMoveType.ChangePlayer),
-    ]
+        })
+    )
+
+    moves.push(this.customMove(CustomMoveType.ChangePlayer))
+
+    return moves
   }
 
   onCustomMove(move: CustomMove) {
@@ -49,7 +63,7 @@ export class ChangePlayerRule extends PlayerTurnRule {
   }
 
   computeNextPlayer() {
-    return this.hasFreeTurn? this.player: this.nextPlayer
+    return this.hasFreeTurn ? this.player : this.nextPlayer
   }
 
   get whiteDice() {
@@ -63,7 +77,6 @@ export class ChangePlayerRule extends PlayerTurnRule {
     return this
       .material(MaterialType.Dice)
       .id(DiceColor.Red)
-      .player(this.player)
   }
 
   get removedDice() {

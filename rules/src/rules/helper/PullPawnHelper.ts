@@ -1,8 +1,7 @@
-import { MaterialGame, MaterialMove, MaterialRulesPart } from '@gamepark/rules-api'
+import { MaterialGame, MaterialRulesPart } from '@gamepark/rules-api'
 import { MaterialType } from '../../material/MaterialType'
 import { Monster } from '../../material/Monster'
 import { Pawn } from '../../material/Pawn'
-import { KeepHelper } from './KeepHelper'
 
 export class PullPawnHelper extends MaterialRulesPart {
 
@@ -11,7 +10,6 @@ export class PullPawnHelper extends MaterialRulesPart {
   }
 
   pull(pawnType: Pawn, count: number) {
-    // TODO: sometime pull can trigger smash
     const pawn = this.getPawn(pawnType)
     const isLeft = this.game.players[0] === this.player
     if (count) {
@@ -26,17 +24,6 @@ export class PullPawnHelper extends MaterialRulesPart {
     }
 
     return []
-  }
-
-  doPull(pawnType: Pawn, count: number) {
-    return [
-      ...this.pull(pawnType, count),
-      ...this.afterPullPawn(pawnType, count)
-    ]
-  }
-
-  afterPullPawn(pawn: Pawn, count: number): MaterialMove[] {
-    return new KeepHelper(this.game).afterPullPawn(pawn, count)
   }
 
   getPawn(pawn: Pawn) {

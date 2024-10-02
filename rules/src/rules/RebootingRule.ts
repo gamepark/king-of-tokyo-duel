@@ -1,12 +1,12 @@
-import { MaterialMove, PlayerTurnRule, RuleMove, RuleStep } from '@gamepark/rules-api'
-import { isStartingRule } from './IsChangingRule'
-import { Memory } from './Memory'
+import { MaterialMove, RuleMove } from '@gamepark/rules-api'
+import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 
-export class RebootingRule extends PlayerTurnRule {
-  onRuleStart(move: RuleMove, previousRule?: RuleStep): MaterialMove[] {
-    if (isStartingRule(move)) this.memorize(Memory.PreviousRule,  { ...previousRule })
+export class RebootingRule extends BasePlayerTurnRule {
+  onRuleStart(_move: RuleMove): MaterialMove[] {
+    // TODO: let the player choose
     return []
   }
 
+  // this.startRule(RuleId.ResolveDice)
   // TODO: do effect and then call this.nextRuleMove
 }

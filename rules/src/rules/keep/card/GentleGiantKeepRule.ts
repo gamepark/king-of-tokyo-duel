@@ -11,7 +11,7 @@ export class GentleGiantKeepRule extends KeepRule {
     if (this.getActivePlayer() !== this.cardPlayer) return []
     const clawFaces = this.clawFaces
     if (!clawFaces) {
-      return new PullPawnHelper(this.game, this.player).doPull(Pawn.Fame, 1)
+      return new PullPawnHelper(this.game, this.player).pull(Pawn.Fame, 1)
     }
 
     return []

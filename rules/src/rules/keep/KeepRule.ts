@@ -53,7 +53,7 @@ export class KeepRule extends MaterialRulesPart {
     return []
   }
 
-  afterSmashTakenComputed(_player: Monster, _source: DamageSource): MaterialMove[] {
+  afterSmashTakenComputed(_player: Monster, _damages: number): MaterialMove[] {
     return []
   }
 

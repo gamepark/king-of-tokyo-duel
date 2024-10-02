@@ -1,5 +1,5 @@
-import { PlayerTurnRule } from '@gamepark/rules-api'
+import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 
-export class HibernationRule extends PlayerTurnRule {
+export class HibernationRule extends BasePlayerTurnRule {
 
 }

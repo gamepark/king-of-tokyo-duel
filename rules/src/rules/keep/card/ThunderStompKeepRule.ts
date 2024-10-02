@@ -7,9 +7,8 @@ import { KeepRule } from '../KeepRule'
 
 export class ThunderStompKeepRule extends KeepRule {
   afterPullPawn(pawn: Pawn, _count: number): MaterialMove[] {
-    console.log("????LKJLJ", this.cardPlayer, this.getActivePlayer())
     if (this.getActivePlayer() !== this.cardPlayer || pawn !== Pawn.Destruction) return []
-    if (this.game.rule?.id !== RuleId.PullPawn) return []
+    if (this.game.rule?.id !== RuleId.PullFamePawn) return []
     this.memorize(Memory.DecreaseDiceCount, 1)
     return []
   }

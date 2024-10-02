@@ -1,22 +1,24 @@
-import { isMoveItemType, ItemMove, PlayerTurnRule } from '@gamepark/rules-api'
+import { isMoveItemType, ItemMove } from '@gamepark/rules-api'
 import { DiceFace } from '../material/DiceFace'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
+import { BasePlayerTurnRule } from './BasePlayerTurnRule'
+import { KeepHelper } from './helper/KeepHelper'
 import { SmashHelper } from './helper/SmashHelper'
+import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
-export class SmashRule extends PlayerTurnRule {
+export class SmashRule extends BasePlayerTurnRule {
   onRuleStart() {
     const claws = this.claws
-    if (!claws.length) return [this.startRule(RuleId.PullPawn)]
-    return new SmashHelper(this.game, this.rival).doSmash(MaterialType.Dice, claws.getIndexes(), claws.length)
+    return new SmashHelper(this.game, this.rival).smash(MaterialType.Dice, claws.getIndexes(), this.countClaws)
   }
 
   afterItemMove(move: ItemMove) {
     if (!isMoveItemType(MaterialType.HealthCounter)(move)) return []
     const wheel = this.opponentCounter.getItem()!
     if (wheel.location.rotation === 0) return [this.endGame()]
-    return [this.startRule(RuleId.PullPawn)]
+    return [this.startRule(RuleId.ResolveDice)]
   }
 
   get rival() {
@@ -40,5 +42,18 @@ export class SmashRule extends PlayerTurnRule {
     return this
       .dice
       .rotation(DiceFace.Claw)
+  }
+
+  get countClaws() {
+    return this.claws.length +
+      new KeepHelper(this.game).bonusDiceFaces.filter((f) => f === DiceFace.Claw).length
+  }
+
+  onRuleEnd() {
+    this.memorize(Memory.DiceFacesSolved, (faces: DiceFace[] = []) => {
+      faces.push(DiceFace.Claw)
+      return faces
+    })
+    return []
   }
 }

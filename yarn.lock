@@ -1634,11 +1634,6 @@
   resolved "https://registry.yarnpkg.com/@gamepark/rules-api/-/rules-api-6.25.0.tgz#e2b7e06fa8c357bf40d6134c683057592a26a9be"
   integrity sha512-6N0JtCmU1p3kN6N20N3RZ+3mq2bAiPpS2gHLHXteFhlrmb5YBipKjzV4fcWoplHQKe6hcG+tL6TJeBZNIpNvcQ==
 
-"@gamepark/rules-api@~6.24.3":
-  version "6.24.3"
-  resolved "https://registry.yarnpkg.com/@gamepark/rules-api/-/rules-api-6.24.3.tgz#370fa7a7e59a0073b77bc662a51b031bbe7ae377"
-  integrity sha512-Nohh7mYt8yOESHNEcAPIH4OMd5eGquQotyKmiDMjBqPbNJzCK+682kvHkCrRyWud6SBN4JzgbFEj7hI6Z7uF5A==
-
 "@graphql-typed-document-node/core@^3.1.1":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.2.0.tgz#5f3d96ec6b2354ad6d8a28bf216a1d97b5426861"

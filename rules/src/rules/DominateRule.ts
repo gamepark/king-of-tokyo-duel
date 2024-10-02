@@ -1,11 +1,12 @@
-import { CustomMove, isCustomMoveType, isMoveItemType, ItemMove, PlayerTurnRule } from '@gamepark/rules-api'
+import { CustomMove, isCustomMoveType, isMoveItemType, ItemMove } from '@gamepark/rules-api'
 import { DiceColor } from '../material/DiceColor'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
+import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
 import { RuleId } from './RuleId'
 
-export class DominateRule extends PlayerTurnRule {
+export class DominateRule extends BasePlayerTurnRule {
 
   getPlayerMoves() {
     return [
@@ -17,15 +18,18 @@ export class DominateRule extends PlayerTurnRule {
   }
 
   onCustomMove(move: CustomMove) {
-    if (!isCustomMoveType(CustomMoveType.Dominated)(move)) return []
+    const moves = super.onCustomMove(move)
+    if (!isCustomMoveType(CustomMoveType.Dominated)(move)) return moves
     const rival = this.rival
-    return [
+    moves.push(
       this.redDice.moveItem({
         type: LocationType.PlayerHand,
         player: rival
-      }),
-      this.startPlayerTurn(RuleId.RollDice, rival)
-    ]
+      })
+    )
+
+    moves.push(this.startPlayerTurn(RuleId.RollDice, rival))
+    return moves
   }
 
   afterItemMove(move: ItemMove) {

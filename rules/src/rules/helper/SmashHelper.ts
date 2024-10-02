@@ -31,7 +31,7 @@ export class SmashHelper extends MaterialRulesPart {
     })]
   }
 
-  onSmash(itemType: MaterialType, itemIndexes: number[], damages: number) {
+  onSmash(damages: number) {
     this.addSmash(damages)
     const wheel = this.healthWheel
     const moves: MaterialMove[] = [
@@ -44,7 +44,7 @@ export class SmashHelper extends MaterialRulesPart {
     }
 
     moves.push(
-      ...new KeepHelper(this.game).afterSmashTakenComputed(this.player, { type: itemType, player: this.player, damages: damages, indexes: itemIndexes })
+      ...new KeepHelper(this.game).afterSmashTakenComputed(this.player, damages)
     )
 
     return moves
@@ -55,17 +55,6 @@ export class SmashHelper extends MaterialRulesPart {
       count += damages
       return count
     })
-  }
-
-
-
-  doSmash(itemType: MaterialType, itemIndexes: number[], damages: number) {
-    const smashMoves = this.smash(itemType, itemIndexes, damages)
-    if (smashMoves.some(isChangingRule)) return smashMoves
-    return [
-      ...smashMoves,
-      ...this.onSmash(itemType, itemIndexes, damages)
-    ]
   }
 
   get healthWheel() {

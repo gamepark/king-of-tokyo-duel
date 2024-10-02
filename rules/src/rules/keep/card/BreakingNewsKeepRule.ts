@@ -6,7 +6,7 @@ import { KeepRule } from '../KeepRule'
 export class BreakingNewsKeepRule extends KeepRule {
   onBuyPowerCard(): MaterialMove[] {
     if (this.getActivePlayer() !== this.cardPlayer) return []
-    return new PullPawnHelper(this.game, this.player).doPull(Pawn.Fame, 1)
+    return new PullPawnHelper(this.game, this.player).pull(Pawn.Fame, 1)
   }
 
   get player() {

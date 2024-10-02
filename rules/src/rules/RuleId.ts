@@ -1,6 +1,7 @@
 export enum RuleId {
   RollDice = 1,
-  PullPawn,
+  PullFamePawn,
+  PullDestructionPawn,
   GainEnergy,
   Smash,
   Buy,
@@ -17,5 +18,6 @@ export enum RuleId {
   SuperConductor,
   TitanicBatteries,
   UnstableDna,
-  AfterDiceResolution
+  AfterDiceResolution,
+  ResolveDice
 }

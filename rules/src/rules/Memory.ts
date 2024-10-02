@@ -9,5 +9,7 @@ export enum Memory {
   RivalSmashCount,
   DecreaseDiceCount,
   PreviousRule,
-  SuspendedDamages
+  SuspendedDamages,
+  TitanicBatteries,
+  DiceFacesSolved
 }

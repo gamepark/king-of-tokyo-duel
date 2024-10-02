@@ -5,6 +5,7 @@ import { Locator } from '@gamepark/react-game'
 import { buzzStockLocator } from './BuzzStockLocator'
 import { destructionPawnTrackLocator } from './DestructionPawnTrackLocator'
 import { discardLocator } from './DiscardLocator'
+import { onPowerCardLocator } from './OnPowerCardLocator'
 import { powerCardDeckLocator } from './PowerCardDeckLocator'
 import { powerCardOnBoardLocator } from './PowerCardOnBoardLocator'
 import { energyStockLocator } from './EnergyStockLocator'
@@ -33,5 +34,6 @@ export const Locators: Partial<Record<LocationType, Locator<Monster, MaterialTyp
   [LocationType.WhiteDiceStock]: whiteDiceStockLocator,
   [LocationType.PlayerEnergy]: playerEnergyLocator,
   [LocationType.Discard]: discardLocator,
-  [LocationType.PlayerKeepCards]: playerKeepCards
+  [LocationType.PlayerKeepCards]: playerKeepCards,
+  [LocationType.OnPowerCard]: onPowerCardLocator
 }

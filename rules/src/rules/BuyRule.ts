@@ -59,8 +59,10 @@ export class BuyRule extends BasePlayerTurnRule {
   }
 
   onCustomMove(move: CustomMove) {
-    if (!isCustomMoveType(CustomMoveType.Pass)(move)) return []
-    return new EnergyHelper(this.game, this.player).gain(1)
+    const moves = super.onCustomMove(move)
+    if (!isCustomMoveType(CustomMoveType.Pass)(move)) return moves
+    moves.push(...new EnergyHelper(this.game, this.player).gain(1))
+    return moves
   }
 
   get powerCardDeck() {
@@ -95,12 +97,12 @@ export class BuyRule extends BasePlayerTurnRule {
       }
 
       if (!this.getPurchasableCards(this.energies.getQuantity() - this.getCost(item)).length) {
-        moves.push(...this.getNextRuleMove())
+        moves.push(this.getNextRule())
       }
     }
 
     if (isCreateItemType(MaterialType.Energy)(move)) {
-      moves.push(...this.getNextRuleMove())
+      moves.push(this.getNextRule())
     }
 
     return moves

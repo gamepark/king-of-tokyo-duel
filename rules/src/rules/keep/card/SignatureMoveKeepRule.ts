@@ -10,7 +10,7 @@ export class SignatureMoveKeepRule extends KeepRule {
     if (this.getActivePlayer() !== this.cardPlayer) return []
     const pullCount = Math.floor(this.countPowerDice.length / 3)
     if (!pullCount) return []
-    return new PullPawnHelper(this.game, this.cardPlayer).doPull(Pawn.Fame, pullCount)
+    return new PullPawnHelper(this.game, this.cardPlayer).pull(Pawn.Fame, pullCount)
   }
 
   get countPowerDice() {

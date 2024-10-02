@@ -2,7 +2,7 @@ export enum DiceFace {
   Claw,
   Destruction,
   Energy,
-  Heart,
+  Heal,
   Power,
-  Star,
+  Fame,
 }
