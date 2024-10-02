@@ -20,7 +20,7 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
     if (!this.isAlreadyConsumed(DiceFace.Energy) && new GainEnergyRule(this.game).countEnergy > 0) moves.push(this.startRule(RuleId.GainEnergy))
     if (!this.isAlreadyConsumed(DiceFace.Claw) && new SmashRule(this.game).countClaws > 0) moves.push(this.startRule(RuleId.Smash))
     if (!this.isAlreadyConsumed(DiceFace.Fame) && new PullFamePawnRule(this.game).countMoves > 0) moves.push(this.startRule(RuleId.PullFamePawn))
-    if (!this.isAlreadyConsumed(DiceFace.Destruction) && new PullDestructionPawnRule(this.game).countMoves > 0) moves.push(this.startRule(RuleId.PullFamePawn))
+    if (!this.isAlreadyConsumed(DiceFace.Destruction) && new PullDestructionPawnRule(this.game).countMoves > 0) moves.push(this.startRule(RuleId.PullDestructionPawn))
     if (!this.isAlreadyConsumed(DiceFace.Heal) && new HealRule(this.game).countHeal > 0) moves.push(this.startRule(RuleId.Heal))
     // TODO
     // if (this.power) moves.push(this.startRule(RuleId.MonsterRule

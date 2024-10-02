@@ -1,5 +1,7 @@
-import { RuleMove } from '@gamepark/rules-api'
+import { isMoveItemType, ItemMove, Location } from '@gamepark/rules-api'
+import range from 'lodash/range'
 import { powerCardCharacteristics } from '../material/cards/PowerCardCharacteristics'
+import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { Effect } from './effects/EffectType'
@@ -8,18 +10,30 @@ import { RuleId } from './RuleId'
 
 export class MoveBuzzTokenRule extends BasePlayerTurnRule {
   onRuleStart() {
-    // TODO: don't go to the buy rule immediately, but allow the player :
-    // 1. Place the token if it is not already placed
-    // 2. Move the token if it is already on board
-    return [this.getNextRule()]
+    return []
   }
 
-  getNextRule(): RuleMove {
+  getPlayerMoves() {
+    const validLocations: Location[] = range(-7, 7).filter(x => x !== 0).map(x => (
+      { type: LocationType.DestructionTrack, x, y: 0, rotation: 0 }
+    ))
+    validLocations.push(...range(-7, 7).filter(x => x !== 0).map(x => (
+      { type: LocationType.FameTrack, x, y: 0, rotation: 0 }
+    )))
+    return super.getPlayerMoves().concat(
+      ...validLocations.map(location =>
+        this.material(MaterialType.Buzz).id(this.buzz).moveItem(location)
+      )
+    )
+  }
+
+  afterItemMove(move: ItemMove) {
+    if (!isMoveItemType(MaterialType.Buzz)(move)) return []
     if (this.effects.length) {
-      return this.startRule(RuleId.Effect)
+      return [this.startRule(RuleId.Effect)]
     }
 
-    return this.startRule(RuleId.ChangePlayer)
+    return [this.startRule(RuleId.EndOfTurn)]
   }
 
   get effects() {

@@ -8,6 +8,7 @@ import { CamouflageRule } from './rules/CamouflageRule'
 import { ChangePlayerRule } from './rules/ChangePlayerRule'
 import { DominateRule } from './rules/DominateRule'
 import { EffectRule } from './rules/EffectRule'
+import { EndOfTurnRule } from './rules/EndOfTurnRule'
 import { GainEnergyRule } from './rules/GainEnergyRule'
 import { HealRule } from './rules/HealRule'
 import { HibernationRule } from './rules/HibernationRule'
@@ -54,6 +55,7 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     [RuleId.UnstableDna]: UnstableDnaRule,
     [RuleId.AfterDiceResolution]: AfterDiceResolutionRule,
     [RuleId.ResolveDice]: ResolveDiceRule,
+    [RuleId.EndOfTurn]: EndOfTurnRule
   }
 
   hidingStrategies = {

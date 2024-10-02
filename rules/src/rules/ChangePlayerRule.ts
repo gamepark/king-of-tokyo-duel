@@ -52,10 +52,12 @@ export class ChangePlayerRule extends PlayerTurnRule {
   onCustomMove(move: CustomMove) {
     const nextPlayer = this.computeNextPlayer()
     if (!isCustomMoveType(CustomMoveType.ChangePlayer)(move)) return []
-    const atEndMoves = new KeepHelper(this.game).atEndOfTurn()
-    if (atEndMoves.some(isStartRule)) return atEndMoves
+    const moves = new KeepHelper(this.game).atEndOfTurn()
+    if (moves.some(isStartRule)) return moves
     this.forget(Memory.FreeTurn)
-    return [this.startPlayerTurn(RuleId.RollDice, nextPlayer)]
+
+    moves.push(this.startPlayerTurn(RuleId.RollDice, nextPlayer))
+    return moves
   }
 
   get hasFreeTurn() {
@@ -93,6 +95,7 @@ export class ChangePlayerRule extends PlayerTurnRule {
     this.forget(Memory.SmashCount)
     this.forget(Memory.RivalSmashCount)
     this.forget(Memory.DecreaseDiceCount)
+    this.forget(Memory.DiceFacesSolved)
     this.memorize(Memory.Round, (round: number) => round + 1)
     return []
   }

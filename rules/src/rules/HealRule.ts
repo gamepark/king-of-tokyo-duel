@@ -3,18 +3,16 @@ import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { monsterBoardDescriptions } from '../material/MonsterBoardDescription'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
+import { HealHelper } from './helper/HealHelper'
 import { KeepHelper } from './helper/KeepHelper'
 import { RuleId } from './RuleId'
 
 export class HealRule extends BasePlayerTurnRule {
 
   onRuleStart() {
-    const healthWheel = this.healthWheel
     const healCount = this.countHeal
-    const health = healthWheel.getItem()!.location.rotation
-    const newHealth = Math.min(this.maxHealth, health + healCount)
     return [
-      healthWheel.rotateItem(newHealth),
+      ...new HealHelper(this.game, this.player).heal(healCount),
       this.startRule(RuleId.Smash)
     ]
   }

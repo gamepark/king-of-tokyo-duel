@@ -19,5 +19,6 @@ export enum RuleId {
   TitanicBatteries,
   UnstableDna,
   AfterDiceResolution,
-  ResolveDice
+  ResolveDice,
+  EndOfTurn
 }

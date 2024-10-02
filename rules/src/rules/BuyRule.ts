@@ -16,7 +16,7 @@ export class BuyRule extends BasePlayerTurnRule {
   onRuleStart(_move: RuleMove): MaterialMove[] {
     if (!this.getPurchasableCards().length) {
       if (this.boughtCards.length) {
-        return [this.startRule(RuleId.ChangePlayer)]
+        return [this.startRule(RuleId.EndOfTurn)]
       }
 
       return [this.customMove(CustomMoveType.Pass)]
@@ -26,7 +26,7 @@ export class BuyRule extends BasePlayerTurnRule {
   }
 
   getNextRule(): RuleMove {
-    return this.startRule(RuleId.ChangePlayer)
+    return this.startRule(RuleId.EndOfTurn)
   }
 
   getPlayerMoves() {
