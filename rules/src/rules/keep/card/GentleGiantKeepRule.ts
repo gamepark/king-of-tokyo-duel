@@ -3,6 +3,7 @@ import { DiceFace } from '../../../material/DiceFace'
 import { LocationType } from '../../../material/LocationType'
 import { MaterialType } from '../../../material/MaterialType'
 import { Pawn } from '../../../material/Pawn'
+import { KeepHelper } from '../../helper/KeepHelper'
 import { PullPawnHelper } from '../../helper/PullPawnHelper'
 import { KeepRule } from '../KeepRule'
 
@@ -18,8 +19,8 @@ export class GentleGiantKeepRule extends KeepRule {
   }
 
   get clawFaces() {
-      // TODO: count additional faces from keep effect ? +
-    return this.rolledClawDice
+    return this.rolledClawDice +
+      new KeepHelper(this.game).bonusDiceFaces.filter((f) => f === DiceFace.Claw).length
   }
 
   get rolledClawDice() {

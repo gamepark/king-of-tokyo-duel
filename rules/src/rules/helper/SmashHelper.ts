@@ -13,22 +13,20 @@ export class SmashHelper extends MaterialRulesPart {
   }
 
   smash(itemType: MaterialType, itemIndexes: number[], damages: number) {
+
+    const realDamages = damages - new KeepHelper(this.game).ignoredSmash(this.player, damages)
     const damageContext = {
       type: itemType,
       player: this.player,
       indexes: itemIndexes,
-      damages: damages
+      damages: realDamages
     }
 
+    if (!realDamages) return []
     const moves: MaterialMove[] = new KeepHelper(this.game).onSmashTaken(this.player, damageContext)
     if (moves.some(isChangingRule)) return moves
 
-    return [this.customMove(CustomMoveType.Smash, {
-      type: itemType,
-      player: this.player,
-      indexes: itemIndexes,
-      damages: damages
-    })]
+    return [this.customMove(CustomMoveType.Smash, damageContext)]
   }
 
   onSmash(damages: number) {

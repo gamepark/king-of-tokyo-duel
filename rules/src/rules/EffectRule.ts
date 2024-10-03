@@ -13,15 +13,18 @@ import { SmashEffectRule } from './effects/SmashEffectRule'
 import { TeslaImpulseEffectRule } from './effects/TeslaImpulseEffectRule'
 import { ThePartyIsOverEffectRule } from './effects/ThePartyIsOverEffectRule'
 import { WhiteDiceTokenEffectRule } from './effects/WhiteDiceTokenEffectRule'
+import { isChangingRule } from './IsChangingRule'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class EffectRule extends BasePlayerTurnRule {
   onRuleStart() {
     const effects = this.effects
+    console.log(effects)
     if (!effects.length) return [this.startRule(RuleId.Buy)]
     const effect = this.effect
     const moves = getEffectRule(this.game, effect).getMoves(effect)
+    if (moves.some(isChangingRule)) return moves
 
     if (effects.length > 1) {
       moves.push(this.startRule(RuleId.Effect))

@@ -11,7 +11,9 @@ import { RuleId } from './RuleId'
 export class SmashRule extends BasePlayerTurnRule {
   onRuleStart() {
     const claws = this.claws
-    return new SmashHelper(this.game, this.rival).smash(MaterialType.Dice, claws.getIndexes(), this.countClaws)
+    const smash = new SmashHelper(this.game, this.rival).smash(MaterialType.Dice, claws.getIndexes(), this.countClaws)
+    if (!smash.length) return [this.startRule(RuleId.ResolveDice)]
+    return smash
   }
 
   afterItemMove(move: ItemMove) {

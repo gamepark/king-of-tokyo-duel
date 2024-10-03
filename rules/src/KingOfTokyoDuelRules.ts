@@ -23,6 +23,7 @@ import { RollDiceRule } from './rules/RollDiceRule'
 import { RuleId } from './rules/RuleId'
 import { SmashRule } from './rules/SmashRule'
 import { SuperConductorRule } from './rules/SuperConductorRule'
+import { TeslaImpulseRule } from './rules/TeslaImpulseRule'
 import { TitanicBatteriesRule } from './rules/TitanicBatteriesRule'
 import { UnstableDnaRule } from './rules/UnstableDnaRule'
 
@@ -55,7 +56,8 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     [RuleId.UnstableDna]: UnstableDnaRule,
     [RuleId.AfterDiceResolution]: AfterDiceResolutionRule,
     [RuleId.ResolveDice]: ResolveDiceRule,
-    [RuleId.EndOfTurn]: EndOfTurnRule
+    [RuleId.EndOfTurn]: EndOfTurnRule,
+    [RuleId.TeslaImpulse]: TeslaImpulseRule
   }
 
   hidingStrategies = {

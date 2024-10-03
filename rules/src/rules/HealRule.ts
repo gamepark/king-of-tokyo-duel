@@ -13,7 +13,7 @@ export class HealRule extends BasePlayerTurnRule {
     const healCount = this.countHeal
     return [
       ...new HealHelper(this.game, this.player).heal(healCount),
-      this.startRule(RuleId.Smash)
+      this.startRule(RuleId.ResolveDice)
     ]
   }
 

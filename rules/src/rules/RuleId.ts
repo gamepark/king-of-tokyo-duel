@@ -20,5 +20,6 @@ export enum RuleId {
   UnstableDna,
   AfterDiceResolution,
   ResolveDice,
-  EndOfTurn
+  EndOfTurn,
+  TeslaImpulse
 }

@@ -7,6 +7,7 @@ import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { Effect } from './effects/EffectType'
+import { EffectHelper } from './helper/EffectHelper'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
@@ -61,8 +62,10 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
 
   afterItemMove(move: ItemMove) {
     if (!isMoveItemType(MaterialType.Buzz)(move)) return []
-    if (this.effects.length) {
-      return [this.startRule(RuleId.Effect)]
+
+    const effects = new EffectHelper(this.game, this.player).applyEffectMoves()
+    if (effects.length) {
+      return effects
     }
 
     return [this.startRule(RuleId.Buy)]

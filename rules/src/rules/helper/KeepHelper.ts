@@ -110,7 +110,7 @@ export class KeepHelper extends MaterialRulesPart {
   }
 
   ignoredSmash(player: Monster, damages?: number): number {
-    return sumBy(this.keepCardsIndexes, (index) => this.getEffectRule(index)?.igoredSmash(player, damages) ?? 0)
+    return sumBy(this.keepCardsIndexes, (index) => this.getEffectRule(index)?.ignoredSmash(player, damages) ?? 0)
   }
 
   get buzzBonusAlternatives(): number[] {
