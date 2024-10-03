@@ -13,7 +13,7 @@ import { RuleId } from './RuleId'
 
 export class MoveBuzzTokenRule extends BasePlayerTurnRule {
   onRuleStart() {
-    return []
+    return this.getPlayerMoves().length === 0 ? this.startNextRule : []
   }
 
   getPlayerMoves() {
@@ -61,14 +61,16 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
   }
 
   afterItemMove(move: ItemMove) {
-    if (!isMoveItemType(MaterialType.Buzz)(move)) return []
+    return isMoveItemType(MaterialType.Buzz)(move) ? this.startNextRule : []
+  }
 
+  get startNextRule() {
     const effects = new EffectHelper(this.game, this.player).applyEffectMoves()
     if (effects.length) {
       return effects
+    } else {
+      return [this.startRule(RuleId.Buy)]
     }
-
-    return [this.startRule(RuleId.Buy)]
   }
 
   get effects() {
