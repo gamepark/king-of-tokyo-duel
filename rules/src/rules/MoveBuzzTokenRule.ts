@@ -1,4 +1,4 @@
-import { getPolyhexSpaces, HexGridSystem, isMoveItemType, ItemMove, Location } from '@gamepark/rules-api'
+import { axialToEvenQ, getPolyhexSpaces, HexGridSystem, isMoveItemType, ItemMove, Location, oddQToAxial } from '@gamepark/rules-api'
 import range from 'lodash/range'
 import { Buzz, buzzDescriptions } from '../material/Buzz'
 import { PowerCard } from '../material/cards/PowerCard'
@@ -25,7 +25,7 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
       const freeSpaces = this.getTrackFreeSpaces(track)
       for (const x of freeSpaces) {
         for (const rotation of rotations) {
-          if (buzzSize === 1 || this.getBuzzSpaces({ x, rotation }).every(hex => hex.y === 0 && freeSpaces.includes(hex.x))) {
+          if (buzzSize === 1 || this.getBuzzSpaces({ type: track, x, rotation }).every(hex => hex.y === 0 && freeSpaces.includes(hex.x))) {
             validLocations.push({ type: track, x, y: 0, rotation })
           }
         }
@@ -38,8 +38,13 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
     )
   }
 
-  getBuzzSpaces(location: Partial<Location>, buzz: Buzz = this.buzz!) {
-    return getPolyhexSpaces(this.getBuzzShape(buzz), location, HexGridSystem.OddQ)
+  getBuzzSpaces(location: Location, buzz: Buzz = this.buzz!) {
+    if (location.type === LocationType.FameTrack) {
+      const shape = this.getBuzzShape(buzz).map(oddQToAxial).map(axialToEvenQ)
+      return getPolyhexSpaces(shape, location, HexGridSystem.EvenQ)
+    } else {
+      return getPolyhexSpaces(this.getBuzzShape(buzz), location, HexGridSystem.OddQ)
+    }
   }
 
   getBuzzShape(buzz: Buzz = this.buzz!) {
