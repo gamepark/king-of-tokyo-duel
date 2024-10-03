@@ -13,22 +13,7 @@ import { RuleId } from './RuleId'
 
 export class MoveBuzzTokenRule extends BasePlayerTurnRule {
   onRuleStart() {
-    const buzz = this.buzz
-    if (buzz !== undefined && buzz !== Buzz.TheKingBuzz) {
-      const buzzItem = this.material(MaterialType.Buzz).id(buzz).getItem<Buzz>()!
-      if (buzzItem.location.type === LocationType.FameTrack || buzzItem.location.type === LocationType.DestructionTrack) {
-        const buzzSpaces = this.getBuzzSpaces(buzzItem.location, buzz)
-        const pawnItem = this.material(MaterialType.Pawn).location(buzzItem.location.type).getItem()!
-        if (buzzSpaces.some(space => space.x === pawnItem.location.x)) {
-          // The fame or destruction marker is on the buzz token, it cannot be moved
-          return this.startNextRule
-        } else {
-          // The buzz token is on the track: move it up a little bit so that player can rotate it and replace it on the original spot or wherever he likes
-          return [this.material(MaterialType.Buzz).id(buzz).moveItem(item => ({ ...item.location, y: -1 }))]
-        }
-      }
-    }
-    return this.getPlayerMoves().length === 0 ? this.startNextRule : []
+    return []
   }
 
   getPlayerMoves() {
@@ -70,21 +55,20 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
   getTrackFreeSpaces(track: LocationType) {
     const pawns = this.material(MaterialType.Pawn).location(track).getItems()
     const buzzItems = this.material(MaterialType.Buzz).location(track).getItems<Buzz>()
+    // TODO: ignore the buzz being moved if size > 1 so that it can be moved and still recover partially its old location
     const buzzSpaces = buzzItems.flatMap(item => this.getBuzzSpaces(item.location, item.id))
     return range(-7, 8).filter(x => !pawns.some(pawn => pawn.location.x === x) && !buzzSpaces.some(space => space.x === x))
   }
 
   afterItemMove(move: ItemMove) {
-    return isMoveItemType(MaterialType.Buzz)(move) ? this.startNextRule : []
-  }
+    if (!isMoveItemType(MaterialType.Buzz)(move)) return []
 
-  get startNextRule() {
     const effects = new EffectHelper(this.game, this.player).applyEffectMoves()
     if (effects.length) {
       return effects
-    } else {
-      return [this.startRule(RuleId.Buy)]
     }
+
+    return [this.startRule(RuleId.Buy)]
   }
 
   get effects() {
