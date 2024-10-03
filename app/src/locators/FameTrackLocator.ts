@@ -1,8 +1,8 @@
-import { HexagonalGridCoordinatesSystem } from '@gamepark/rules-api'
+import { HexGridSystem } from '@gamepark/rules-api'
 import { TrackLocator } from './TrackLocator'
 
 export class FameTrackLocator extends TrackLocator {
-  coordinatesSystem = HexagonalGridCoordinatesSystem.EvenQ
+  coordinatesSystem = HexGridSystem.EvenQ
   positionOnParent = { x: 50, y: 34 }
 }
 

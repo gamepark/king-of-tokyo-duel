@@ -1,7 +1,7 @@
 import { MaterialGameSetup } from '@gamepark/rules-api'
 import { KingOfTokyoDuelOptions } from './KingOfTokyoDuelOptions'
 import { KingOfTokyoDuelRules } from './KingOfTokyoDuelRules'
-import { Buzz, commonBuzz } from './material/Buzz'
+import { Buzz, buzzDescriptions, commonBuzz } from './material/Buzz'
 import { powerCards } from './material/cards/PowerCard'
 import { DiceColor } from './material/DiceColor'
 import { HealthCounter } from './material/HealthCounter'
@@ -40,10 +40,11 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<Monster, MaterialTyp
   }
 
   setupBuzzToken() {
-    const items = commonBuzz.map((b) => ({
-      id: b,
+    const items = commonBuzz.map(buzz => ({
+      id: buzz,
       location: {
-        type: LocationType.BuzzStock
+        type: LocationType.BuzzStock,
+        rotation: buzzDescriptions[buzz].effects.length === 2 ? 5.5 : 0
       }
     }))
 

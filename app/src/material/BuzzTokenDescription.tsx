@@ -1,6 +1,6 @@
 import { Buzz, buzzDescriptions } from '@gamepark/king-of-tokyo-duel/material/Buzz'
 import { PolyhexDescription } from '@gamepark/react-game'
-import { HexagonalGridCoordinatesSystem, MaterialItem } from '@gamepark/rules-api'
+import { HexGridSystem, MaterialItem } from '@gamepark/rules-api'
 import Buzz1 from '../images/buzz_token/buzz_1.png'
 import Buzz10 from '../images/buzz_token/buzz_10.png'
 import Buzz11 from '../images/buzz_token/buzz_11.png'
@@ -16,7 +16,7 @@ import Buzz9 from '../images/buzz_token/buzz_9.png'
 
 export class BuzzTokenDescription extends PolyhexDescription {
 
-  coordinatesSystem = HexagonalGridCoordinatesSystem.OddQ
+  coordinatesSystem = HexGridSystem.OddQ
 
   getSize(id: Buzz) {
     return tokenSizes[id]

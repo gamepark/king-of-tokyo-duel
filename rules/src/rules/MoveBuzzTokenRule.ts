@@ -1,5 +1,7 @@
-import { isMoveItemType, ItemMove, Location } from '@gamepark/rules-api'
+import { getPolyhexSpaces, HexGridSystem, isMoveItemType, ItemMove, Location } from '@gamepark/rules-api'
 import range from 'lodash/range'
+import { Buzz, buzzDescriptions } from '../material/Buzz'
+import { PowerCard } from '../material/cards/PowerCard'
 import { powerCardCharacteristics } from '../material/cards/PowerCardCharacteristics'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
@@ -14,17 +16,42 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
   }
 
   getPlayerMoves() {
-    const validLocations: Location[] = range(-7, 7).filter(x => x !== 0).map(x => (
-      { type: LocationType.DestructionTrack, x, y: 0, rotation: 0 }
-    ))
-    validLocations.push(...range(-7, 7).filter(x => x !== 0).map(x => (
-      { type: LocationType.FameTrack, x, y: 0, rotation: 0 }
-    )))
+    const buzz = this.buzz
+    if (buzz === undefined) return []
+    const buzzSize = buzzDescriptions[buzz].effects.length
+    const rotations = buzzSize === 1 ? [0] : buzzSize === 2 ? [0, 2, 3, 5] : [0, 3]
+    const validLocations: Location[] = []
+    for (const track of [LocationType.FameTrack, LocationType.DestructionTrack]) {
+      const freeSpaces = this.getTrackFreeSpaces(track)
+      for (const x of freeSpaces) {
+        for (const rotation of rotations) {
+          if (buzzSize === 1 || this.getBuzzSpaces({ x, rotation }).every(hex => hex.y === 0 && freeSpaces.includes(hex.x))) {
+            validLocations.push({ type: track, x, y: 0, rotation })
+          }
+        }
+      }
+    }
     return super.getPlayerMoves().concat(
       ...validLocations.map(location =>
-        this.material(MaterialType.Buzz).id(this.buzz).moveItem(location)
+        this.material(MaterialType.Buzz).id(buzz).moveItem(location) // TODO moveItems for king buzz
       )
     )
+  }
+
+  getBuzzSpaces(location: Partial<Location>, buzz: Buzz = this.buzz!) {
+    return getPolyhexSpaces(this.getBuzzShape(buzz), location, HexGridSystem.OddQ)
+  }
+
+  getBuzzShape(buzz: Buzz = this.buzz!) {
+    return buzzDescriptions[buzz].effects.map((_, x) => ({ x, y: 0 }))
+  }
+
+  getTrackFreeSpaces(track: LocationType) {
+    const pawns = this.material(MaterialType.Pawn).location(track).getItems()
+    const buzzItems = this.material(MaterialType.Buzz).location(track).getItems<Buzz>()
+    // TODO: ignore the buzz being moved if size > 1 so that it can be moved and still recover partially its old location
+    const buzzSpaces = buzzItems.flatMap(item => this.getBuzzSpaces(item.location, item.id))
+    return range(-7, 8).filter(x => !pawns.some(pawn => pawn.location.x === x) && !buzzSpaces.some(space => space.x === x))
   }
 
   afterItemMove(move: ItemMove) {
@@ -33,7 +60,7 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
       return [this.startRule(RuleId.Effect)]
     }
 
-    return [this.startRule(RuleId.EndOfTurn)]
+    return [this.startRule(RuleId.Buy)]
   }
 
   get effects() {
@@ -41,16 +68,16 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
   }
 
   get buzz() {
-    const bougthCards = this.remind(Memory.BoughtCards) ?? []
-    const card = bougthCards[bougthCards.length - 1]
+    const boughtCards = this.remind(Memory.BoughtCards) ?? []
+    const card = boughtCards[boughtCards.length - 1]
     if (card === undefined) {
-      console.error("If we are in move token rule, a bought card MUST be present")
+      console.error('If we are in move token rule, a bought card MUST be present')
     }
 
-    const item = this.material(MaterialType.PowerCard).getItem(card)!
-    const buzz = powerCardCharacteristics[item.id].buzz
+    const item = this.material(MaterialType.PowerCard).getItem<PowerCard>(card)!
+    const buzz = powerCardCharacteristics[item.id!].buzz
     if (buzz === undefined) {
-      console.error("The last bought card has NO buzz token")
+      console.error('The last bought card has NO buzz token')
     }
 
     return buzz
