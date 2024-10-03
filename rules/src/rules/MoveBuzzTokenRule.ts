@@ -70,7 +70,6 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
   getTrackFreeSpaces(track: LocationType) {
     const pawns = this.material(MaterialType.Pawn).location(track).getItems()
     const buzzItems = this.material(MaterialType.Buzz).location(track).getItems<Buzz>()
-    // TODO: ignore the buzz being moved if size > 1 so that it can be moved and still recover partially its old location
     const buzzSpaces = buzzItems.flatMap(item => this.getBuzzSpaces(item.location, item.id))
     return range(-7, 8).filter(x => !pawns.some(pawn => pawn.location.x === x) && !buzzSpaces.some(space => space.x === x))
   }
