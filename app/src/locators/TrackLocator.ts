@@ -13,7 +13,7 @@ export abstract class TrackLocator extends HexagonalGridLocator {
     const { x = 0, y = 0 } = super.getItemCoordinates(item, context)
     if (context.type === MaterialType.Pawn) {
       if (item.id === Pawn.Fame) {
-        return { x: x - 0.1, y: y - 0.8 }
+        return { x: x - 0.1, y: y - 0.8, z: 0.1 }
       } else {
         return { x: x + 0.3, y: y - 0.8 }
       }
