@@ -1,9 +1,10 @@
-import { CustomMove, isCustomMoveType, isEndGame, isStartPlayerTurn, isStartRule, MaterialMove } from '@gamepark/rules-api'
+import { CustomMove, isCustomMoveType, MaterialMove } from '@gamepark/rules-api'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
 import { KeepHelper } from './helper/KeepHelper'
+import { isChangingRule } from './IsChangingRule'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
@@ -15,12 +16,14 @@ export class RollDiceRule extends BasePlayerTurnRule {
   getPlayerMoves() {
     const rollCount = this.rollCount
 
+
+    const moves: MaterialMove[] = super.getPlayerMoves()
     if (!rollCount) {
-      return [this.customMove(CustomMoveType.Roll)]
+      moves.push(this.customMove(CustomMoveType.Roll))
+      return moves
     }
 
 
-    const moves: MaterialMove[] = []
     const takeDiceInHand = this.getDiceInHand()
     if (takeDiceInHand.length) {
       moves.push(this.customMove(CustomMoveType.RollAll))
@@ -54,6 +57,7 @@ export class RollDiceRule extends BasePlayerTurnRule {
 
   onCustomMove(move: CustomMove) {
     const moves: MaterialMove[] = super.onCustomMove(move)
+    if (moves.some(isChangingRule)) return moves
     if (isCustomMoveType(CustomMoveType.RollAll)(move)) {
       moves.push(...this.getDiceInHand())
       moves.push(this.customMove(CustomMoveType.Roll))
@@ -73,10 +77,10 @@ export class RollDiceRule extends BasePlayerTurnRule {
           player: this.player
         })
       )
-    }
 
-    if (!this.canRollADice) {
-      moves.push(this.customMove(CustomMoveType.Pass))
+      if (!this.canRollADice) {
+        moves.push(this.customMove(CustomMoveType.Pass))
+      }
     }
 
     return moves
@@ -84,9 +88,7 @@ export class RollDiceRule extends BasePlayerTurnRule {
 
   goToPhase2(): MaterialMove[] {
     const moves = new KeepHelper(this.game).afterRollingDice()
-    if (moves.some((move) => isStartPlayerTurn(move) || isStartRule(move) || isEndGame(move))) {
-      return moves
-    }
+    if (moves.some(isChangingRule)) return moves
 
     moves.push(this.startRule(RuleId.ResolveDice))
     return moves

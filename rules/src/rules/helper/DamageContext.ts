@@ -1,9 +1,10 @@
 import { MaterialType } from '../../material/MaterialType'
 import { Monster } from '../../material/Monster'
 
-export type DamageSource = {
+export type DamageContext = {
   indexes: number[]
   type: MaterialType
   player: Monster,
-  damages: number
+  damages: number,
+  preventedDamages: number
 }

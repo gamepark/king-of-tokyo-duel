@@ -1,13 +1,15 @@
-import { CustomMove, isCustomMoveType, isStartRule, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
+import { CustomMove, isCustomMoveType, MaterialMove } from '@gamepark/rules-api'
 import { DiceColor } from '../material/DiceColor'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
+import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
 import { KeepHelper } from './helper/KeepHelper'
+import { isChangingRule } from './IsChangingRule'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
-export class ChangePlayerRule extends PlayerTurnRule {
+export class ChangePlayerRule extends BasePlayerTurnRule {
 
   onRuleStart() {
     const white = this.whiteDice
@@ -50,10 +52,10 @@ export class ChangePlayerRule extends PlayerTurnRule {
   }
 
   onCustomMove(move: CustomMove) {
+    const moves = super.onCustomMove(move)
+    if (moves.some(isChangingRule)) return moves
     const nextPlayer = this.computeNextPlayer()
-    if (!isCustomMoveType(CustomMoveType.ChangePlayer)(move)) return []
-    const moves = new KeepHelper(this.game).atEndOfTurn()
-    if (moves.some(isStartRule)) return moves
+    if (!isCustomMoveType(CustomMoveType.ChangePlayer)(move)) return moves
     this.forget(Memory.FreeTurn)
 
     moves.push(this.startPlayerTurn(RuleId.RollDice, nextPlayer))

@@ -15,9 +15,7 @@ export class PullDestructionPawnRule extends BasePlayerTurnRule {
     const moves: MaterialMove[] = []
     const helper = new PullPawnHelper(this.game, this.player)
     moves.push(...helper.pull(Pawn.Destruction, this.countMoves))
-    if (moves.some(isChangingRule)) {
-      return moves
-    }
+    if (moves.some(isChangingRule)) return moves
 
     moves.push(this.startRule(RuleId.ResolveDice))
     return moves

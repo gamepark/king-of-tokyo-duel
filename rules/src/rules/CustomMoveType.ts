@@ -5,5 +5,6 @@ export enum CustomMoveType {
   Pass,
   ChangePlayer,
   RollAll,
-  Ignore
+  Ignore,
+  PullPawn
 }

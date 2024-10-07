@@ -1,8 +1,7 @@
-import { CustomMove, isCustomMoveType, isMoveItemType, ItemMove, PlayerTurnRule, RuleMove } from '@gamepark/rules-api'
+import { CustomMove, isCustomMoveType, PlayerTurnRule, RuleMove } from '@gamepark/rules-api'
 import { DiceFace } from '../material/DiceFace'
-import { MaterialType } from '../material/MaterialType'
 import { CustomMoveType } from './CustomMoveType'
-import { KeepHelper } from './helper/KeepHelper'
+import { PullPawnHelper } from './helper/PullPawnHelper'
 import { SmashHelper } from './helper/SmashHelper'
 import { Memory } from './Memory'
 
@@ -17,19 +16,10 @@ export class BasePlayerTurnRule extends PlayerTurnRule {
     if (isCustomMoveType(CustomMoveType.Smash)(move)) {
       return new SmashHelper(this.game, move.data.player).onSmash(move.data.damages)
     }
-
-    return []
-  }
-
-  beforeItemMove(move: ItemMove) {
-    if (isMoveItemType(MaterialType.Pawn)(move)) {
-      const item = this.material(MaterialType.Pawn).getItem(move.itemIndex)
-      if (item.location.x! > move.location.x! || item.location.y! > move.location.y!) {
-        // FIXME: compute moves distances
-        const count = (item.location.y! - move.location.y!) + (item.location.x! - move.location.x!)
-        if (count === 0) return []
-        return new KeepHelper(this.game).afterPullPawn(item.id, count)
-      }
+    if (isCustomMoveType(CustomMoveType.PullPawn)(move)) {
+      return [
+        ...new PullPawnHelper(this.game, move.data.player).onPullPawn(move.data.pawn, move.data.count)
+      ]
     }
 
     return []

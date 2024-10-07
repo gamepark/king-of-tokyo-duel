@@ -11,5 +11,7 @@ export enum Memory {
   PreviousRule,
   SuspendedDamages,
   TitanicBatteries,
-  DiceFacesSolved
+  DiceFacesSolved,
+  CamouflageRolledDiceCount,
+  FrozenMoves
 }

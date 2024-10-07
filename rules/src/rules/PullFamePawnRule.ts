@@ -15,9 +15,7 @@ export class PullFamePawnRule extends BasePlayerTurnRule {
     const moves: MaterialMove[] = []
     const helper = new PullPawnHelper(this.game, this.player)
     moves.push(...helper.pull(Pawn.Fame,  this.countMoves))
-    if (moves.some(isChangingRule)) {
-      return moves
-    }
+    if (moves.some(isChangingRule)) return moves
 
     moves.push(this.startRule(RuleId.ResolveDice))
     return moves
@@ -26,12 +24,6 @@ export class PullFamePawnRule extends BasePlayerTurnRule {
   get fameDice() {
     return this.dice
       .rotation(DiceFace.Fame)
-      .length
-  }
-
-  get destructionDice() {
-    return this.dice
-      .rotation(DiceFace.Destruction)
       .length
   }
 

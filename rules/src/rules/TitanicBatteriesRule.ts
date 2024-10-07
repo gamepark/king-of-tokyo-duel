@@ -4,22 +4,29 @@ import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
+import { isChangingRule } from './IsChangingRule'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class TitanicBatteriesRule extends BasePlayerTurnRule {
   getPlayerMoves() {
-    return this
-      .dice
-      .moveItems({
-        type: LocationType.OnPowerCard,
-        parent: this.material(MaterialType.PowerCard).id(PowerCard.TitanicBatteries).getIndex(),
-        player: this.rival
-      })
+    const moves = super.getPlayerMoves()
+    moves.push(
+      ...this
+        .dice
+        .moveItems({
+          type: LocationType.OnPowerCard,
+          parent: this.material(MaterialType.PowerCard).id(PowerCard.TitanicBatteries).getIndex(),
+          player: this.rival
+        })
+    )
+
+    return moves
   }
 
   onCustomMove(move: CustomMove): MaterialMove[] {
     const moves = super.onCustomMove(move)
+    if (moves.some(isChangingRule)) return moves
     if (isCustomMoveType(CustomMoveType.Ignore)(move)) {
       moves.push(this.startRule(RuleId.ResolveDice))
     }
@@ -28,19 +35,22 @@ export class TitanicBatteriesRule extends BasePlayerTurnRule {
   }
 
   afterItemMove(move: ItemMove) {
-    if (!isMoveItemType(MaterialType.Dice)(move) || move.location.type !== LocationType.OnPowerCard) return []
+    const moves = super.afterItemMove(move)
+    if (moves.some(isChangingRule)) return moves
+    if (!isMoveItemType(MaterialType.Dice)(move) || move.location.type !== LocationType.OnPowerCard) return moves
     this.incrementIgnoredDice()
     if (this.ignoredDice === 2) {
-      return [
+      moves.push(
         this.material(MaterialType.DiceToken).createItem({
           location: {
             type: LocationType.PlayerDiceToken,
             player: this.player
           }
-        }),
+        })
+      )
 
-        this.startRule(RuleId.ResolveDice)
-      ]
+      moves.push(this.startRule(RuleId.ResolveDice))
+      return moves
     }
 
     return []

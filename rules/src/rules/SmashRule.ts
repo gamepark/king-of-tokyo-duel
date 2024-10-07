@@ -5,6 +5,7 @@ import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { KeepHelper } from './helper/KeepHelper'
 import { SmashHelper } from './helper/SmashHelper'
+import { isChangingRule } from './IsChangingRule'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
@@ -17,10 +18,14 @@ export class SmashRule extends BasePlayerTurnRule {
   }
 
   afterItemMove(move: ItemMove) {
-    if (!isMoveItemType(MaterialType.HealthCounter)(move)) return []
+    const moves = super.afterItemMove(move)
+    if (moves.some(isChangingRule)) return moves
+    if (!isMoveItemType(MaterialType.HealthCounter)(move)) return moves
     const wheel = this.opponentCounter.getItem()!
     if (wheel.location.rotation === 0) return [this.endGame()]
-    return [this.startRule(RuleId.ResolveDice)]
+    moves.push(this.startRule(RuleId.ResolveDice))
+
+    return moves
   }
 
   get rival() {

@@ -1,4 +1,4 @@
-import { Material, MaterialGame, MaterialMove, MaterialRulesPart } from '@gamepark/rules-api'
+import { CustomMove, ItemMove, Material, MaterialGame, MaterialMove, MaterialRulesPart } from '@gamepark/rules-api'
 import sumBy from 'lodash/sumBy'
 import { PowerCard } from '../../material/cards/PowerCard'
 import { DiceFace } from '../../material/DiceFace'
@@ -38,7 +38,7 @@ import { UnstableDnaKeepRule } from '../keep/card/UnstableDnaKeepRule'
 import { UnstoppableKeepRule } from '../keep/card/UnstoppableKeepRule'
 import { UtterDestructionKeepRule } from '../keep/card/UtterDestructionKeepRule'
 import { KeepRule } from '../keep/KeepRule'
-import { DamageSource } from './DamageSource'
+import { DamageContext } from './DamageContext'
 
 export class KeepHelper extends MaterialRulesPart {
   private keepCards: Material
@@ -99,9 +99,9 @@ export class KeepHelper extends MaterialRulesPart {
       .flatMap((index) => this.getEffectRule(index)?.afterPullPawn(pawn, count) ?? [])
   }
 
-  onSmashTaken(player: Monster, source: DamageSource): MaterialMove[] {
+  beforeSmashTaken(player: Monster, source: DamageContext): MaterialMove[] {
     return this.keepCardsIndexes
-      .flatMap((index) => this.getEffectRule(index)?.onSmashTaken(player, source) ?? [])
+      .flatMap((index) => this.getEffectRule(index)?.beforeSmashTaken(player, source) ?? [])
   }
 
   afterSmashTakenComputed(player: Monster, damages: number): MaterialMove[] {
@@ -111,6 +111,10 @@ export class KeepHelper extends MaterialRulesPart {
 
   ignoredSmash(player: Monster, damages?: number): number {
     return sumBy(this.keepCardsIndexes, (index) => this.getEffectRule(index)?.ignoredSmash(player, damages) ?? 0)
+  }
+
+  immune(player: Monster, damages?: number): boolean {
+    return this.keepCardsIndexes.some((index) => this.getEffectRule(index)?.immune(player, damages))
   }
 
   get buzzBonusAlternatives(): number[] {
@@ -123,10 +127,24 @@ export class KeepHelper extends MaterialRulesPart {
       .flatMap((index) => this.getEffectRule(index)?.afterPullPawn(pawn, count) ?? [])
   }
 
-  // TODO
   get allowedMovesDuringTurn(): MaterialMove[] {
     return this.keepCardsIndexes
       .flatMap((index) => this.getEffectRule(index)?.allowedMovesDuringTurn ?? [])
+  }
+
+  afterItemMove(move: ItemMove): MaterialMove[] {
+    return this.keepCardsIndexes
+      .flatMap((index) => this.getEffectRule(index)?.afterItemMove(move) ?? [])
+  }
+
+  beforeItemMove(move: ItemMove): MaterialMove[] {
+    return this.keepCardsIndexes
+      .flatMap((index) => this.getEffectRule(index)?.beforeItemMove(move) ?? [])
+  }
+
+  onCustomMove(move: CustomMove): MaterialMove[] {
+    return this.keepCardsIndexes
+      .flatMap((index) => this.getEffectRule(index)?.onCustomMove(move) ?? [])
   }
 
   onBuyPowerCard(): MaterialMove[] {

@@ -30,7 +30,7 @@ export class BuyRule extends BasePlayerTurnRule {
   }
 
   getPlayerMoves() {
-    const moves: MaterialMove[] = []
+    const moves: MaterialMove[] = super.getPlayerMoves()
     if (!this.boughtCards.length) moves.push(this.customMove(CustomMoveType.Pass))
 
     moves.push(
@@ -51,33 +51,27 @@ export class BuyRule extends BasePlayerTurnRule {
   }
 
   beforeItemMove(move: ItemMove) {
-    if (!isMoveItemType(MaterialType.PowerCard)(move) || move.location.type === LocationType.PowerCardOnBoard) return []
+    const moves = super.beforeItemMove(move)
+    if (moves.some(isChangingRule)) return moves
+    if (!isMoveItemType(MaterialType.PowerCard)(move) || move.location.type === LocationType.PowerCardOnBoard) return moves
     const item = this.material(MaterialType.PowerCard).getItem(move.itemIndex)!
-    return [
-      this.energies.deleteItem(this.getCost(item))
-    ]
+    moves.push(this.energies.deleteItem(this.getCost(item)))
+    return moves
   }
 
   onCustomMove(move: CustomMove) {
     const moves = super.onCustomMove(move)
+    if (moves.some(isChangingRule)) return moves
     if (!isCustomMoveType(CustomMoveType.Pass)(move)) return moves
     moves.push(...new EnergyHelper(this.game, this.player).gain(1))
     return moves
   }
 
-  get powerCardDeck() {
-    return this
-      .material(MaterialType.PowerCard)
-      .location(LocationType.PowerCardDeck)
-      .deck()
-  }
-
   afterItemMove(move: ItemMove) {
-    const moves: MaterialMove[] = []
+    const moves: MaterialMove[] = super.afterItemMove(move)
+    if (moves.some(isChangingRule)) return moves
     if (isMoveItemType(MaterialType.PowerCard)(move) && move.location.type !== LocationType.PowerCardOnBoard) {
-      const powerCardDeck = this.powerCardDeck
       this.memorizeBoughtCard(move.itemIndex)
-      if (this.powerCardDeck.length) moves.push(powerCardDeck.dealOne({ type: LocationType.PowerCardOnBoard }))
 
       const item = this.material(MaterialType.PowerCard).getItem(move.itemIndex)!
       const buzz = powerCardCharacteristics[item.id].buzz

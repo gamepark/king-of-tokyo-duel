@@ -13,18 +13,27 @@ export class SmashHelper extends MaterialRulesPart {
   }
 
   smash(itemType: MaterialType, itemIndexes: number[], damages: number) {
-
-    const realDamages = damages - new KeepHelper(this.game).ignoredSmash(this.player, damages)
     const damageContext = {
       type: itemType,
       player: this.player,
       indexes: itemIndexes,
-      damages: realDamages
+      damages: damages,
+      preventedDamages: 0
     }
 
+    const moves: MaterialMove[] = new KeepHelper(this.game).beforeSmashTaken(this.player, damageContext)
+    if (moves.some(isChangingRule)) {
+      this.memorize(Memory.SuspendedDamages, damageContext)
+      return moves
+    }
+
+    const prevented = new KeepHelper(this.game).ignoredSmash(this.player, damages)
+    const immune = new KeepHelper(this.game).immune(this.player, damages)
+    if (immune) return []
+    const realDamages = damages - prevented
+    damageContext.damages = realDamages
+    damageContext.preventedDamages = prevented
     if (!realDamages) return []
-    const moves: MaterialMove[] = new KeepHelper(this.game).onSmashTaken(this.player, damageContext)
-    if (moves.some(isChangingRule)) return moves
 
     return [this.customMove(CustomMoveType.Smash, damageContext)]
   }
@@ -35,7 +44,6 @@ export class SmashHelper extends MaterialRulesPart {
     const moves: MaterialMove[] = [
       wheel.rotateItem((item) => Math.max(item.location.rotation - damages, 0)),
     ]
-
     if (!wheel.getItem()!.location.rotation) {
       moves.push(this.endGame())
       return moves

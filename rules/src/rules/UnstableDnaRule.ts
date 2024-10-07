@@ -8,15 +8,5 @@ export class UnstableDnaRule extends BasePlayerTurnRule {
     return []
   }
 
-  getNextRuleMove(): MaterialMove | undefined {
-    const previousRule = this.remind(Memory.PreviousRule)
-    if (this.player === previousRule.player) {
-      return this.startRule(previousRule.id)
-    }
-    return this.startPlayerTurn(previousRule.id, previousRule.player)
-
-    return
-  }
-
   // TODO: do effect and then call this.nextRuleMove
 }

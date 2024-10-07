@@ -4,7 +4,7 @@ import { LocationType } from '../../material/LocationType'
 import { MaterialType } from '../../material/MaterialType'
 import { Monster } from '../../material/Monster'
 import { Pawn } from '../../material/Pawn'
-import { DamageSource } from '../helper/DamageSource'
+import { DamageContext } from '../helper/DamageContext'
 import { Memory } from '../Memory'
 
 export class KeepRule extends MaterialRulesPart {
@@ -49,7 +49,7 @@ export class KeepRule extends MaterialRulesPart {
     return []
   }
 
-  onSmashTaken(_player: Monster, _source: DamageSource): MaterialMove[] {
+  beforeSmashTaken(_player: Monster, _source: DamageContext): MaterialMove[] {
     return []
   }
 
@@ -59,6 +59,10 @@ export class KeepRule extends MaterialRulesPart {
 
   ignoredSmash(_player: Monster, _damages?: number): number {
     return 0
+  }
+
+  immune(_player: Monster, _damages: number): boolean {
+    return false
   }
 
   // TODO: replace number by effect type

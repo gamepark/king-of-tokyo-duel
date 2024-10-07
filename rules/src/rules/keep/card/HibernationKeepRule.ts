@@ -3,9 +3,9 @@ import { RuleId } from '../../RuleId'
 import { KeepRule } from '../KeepRule'
 
 export class HibernationKeepRule extends KeepRule {
-  ignoredSmash() {
-    if (this.getActivePlayer() !== this.cardPlayer) return 0
-    return Infinity
+  immune() {
+    if (this.getActivePlayer() !== this.cardPlayer) return true
+    return true
   }
 
   atStartOfTurn(): MaterialMove[] {

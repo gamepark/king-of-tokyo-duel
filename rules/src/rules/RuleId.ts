@@ -1,4 +1,4 @@
-export enum RuleId {
+  export enum RuleId {
   RollDice = 1,
   PullFamePawn,
   PullDestructionPawn,
