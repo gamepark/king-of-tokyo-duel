@@ -1,7 +1,6 @@
-  export enum RuleId {
+export enum RuleId {
   RollDice = 1,
   PullPawn,
-  PullDestructionPawn,
   GainEnergy,
   Smash,
   Buy,
@@ -22,9 +21,9 @@
   ResolveDice,
   EndOfTurn,
   TeslaImpulse,
-    PreventDamages,
-    GainWhiteDiceToken,
-    ThePartyIsOver,
+  PreventDamages,
+  GainWhiteDiceToken,
+  ThePartyIsOver,
   // TODO: REMOVE IT (FreeTurn)
   FreeTurn,
   OperationMedia
