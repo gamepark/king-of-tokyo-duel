@@ -1,45 +1,26 @@
-import { DiceFace } from '../material/DiceFace'
+import { MaterialMove } from '@gamepark/rules-api/dist/material/moves/MaterialMove'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
-import { BasePlayerTurnRule } from './BasePlayerTurnRule'
-import { EnergyHelper } from './helper/EnergyHelper'
-import { KeepHelper } from './helper/KeepHelper'
-import { Memory } from './Memory'
+import { BasePlayerTurnEffectRule } from './BasePlayerTurnEffectRule'
+import { GainEnergy } from './effects/EffectType'
 import { RuleId } from './RuleId'
 
-export class GainEnergyRule extends BasePlayerTurnRule {
+export class GainEnergyRule extends BasePlayerTurnEffectRule<GainEnergy> {
 
   onRuleStart() {
-    return [
-      ...new EnergyHelper(this.game, this.player).gain(this.countEnergy),
-      this.startRule(RuleId.ResolveDice)
-    ]
-  }
+    const moves: MaterialMove[] = []
+    moves.push(
+      this.material(MaterialType.Energy).createItem({
+        location: {
+          type: LocationType.PlayerEnergy,
+          player: this.currentEffect.target
+        },
+        quantity: this.currentEffect.effect.count
+      })
+    )
 
-  get dice() {
-    return this
-      .material(MaterialType.Dice)
-      .location(LocationType.PlayerRolledDice)
-      .player(this.player)
-  }
+    moves.push(this.startRule(RuleId.Effect))
 
-  get energyDice() {
-    return this
-      .dice
-      .rotation(DiceFace.Energy)
-      .length
-  }
-
-  get countEnergy() {
-    return this.energyDice +
-      new KeepHelper(this.game).bonusDiceFaces.filter((f) => f === DiceFace.Energy).length
-  }
-
-  onRuleEnd() {
-    this.memorize(Memory.DiceFacesSolved, (faces: DiceFace[] = []) => {
-      faces.push(DiceFace.Energy)
-      return faces
-    })
-    return []
+    return moves
   }
 }

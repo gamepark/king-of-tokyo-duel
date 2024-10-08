@@ -10,6 +10,7 @@ import { RuleId } from './RuleId'
 
 export class RollDiceRule extends BasePlayerTurnRule {
   onRuleStart() {
+    this.memorize(Memory.Phase, RuleId.RollDice)
     return new KeepHelper(this.game).atStartOfTurn()
   }
 
@@ -87,11 +88,13 @@ export class RollDiceRule extends BasePlayerTurnRule {
   }
 
   goToPhase2(): MaterialMove[] {
-    const moves = new KeepHelper(this.game).afterRollingDice()
-    if (moves.some(isChangingRule)) return moves
+    new KeepHelper(this.game).afterRollingDice()
+    if (this.effects.length) {
+      this.memorize(Memory.Phase, RuleId.ResolveDice)
+      return [this.startRule(RuleId.Effect)]
+    }
 
-    moves.push(this.startRule(RuleId.ResolveDice))
-    return moves
+    return [this.startRule(RuleId.ResolveDice)]
   }
 
   get canRollADice() {

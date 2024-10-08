@@ -1,26 +1,28 @@
-import { MaterialMove } from '@gamepark/rules-api'
+import sumBy from 'lodash/sumBy'
 import { DiceFace } from '../../../material/DiceFace'
 import { LocationType } from '../../../material/LocationType'
 import { MaterialType } from '../../../material/MaterialType'
 import { Pawn } from '../../../material/Pawn'
+import { EffectType } from '../../effects/EffectType'
 import { KeepHelper } from '../../helper/KeepHelper'
-import { PullPawnHelper } from '../../helper/PullPawnHelper'
 import { KeepRule } from '../KeepRule'
 
 export class GentleGiantKeepRule extends KeepRule {
-  afterRollingDice(): MaterialMove[] {
-    if (this.getActivePlayer() !== this.cardPlayer) return []
+  afterRollingDice() {
+    if (this.getActivePlayer() !== this.cardPlayer) return
     const clawFaces = this.clawFaces
     if (!clawFaces) {
-      return new PullPawnHelper(this.game, this.player).pull(Pawn.Fame, 1)
+      this.pushEffect({
+        type: EffectType.PullPawn,
+        pawn: Pawn.Fame,
+        count: 1,
+      }, this.cardPlayer)
     }
-
-    return []
   }
 
   get clawFaces() {
     return this.rolledClawDice +
-      new KeepHelper(this.game).bonusDiceFaces.filter((f) => f === DiceFace.Claw).length
+      sumBy(new KeepHelper(this.game).getBonusFaces(DiceFace.Claw), (bonus) => bonus.count)
   }
 
   get rolledClawDice() {

@@ -1,77 +1,63 @@
-import { MaterialGame } from '@gamepark/rules-api'
+import { MaterialMove } from '@gamepark/rules-api'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
-import { AbstractEffectRule } from './effects/AbstractEffectRule'
-import { DominateEffectRule } from './effects/DominateEffectRule'
-import { Effect, EffectType } from './effects/EffectType'
-import { FreeTurnEffectRule } from './effects/FreeTurnEffectRule'
-import { GainEnergyEffectRule } from './effects/GainEnergyEffectRule'
-import { HealEffectRule } from './effects/HealEffectRule'
-import { OperationMediaEffectRule } from './effects/OperationMediaEffectRule'
-import { PullDestructionEffectRule } from './effects/PullDestructionEffectRule'
-import { PullFameEffectRule } from './effects/PullFameEffectRule'
-import { SmashEffectRule } from './effects/SmashEffectRule'
-import { TeslaImpulseEffectRule } from './effects/TeslaImpulseEffectRule'
-import { ThePartyIsOverEffectRule } from './effects/ThePartyIsOverEffectRule'
-import { WhiteDiceTokenEffectRule } from './effects/WhiteDiceTokenEffectRule'
-import { isChangingRule } from './IsChangingRule'
+import { EffectType } from './effects/EffectType'
+import { KeepHelper } from './helper/KeepHelper'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class EffectRule extends BasePlayerTurnRule {
   onRuleStart() {
     const effects = this.effects
-    if (!effects.length) return [this.startRule(RuleId.Buy)]
-    const effect = this.effect
-    const moves = getEffectRule(this.game, effect).getMoves(effect)
-    if (moves.some(isChangingRule)) return moves
-
-    if (effects.length > 1) {
-      moves.push(this.startRule(RuleId.Effect))
-    } else {
-      moves.push(this.startRule(RuleId.Buy))
+    if (!effects.length) return this.goToNextRule()
+    const moves: MaterialMove[] = []
+    const effectRuleMove = this.getEffectRuleMove()
+    if (effectRuleMove) {
+      moves.push(effectRuleMove)
+      return moves
     }
-
     return moves
   }
 
-  get effect() {
-    return this.effects[0]!
+  getEffectRuleMove(): MaterialMove | undefined {
+
+    console.log(this.currentEffect)
+    const type: EffectType = this.currentEffect.effect.type
+    switch (type) {
+
+      case EffectType.Smash:
+        if (new KeepHelper(this.game).canPreventDamagesOn(this.rival)) {
+          return this.startPlayerTurn(RuleId.PreventDamages, this.rival)
+        }
+
+        return this.startRule(RuleId.Smash)
+      case EffectType.GainEnergy:
+        return this.startRule(RuleId.GainEnergy)
+      case EffectType.Heal:
+        return this.startRule(RuleId.Heal)
+      case EffectType.PullPawn:
+        return this.startRule(RuleId.PullPawn)
+      case EffectType.GetWhiteDiceToken:
+        return this.startRule(RuleId.GainWhiteDiceToken)
+      case EffectType.ThePartyIsOver:
+        return this.startRule(RuleId.ThePartyIsOver)
+      case EffectType.FreeTurn:
+        return this.startRule(RuleId.FreeTurn)
+      case EffectType.TeslaImpulse:
+        return this.startRule(RuleId.TeslaImpulse)
+      case EffectType.OperationMedia:
+        return this.startRule(RuleId.OperationMedia)
+      case EffectType.Dominate:
+        return this.startRule(RuleId.Dominate)
+      case EffectType.UnstableDna:
+        return this.startRule(RuleId.UnstableDna);
+      case EffectType.InShape:
+        return this.startRule(RuleId.InShape);
+      default:
+        return
+    }
   }
 
-  get effects() {
-    return this.remind<Effect[]>(Memory.Effects) ?? []
-  }
-
-  onRuleEnd() {
-    this.memorize(Memory.Effects, (effects: Effect[]) => effects.slice(1))
-    return []
-  }
-}
-
-export const getEffectRule = (game: MaterialGame, effect: Effect): AbstractEffectRule => {
-  switch (effect.type) {
-    case EffectType.FreeTurn:
-      return new FreeTurnEffectRule(game)
-    case EffectType.PullFame:
-      return new PullFameEffectRule(game)
-    case EffectType.PullDestruction:
-      return new PullDestructionEffectRule(game)
-    case EffectType.Heal:
-      return new HealEffectRule(game)
-    case EffectType.Smash:
-      return new SmashEffectRule(game)
-    case EffectType.GainEnergy:
-      return new GainEnergyEffectRule(game)
-    case EffectType.WhiteDiceToken:
-      return new WhiteDiceTokenEffectRule(game)
-    case EffectType.ThePartyIsOver:
-      return new ThePartyIsOverEffectRule(game);
-    case EffectType.TeslaImpulse:
-      return new TeslaImpulseEffectRule(game);
-    case EffectType.OperationMedia:
-      return new OperationMediaEffectRule(game);
-    case EffectType.Dominate:
-      return new DominateEffectRule(game)
-
+  goToNextRule() {
+    return [this.startRule(this.remind(Memory.Phase))]
   }
 }

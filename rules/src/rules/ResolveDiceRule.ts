@@ -1,30 +1,145 @@
-import { MaterialMove } from '@gamepark/rules-api'
+import { CustomMove, isCustomMoveType, MaterialMove } from '@gamepark/rules-api'
+import sumBy from 'lodash/sumBy'
 import { DiceFace } from '../material/DiceFace'
+import { LocationType } from '../material/LocationType'
+import { MaterialType } from '../material/MaterialType'
+import { Monster } from '../material/Monster'
+import { Pawn } from '../material/Pawn'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
-import { GainEnergyRule } from './GainEnergyRule'
-import { HealRule } from './HealRule'
+import { CustomMoveType } from './CustomMoveType'
+import { EffectType } from './effects/EffectType'
+import { EffectWithSource } from './effects/EffectWithSource'
+import { HealHelper } from './helper/HealHelper'
+import { KeepHelper } from './helper/KeepHelper'
 import { Memory } from './Memory'
-import { PullDestructionPawnRule } from './PullDestructionPawnRule'
-import { PullFamePawnRule } from './PullFamePawnRule'
 import { RuleId } from './RuleId'
-import { SmashRule } from './SmashRule'
 
 export class ResolveDiceRule extends BasePlayerTurnRule {
   onRuleStart() {
+    this.memorize(Memory.Phase, RuleId.ResolveDice)
     if (!this.getPlayerMoves().length) return [this.startRule(RuleId.Buy)]
     return []
   }
 
   getPlayerMoves(): MaterialMove[] {
     const moves: MaterialMove[] = super.getPlayerMoves()
-    if (!this.isAlreadyConsumed(DiceFace.Energy) && new GainEnergyRule(this.game).countEnergy > 0) moves.push(this.startRule(RuleId.GainEnergy))
-    if (!this.isAlreadyConsumed(DiceFace.Claw) && new SmashRule(this.game).countClaws > 0) moves.push(this.startRule(RuleId.Smash))
-    if (!this.isAlreadyConsumed(DiceFace.Fame) && new PullFamePawnRule(this.game).countMoves > 0) moves.push(this.startRule(RuleId.PullFamePawn))
-    if (!this.isAlreadyConsumed(DiceFace.Destruction) && new PullDestructionPawnRule(this.game).countMoves > 0) moves.push(this.startRule(RuleId.PullDestructionPawn))
-    if (!this.isAlreadyConsumed(DiceFace.Heal) && new HealRule(this.game).countHeal > 0) moves.push(this.startRule(RuleId.Heal))
+    if (!this.isAlreadyConsumed(DiceFace.Energy) && this.buildEffect(EffectType.GainEnergy, DiceFace.Energy) !== undefined) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Energy))
+    if (!this.isAlreadyConsumed(DiceFace.Claw) && this.buildEffect(EffectType.Smash, DiceFace.Claw, this.rival) !== undefined) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Claw))
+    if (!this.isAlreadyConsumed(DiceFace.Fame) && this.buildEffect(EffectType.PullPawn, DiceFace.Fame) !== undefined) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Fame))
+    if (!this.isAlreadyConsumed(DiceFace.Destruction) && this.buildEffect(EffectType.PullPawn, DiceFace.Destruction) !== undefined) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Destruction))
+    if (!this.isAlreadyConsumed(DiceFace.Heal) && this.buildEffect(EffectType.Heal, DiceFace.Heal) !== undefined) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Heal))
     // TODO
     // if (this.power) moves.push(this.startRule(RuleId.MonsterRule
     return moves
+  }
+
+  onCustomMove(move: CustomMove): MaterialMove[] {
+    if (!isCustomMoveType(CustomMoveType.ResolveKind)(move)) return []
+    this.consumeFaces(move.data)
+    switch (move.data) {
+      case DiceFace.Energy:
+        this.addEffect(this.buildEffect(EffectType.GainEnergy, DiceFace.Energy)!)
+        break;
+      case DiceFace.Claw:
+        this.addEffect(this.buildEffect(EffectType.Smash, DiceFace.Claw, this.rival)!)
+        break
+      case DiceFace.Heal:
+        this.addEffect(this.buildEffect(EffectType.Heal, DiceFace.Heal)!)
+        break
+      case DiceFace.Fame:
+        this.addEffect(this.buildEffect(EffectType.PullPawn, DiceFace.Fame)!)
+        break
+      case DiceFace.Destruction:
+        this.addEffect(this.buildEffect(EffectType.PullPawn, DiceFace.Destruction)!)
+        break
+      default:
+        console.log("NOT IMPLEMENTED YET", move.data)
+    }
+
+    if (this.effects.length) {
+      return [this.startRule(RuleId.Effect)]
+    }
+
+    return [this.startRule(RuleId.Buy)]
+
+  }
+
+  get effects() {
+    return this.remind(Memory.Effects)
+  }
+
+  buildEffect(type: EffectType, face: DiceFace, target: Monster = this.player): EffectWithSource | undefined {
+    const energyEffect: EffectWithSource = {
+      sources: [],
+      effect: {
+        type: type,
+        count: 0,
+        me: target === this.player
+      },
+      target: target,
+    }
+
+    const dice = this.getDiceForFace(face)
+    if (dice.length) {
+      energyEffect.sources.push({
+        type: MaterialType.Dice,
+        indexes: dice.getIndexes(),
+        count: dice.length
+      })
+    }
+
+    const bonuses = new KeepHelper(this.game).getBonusFaces(face)
+    const bonus = sumBy(bonuses, (bonus) => bonus.count)
+    if (bonus) {
+      energyEffect.sources.push(
+        ...bonuses.flatMap(({ count, ...source }) => source.items )
+      )
+    }
+
+
+    energyEffect.effect.count = sumBy(energyEffect.sources, (source) => source.count ?? 0)
+    if (face === DiceFace.Fame || face === DiceFace.Destruction) {
+      energyEffect.effect.pawn = face === DiceFace.Fame? Pawn.Fame: Pawn.Destruction
+      energyEffect.effect.count = Math.floor(energyEffect.effect.count / 3)
+    }
+
+    if (energyEffect.effect.count) {
+      if (face === DiceFace.Heal) {
+        const healCount = new HealHelper(this.game, this.player).heal(energyEffect.effect.count)
+        if (!healCount) return
+      }
+
+      return energyEffect
+    }
+
+    return
+  }
+
+  addEffect(effect: EffectWithSource) {
+    this.memorize(Memory.Effects, (effects: EffectWithSource[] = []) => {
+      effects.push(effect)
+      return effects
+    })
+  }
+
+  consumeFaces(face: DiceFace) {
+    this.memorize(Memory.DiceFacesSolved, (faces: DiceFace[] = []) => {
+      faces.push(face)
+      return faces
+    })
+  }
+
+  getDiceForFace(face: DiceFace) {
+    return this
+      .dice
+      .rotation(face)
+  }
+
+  get dice() {
+    return this
+      .material(MaterialType.Dice)
+      .location(LocationType.PlayerRolledDice)
+      .player(this.player)
   }
 
   isAlreadyConsumed(face: DiceFace) {

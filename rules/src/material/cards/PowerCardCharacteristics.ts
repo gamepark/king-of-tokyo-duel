@@ -1,5 +1,6 @@
 import { Effect, EffectType } from '../../rules/effects/EffectType'
 import { Buzz } from '../Buzz'
+import { Pawn } from '../Pawn'
 import { PowerCard } from './PowerCard'
 import { Timing } from './Timing'
 
@@ -48,8 +49,8 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
     timing: Timing.Discard,
     buzz: Buzz.Buzz7,
     effects: [
-      { type: EffectType.PullFame, count: 1 },
-      { type: EffectType.Smash, rival: 1 },
+      { type: EffectType.PullPawn, pawn: Pawn.Fame, count: 1 },
+      { type: EffectType.Smash, me: false, count: 1 },
       { type: EffectType.GainEnergy, count: 4 },
     ]
   },
@@ -72,7 +73,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
     buzz: Buzz.Buzz6,
     effects: [
       { type: EffectType.GainEnergy, count: 8 },
-      { type: EffectType.WhiteDiceToken, count: 1 },
+      { type: EffectType.GetWhiteDiceToken, count: 1 },
     ]
   },
   [PowerCard.ExtraHead]: {
@@ -109,8 +110,8 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
     timing: Timing.Discard,
     buzz: Buzz.Buzz1,
     effects: [
-      { type: EffectType.Smash, me: 2 },
-      { type: EffectType.PullDestruction, count: 2 },
+      { type: EffectType.Smash, me: true, count: 3 },
+      { type: EffectType.PullPawn, pawn: Pawn.Destruction, count: 2 },
     ]
   },
   [PowerCard.InShape]: {
@@ -127,7 +128,8 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
     timing: Timing.Discard,
     buzz: Buzz.Buzz12,
     effects: [
-      { type: EffectType.Smash, me: 5, rival: 5 },
+      { type: EffectType.Smash, me: true, count: 5 },
+      { type: EffectType.Smash, me: false, count: 5 },
     ]
   },
   [PowerCard.Kaijutsu]: {
@@ -135,8 +137,8 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
     timing: Timing.Discard,
     buzz: Buzz.Buzz10,
     effects: [
-      { type: EffectType.PullDestruction, count: 1 },
-      { type: EffectType.Smash, rival: 2 },
+      { type: EffectType.PullPawn, pawn: Pawn.Destruction, count: 1 },
+      { type: EffectType.Smash, me: false, count: 2 },
     ]
   },
   [PowerCard.LightingSpeed]: {
@@ -155,14 +157,14 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
     buzz: Buzz.Buzz9,
     effects: [
       { type: EffectType.Heal, count: 2 },
-      { type: EffectType.WhiteDiceToken, count: 1 },
+      { type: EffectType.GetWhiteDiceToken, count: 1 },
     ]
   },
   [PowerCard.MonsterCoaster]: {
     cost: 7,
     timing: Timing.Discard,
     effects: [
-      { type: EffectType.PullDestruction, count: 3 },
+      { type: EffectType.PullPawn, pawn: Pawn.Destruction, count: 3 },
     ]
   },
   [PowerCard.Monumental]: {
@@ -170,8 +172,8 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
     timing: Timing.Discard,
     buzz: Buzz.Buzz2,
     effects: [
-      { type: EffectType.PullDestruction, count: 1 },
-      { type: EffectType.PullFame, count: 1 },
+      { type: EffectType.PullPawn, pawn: Pawn.Destruction, count: 1 },
+      { type: EffectType.PullPawn, pawn: Pawn.Fame, count: 1 },
     ]
   },
   [PowerCard.NaturalSelection]: {
@@ -195,7 +197,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
     timing: Timing.Discard,
     buzz: Buzz.Buzz4,
     effects: [
-      { type: EffectType.PullFame, count: 1 },
+      { type: EffectType.PullPawn, pawn: Pawn.Fame, count: 1 },
     ]
   },
   [PowerCard.Rebooting]: {
@@ -212,8 +214,8 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
     timing: Timing.Discard,
     buzz: Buzz.Buzz11,
     effects: [
-      { type: EffectType.PullDestruction, count: 2 },
-      { type: EffectType.PullFame, count: 2 },
+      { type: EffectType.PullPawn, pawn: Pawn.Destruction, count: 2 },
+      { type: EffectType.PullPawn, pawn: Pawn.Fame, count: 2 },
     ]
   },
   [PowerCard.Scrappy]: {
@@ -225,7 +227,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
     cost: 5,
     timing: Timing.Discard,
     effects: [
-      { type: EffectType.PullDestruction, count: 2 }
+      { type: EffectType.PullPawn, pawn: Pawn.Destruction, count: 2 }
     ]
   },
   [PowerCard.SignatureMove]: {
@@ -269,7 +271,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
     timing: Timing.Discard,
     buzz: Buzz.Buzz2,
     effects: [
-      { type: EffectType.PullDestruction, count: 1 },
+      { type: EffectType.PullPawn, pawn: Pawn.Destruction, count: 1 },
       { type: EffectType.Heal, count: 2 },
       { type: EffectType.GainEnergy, count: 2 },
     ]
@@ -288,7 +290,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
     timing: Timing.Discard,
     buzz: Buzz.Buzz4,
     effects: [
-      { type: EffectType.Smash, rival: 2 }
+      { type: EffectType.Smash, me: false, count: 2 }
     ]
   },
   [PowerCard.TrendSetter]: {

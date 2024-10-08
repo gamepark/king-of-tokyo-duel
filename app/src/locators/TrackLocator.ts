@@ -15,7 +15,7 @@ export abstract class TrackLocator extends HexagonalGridLocator {
       if (item.id === Pawn.Fame) {
         return { x: x - 0.1, y: y - 0.8, z: 0.1 }
       } else {
-        return { x: x + 0.3, y: y - 0.8 }
+        return { x: x + 0.3, y: y - 0.8, z: 0.1 }
       }
     }
     return { x, y }

@@ -4,7 +4,8 @@ import { LocationType } from '../../material/LocationType'
 import { MaterialType } from '../../material/MaterialType'
 import { Monster } from '../../material/Monster'
 import { Pawn } from '../../material/Pawn'
-import { DamageContext } from '../helper/DamageContext'
+import { Effect } from '../effects/EffectType'
+import { EffectWithSource, Source } from '../effects/EffectWithSource'
 import { Memory } from '../Memory'
 
 export class KeepRule extends MaterialRulesPart {
@@ -22,15 +23,15 @@ export class KeepRule extends MaterialRulesPart {
   }
 
   get additionalDice(): number {
-    return 0;
+    return 0
   }
 
   get additionalRolls(): number {
-    return 0;
+    return 0
   }
 
-  atEndOfTurn(): MaterialMove[] {
-    return []
+  atEndOfTurn() {
+    return
   }
 
   afterResolvingDice(): MaterialMove[] {
@@ -41,20 +42,17 @@ export class KeepRule extends MaterialRulesPart {
     return false
   }
 
-  afterRollingDice(): MaterialMove[] {
-    return []
+  afterRollingDice() {
   }
 
-  afterPullPawn(_pawn: Pawn, _count: number): MaterialMove[] {
-    return []
+  afterPullPawn(_pawn: Pawn, _count: number) {
   }
 
-  beforeSmashTaken(_player: Monster, _source: DamageContext): MaterialMove[] {
-    return []
+  canPreventDamagesOn(_player: Monster): boolean {
+    return false
   }
 
-  afterSmashTakenComputed(_player: Monster, _damages: number): MaterialMove[] {
-    return []
+  afterSmashTakenComputed(_player: Monster, _damages: number) {
   }
 
   ignoredSmash(_player: Monster, _damages?: number): number {
@@ -74,16 +72,15 @@ export class KeepRule extends MaterialRulesPart {
     return []
   }
 
-  onBuyPowerCard(): MaterialMove[] {
-    return []
+  onBuyPowerCard() {
   }
 
   get healBonus(): number {
     return 0
   }
 
-  get bonusDiceFaces(): DiceFace[] {
-    return []
+  getBonusFaces(): (Source & { count: number }) | undefined {
+    return
   }
 
   markKeepCardConsumed() {
@@ -125,6 +122,38 @@ export class KeepRule extends MaterialRulesPart {
     }
 
     return count
+  }
+
+  unshiftEffect(effect: Effect, target: Monster) {
+    const effectWithSource = {
+      effect,
+      sources: [{
+        type: MaterialType.PowerCard,
+        indexes: [this.cardIndex]
+      }],
+      target
+    }
+    this.memorize(Memory.Effects, (effects: EffectWithSource[] = []) => {
+      return effects
+        .slice(0, 1)
+        .concat(effectWithSource)
+        .concat(effects.slice(1))
+    })
+  }
+
+  pushEffect(effect: Effect, target: Monster) {
+    const effectWithSource = {
+      effect,
+      sources: [{
+        type: MaterialType.PowerCard,
+        indexes: [this.cardIndex]
+      }],
+      target
+    }
+    this.memorize(Memory.Effects, (effects: EffectWithSource[] = []) => {
+      effects.push(effectWithSource)
+      return effects
+    })
   }
 
   get rolledDice() {

@@ -21,7 +21,8 @@ export class SmashHelper extends MaterialRulesPart {
       preventedDamages: 0
     }
 
-    const moves: MaterialMove[] = new KeepHelper(this.game).beforeSmashTaken(this.player, damageContext)
+    const moves: MaterialMove[] = []
+    //const moves: MaterialMove[] = new KeepHelper(this.game).beforeSmashTaken(this.player, damageContext)
     if (moves.some(isChangingRule)) {
       this.memorize(Memory.SuspendedDamages, damageContext)
       return moves
@@ -49,9 +50,7 @@ export class SmashHelper extends MaterialRulesPart {
       return moves
     }
 
-    moves.push(
-      ...new KeepHelper(this.game).afterSmashTakenComputed(this.player, damages)
-    )
+    new KeepHelper(this.game).afterSmashTakenComputed(this.player)
 
     return moves
   }

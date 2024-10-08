@@ -15,10 +15,8 @@ export class HealHelper extends MaterialRulesPart {
     const healthWheel = this.healthWheel
     const health = healthWheel.getItem()!.location.rotation
     const newHealth = Math.min(this.maxHealth, health + count)
-    if (newHealth === health) return []
-    return [
-      healthWheel.rotateItem(newHealth)
-    ]
+    if (newHealth === health) return 0
+    return newHealth - health
   }
 
   get healthWheel() {

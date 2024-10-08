@@ -1,10 +1,11 @@
-import { MaterialMove } from '@gamepark/rules-api'
-import { RuleId } from '../../RuleId'
+import { EffectType } from '../../effects/EffectType'
 import { KeepRule } from '../KeepRule'
 
 export class InShapeKeepRule extends KeepRule {
-  atEndOfTurn(): MaterialMove[] {
-    if (this.getActivePlayer() === this.cardPlayer) return []
-    return [this.startPlayerTurn(RuleId.InShape, this.rival)]
+  atEndOfTurn() {
+    if (this.getActivePlayer() === this.cardPlayer) return
+    this.pushEffect({
+      type: EffectType.InShape,
+    }, this.cardPlayer)
   }
 }

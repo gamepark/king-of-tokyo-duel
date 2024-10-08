@@ -16,6 +16,7 @@ export class EffectHelper extends MaterialRulesPart {
     const effects = powerCardCharacteristics[lastCard.id].effects ?? []
 
     if (effects.length) {
+
       this.memorize(Memory.Effects, JSON.parse(JSON.stringify(effects)))
       return [this.startRule(RuleId.Effect)]
     }

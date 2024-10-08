@@ -5,6 +5,7 @@ export enum Memory {
   Effects,
   FreeTurn,
   KeepCardPlayed,
+  Phase,
   SmashCount,
   RivalSmashCount,
   DecreaseDiceCount,

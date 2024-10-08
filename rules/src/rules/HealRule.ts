@@ -1,25 +1,29 @@
-import { DiceFace } from '../material/DiceFace'
-import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { monsterBoardDescriptions } from '../material/MonsterBoardDescription'
-import { BasePlayerTurnRule } from './BasePlayerTurnRule'
-import { HealHelper } from './helper/HealHelper'
-import { KeepHelper } from './helper/KeepHelper'
+import { BasePlayerTurnEffectRule } from './BasePlayerTurnEffectRule'
+import { Heal } from './effects/EffectType'
 import { RuleId } from './RuleId'
 
-export class HealRule extends BasePlayerTurnRule {
+export class HealRule extends BasePlayerTurnEffectRule<Heal> {
 
   onRuleStart() {
-    const healCount = this.countHeal
+    const heal = this.countHeal
+    if (!heal) return [this.startRule(RuleId.Effect)]
     return [
-      ...new HealHelper(this.game, this.player).heal(healCount),
-      this.startRule(RuleId.ResolveDice)
+      this.wheel.rotateItem((item) => item.location.rotation + this.currentEffect.effect.count),
+      this.startRule(RuleId.Effect)
     ]
+  }
+
+  get wheel() {
+    return this
+      .material(MaterialType.HealthCounter)
+      .player(this.currentEffect.target)
   }
 
   get countHeal() {
     const healthWheel = this.healthWheel
-    const healCount = this.healDice + new KeepHelper(this.game).bonusDiceFaces.filter((f) => f === DiceFace.Heal).length
+    const healCount = this.currentEffect.effect.count
     const health = healthWheel.getItem()!.location.rotation
     const newHealth = Math.min(this.maxHealth, health + healCount)
     if (newHealth === health) return 0
@@ -29,24 +33,10 @@ export class HealRule extends BasePlayerTurnRule {
   get healthWheel() {
     return this
       .material(MaterialType.HealthCounter)
-      .player(this.player)
+      .player(this.currentEffect.target)
   }
 
   get maxHealth() {
-    return monsterBoardDescriptions[this.player]!.health
-  }
-
-  get healDice() {
-    return this
-      .dice
-      .rotation(DiceFace.Heal)
-      .length
-  }
-
-  get dice() {
-    return this
-      .material(MaterialType.Dice)
-      .location(LocationType.PlayerRolledDice)
-      .player(this.player)
+    return monsterBoardDescriptions[this.currentEffect.target]!.health
   }
 }

@@ -1,19 +1,20 @@
-import { MaterialMove } from '@gamepark/rules-api'
 import { MaterialType } from '../../../material/MaterialType'
 import { Pawn } from '../../../material/Pawn'
-import { PullPawnHelper } from '../../helper/PullPawnHelper'
+import { EffectType } from '../../effects/EffectType'
 import { KeepRule } from '../KeepRule'
 
 export class ElectricalAuraKeepRule extends KeepRule {
-  atEndOfTurn(): MaterialMove[] {
-    if (this.getActivePlayer() !== this.cardPlayer) return []
+  atEndOfTurn() {
+    if (this.getActivePlayer() !== this.cardPlayer) return
     const energy = this.energy
     const quantity = Math.floor(energy / 7)
     if (quantity) {
-      return new PullPawnHelper(this.game, this.player).pull(Pawn.Destruction, quantity)
+      this.pushEffect({
+        type: EffectType.PullPawn,
+        pawn: Pawn.Destruction,
+        count: quantity,
+      }, this.cardPlayer)
     }
-
-    return []
   }
 
   get energy() {

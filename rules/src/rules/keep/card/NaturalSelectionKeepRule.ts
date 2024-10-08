@@ -1,6 +1,4 @@
-import { MaterialMove } from '@gamepark/rules-api'
-import { MaterialType } from '../../../material/MaterialType'
-import { SmashHelper } from '../../helper/SmashHelper'
+import { EffectType } from '../../effects/EffectType'
 import { KeepRule } from '../KeepRule'
 
 export class NaturalSelectionKeepRule extends KeepRule {
@@ -9,9 +7,12 @@ export class NaturalSelectionKeepRule extends KeepRule {
     return 1
   }
 
-  afterRollingDice(): MaterialMove[] {
-    if (this.getActivePlayer() !== this.cardPlayer) return []
-    if (this.maxNumberOfAKind < 4) return []
-    return new SmashHelper(this.game, this.getActivePlayer()!).smash(MaterialType.PowerCard, [this.cardIndex], 10)
+  afterRollingDice() {
+    if (this.getActivePlayer() !== this.cardPlayer) return
+    if (this.maxNumberOfAKind < 4) return
+    this.pushEffect({
+      type: EffectType.Smash,
+      count: 10
+    }, this.cardPlayer)
   }
 }

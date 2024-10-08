@@ -1,31 +1,58 @@
-import { CustomMove, isCustomMoveType, PlayerTurnRule, RuleMove } from '@gamepark/rules-api'
+import { PlayerTurnRule, RuleMove } from '@gamepark/rules-api'
 import { DiceFace } from '../material/DiceFace'
-import { CustomMoveType } from './CustomMoveType'
-import { PullPawnHelper } from './helper/PullPawnHelper'
-import { SmashHelper } from './helper/SmashHelper'
+import { LocationType } from '../material/LocationType'
+import { MaterialType } from '../material/MaterialType'
+import { Effect } from './effects/EffectType'
+import { EffectWithSource } from './effects/EffectWithSource'
 import { Memory } from './Memory'
 
-export class BasePlayerTurnRule extends PlayerTurnRule {
+export class BasePlayerTurnRule<E extends Effect = any> extends PlayerTurnRule {
   getNextRule?(): RuleMove
 
   get rival() {
     return this.game.players.find((p) => p !== this.player)!
   }
 
-  onCustomMove(move: CustomMove) {
-    if (isCustomMoveType(CustomMoveType.Smash)(move)) {
-      return new SmashHelper(this.game, move.data.player).onSmash(move.data.damages)
-    }
-    if (isCustomMoveType(CustomMoveType.PullPawn)(move)) {
-      return [
-        ...new PullPawnHelper(this.game, move.data.player).onPullPawn(move.data.pawn, move.data.count)
-      ]
-    }
 
-    return []
+
+  get powerCardDeck() {
+    return this
+      .material(MaterialType.PowerCard)
+      .location(LocationType.PowerCardDeck)
+      .deck()
   }
 
   isAlreadyConsumed(face: DiceFace) {
     return (this.remind(Memory.DiceFacesSolved) ?? []).includes(face)
+  }
+
+  get effects(): EffectWithSource[] {
+    return this.remind<EffectWithSource[]>(Memory.Effects) ?? []
+  }
+
+  get currentEffect(): EffectWithSource<E> {
+    return this.effects[0]!
+  }
+
+  addEffect(effectWithSource: EffectWithSource) {
+    this.memorize(Memory.Effects, (effects: EffectWithSource[] = []) => {
+      effects.push(effectWithSource)
+      return effects
+    })
+  }
+
+
+  unshiftEffect(effect:EffectWithSource) {
+    this.memorize(Memory.Effects, (effects: EffectWithSource[] = []) => {
+      effects.unshift(effect)
+      return effects
+    })
+  }
+
+  pushEffect(effect: EffectWithSource) {
+    this.memorize(Memory.Effects, (effects: EffectWithSource[] = []) => {
+      effects.push(effect)
+      return effects
+    })
   }
 }

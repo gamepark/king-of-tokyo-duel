@@ -1,23 +1,29 @@
-import { MaterialMove } from '@gamepark/rules-api'
 import { LocationType } from '../../../material/LocationType'
 import { MaterialType } from '../../../material/MaterialType'
 import { Monster } from '../../../material/Monster'
-import { RuleId } from '../../RuleId'
+import { EffectType, Smash } from '../../effects/EffectType'
+import { EffectWithSource } from '../../effects/EffectWithSource'
+import { Memory } from '../../Memory'
 import { KeepRule } from '../KeepRule'
 
 
 export class UnstableDnaKeepRule extends KeepRule {
-  afterSmashTakenComputed(player: Monster , source: number): MaterialMove[] {
-    if (player !== this.cardPlayer) return []
-    if (!this.rivalKeepCards.length) return []
-    // Here, we explicitely called
-    // TODO: per attack or cummulative ?
-    if (source < 3) return []
-    if (player === this.getActivePlayer()) {
-      return [this.startRule(RuleId.UnstableDna)]
-    } else {
-      return [this.startPlayerTurn(RuleId.UnstableDna, player)]
-    }
+  afterSmashTakenComputed(player: Monster) {
+    if (player !== this.cardPlayer) return
+    if (!this.rivalKeepCards.length) return
+    if (this.smashEffect.effect.count < 3) return
+    this.unshiftEffect(
+      { type: EffectType.UnstableDna },
+      this.cardPlayer
+    )
+  }
+
+  get smashEffect(): EffectWithSource<Smash> {
+    return this.effects[0]!
+  }
+
+  get effects(): EffectWithSource[] {
+    return this.remind<EffectWithSource[]>(Memory.Effects) ?? []
   }
 
   get rivalKeepCards() {

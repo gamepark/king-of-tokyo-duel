@@ -10,7 +10,7 @@ import { SuperConductorHeader } from './SuperConductorHeader'
 
 export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.RollDice]: RollDiceHeader,
-  [RuleId.PullFamePawn]: PlayerTurnHeader,
+  [RuleId.PullPawn]: PlayerTurnHeader,
   [RuleId.GainEnergy]: () => <>Gain Energy</>,
   [RuleId.Smash]: () => <>Smash</>,
   [RuleId.Buy]: BuyHeader,

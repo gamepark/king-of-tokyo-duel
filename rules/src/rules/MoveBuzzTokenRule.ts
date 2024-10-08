@@ -6,8 +6,6 @@ import { powerCardCharacteristics } from '../material/cards/PowerCardCharacteris
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
-import { Effect } from './effects/EffectType'
-import { EffectHelper } from './helper/EffectHelper'
 import { isChangingRule } from './IsChangingRule'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
@@ -66,18 +64,13 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
     if (moves.some(isChangingRule)) return moves
     if (!isMoveItemType(MaterialType.Buzz)(move)) return moves
 
-    const effects = new EffectHelper(this.game, this.player).applyEffectMoves()
-    if (effects.length) {
-      moves.push(...effects)
+    if (this.effects.length) {
+      moves.push(this.startRule(RuleId.Effect))
       return moves
     }
 
     moves.push(this.startRule(RuleId.Buy))
     return moves
-  }
-
-  get effects() {
-    return this.remind<Effect[]>(Memory.Effects) ?? []
   }
 
   get buzz() {

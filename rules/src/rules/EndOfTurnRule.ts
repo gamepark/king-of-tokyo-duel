@@ -1,13 +1,16 @@
-import { PlayerTurnRule } from '@gamepark/rules-api'
-import { isChangingRule } from './IsChangingRule'
+import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { KeepHelper } from './helper/KeepHelper'
+import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
-export class EndOfTurnRule extends PlayerTurnRule {
+export class EndOfTurnRule extends BasePlayerTurnRule {
   onRuleStart() {
-    const moves = new KeepHelper(this.game).atEndOfTurn()
-    if (moves.some(isChangingRule)) return moves
-    moves.push(this.startRule(RuleId.ChangePlayer))
-    return moves
+    this.memorize(Memory.Phase, RuleId.EndOfTurn)
+    new KeepHelper(this.game).atEndOfTurn()
+    if (this.effects.length) {
+      this.memorize(Memory.Phase, RuleId.ChangePlayer)
+      return [this.startRule(RuleId.Effect)]
+    }
+    return [this.startRule(RuleId.ChangePlayer)]
   }
 }

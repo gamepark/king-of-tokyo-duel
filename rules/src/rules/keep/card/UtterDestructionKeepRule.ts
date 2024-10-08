@@ -1,9 +1,8 @@
-import { getEnumValues, isEndGame, MaterialMove } from '@gamepark/rules-api'
+import { getEnumValues, MaterialMove } from '@gamepark/rules-api'
 import { DiceFace } from '../../../material/DiceFace'
-import { MaterialType } from '../../../material/MaterialType'
 import { Pawn } from '../../../material/Pawn'
-import { PullPawnHelper } from '../../helper/PullPawnHelper'
-import { SmashHelper } from '../../helper/SmashHelper'
+import { EffectType } from '../../effects/EffectType'
+import { KeepHelper } from '../../helper/KeepHelper'
 import { KeepRule } from '../KeepRule'
 
 
@@ -13,22 +12,29 @@ export class UtterDestructionKeepRule extends KeepRule {
 
     const moves: MaterialMove[] = []
     if (getEnumValues(DiceFace).every((face) => this.countDiceFaces(face) > 0)) {
-      const pullPawnhelper = new PullPawnHelper(this.game, this.cardPlayer)
+      this.pushEffect({
+        type: EffectType.PullPawn,
+        pawn: Pawn.Destruction,
+        count: 2
+      }, this.cardPlayer)
 
-      moves.push(...pullPawnhelper.pull(Pawn.Destruction, 2))
-      if (moves.some(isEndGame)) return moves
+      this.pushEffect({
+        type: EffectType.PullPawn,
+        pawn: Pawn.Fame,
+        count: 2
+      }, this.cardPlayer)
 
-      moves.push(...pullPawnhelper.pull(Pawn.Fame, 2))
-      if (moves.some(isEndGame)) return moves
-
-      moves.push(...new SmashHelper(this.game, this.rival).smash(MaterialType.PowerCard, [this.cardIndex], 2))
+      this.pushEffect({
+        type: EffectType.Smash,
+        count: 2
+      }, this.rival)
     }
 
     return moves
   }
 
   countDiceFaces(dice: DiceFace) {
-    // TODO: some effect can add "additional faces"
     return this.rolledDice.rotation(dice).length
+      + new KeepHelper(this.game).getBonusFaces(dice).length
   }
 }

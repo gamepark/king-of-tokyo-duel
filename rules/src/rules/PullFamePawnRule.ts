@@ -1,50 +1,79 @@
-import { MaterialMove } from '@gamepark/rules-api'
-import { DiceFace } from '../material/DiceFace'
-import { LocationType } from '../material/LocationType'
+import { CustomMove, MaterialMove } from '@gamepark/rules-api'
 import { MaterialType } from '../material/MaterialType'
 import { Pawn } from '../material/Pawn'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
+import { CustomMoveType } from './CustomMoveType'
+import { PullFame } from './effects/EffectType'
 import { KeepHelper } from './helper/KeepHelper'
-import { PullPawnHelper } from './helper/PullPawnHelper'
-import { isChangingRule } from './IsChangingRule'
-import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
-export class PullFamePawnRule extends BasePlayerTurnRule {
+export class PullFamePawnRule extends BasePlayerTurnRule<PullFame> {
   onRuleStart() {
     const moves: MaterialMove[] = []
-    const helper = new PullPawnHelper(this.game, this.player)
-    moves.push(...helper.pull(Pawn.Fame,  this.countMoves))
-    if (moves.some(isChangingRule)) return moves
+    moves.push(
+      ...this.pull()
+    )
 
-    moves.push(this.startRule(RuleId.ResolveDice))
+    moves.push(this.startRule(RuleId.Effect))
+
     return moves
   }
 
-  get fameDice() {
-    return this.dice
-      .rotation(DiceFace.Fame)
-      .length
+  pull() {
+    const pawn = this.getPawn(Pawn.Fame)
+    const isLeft = this.game.players[0] === this.player
+    const moves: MaterialMove[] = []
+    const effectWSource = this.currentEffect
+    const count = effectWSource.effect.count
+    if (count) {
+      const item = pawn.getItem()!
+      const newX = isLeft ? Math.max(-7, item.location.x! - count) : Math.min(7, item.location.x! + count)
+
+      if (item.location.x === newX) return []
+      moves.push(
+        this.customMove(CustomMoveType.PullPawn, effectWSource)
+      )
+    }
+
+    return moves
   }
 
-  get dice() {
-    return this
-      .material(MaterialType.Dice)
-      .location(LocationType.PlayerRolledDice)
-      .player(this.player)
+  onCustomMove(_move: CustomMove) {
+    const effectWSource = this.currentEffect
+    const pawn = this.getPawn(Pawn.Fame)
+    const isLeft = this.game.players[0] === this.player
+    const count = effectWSource.effect.count
+    if (count) {
+      const item = pawn.getItem()!
+      const newX = isLeft ? Math.max(-7, item.location.x! - count) : Math.min(7, item.location.x! + count)
+
+      if (item.location.x === newX) return []
+      const moves: MaterialMove[] = []
+      moves.push(
+        pawn
+          .moveItem((item) => ({ ...item.location, x: newX }))
+      )
+
+      if (Math.abs(newX) === 7) {
+        moves.push(this.endGame())
+        return moves
+      }
+
+      new KeepHelper(this.game).afterPawnMoved(Pawn.Fame, count)
+
+      return moves
+    }
+
+    return []
+
   }
 
-  get countMoves() {
-    const fameDice = this.fameDice +
-      new KeepHelper(this.game).bonusDiceFaces.filter((f) => f === DiceFace.Fame).length
-    return fameDice >= 3? (fameDice % 3 + 1): 0
+  getPawn(pawn: Pawn) {
+    return this.material(MaterialType.Pawn).id(pawn)
   }
 
   onRuleEnd() {
-    this.memorize(Memory.DiceFacesSolved, (faces: DiceFace[] = []) => {
-      faces.push(DiceFace.Fame)
-      return faces
-    })
+    this.sliceEffect()
     return []
   }
 }

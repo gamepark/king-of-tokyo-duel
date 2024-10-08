@@ -1,6 +1,7 @@
+import { Pawn } from '../../material/Pawn'
+
 export enum EffectType {
-  PullFame = 1,
-  PullDestruction,
+  PullPawn = 1,
   FreeTurn,
   Smash,
   Heal,
@@ -8,20 +9,19 @@ export enum EffectType {
   Dominate,
   ThePartyIsOver,
   TeslaImpulse,
-  WhiteDiceToken,
-  OperationMedia
+  GetWhiteDiceToken,
+  OperationMedia,
+  UnstableDna,
+  InShape
 }
 
-export type Effect = PullFame | PullDestruction | Heal | FreeTurn | Smash | GainEnergy | WhiteDiceToken | { type: EffectType };
+export type Effect = PullPawn | Heal | FreeTurn | Smash | GainEnergy | GainWhiteDiceToken | { type: EffectType };
 
-export type PullFame = {
-  type: EffectType.PullFame,
-  count: number
-}
 
-export type PullDestruction = {
-  type: EffectType.PullDestruction,
-  count: number
+export type PullPawn = {
+  type: EffectType.PullPawn,
+  count: number,
+  pawn: Pawn
 }
 
 export type Heal = {
@@ -35,8 +35,8 @@ export type FreeTurn = {
 
 export type Smash = {
   type: EffectType.Smash,
-  me?: number,
-  rival?: number
+  count: number,
+  me: boolean
 }
 
 export type GainEnergy = {
@@ -44,7 +44,7 @@ export type GainEnergy = {
   count: number,
 }
 
-export type WhiteDiceToken = {
-  type: EffectType.WhiteDiceToken,
+export type GainWhiteDiceToken = {
+  type: EffectType.GetWhiteDiceToken,
   count: number,
 }

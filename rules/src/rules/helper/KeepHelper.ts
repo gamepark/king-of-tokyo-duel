@@ -6,6 +6,7 @@ import { LocationType } from '../../material/LocationType'
 import { MaterialType } from '../../material/MaterialType'
 import { Monster } from '../../material/Monster'
 import { Pawn } from '../../material/Pawn'
+import { Source } from '../effects/EffectWithSource'
 import { AcidAttackKeepRule } from '../keep/card/AcidAttackKeepRule'
 import { AdrenalineAugmentKeepRule } from '../keep/card/AdrenalineAugmentKeepRule'
 import { AlienMetabolismKeepRule } from '../keep/card/AlienMetabolismKeepRule'
@@ -38,7 +39,6 @@ import { UnstableDnaKeepRule } from '../keep/card/UnstableDnaKeepRule'
 import { UnstoppableKeepRule } from '../keep/card/UnstoppableKeepRule'
 import { UtterDestructionKeepRule } from '../keep/card/UtterDestructionKeepRule'
 import { KeepRule } from '../keep/KeepRule'
-import { DamageContext } from './DamageContext'
 
 export class KeepHelper extends MaterialRulesPart {
   private keepCards: Material
@@ -74,9 +74,9 @@ export class KeepHelper extends MaterialRulesPart {
     return sumBy(this.keepCardsIndexes, (index) => this.getEffectRule(index)?.additionalRolls ?? 0)
   }
 
-  atEndOfTurn(): MaterialMove[] {
-    return this.keepCardsIndexes
-      .flatMap((index) => this.getEffectRule(index)?.atEndOfTurn() ?? [])
+  atEndOfTurn() {
+    this.keepCardsIndexes
+      .forEach((index) => this.getEffectRule(index)?.atEndOfTurn())
   }
 
   afterResolvingDice(): MaterialMove[] {
@@ -89,24 +89,24 @@ export class KeepHelper extends MaterialRulesPart {
       .some((index) => this.getEffectRule(index)?.canReroll(face))
   }
 
-  afterRollingDice(): MaterialMove[] {
-    return this.keepCardsIndexes
-      .flatMap((index) => this.getEffectRule(index)?.afterRollingDice() ?? [])
+  afterRollingDice() {
+    this.keepCardsIndexes
+      .forEach((index) => this.getEffectRule(index)?.afterRollingDice())
   }
 
-  afterPullPawn(pawn: Pawn, count: number): MaterialMove[] {
-    return this.keepCardsIndexes
-      .flatMap((index) => this.getEffectRule(index)?.afterPullPawn(pawn, count) ?? [])
+  afterPullPawn(pawn: Pawn, count: number) {
+    this.keepCardsIndexes
+      .forEach((index) => this.getEffectRule(index)?.afterPullPawn(pawn, count))
   }
 
-  beforeSmashTaken(player: Monster, source: DamageContext): MaterialMove[] {
+  canPreventDamagesOn(player: Monster): boolean {
     return this.keepCardsIndexes
-      .flatMap((index) => this.getEffectRule(index)?.beforeSmashTaken(player, source) ?? [])
+      .some((index) => this.getEffectRule(index)?.canPreventDamagesOn(player) ?? false)
   }
 
-  afterSmashTakenComputed(player: Monster, damages: number): MaterialMove[] {
-    return this.keepCardsIndexes
-      .flatMap((index) => this.getEffectRule(index)?.afterSmashTakenComputed(player, damages) ?? [])
+  afterSmashTakenComputed(player: Monster) {
+    this.keepCardsIndexes
+      .flatMap((index) => this.getEffectRule(index)?.afterSmashTakenComputed(player) ?? [])
   }
 
   ignoredSmash(player: Monster, damages?: number): number {
@@ -120,11 +120,6 @@ export class KeepHelper extends MaterialRulesPart {
   get buzzBonusAlternatives(): number[] {
     return this.keepCardsIndexes
       .flatMap((index) => this.getEffectRule(index)?.buzzBonusAlternatives ?? [])
-  }
-
-  afterPawnMoved(pawn: Pawn, count: number): MaterialMove[] {
-    return this.keepCardsIndexes
-      .flatMap((index) => this.getEffectRule(index)?.afterPullPawn(pawn, count) ?? [])
   }
 
   get allowedMovesDuringTurn(): MaterialMove[] {
@@ -147,18 +142,18 @@ export class KeepHelper extends MaterialRulesPart {
       .flatMap((index) => this.getEffectRule(index)?.onCustomMove(move) ?? [])
   }
 
-  onBuyPowerCard(): MaterialMove[] {
-    return this.keepCardsIndexes
-      .flatMap((index) => this.getEffectRule(index)?.onBuyPowerCard() ?? [])
+  onBuyPowerCard() {
+    this.keepCardsIndexes
+      .forEach((index) => this.getEffectRule(index)?.onBuyPowerCard() ?? [])
   }
 
   get healBonus(): number {
     return sumBy(this.keepCardsIndexes, (index) => this.getEffectRule(index)?.healBonus ?? 0)
   }
 
-  get bonusDiceFaces(): DiceFace[] {
+  getBonusFaces(face: DiceFace): (Source & { count: number })[] {
     return this.keepCardsIndexes
-      .flatMap((index) => this.getEffectRule(index)?.bonusDiceFaces ?? [])
+      .flatMap((index) => this.getEffectRule(index)?.getBonusFaces(face) ?? [])
   }
 
 

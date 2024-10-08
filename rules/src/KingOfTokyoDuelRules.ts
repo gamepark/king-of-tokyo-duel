@@ -8,15 +8,18 @@ import { CamouflageRule } from './rules/CamouflageRule'
 import { ChangePlayerRule } from './rules/ChangePlayerRule'
 import { DominateRule } from './rules/DominateRule'
 import { EffectRule } from './rules/EffectRule'
+import { FreeTurnEffectRule } from './rules/effects/FreeTurnEffectRule'
+import { OperationMediaRule } from './rules/effects/OperationMediaRule'
+import { ThePartyIsOverRule } from './rules/effects/ThePartyIsOverRule'
 import { EndOfTurnRule } from './rules/EndOfTurnRule'
 import { GainEnergyRule } from './rules/GainEnergyRule'
+import { GainWhiteDiceTokenRule } from './rules/GainWhiteDiceTokenRule'
 import { HealRule } from './rules/HealRule'
 import { HibernationRule } from './rules/HibernationRule'
 import { InShapeRule } from './rules/InShapeRule'
 import { MadeInALabRule } from './rules/MadeInALabRule'
 import { MoveBuzzTokenRule } from './rules/MoveBuzzTokenRule'
-import { PullDestructionPawnRule } from './rules/PullDestructionPawnRule'
-import { PullFamePawnRule } from './rules/PullFamePawnRule'
+import { PullPawnRule } from './rules/PullPawnRule'
 import { RebootingRule } from './rules/RebootingRule'
 import { ResolveDiceRule } from './rules/ResolveDiceRule'
 import { RollDiceRule } from './rules/RollDiceRule'
@@ -36,8 +39,7 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
   implements TimeLimit<MaterialGame<Monster, MaterialType, LocationType>, MaterialMove<Monster, MaterialType, LocationType>, Monster> {
   rules = {
     [RuleId.RollDice]: RollDiceRule,
-    [RuleId.PullFamePawn]: PullFamePawnRule,
-    [RuleId.PullDestructionPawn]: PullDestructionPawnRule,
+    [RuleId.PullPawn]: PullPawnRule,
     [RuleId.GainEnergy]: GainEnergyRule,
     [RuleId.Smash]: SmashRule,
     [RuleId.Buy]: BuyRule,
@@ -57,7 +59,11 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     [RuleId.AfterDiceResolution]: AfterDiceResolutionRule,
     [RuleId.ResolveDice]: ResolveDiceRule,
     [RuleId.EndOfTurn]: EndOfTurnRule,
-    [RuleId.TeslaImpulse]: TeslaImpulseRule
+    [RuleId.TeslaImpulse]: TeslaImpulseRule,
+    [RuleId.GainWhiteDiceToken]: GainWhiteDiceTokenRule,
+    [RuleId.ThePartyIsOver]: ThePartyIsOverRule,
+    [RuleId.FreeTurn]: FreeTurnEffectRule,
+    [RuleId.OperationMedia]: OperationMediaRule
   }
 
   hidingStrategies = {
