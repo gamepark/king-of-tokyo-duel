@@ -10,7 +10,7 @@ export class HealRule extends BasePlayerTurnEffectRule<Heal> {
     const heal = this.countHeal
     if (!heal) return [this.startRule(RuleId.Effect)]
     return [
-      this.wheel.rotateItem((item) => item.location.rotation + this.currentEffect.effect.count),
+      this.wheel.rotateItem((item) => Math.min(item.location.rotation + this.currentEffect.effect.count, this.maxHealth)),
       this.startRule(RuleId.Effect)
     ]
   }

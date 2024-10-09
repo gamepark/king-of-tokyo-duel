@@ -60,6 +60,10 @@ export class KeepHelper extends MaterialRulesPart {
     return new EffectRule(this.game, index)
   }
 
+  onDie(player: Monster): MaterialMove[] {
+    return this.keepCardsIndexes
+      .flatMap((index) => this.getEffectRule(index)?.onDie(player) ?? [])
+  }
 
   atStartOfTurn(): MaterialMove[] {
     return this.keepCardsIndexes
@@ -127,14 +131,14 @@ export class KeepHelper extends MaterialRulesPart {
       .flatMap((index) => this.getEffectRule(index)?.allowedMovesDuringTurn ?? [])
   }
 
-  afterItemMove(move: ItemMove): MaterialMove[] {
-    return this.keepCardsIndexes
-      .flatMap((index) => this.getEffectRule(index)?.afterItemMove(move) ?? [])
-  }
-
   beforeItemMove(move: ItemMove): MaterialMove[] {
     return this.keepCardsIndexes
       .flatMap((index) => this.getEffectRule(index)?.beforeItemMove(move) ?? [])
+  }
+
+  afterItemMove(move: ItemMove): MaterialMove[] {
+    return this.keepCardsIndexes
+      .flatMap((index) => this.getEffectRule(index)?.afterItemMove(move) ?? [])
   }
 
   onCustomMove(move: CustomMove): MaterialMove[] {
@@ -194,5 +198,5 @@ const keepEffects: Partial<Record<PowerCard, KeepRuleCreator>> = {
   [PowerCard.Unchained]: UnchainedKeepRule,
   [PowerCard.UnstableDna]: UnstableDnaKeepRule,
   [PowerCard.Unstoppable]: UnstoppableKeepRule,
-  [PowerCard.UtterDestruction]: UtterDestructionKeepRule
+  [PowerCard.UtterDestruction]: UtterDestructionKeepRule,
 }

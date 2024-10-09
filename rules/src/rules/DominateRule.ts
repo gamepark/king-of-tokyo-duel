@@ -40,11 +40,10 @@ export class DominateRule extends BasePlayerTurnRule {
 
   afterItemMove(move: ItemMove) {
     const moves = super.afterItemMove(move)
-    if (moves.some(isChangingRule)) return moves
     if (!isMoveItemType(MaterialType.PowerCard)(move)) return moves
 
     moves.push(this.startPlayerTurn(RuleId.RollDice, this.rival))
-    return [this.startPlayerTurn(RuleId.RollDice, this.rival)]
+    return moves
   }
 
   get rival() {

@@ -1,4 +1,4 @@
-import { axialToEvenQ, getPolyhexSpaces, HexGridSystem, isMoveItemType, ItemMove, Location, oddQToAxial } from '@gamepark/rules-api'
+import { axialToEvenQ, getPolyhexSpaces, HexGridSystem, isMoveItemType, ItemMove, Location, MaterialMove, oddQToAxial } from '@gamepark/rules-api'
 import range from 'lodash/range'
 import { Buzz, buzzDescriptions } from '../material/Buzz'
 import { PowerCard } from '../material/cards/PowerCard'
@@ -6,13 +6,27 @@ import { powerCardCharacteristics } from '../material/cards/PowerCardCharacteris
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
-import { isChangingRule } from './IsChangingRule'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class MoveBuzzTokenRule extends BasePlayerTurnRule {
   onRuleStart() {
-    return []
+    const buzz = this.buzz
+    if (buzz !== undefined && buzz !== Buzz.TheKingBuzz) {
+      const buzzItem = this.material(MaterialType.Buzz).id(buzz).getItem<Buzz>()!
+      if (buzzItem.location.type === LocationType.FameTrack || buzzItem.location.type === LocationType.DestructionTrack) {
+        const buzzSpaces = this.getBuzzSpaces(buzzItem.location, buzz)
+        const pawnItem = this.material(MaterialType.Pawn).location(buzzItem.location.type).getItem()!
+        if (buzzSpaces.some(space => space.x === pawnItem.location.x)) {
+          // The fame or destruction marker is on the buzz token, it cannot be moved
+          return this.startNextRule
+        } else {
+          // The buzz token is on the track: move it up a little bit so that player can rotate it and replace it on the original spot or wherever he likes
+          return [this.material(MaterialType.Buzz).id(buzz).moveItem(item => ({ ...item.location, y: -1 }))]
+        }
+      }
+    }
+    return this.getPlayerMoves().length === 0 ? this.startNextRule : []
   }
 
   getPlayerMoves() {
@@ -31,6 +45,7 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
         }
       }
     }
+
     return super.getPlayerMoves().concat(
       ...validLocations.map(location =>
         this.material(MaterialType.Buzz).id(buzz).moveItem(location) // TODO moveItems for king buzz
@@ -60,17 +75,20 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
   }
 
   afterItemMove(move: ItemMove) {
-    const moves = super.afterItemMove(move)
-    if (moves.some(isChangingRule)) return moves
-    if (!isMoveItemType(MaterialType.Buzz)(move)) return moves
-
-    if (this.effects.length) {
-      moves.push(this.startRule(RuleId.Effect))
-      return moves
-    }
-
-    moves.push(this.startRule(RuleId.Buy))
+    const moves: MaterialMove[] = super.afterItemMove(move)
+    if (!isMoveItemType(MaterialType.Buzz)(move) || move.location.y === -1) return moves
+    moves.push(...this.startNextRule)
     return moves
+  }
+
+  get startNextRule() {
+    if (this.effects.length) {
+    console.log(this.effects)
+      return [this.startRule(RuleId.Effect)]
+    } else {
+      console.log(this.effects)
+      return [this.startRule(RuleId.Buy)]
+    }
   }
 
   get buzz() {

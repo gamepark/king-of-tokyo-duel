@@ -2,21 +2,22 @@ import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType
 import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType'
 import { Monster } from '@gamepark/king-of-tokyo-duel/material/Monster'
 import { Locator } from '@gamepark/react-game'
+import { buyAreaLocator } from './BuyAreaLocator'
 import { buzzStockLocator } from './BuzzStockLocator'
 import { destructionTrackLocator } from './DestructionTrackLocator'
 import { discardLocator } from './DiscardLocator'
-import { onPowerCardLocator } from './OnPowerCardLocator'
-import { powerCardDeckLocator } from './PowerCardDeckLocator'
-import { powerCardOnBoardLocator } from './PowerCardOnBoardLocator'
 import { energyStockLocator } from './EnergyStockLocator'
 import { fameTrackLocator } from './FameTrackLocator'
 import { healthCounterLocator } from './HealthCounterLocator'
 import { monsterBoardLocator } from './MonsterBoardLocator'
+import { onPowerCardLocator } from './OnPowerCardLocator'
 import { playerBuzzLocator } from './PlayerBuzzLocator'
 import { playerEnergyLocator } from './PlayerEnergyLocator'
 import { playerHandLocator } from './PlayerHandLocator'
 import { playerKeepCards } from './PlayerKeepCardsLocator'
 import { playerRolledDiceLocator } from './PlayerRolledDiceLocator'
+import { powerCardDeckLocator } from './PowerCardDeckLocator'
+import { powerCardOnBoardLocator } from './PowerCardOnBoardLocator'
 import { whiteDiceStockLocator } from './WhiteDiceStockLocator'
 
 export const Locators: Partial<Record<LocationType, Locator<Monster, MaterialType, LocationType>>> = {
@@ -35,5 +36,6 @@ export const Locators: Partial<Record<LocationType, Locator<Monster, MaterialTyp
   [LocationType.PlayerEnergy]: playerEnergyLocator,
   [LocationType.Discard]: discardLocator,
   [LocationType.PlayerKeepCards]: playerKeepCards,
-  [LocationType.OnPowerCard]: onPowerCardLocator
+  [LocationType.OnPowerCard]: onPowerCardLocator,
+  [LocationType.BuyArea]: buyAreaLocator
 }

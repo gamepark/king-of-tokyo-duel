@@ -69,7 +69,7 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
   }
 
   buildEffect(type: EffectType, face: DiceFace, target: Monster = this.player): EffectWithSource | undefined {
-    const energyEffect: EffectWithSource = {
+    const effectWithSource: EffectWithSource = {
       sources: [],
       effect: {
         type: type,
@@ -81,7 +81,7 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
 
     const dice = this.getDiceForFace(face)
     if (dice.length) {
-      energyEffect.sources.push({
+      effectWithSource.sources.push({
         type: MaterialType.Dice,
         indexes: dice.getIndexes(),
         count: dice.length
@@ -91,25 +91,25 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
     const bonuses = new KeepHelper(this.game).getBonusFaces(face)
     const bonus = sumBy(bonuses, (bonus) => bonus.count)
     if (bonus) {
-      energyEffect.sources.push(
+      effectWithSource.sources.push(
         ...bonuses.flatMap(({ count, ...source }) => source.items )
       )
     }
 
 
-    energyEffect.effect.count = sumBy(energyEffect.sources, (source) => source.count ?? 0)
+    effectWithSource.effect.count = sumBy(effectWithSource.sources, (source) => source.count ?? 0)
     if (face === DiceFace.Fame || face === DiceFace.Destruction) {
-      energyEffect.effect.pawn = face === DiceFace.Fame? Pawn.Fame: Pawn.Destruction
-      energyEffect.effect.count = Math.floor(energyEffect.effect.count / 3)
+      effectWithSource.effect.pawn = face === DiceFace.Fame? Pawn.Fame: Pawn.Destruction
+      effectWithSource.effect.count = Math.floor(effectWithSource.effect.count / 3) + Math.max(0, effectWithSource.effect.count - 3)
     }
 
-    if (energyEffect.effect.count) {
+    if (effectWithSource.effect.count) {
       if (face === DiceFace.Heal) {
-        const healCount = new HealHelper(this.game, this.player).heal(energyEffect.effect.count)
-        if (!healCount) return
+        effectWithSource.effect.count = new HealHelper(this.game, this.player).heal(effectWithSource.effect.count)
+        if (!effectWithSource.effect.count) return
       }
 
-      return energyEffect
+      return effectWithSource
     }
 
     return

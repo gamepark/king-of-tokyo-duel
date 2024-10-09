@@ -1,9 +1,10 @@
-import { PlayerTurnRule, RuleMove } from '@gamepark/rules-api'
+import { isMoveItemType, ItemMove, MaterialMove, PlayerTurnRule, RuleMove } from '@gamepark/rules-api'
 import { DiceFace } from '../material/DiceFace'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { Effect } from './effects/EffectType'
 import { EffectWithSource } from './effects/EffectWithSource'
+import { KeepHelper } from './helper/KeepHelper'
 import { Memory } from './Memory'
 
 export class BasePlayerTurnRule<E extends Effect = any> extends PlayerTurnRule {
@@ -13,13 +14,33 @@ export class BasePlayerTurnRule<E extends Effect = any> extends PlayerTurnRule {
     return this.game.players.find((p) => p !== this.player)!
   }
 
+  getPlayerMoves(): MaterialMove<number, number, number>[] {
+    return new KeepHelper(this.game).allowedMovesDuringTurn
+  }
 
+  beforeItemMove(move: ItemMove): MaterialMove<number, number, number>[] {
+    return new KeepHelper(this.game).beforeItemMove(move)
+  }
+
+  afterItemMove(move: ItemMove) {
+    if (!isMoveItemType(MaterialType.PowerCard)(move)) return []
+    const moves: MaterialMove[] = []
+    if (this.cardOnBoard.length < 3) {
+      const powerCardDeck = this.powerCardDeck
+      if (this.powerCardDeck.length) moves.push(powerCardDeck.dealOne({ type: LocationType.PowerCardOnBoard }))
+    }
+    return moves
+  }
 
   get powerCardDeck() {
     return this
       .material(MaterialType.PowerCard)
       .location(LocationType.PowerCardDeck)
       .deck()
+  }
+
+  get cardOnBoard() {
+    return this.material(MaterialType.PowerCard).location(LocationType.PowerCardOnBoard)
   }
 
   isAlreadyConsumed(face: DiceFace) {

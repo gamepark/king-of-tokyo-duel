@@ -6,7 +6,6 @@ import { BasePlayerTurnEffectRule } from './BasePlayerTurnEffectRule'
 import { CustomMoveType } from './CustomMoveType'
 import { EffectType } from './effects/EffectType'
 import { HealHelper } from './helper/HealHelper'
-import { isChangingRule } from './IsChangingRule'
 import { RuleId } from './RuleId'
 
 export class HibernationRule extends BasePlayerTurnEffectRule {
@@ -47,7 +46,6 @@ export class HibernationRule extends BasePlayerTurnEffectRule {
 
   afterItemMove(move: ItemMove) {
     const moves = super.afterItemMove(move)
-    if (moves.some(isChangingRule)) return moves
     if (!isMoveItemType(MaterialType.PowerCard)(move) || move.location.type !== LocationType.Discard) return moves
     moves.push(this.startRule(RuleId.RollDice))
     return moves

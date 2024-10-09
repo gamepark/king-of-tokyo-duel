@@ -14,5 +14,5 @@ export enum Memory {
   TitanicBatteries,
   DiceFacesSolved,
   CamouflageRolledDiceCount,
-  FrozenMoves
+  Immune
 }

@@ -22,6 +22,10 @@ export class KeepRule extends MaterialRulesPart {
     return []
   }
 
+  onDie(_player: Monster): MaterialMove[] {
+    return []
+  }
+
   get additionalDice(): number {
     return 0
   }

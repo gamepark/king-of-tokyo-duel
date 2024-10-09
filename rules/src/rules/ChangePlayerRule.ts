@@ -98,6 +98,7 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
     this.forget(Memory.RivalSmashCount)
     this.forget(Memory.DecreaseDiceCount)
     this.forget(Memory.DiceFacesSolved)
+    this.forget(Memory.Immune)
     this.memorize(Memory.Round, (round: number) => round + 1)
     return []
   }

@@ -7,5 +7,6 @@ export enum CustomMoveType {
   RollAll,
   Ignore,
   PullPawn,
-  ResolveKind
+  ResolveKind,
+
 }

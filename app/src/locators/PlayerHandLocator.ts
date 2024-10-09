@@ -11,11 +11,11 @@ export class PlayerHandLocator extends FlexLocator {
   gap = { y: diceDescription.width + 0.7 }
 
   getCoordinates(location: Location, context: MaterialContext) {
-    let coordinates = { x: 17, y: 4.6, z: 0 }
     if (location.player === context.rules.players[0]) {
-      coordinates = { x: -27, y: 4.6, z: 0 }
+      return { x: -27, y: 4.6, z: 0 }
     }
 
+    let coordinates = { x: 17, y: 4.6, z: 0 }
     if (location.player === Monster.TheKing) {
       coordinates.x += 2.5
     }

@@ -20,7 +20,6 @@ export class EffectRule extends BasePlayerTurnRule {
 
   getEffectRuleMove(): MaterialMove | undefined {
 
-    console.log(this.currentEffect)
     const type: EffectType = this.currentEffect.effect.type
     switch (type) {
 

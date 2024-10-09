@@ -1,22 +1,23 @@
-import { isCreateItemTypeAtOnce, isRollItemType, ItemMove, MaterialMove, RuleMove, RuleStep } from '@gamepark/rules-api'
+import { isCreateItemTypeAtOnce, isDeleteItemTypeAtOnce, isRollItemType, ItemMove, MaterialMove, RuleMove, RuleStep } from '@gamepark/rules-api'
 import times from 'lodash/times'
 import { DiceColor } from '../material/DiceColor'
 import { DiceFace } from '../material/DiceFace'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
-import { BasePlayerTurnRule } from './BasePlayerTurnRule'
-import { DamageContext } from './helper/DamageContext'
-import { SmashHelper } from './helper/SmashHelper'
-import { isChangingRule, isStartingRule } from './IsChangingRule'
+import { BasePlayerTurnEffectRule } from './BasePlayerTurnEffectRule'
+import { Smash } from './effects/EffectType'
+import { EffectWithSource } from './effects/EffectWithSource'
+import { isStartingRule } from './IsChangingRule'
 import { Memory } from './Memory'
+import { RuleId } from './RuleId'
 
-export class CamouflageRule extends BasePlayerTurnRule {
+export class CamouflageRule extends BasePlayerTurnEffectRule<Smash> {
   onRuleStart(move: RuleMove, previousRule?: RuleStep): MaterialMove[] {
     if (isStartingRule(move) && !this.remind(Memory.PreviousRule)) this.memorize(Memory.PreviousRule, { ...previousRule })
     return [
       this.material(MaterialType.Dice)
         .createItemsAtOnce(
-          times(this.damageContext.damages).map(() => ({
+          times(this.damageContext.effect.count).map(() => ({
             id: DiceColor.Red,
             location: {
               type: LocationType.PlayerHand,
@@ -35,28 +36,38 @@ export class CamouflageRule extends BasePlayerTurnRule {
       .player(this.player)
     if (isCreateItemTypeAtOnce(MaterialType.Dice)(move)) {
       moves.push(...dice.rollItems())
-      moves.push(...dice.deleteItems())
-
-      const frozenMoves = this.frozenMoves
-      if (!frozenMoves.length || !frozenMoves.some(isChangingRule)) {
-        moves.push(this.goToPreviousRule())
-      } else {
-         moves.push(...frozenMoves)
-      }
+      moves.push(dice.deleteItemsAtOnce())
     }
 
     if (isRollItemType(MaterialType.Dice)(move)) {
       this.incrementRoll()
       const damagesContext = this.damageContext
       if (move.location.rotation === DiceFace.Heal) {
-        damagesContext.damages -= 1
-        damagesContext.indexes = damagesContext.indexes.slice(-1)
+        damagesContext.effect.count -= 1
+        for (const source of damagesContext.sources) {
+          if (source.indexes.length) {
+            source.indexes = source.indexes.slice(1)
+            break;
+          }
+        }
+
+        this.memorize(Memory.Effects, (effects: EffectWithSource[] = []) => {
+          const effectsWithoutFirst = effects.slice(1)
+          return [
+            damagesContext,
+            ...effectsWithoutFirst
+          ]
+        })
       }
 
-      if (this.countRoll === dice.length && damagesContext.damages > 0) {
-        moves.push(
-          ...new SmashHelper(this.game, this.player).smash(damagesContext.type, damagesContext.indexes, damagesContext.damages)
-        )
+      if (isDeleteItemTypeAtOnce(MaterialType.Dice)(move)) {
+        if (damagesContext.effect.count > 0) {
+          moves.push(this.startPlayerTurn(RuleId.Smash, this.rival))
+        } else {
+          // This delete the first effect from the list
+          super.onRuleEnd()
+          moves.push(this.startPlayerTurn(RuleId.Effect, this.rival))
+        }
       }
 
       this.forget(Memory.CamouflageRolledDiceCount)
@@ -65,30 +76,16 @@ export class CamouflageRule extends BasePlayerTurnRule {
     return moves
   }
 
-  get frozenMoves(): MaterialMove[] {
-    return this.remind(Memory.FrozenMoves) ?? []
-  }
-
   incrementRoll() {
     this.memorize<number>(Memory.CamouflageRolledDiceCount, (count: number = 0) => count++)
   }
 
-  get countRoll() {
-    return this.remind<number>(Memory.CamouflageRolledDiceCount) ?? 0
-  }
-
-  goToPreviousRule() {
-    const previewRule = this.remind(Memory.PreviousRule)!
-    if (previewRule.player !== this.player) return this.startPlayerTurn(previewRule.id, previewRule.player)
-    return this.startRule(previewRule.id)
-  }
-
   get damageContext() {
-    return this.remind<DamageContext>(Memory.SuspendedDamages)
+    return this.currentEffect
   }
 
+  // This to prevent removing the effect from the memory
   onRuleEnd() {
-    this.forget(Memory.SuspendedDamages)
     return []
   }
 }

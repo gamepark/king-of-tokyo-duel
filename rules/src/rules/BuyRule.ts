@@ -5,36 +5,71 @@ import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
-import { EnergyHelper } from './helper/EnergyHelper'
+import { EffectType } from './effects/EffectType'
 import { KeepHelper } from './helper/KeepHelper'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class BuyRule extends BasePlayerTurnRule {
   onRuleStart(): MaterialMove[] {
+    const moves: MaterialMove[] = []
+    moves.push(...this.placeCard())
     this.memorize(Memory.Phase, RuleId.Buy)
     if (!this.getPurchasableCards().length) {
       if (this.boughtCards.length) {
-        return [this.startRule(RuleId.EndOfTurn)]
+        moves.push(this.getNextRule())
+        return moves
       }
 
-      return [this.customMove(CustomMoveType.Pass)]
+      moves.push(this.customMove(CustomMoveType.Pass))
+      return moves
+    }
+
+    return moves
+  }
+
+  placeCard() {
+    const boughtCard = this
+      .material(MaterialType.PowerCard)
+      .location(LocationType.BuyArea)
+
+    if (boughtCard.length) {
+      return boughtCard
+        .moveItems((item) => {
+          if (powerCardCharacteristics[item.id].timing === Timing.Discard) {
+            return {
+              type: LocationType.Discard
+            }
+          } else {
+            return {
+              type: LocationType.PlayerKeepCards,
+              player: this.player
+            }
+          }
+        })
     }
 
     return []
+
   }
 
   getNextRule(): RuleMove {
+    if (this.effects.length) {
+      return this.startRule(RuleId.Effect)
+    }
     return this.startRule(RuleId.EndOfTurn)
   }
 
   getPlayerMoves() {
-    const moves: MaterialMove[] = []
+    const moves: MaterialMove[] = super.getPlayerMoves()
     moves.push(this.customMove(CustomMoveType.Pass))
 
     moves.push(
       ...this.getPurchasableCards()
-        .moveItems((item) => this.buyCard(item))
+        .moveItems({
+          type: LocationType.BuyArea,
+          player: this.player
+        })
     )
 
     return moves
@@ -50,13 +85,9 @@ export class BuyRule extends BasePlayerTurnRule {
   }
 
   afterItemMove(move: ItemMove) {
-    const moves: MaterialMove[] = []
-    if (isMoveItemType(MaterialType.PowerCard)(move) && move.location.type !== LocationType.PowerCardOnBoard) {
+    const moves: MaterialMove[] = super.afterItemMove(move)
+    if (isMoveItemType(MaterialType.PowerCard)(move) && move.location.type === LocationType.BuyArea) {
       this.memorizeBoughtCard(move.itemIndex)
-
-      const powerCardDeck = this.powerCardDeck
-      if (this.powerCardDeck.length) moves.push(powerCardDeck.dealOne({ type: LocationType.PowerCardOnBoard }))
-
       const item = this.material(MaterialType.PowerCard).getItem(move.itemIndex)!
       const buzz = powerCardCharacteristics[item.id].buzz
 
@@ -66,6 +97,7 @@ export class BuyRule extends BasePlayerTurnRule {
         moves.push(this.startRule(RuleId.MoveBuzzToken))
         return moves
       }
+
       if (this.effects.length) {
         moves.push(this.startRule(RuleId.Effect))
         return moves
@@ -89,41 +121,44 @@ export class BuyRule extends BasePlayerTurnRule {
 
     if (effects.length) {
       for (const effect of effects) {
-        console.log({
-          effect: effect,
-          sources: [{
-            type: MaterialType.PowerCard,
-            indexes: [move.itemIndex]
-          }],
-          target: effect?.me? this.player: this.rival
-        })
         this.unshiftEffect({
           effect: effect,
           sources: [{
             type: MaterialType.PowerCard,
             indexes: [move.itemIndex]
           }],
-          target: effect?.me? this.player: this.rival
+          target: effect?.rival ? this.rival : this.player
         })
       }
     }
   }
 
   beforeItemMove(move: ItemMove) {
-    const moves: MaterialMove[] = []
-    if (!isMoveItemType(MaterialType.PowerCard)(move) || move.location.type === LocationType.PowerCardOnBoard) return moves
-    const item = this.material(MaterialType.PowerCard).getItem(move.itemIndex)!
-    new KeepHelper(this.game).onBuyPowerCard()
-    moves.push(this.energies.deleteItem(this.getCost(item)))
+    const moves: MaterialMove[] = super.beforeItemMove(move)
+    if (isMoveItemType(MaterialType.PowerCard)(move) && move.location.type === LocationType.BuyArea) {
+      const item = this.material(MaterialType.PowerCard).getItem(move.itemIndex)!
+      new KeepHelper(this.game).onBuyPowerCard()
+      moves.push(this.energies.deleteItem(this.getCost(item)))
+      return moves
+    }
+
     return moves
   }
 
   onCustomMove(move: CustomMove) {
-    const moves: MaterialMove[] = []
-    if (!isCustomMoveType(CustomMoveType.Pass)(move)) return moves
+    if (!isCustomMoveType(CustomMoveType.Pass)(move)) return []
+    this.memorize(Memory.Phase, RuleId.EndOfTurn)
     if (this.boughtCards.length) return [this.getNextRule()]
-    moves.push(...new EnergyHelper(this.game, this.player).gain(1))
-    return moves
+    this.pushEffect({
+      effect: {
+        type: EffectType.GainEnergy,
+        count: 1
+      },
+      sources: [],
+      target: this.player
+    })
+
+    return [this.getNextRule()]
   }
 
   canBuyCard(item: MaterialItem, energy: number) {
@@ -133,20 +168,6 @@ export class BuyRule extends BasePlayerTurnRule {
   getCost(item: MaterialItem) {
     if (item.location.x! === 0) return powerCardCharacteristics[item.id].cost - 1
     return powerCardCharacteristics[item.id].cost
-  }
-
-  buyCard(item: MaterialItem) {
-    const characteristics = powerCardCharacteristics[item.id]
-    if (characteristics.timing === Timing.Discard) {
-      return {
-        type: LocationType.Discard
-      }
-    }
-
-    return {
-      type: LocationType.PlayerKeepCards,
-      player: this.player
-    }
   }
 
   memorizeBoughtCard(index: number) {

@@ -1,28 +1,31 @@
+import { MaterialMove } from '@gamepark/rules-api/dist/material/moves/MaterialMove'
+import { LocationType } from '../../../material/LocationType'
 import { MaterialType } from '../../../material/MaterialType'
 import { Monster } from '../../../material/Monster'
+import { EffectType } from '../../effects/EffectType'
+import { Memory } from '../../Memory'
 import { KeepRule } from '../KeepRule'
 
 
 export class UnstoppableKeepRule extends KeepRule {
-  ignoredSmash(player: Monster, damages: number): number {
-    if (this.cardPlayer !== player) return 0
-    if (this.isConsumed) {
-      return Infinity
-    }
+  onDie(player: Monster): MaterialMove[] {
+    if (this.cardPlayer !== player) return []
+    this.markKeepCardConsumed()
+    this.unshiftEffect({
+      type: EffectType.Heal,
+      count: 1
+    }, this.cardPlayer)
 
-    if (this.healthWheelValue - damages <= 0) {
-      this.markKeepCardConsumed()
-      return this.healthWheelValue - 1
-    }
-
-    return 0
+    this.memorize(Memory.Immune, this.cardPlayer)
+    return this
+      .material(MaterialType.PowerCard)
+      .index(this.cardIndex)
+      .moveItems({
+        type: LocationType.Discard
+      })
   }
 
-  get healthWheelValue(): number {
-    return this
-      .material(MaterialType.HealthCounter)
-      .player(this.cardPlayer)
-      .getItem()!
-      .location.rotation
+  immune(_player: Monster, _damages: number): boolean {
+    return this.isConsumed
   }
 }

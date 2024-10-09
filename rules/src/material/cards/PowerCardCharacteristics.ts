@@ -50,7 +50,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
     buzz: Buzz.Buzz7,
     effects: [
       { type: EffectType.PullPawn, pawn: Pawn.Fame, count: 1 },
-      { type: EffectType.Smash, me: false, count: 1 },
+      { type: EffectType.Smash, rival: true, count: 1 },
       { type: EffectType.GainEnergy, count: 4 },
     ]
   },
@@ -73,7 +73,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
     buzz: Buzz.Buzz6,
     effects: [
       { type: EffectType.GainEnergy, count: 8 },
-      { type: EffectType.GetWhiteDiceToken, count: 1 },
+      { type: EffectType.GetWhiteDiceToken, count: 2 },
     ]
   },
   [PowerCard.ExtraHead]: {
@@ -110,7 +110,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
     timing: Timing.Discard,
     buzz: Buzz.Buzz1,
     effects: [
-      { type: EffectType.Smash, me: true, count: 3 },
+      { type: EffectType.Smash, count: 3 },
       { type: EffectType.PullPawn, pawn: Pawn.Destruction, count: 2 },
     ]
   },
@@ -128,8 +128,8 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
     timing: Timing.Discard,
     buzz: Buzz.Buzz12,
     effects: [
-      { type: EffectType.Smash, me: true, count: 5 },
-      { type: EffectType.Smash, me: false, count: 5 },
+      { type: EffectType.Smash, count: 5 },
+      { type: EffectType.Smash, rival: true, count: 5 },
     ]
   },
   [PowerCard.Kaijutsu]: {
@@ -138,7 +138,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
     buzz: Buzz.Buzz10,
     effects: [
       { type: EffectType.PullPawn, pawn: Pawn.Destruction, count: 1 },
-      { type: EffectType.Smash, me: false, count: 2 },
+      { type: EffectType.Smash, rival: true, count: 2 },
     ]
   },
   [PowerCard.LightingSpeed]: {
@@ -290,7 +290,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
     timing: Timing.Discard,
     buzz: Buzz.Buzz4,
     effects: [
-      { type: EffectType.Smash, me: false, count: 2 }
+      { type: EffectType.Smash, rival: true, count: 2 }
     ]
   },
   [PowerCard.TrendSetter]: {

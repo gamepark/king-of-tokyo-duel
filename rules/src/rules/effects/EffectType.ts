@@ -36,7 +36,7 @@ export type FreeTurn = {
 export type Smash = {
   type: EffectType.Smash,
   count: number,
-  me: boolean
+  rival: boolean
 }
 
 export type GainEnergy = {
