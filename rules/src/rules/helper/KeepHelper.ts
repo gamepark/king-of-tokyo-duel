@@ -25,7 +25,6 @@ import { InTheShadowsKeepRule } from '../keep/card/InTheShadowsKeepRule'
 import { LightningSpeedKeepRule } from '../keep/card/LightningSpeedKeepRule'
 import { MadeInALabKeepRule } from '../keep/card/MadeInALabKeepRule'
 import { NaturalSelectionKeepRule } from '../keep/card/NaturalSelectionKeepRule'
-import { RebootingKeepRule } from '../keep/card/RebootingKeepRule'
 import { RegenerationKeepRule } from '../keep/card/RegenerationKeepRule'
 import { ScrappyKeepRule } from '../keep/card/ScrappyKeepRule'
 import { SignatureMoveKeepRule } from '../keep/card/SignatureMoveKeepRule'
@@ -54,7 +53,7 @@ export class KeepHelper extends MaterialRulesPart {
 
   }
 
-  getEffectRule(index: number) {
+  getEffectRule(index: number): KeepRule | undefined {
     const EffectRule = keepEffects[this.keepCards.getItem(index)!.id]
     if (!EffectRule) return
     return new EffectRule(this.game, index)
@@ -65,9 +64,18 @@ export class KeepHelper extends MaterialRulesPart {
       .flatMap((index) => this.getEffectRule(index)?.onDie(player) ?? [])
   }
 
+  onHeal(): number {
+    return sumBy(this.keepCardsIndexes, (index) => this.getEffectRule(index)?.onHeal() ?? 0)
+  }
+
   atStartOfTurn(): MaterialMove[] {
     return this.keepCardsIndexes
       .flatMap((index) => this.getEffectRule(index)?.atStartOfTurn() ?? [])
+  }
+
+  atStartOfResolving(): MaterialMove[] {
+    return this.keepCardsIndexes
+      .flatMap((index) => this.getEffectRule(index)?.atStartOfResolving() ?? [])
   }
 
   get additionalDice(): number {
@@ -83,9 +91,19 @@ export class KeepHelper extends MaterialRulesPart {
       .forEach((index) => this.getEffectRule(index)?.atEndOfTurn())
   }
 
-  afterResolvingDice(): MaterialMove[] {
+  afterResolvingDice() {
     return this.keepCardsIndexes
       .flatMap((index) => this.getEffectRule(index)?.afterResolvingDice() ?? [])
+  }
+
+  afterResolvingDiceFace(dice: DiceFace) {
+    return this.keepCardsIndexes
+      .flatMap((index) => this.getEffectRule(index)?.afterResolvingDiceFace(dice) ?? [])
+  }
+
+  beforeResolvingDice() {
+    return this.keepCardsIndexes
+      .flatMap((index) => this.getEffectRule(index)?.beforeResolvingDice() ?? [])
   }
 
   canReroll(face: DiceFace): boolean {
@@ -117,8 +135,8 @@ export class KeepHelper extends MaterialRulesPart {
     return sumBy(this.keepCardsIndexes, (index) => this.getEffectRule(index)?.ignoredSmash(player, damages) ?? 0)
   }
 
-  immune(player: Monster, damages?: number): boolean {
-    return this.keepCardsIndexes.some((index) => this.getEffectRule(index)?.immune(player, damages))
+  immune(player: Monster): boolean {
+    return this.keepCardsIndexes.some((index) => this.getEffectRule(index)?.immune(player))
   }
 
   get buzzBonusAlternatives(): number[] {
@@ -151,13 +169,13 @@ export class KeepHelper extends MaterialRulesPart {
       .forEach((index) => this.getEffectRule(index)?.onBuyPowerCard() ?? [])
   }
 
-  get healBonus(): number {
-    return sumBy(this.keepCardsIndexes, (index) => this.getEffectRule(index)?.healBonus ?? 0)
-  }
-
   getBonusFaces(face: DiceFace): (Source & { count: number })[] {
     return this.keepCardsIndexes
-      .flatMap((index) => this.getEffectRule(index)?.getBonusFaces(face) ?? [])
+      .flatMap((index) => {
+        const bonuses = this.getEffectRule(index)?.getBonusFaces(face)
+        if (bonuses) return [bonuses]
+        return []
+      })
   }
 
 
@@ -186,7 +204,6 @@ const keepEffects: Partial<Record<PowerCard, KeepRuleCreator>> = {
   [PowerCard.LightingSpeed]: LightningSpeedKeepRule,
   [PowerCard.MadeInALab]: MadeInALabKeepRule,
   [PowerCard.NaturalSelection]: NaturalSelectionKeepRule,
-  [PowerCard.Rebooting]: RebootingKeepRule,
   [PowerCard.Regeneration]: RegenerationKeepRule,
   [PowerCard.Scrappy]: ScrappyKeepRule,
   [PowerCard.SignatureMove]: SignatureMoveKeepRule,

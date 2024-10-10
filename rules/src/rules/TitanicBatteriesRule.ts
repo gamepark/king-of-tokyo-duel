@@ -75,6 +75,4 @@ export class TitanicBatteriesRule extends BasePlayerTurnRule {
     this.forget(Memory.TitanicBatteries)
     return []
   }
-
-  // TODO: do effect and then call this.nextRuleMove
 }

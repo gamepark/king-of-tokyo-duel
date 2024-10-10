@@ -5,7 +5,6 @@ import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
 import { KeepHelper } from './helper/KeepHelper'
-import { isChangingRule } from './IsChangingRule'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
@@ -14,19 +13,21 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
   onRuleStart() {
     const white = this.whiteDice
     const additionalDice = Math.min(new KeepHelper(this.game).additionalDice, 2)
-    const removedDice = this.removedDice
+    const removedDice = Math.min(this.removedDice, 6)
     const nextPlayer = this.computeNextPlayer()
     const moves: MaterialMove[] = []
 
-    moves.push(
-      this
-        .redDice
-        .limit(6 - removedDice)
-        .moveItemsAtOnce({
-          type: LocationType.PlayerHand,
-          player: nextPlayer
-        })
-    )
+    if (!this.remind(Memory.Dominate)) {
+      moves.push(
+        this
+          .redDice
+          .limit(6 - removedDice)
+          .moveItemsAtOnce({
+            type: LocationType.PlayerHand,
+            player: nextPlayer
+          })
+      )
+    }
 
     if (additionalDice) {
       moves.push(
@@ -52,13 +53,13 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
   }
 
   onCustomMove(move: CustomMove) {
-    const moves = super.onCustomMove(move)
-    if (moves.some(isChangingRule)) return moves
+    const moves: MaterialMove[] = []
     const nextPlayer = this.computeNextPlayer()
     if (!isCustomMoveType(CustomMoveType.ChangePlayer)(move)) return moves
+    this.memorize(Memory.ActivePlayer, nextPlayer)
     this.forget(Memory.FreeTurn)
 
-    moves.push(this.startPlayerTurn(RuleId.RollDice, nextPlayer))
+    moves.push(this.startPlayerTurn(RuleId.OnStartTurn, nextPlayer))
     return moves
   }
 
@@ -88,17 +89,18 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
   }
 
   onRuleEnd() {
-    // TODO: forget all player memory
     this.forget(Memory.RollCount)
     this.forget(Memory.BoughtCards)
     this.forget(Memory.Effects)
     this.forget(Memory.FreeTurn)
     this.forget(Memory.KeepCardPlayed)
-    this.forget(Memory.SmashCount)
     this.forget(Memory.RivalSmashCount)
     this.forget(Memory.DecreaseDiceCount)
     this.forget(Memory.DiceFacesSolved)
-    this.forget(Memory.Immune)
+    this.forget(Memory.SkipReboot)
+    if (this.remind(Memory.ActivePlayer) === this.remind(Memory.Immune)) {
+      this.forget(Memory.Immune)
+    }
     this.memorize(Memory.Round, (round: number) => round + 1)
     return []
   }

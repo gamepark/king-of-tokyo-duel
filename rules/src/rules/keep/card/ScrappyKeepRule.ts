@@ -1,23 +1,18 @@
-import { MaterialMove } from '@gamepark/rules-api'
-import { LocationType } from '../../../material/LocationType'
 import { MaterialType } from '../../../material/MaterialType'
-import { Pawn } from '../../../material/Pawn'
+import { EffectType } from '../../effects/EffectType'
 import { KeepRule } from '../KeepRule'
 
 
 export class ScrappyKeepRule extends KeepRule {
-  afterPullPawn(_pawn: Pawn): MaterialMove[] {
-    if (this.getActivePlayer() !== this.cardPlayer) return []
-    if (this.bonusTokensCount === 2) return []
-    return [
-      this.material(MaterialType.DiceToken)
-        .createItem({
-          location: {
-            type: LocationType.PlayerDiceToken,
-            player: this.cardPlayer
-          }
-        })
-    ]
+  afterPullPawn() {
+    if (this.getActivePlayer() !== this.cardPlayer) return
+    if (this.bonusTokensCount === 2) return
+
+    // TODO: define "each time you pull the pawn marker of a buzz token"
+    this.pushEffect({
+      type: EffectType.GetWhiteDiceToken,
+      count: 1
+    }, this.cardPlayer)
   }
 
   get bonusTokensCount() {

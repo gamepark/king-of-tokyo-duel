@@ -1,10 +1,53 @@
-import { MaterialMove } from '@gamepark/rules-api'
+import { CustomMove, isCustomMoveType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
+import { powerCardCharacteristics } from '../../../material/cards/PowerCardCharacteristics'
+import { LocationType } from '../../../material/LocationType'
+import { MaterialType } from '../../../material/MaterialType'
+import { CustomMoveType } from '../../CustomMoveType'
 import { RuleId } from '../../RuleId'
 import { KeepRule } from '../KeepRule'
 
 export class MadeInALabKeepRule extends KeepRule {
   atStartOfTurn(): MaterialMove[] {
-    if (this.getActivePlayer() !== this.cardPlayer) return []
+    if (this.getActivePlayer() !== this.cardPlayer || this.isConsumed) return []
+    if (!this.getPurchasableCards().length) return []
     return [this.startRule(RuleId.MadeInALab)]
+  }
+
+  onBuyPowerCard() {
+    if (this.game.rule?.id !== RuleId.MadeInALab) return
+    this.markKeepCardConsumed()
+  }
+
+  onCustomMove(move: CustomMove) {
+    if (this.game.rule?.id !== RuleId.MadeInALab || !isCustomMoveType(CustomMoveType.Pass)(move)) return []
+    this.markKeepCardConsumed()
+    return []
+  }
+
+  getPurchasableCards(energy: number = this.energies.getQuantity()) {
+    return this.river
+      .filter((item) => this.canBuyCard(item, energy))
+  }
+
+  canBuyCard(item: MaterialItem, energy: number) {
+    return this.getCost(item) <= energy
+  }
+
+  getCost(item: MaterialItem) {
+    if (item.location.x! === 0) return Math.max(powerCardCharacteristics[item.id].cost - 2, 1)
+    return Math.max(powerCardCharacteristics[item.id].cost - 1, 1)
+  }
+
+  get energies() {
+    return this
+      .material(MaterialType.Energy)
+      .location(LocationType.PlayerEnergy)
+      .player(this.cardPlayer)
+  }
+
+  get river() {
+    return this
+      .material(MaterialType.PowerCard)
+      .location(LocationType.PowerCardOnBoard)
   }
 }

@@ -2,6 +2,7 @@ import { MaterialType } from '../material/MaterialType'
 import { monsterBoardDescriptions } from '../material/MonsterBoardDescription'
 import { BasePlayerTurnEffectRule } from './BasePlayerTurnEffectRule'
 import { Heal } from './effects/EffectType'
+import { KeepHelper } from './helper/KeepHelper'
 import { RuleId } from './RuleId'
 
 export class HealRule extends BasePlayerTurnEffectRule<Heal> {
@@ -9,8 +10,9 @@ export class HealRule extends BasePlayerTurnEffectRule<Heal> {
   onRuleStart() {
     const heal = this.countHeal
     if (!heal) return [this.startRule(RuleId.Effect)]
+    const item = this.wheel.getItem()!
     return [
-      this.wheel.rotateItem((item) => Math.min(item.location.rotation + this.currentEffect.effect.count, this.maxHealth)),
+      this.wheel.rotateItem(item.location.rotation + heal),
       this.startRule(RuleId.Effect)
     ]
   }
@@ -26,8 +28,9 @@ export class HealRule extends BasePlayerTurnEffectRule<Heal> {
     const healCount = this.currentEffect.effect.count
     const health = healthWheel.getItem()!.location.rotation
     const newHealth = Math.min(this.maxHealth, health + healCount)
-    if (newHealth === health) return 0
-    return newHealth
+    const countHeal = newHealth - health
+    if (newHealth === this.maxHealth) return countHeal
+    return Math.min(this.maxHealth, newHealth + new KeepHelper(this.game).onHeal())
   }
 
   get healthWheel() {

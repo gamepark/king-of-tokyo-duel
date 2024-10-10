@@ -1,6 +1,8 @@
 import { MaterialMove } from '@gamepark/rules-api'
+import { Monster } from '../material/Monster'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { EffectType } from './effects/EffectType'
+import { EffectWithSource } from './effects/EffectWithSource'
 import { KeepHelper } from './helper/KeepHelper'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
@@ -42,18 +44,33 @@ export class EffectRule extends BasePlayerTurnRule {
       case EffectType.FreeTurn:
         return this.startRule(RuleId.FreeTurn)
       case EffectType.TeslaImpulse:
-        return this.startRule(RuleId.TeslaImpulse)
+        return this.sliceAndStart(RuleId.TeslaImpulse)
       case EffectType.OperationMedia:
-        return this.startRule(RuleId.OperationMedia)
+        return this.sliceAndStart(RuleId.OperationMedia)
       case EffectType.Dominate:
-        return this.startRule(RuleId.Dominate)
+        this.memorize(Memory.Dominate, true)
+        return this.sliceAndStart(RuleId.Effect)
       case EffectType.UnstableDna:
-        return this.startRule(RuleId.UnstableDna);
+        return this.sliceAndStartPlayerTurn(RuleId.UnstableDna, this.currentEffect.target);
       case EffectType.InShape:
-        return this.startRule(RuleId.InShape);
+        return this.sliceAndStart(RuleId.InShape);
+      case EffectType.SuperConductor:
+        return this.sliceAndStartPlayerTurn(RuleId.SuperConductor, this.currentEffect.target);
+      case EffectType.Rebooting:
+        return this.sliceAndStart(RuleId.Rebooting)
       default:
         return
     }
+  }
+
+  sliceAndStart(id: RuleId) {
+    this.memorize(Memory.Effects, (effects: EffectWithSource[]) => effects.slice(1))
+    return this.startRule(id)
+  }
+
+  sliceAndStartPlayerTurn(id: RuleId, player: Monster) {
+    this.memorize(Memory.Effects, (effects: EffectWithSource[]) => effects.slice(1))
+    return this.startPlayerTurn(id, player)
   }
 
   goToNextRule() {

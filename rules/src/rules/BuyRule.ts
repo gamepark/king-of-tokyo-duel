@@ -75,11 +75,6 @@ export class BuyRule extends BasePlayerTurnRule {
     return moves
   }
 
-  getPurchasableCards(energy: number = this.energies.getQuantity()) {
-    return this.river
-      .filter((item) => this.canBuyCard(item, energy))
-  }
-
   get boughtCards() {
     return this.remind(Memory.BoughtCards) ?? []
   }
@@ -103,6 +98,7 @@ export class BuyRule extends BasePlayerTurnRule {
         return moves
       }
 
+      moves.push(...this.placeCard())
       if (!this.getPurchasableCards(this.energies.getQuantity() - this.getCost(item)).length) {
         moves.push(this.getNextRule())
       }
@@ -121,7 +117,7 @@ export class BuyRule extends BasePlayerTurnRule {
 
     if (effects.length) {
       for (const effect of effects) {
-        this.unshiftEffect({
+        this.pushEffect({
           effect: effect,
           sources: [{
             type: MaterialType.PowerCard,
@@ -145,7 +141,7 @@ export class BuyRule extends BasePlayerTurnRule {
     return moves
   }
 
-  onCustomMove(move: CustomMove) {
+  onCustomMove(move: CustomMove): MaterialMove[] {
     if (!isCustomMoveType(CustomMoveType.Pass)(move)) return []
     this.memorize(Memory.Phase, RuleId.EndOfTurn)
     if (this.boughtCards.length) return [this.getNextRule()]
@@ -161,13 +157,18 @@ export class BuyRule extends BasePlayerTurnRule {
     return [this.getNextRule()]
   }
 
+  getPurchasableCards(energy: number = this.energies.getQuantity()) {
+    return this.river
+      .filter((item) => this.canBuyCard(item, energy))
+  }
+
   canBuyCard(item: MaterialItem, energy: number) {
     return this.getCost(item) <= energy
   }
 
   getCost(item: MaterialItem) {
-    if (item.location.x! === 0) return powerCardCharacteristics[item.id].cost - 1
-    return powerCardCharacteristics[item.id].cost
+    if (item.location.x! === 0) return Math.max(powerCardCharacteristics[item.id].cost - 1, 1)
+    return Math.max(powerCardCharacteristics[item.id].cost, 1)
   }
 
   memorizeBoughtCard(index: number) {

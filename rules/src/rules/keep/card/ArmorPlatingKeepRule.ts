@@ -6,6 +6,7 @@ import { Monster } from '../../../material/Monster'
 import { CustomMoveType } from '../../CustomMoveType'
 import { KeepRule } from '../KeepRule'
 
+// TODO : Prevent damages
 export class ArmorPlatingKeepRule extends KeepRule {
   ignoredSmash(player: Monster): number {
     if (this.isConsumed || player !== this.cardPlayer) return 0

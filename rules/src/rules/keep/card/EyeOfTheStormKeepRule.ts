@@ -1,6 +1,7 @@
 import { MaterialMove } from '@gamepark/rules-api'
 import { LocationType } from '../../../material/LocationType'
 import { MaterialType } from '../../../material/MaterialType'
+import { KeepHelper } from '../../helper/KeepHelper'
 import { Memory } from '../../Memory'
 import { KeepRule } from '../KeepRule'
 
@@ -26,7 +27,11 @@ export class EyeOfTheStormKeepRule extends KeepRule {
   }
 
   get notUsedRolls() {
-    return 3 - (this.remind(Memory.RollCount) ?? 0)
+    return this.maxRollCount - (this.remind(Memory.RollCount) ?? 0)
+  }
+
+  get maxRollCount() {
+    return 3 + new KeepHelper(this.game).additionalRolls
   }
 
   get player() {

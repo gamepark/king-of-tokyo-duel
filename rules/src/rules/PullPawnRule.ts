@@ -20,7 +20,6 @@ export class PullPawnRule extends BasePlayerTurnEffectRule<PullPawn> {
     const isLeft = this.game.players[0] === this.currentEffect.target
     const count = effectWSource.effect.count
     const item = pawn.getItem()!
-    console.log(effectWSource.effect.pawn)
     const newX = isLeft ? Math.max(-7, item.location.x! - count) : Math.min(7, item.location.x! + count)
 
     if (item.location.x === newX) return []

@@ -24,7 +24,13 @@ export enum RuleId {
   PreventDamages,
   GainWhiteDiceToken,
   ThePartyIsOver,
-  // TODO: REMOVE IT (FreeTurn)
   FreeTurn,
-  OperationMedia
+  OperationMedia,
+    OnStartTurn,
+  Alienoid,
+  CyberKitty,
+  Gigazaur,
+  MekaDragon,
+  SpacePenguin,
+  TheKing
 }

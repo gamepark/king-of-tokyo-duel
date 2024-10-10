@@ -8,8 +8,8 @@ import { KeepHelper } from '../../helper/KeepHelper'
 import { KeepRule } from '../KeepRule'
 
 export class GentleGiantKeepRule extends KeepRule {
-  afterRollingDice() {
-    if (this.getActivePlayer() !== this.cardPlayer) return
+  afterResolvingDice() {
+    if (this.getActivePlayer() !== this.cardPlayer) return []
     const clawFaces = this.clawFaces
     if (!clawFaces) {
       this.pushEffect({
@@ -18,6 +18,8 @@ export class GentleGiantKeepRule extends KeepRule {
         count: 1,
       }, this.cardPlayer)
     }
+
+    return []
   }
 
   get clawFaces() {

@@ -1,14 +1,20 @@
 import { DiceFace } from '../../../material/DiceFace'
 import { MaterialType } from '../../../material/MaterialType'
 import { KeepRule } from '../KeepRule'
-import times from 'lodash/times'
 
 export class AdrenalineAugmentKeepRule extends KeepRule {
-  get bonusDiceFaces(): DiceFace[] {
-    if (this.getActivePlayer() !== this.cardPlayer) return []
+  getBonusFaces(face:DiceFace) {
+    if (this.getActivePlayer() !== this.cardPlayer) return
+    if (face !== DiceFace.Claw) return
     const countPawnsInSpotlightZone = this.countPawnsInSpotlightZone;
-    if (!countPawnsInSpotlightZone) return []
-    return times(countPawnsInSpotlightZone, (_) => DiceFace.Claw)
+    if (!countPawnsInSpotlightZone) return
+    return {
+      items: [{
+        type: MaterialType.PowerCard,
+        indexes: [this.cardIndex]
+      }],
+      count: countPawnsInSpotlightZone
+    }
   }
 
   get countPawnsInSpotlightZone() {

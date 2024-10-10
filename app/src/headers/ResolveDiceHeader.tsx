@@ -11,9 +11,10 @@ export const ResolveDiceHeader = () => {
   const pullFamePawn = useLegalMove((move) => isCustomMoveType(CustomMoveType.ResolveKind)(move) && move.data === DiceFace.Fame)
   const pullDestructionPawn = useLegalMove((move) =>isCustomMoveType(CustomMoveType.ResolveKind)(move) && move.data === DiceFace.Destruction)
   const heal = useLegalMove((move) => isCustomMoveType(CustomMoveType.ResolveKind)(move) && move.data === DiceFace.Heal)
+  const power = useLegalMove((move) => isCustomMoveType(CustomMoveType.ResolveKind)(move) && move.data === DiceFace.Power)
   return (
     <>
-      <PlayMoveButton move={gainEnergy}>Gain Energy</PlayMoveButton> OR <PlayMoveButton move={smash}>Smash</PlayMoveButton> OR <PlayMoveButton move={pullFamePawn}>Pull fame</PlayMoveButton> OR <PlayMoveButton move={pullDestructionPawn}>Pull destruction</PlayMoveButton> OR <PlayMoveButton move={heal}>Heal</PlayMoveButton>
+      <PlayMoveButton move={gainEnergy}>Gain Energy</PlayMoveButton> OR <PlayMoveButton move={smash}>Smash</PlayMoveButton> OR <PlayMoveButton move={pullFamePawn}>Pull fame</PlayMoveButton> OR <PlayMoveButton move={pullDestructionPawn}>Pull destruction</PlayMoveButton> OR <PlayMoveButton move={heal}>Heal</PlayMoveButton> OR <PlayMoveButton move={power}>Power</PlayMoveButton>
     </>
   )
 }

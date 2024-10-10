@@ -6,13 +6,13 @@ export enum Memory {
   FreeTurn,
   KeepCardPlayed,
   Phase,
-  SmashCount,
   RivalSmashCount,
   DecreaseDiceCount,
-  PreviousRule,
-  SuspendedDamages,
   TitanicBatteries,
   DiceFacesSolved,
   CamouflageRolledDiceCount,
-  Immune
+  Immune,
+  ActivePlayer,
+  Dominate,
+  SkipReboot
 }

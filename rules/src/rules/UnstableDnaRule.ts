@@ -1,11 +1,11 @@
-import { MaterialMove, RuleMove, RuleStep } from '@gamepark/rules-api'
+import { MaterialMove } from '@gamepark/rules-api'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
-import { Memory } from './Memory'
+import { RuleId } from './RuleId'
 
+// TODO
 export class UnstableDnaRule extends BasePlayerTurnRule {
-  onRuleStart(_move: RuleMove, previousRule?: RuleStep): MaterialMove[] {
-    this.memorize(Memory.PreviousRule, { ...previousRule })
-    return []
+  onRuleStart(): MaterialMove[] {
+    return [this.startPlayerTurn(RuleId.Effect, this.rival)]
   }
 
   // TODO: do effect and then call this.nextRuleMove

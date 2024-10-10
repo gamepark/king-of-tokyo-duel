@@ -6,7 +6,6 @@ import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
 import { EffectType } from './effects/EffectType'
-import { isChangingRule } from './IsChangingRule'
 import { RuleId } from './RuleId'
 
 export class SuperConductorRule extends BasePlayerTurnRule {
@@ -17,17 +16,16 @@ export class SuperConductorRule extends BasePlayerTurnRule {
     return moves
   }
 
-  onCustomMove(move: CustomMove) {
-    const moves = super.onCustomMove(move)
-    if (moves.some(isChangingRule)) return moves
-    moves.push(this.startPlayerTurn(RuleId.Buy, this.rival))
+  onCustomMove(_move: CustomMove) {
+    const moves = []
+    moves.push(this.startPlayerTurn(RuleId.Effect, this.rival))
     return moves
   }
 
   afterItemMove(move: ItemMove): MaterialMove<number, number, number>[] {
     const moves = super.afterItemMove(move)
     if (isMoveItemType(MaterialType.PowerCard)(move) && move.location.type === LocationType.Discard) {
-      this.pushEffect({
+      this.unshiftEffect({
         effect: {
           type: EffectType.GainEnergy,
           count: this.energyDice

@@ -9,7 +9,7 @@ import { KeepRule } from '../KeepRule'
 
 export class UnstoppableKeepRule extends KeepRule {
   onDie(player: Monster): MaterialMove[] {
-    if (this.cardPlayer !== player) return []
+    if (this.cardPlayer !== player || this.isConsumed) return []
     this.markKeepCardConsumed()
     this.unshiftEffect({
       type: EffectType.Heal,
@@ -25,7 +25,7 @@ export class UnstoppableKeepRule extends KeepRule {
       })
   }
 
-  immune(_player: Monster, _damages: number): boolean {
-    return this.isConsumed
+  immune(player: Monster): boolean {
+    return this.remind(Memory.Immune) === player
   }
 }

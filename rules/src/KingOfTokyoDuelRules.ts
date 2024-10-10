@@ -19,6 +19,7 @@ import { HibernationRule } from './rules/HibernationRule'
 import { InShapeRule } from './rules/InShapeRule'
 import { MadeInALabRule } from './rules/MadeInALabRule'
 import { MoveBuzzTokenRule } from './rules/MoveBuzzTokenRule'
+import { OnStartTurnRule } from './rules/OnStartTurnRule'
 import { PullPawnRule } from './rules/PullPawnRule'
 import { RebootingRule } from './rules/RebootingRule'
 import { ResolveDiceRule } from './rules/ResolveDiceRule'
@@ -63,6 +64,7 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     [RuleId.GainWhiteDiceToken]: GainWhiteDiceTokenRule,
     [RuleId.ThePartyIsOver]: ThePartyIsOverRule,
     [RuleId.FreeTurn]: FreeTurnEffectRule,
+    [RuleId.OnStartTurn]: OnStartTurnRule,
     [RuleId.OperationMedia]: OperationMediaRule
   }
 

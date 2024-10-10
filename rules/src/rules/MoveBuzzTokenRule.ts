@@ -83,10 +83,8 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
 
   get startNextRule() {
     if (this.effects.length) {
-    console.log(this.effects)
       return [this.startRule(RuleId.Effect)]
     } else {
-      console.log(this.effects)
       return [this.startRule(RuleId.Buy)]
     }
   }

@@ -8,5 +8,5 @@ export enum CustomMoveType {
   Ignore,
   PullPawn,
   ResolveKind,
-
+  SkipResolving
 }

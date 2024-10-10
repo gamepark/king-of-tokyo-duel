@@ -22,6 +22,10 @@ export class KeepRule extends MaterialRulesPart {
     return []
   }
 
+  onHeal() {
+
+  }
+
   onDie(_player: Monster): MaterialMove[] {
     return []
   }
@@ -38,8 +42,10 @@ export class KeepRule extends MaterialRulesPart {
     return
   }
 
-  afterResolvingDice(): MaterialMove[] {
-    return []
+  afterResolvingDice() {
+  }
+
+  afterResolvingDiceFace(_dice: DiceFace) {
   }
 
   canReroll(_face: DiceFace): boolean {
@@ -49,6 +55,13 @@ export class KeepRule extends MaterialRulesPart {
   afterRollingDice() {
   }
 
+  atStartOfResolving(): MaterialMove[] {
+    return []
+  }
+
+  beforeResolvingDice() {
+  }
+
   afterPullPawn(_pawn: Pawn, _count: number) {
   }
 
@@ -56,14 +69,14 @@ export class KeepRule extends MaterialRulesPart {
     return false
   }
 
-  afterSmashTakenComputed(_player: Monster, _damages: number) {
+  afterSmashTakenComputed(_player: Monster) {
   }
 
   ignoredSmash(_player: Monster, _damages?: number): number {
     return 0
   }
 
-  immune(_player: Monster, _damages: number): boolean {
+  immune(_player: Monster): boolean {
     return false
   }
 
@@ -79,11 +92,7 @@ export class KeepRule extends MaterialRulesPart {
   onBuyPowerCard() {
   }
 
-  get healBonus(): number {
-    return 0
-  }
-
-  getBonusFaces(): (Source & { count: number }) | undefined {
+  getBonusFaces(_face: DiceFace): (Source & { count: number }) | undefined {
     return
   }
 

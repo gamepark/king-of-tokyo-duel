@@ -7,7 +7,7 @@ export class NaturalSelectionKeepRule extends KeepRule {
     return 1
   }
 
-  afterRollingDice() {
+  beforeResolvingDice() {
     if (this.getActivePlayer() !== this.cardPlayer) return
     if (this.maxNumberOfAKind < 4) return
     this.pushEffect({

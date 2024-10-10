@@ -155,6 +155,7 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<Monster, MaterialTyp
   }
 
   start() {
+    this.memorize(Memory.ActivePlayer, this.game.players[0])
     this.memorize(Memory.Round, 1)
     this.startPlayerTurn(RuleId.RollDice, this.game.players[0])
   }

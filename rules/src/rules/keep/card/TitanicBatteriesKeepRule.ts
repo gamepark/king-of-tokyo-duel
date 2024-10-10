@@ -5,9 +5,10 @@ import { KeepRule } from '../KeepRule'
 
 
 export class TitanicBatteriesKeepRule extends KeepRule {
-  afterRollingDice(): MaterialMove[] {
-    if (this.getActivePlayer() !== this.cardPlayer) return []
+  atStartOfResolving(): MaterialMove[] {
+    if (this.getActivePlayer() !== this.cardPlayer || this.isConsumed) return []
     if (this.bonusTokensCount === 2) return []
+    this.markKeepCardConsumed()
     return [this.startRule(RuleId.TitanicBatteries)]
   }
 

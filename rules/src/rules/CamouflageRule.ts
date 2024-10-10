@@ -1,4 +1,4 @@
-import { isCreateItemTypeAtOnce, isDeleteItemTypeAtOnce, isRollItemType, ItemMove, MaterialMove, RuleMove, RuleStep } from '@gamepark/rules-api'
+import { isCreateItemTypeAtOnce, isDeleteItemTypeAtOnce, isRollItemType, ItemMove, MaterialMove } from '@gamepark/rules-api'
 import times from 'lodash/times'
 import { DiceColor } from '../material/DiceColor'
 import { DiceFace } from '../material/DiceFace'
@@ -7,13 +7,12 @@ import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnEffectRule } from './BasePlayerTurnEffectRule'
 import { Smash } from './effects/EffectType'
 import { EffectWithSource } from './effects/EffectWithSource'
-import { isStartingRule } from './IsChangingRule'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
+// TODO
 export class CamouflageRule extends BasePlayerTurnEffectRule<Smash> {
-  onRuleStart(move: RuleMove, previousRule?: RuleStep): MaterialMove[] {
-    if (isStartingRule(move) && !this.remind(Memory.PreviousRule)) this.memorize(Memory.PreviousRule, { ...previousRule })
+  onRuleStart(): MaterialMove[] {
     return [
       this.material(MaterialType.Dice)
         .createItemsAtOnce(
@@ -64,8 +63,6 @@ export class CamouflageRule extends BasePlayerTurnEffectRule<Smash> {
         if (damagesContext.effect.count > 0) {
           moves.push(this.startPlayerTurn(RuleId.Smash, this.rival))
         } else {
-          // This delete the first effect from the list
-          super.onRuleEnd()
           moves.push(this.startPlayerTurn(RuleId.Effect, this.rival))
         }
       }

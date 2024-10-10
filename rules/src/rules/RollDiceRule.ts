@@ -11,13 +11,11 @@ import { RuleId } from './RuleId'
 export class RollDiceRule extends BasePlayerTurnRule {
   onRuleStart() {
     this.memorize(Memory.Phase, RuleId.RollDice)
-    return new KeepHelper(this.game).atStartOfTurn()
+    return []
   }
 
   getPlayerMoves() {
     const rollCount = this.rollCount
-
-
     const moves: MaterialMove[] = super.getPlayerMoves()
     if (!rollCount) {
       moves.push(this.customMove(CustomMoveType.Roll))

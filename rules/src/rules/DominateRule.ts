@@ -1,48 +1,50 @@
-import { CustomMove, isCustomMoveType, isMoveItemType, ItemMove } from '@gamepark/rules-api'
+import { CustomMove, isCustomMoveType, isMoveItemType, ItemMove, MaterialMove } from '@gamepark/rules-api'
 import { DiceColor } from '../material/DiceColor'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
-import { isChangingRule } from './IsChangingRule'
+import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class DominateRule extends BasePlayerTurnRule {
 
   getPlayerMoves() {
     const moves = super.getPlayerMoves()
+    if (!this.keepCards.length) return [this.startRule(RuleId.RollDice)]
 
     moves.push(
       ...this.keepCards.moveItems({
-      type: LocationType.Discard
-    }))
+        type: LocationType.Discard
+      }))
 
     moves.push(this.customMove(CustomMoveType.Dominated))
-
     return moves
   }
 
   onCustomMove(move: CustomMove) {
-    const moves = super.onCustomMove(move)
-    if (moves.some(isChangingRule)) return moves
-    if (!isCustomMoveType(CustomMoveType.Dominated)(move)) return moves
-    const rival = this.rival
+    if (!isCustomMoveType(CustomMoveType.Dominated)(move)) return []
+    const moves: MaterialMove[] = []
+    const removedDice = Math.min((this.remind(Memory.DecreaseDiceCount) ?? 0) + this.keepCards.length, 6)
     moves.push(
-      this.redDice.moveItem({
-        type: LocationType.PlayerHand,
-        player: rival
-      })
+      this
+        .redDice
+        .limit(6 - removedDice)
+        .moveItemsAtOnce({
+          type: LocationType.PlayerHand,
+          player: this.player
+        })
     )
 
-    moves.push(this.startPlayerTurn(RuleId.RollDice, rival))
+    moves.push(this.startRule(RuleId.RollDice))
+
     return moves
   }
 
   afterItemMove(move: ItemMove) {
     const moves = super.afterItemMove(move)
     if (!isMoveItemType(MaterialType.PowerCard)(move)) return moves
-
-    moves.push(this.startPlayerTurn(RuleId.RollDice, this.rival))
+    if (!this.keepCards.length) return [this.startPlayerTurn(RuleId.Effect, this.rival)]
     return moves
   }
 
@@ -61,8 +63,10 @@ export class DominateRule extends BasePlayerTurnRule {
     return this
       .material(MaterialType.Dice)
       .id(DiceColor.Red)
-      .location(LocationType.PlayerHand)
-      .player(this.player)
-      .maxBy((item) => item.location.x!)
+  }
+
+  onRuleEnd() {
+    this.forget(Memory.Dominate)
+    return []
   }
 }

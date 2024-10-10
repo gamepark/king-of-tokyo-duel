@@ -8,6 +8,6 @@ export class ThunderStompKeepRule extends KeepRule {
   afterPullPawn(pawn: Pawn) {
     if (this.getActivePlayer() !== this.cardPlayer || pawn !== Pawn.Destruction) return
     if (this.remind(Memory.Phase) !== RuleId.ResolveDice) return
-    this.memorize(Memory.DecreaseDiceCount, 1)
+    this.memorize(Memory.DecreaseDiceCount, (count: number = 0) => count + 1)
   }
 }
