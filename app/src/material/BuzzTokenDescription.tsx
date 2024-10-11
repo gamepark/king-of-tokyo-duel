@@ -1,6 +1,11 @@
+import { faRotate } from '@fortawesome/free-solid-svg-icons/faRotate'
+import { faRotateLeft } from '@fortawesome/free-solid-svg-icons/faRotateLeft'
+import { faRotateRight } from '@fortawesome/free-solid-svg-icons/faRotateRight'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Buzz, buzzDescriptions } from '@gamepark/king-of-tokyo-duel/material/Buzz'
-import { PolyhexDescription } from '@gamepark/react-game'
-import { HexGridSystem, MaterialItem } from '@gamepark/rules-api'
+import { ItemContext, ItemMenuButton, PolyhexDescription } from '@gamepark/react-game'
+import { HexGridSystem, MaterialItem, MaterialMove } from '@gamepark/rules-api'
+import { Trans } from 'react-i18next'
 import AlienShortcut from '../images/buzz_token/AlienShortcut.png'
 import AnubisEnergyHeal from '../images/buzz_token/AnubisEnergyHeal.png'
 import CatSmash from '../images/buzz_token/CatSmash.png'
@@ -39,6 +44,45 @@ export class BuzzTokenDescription extends PolyhexDescription {
 
   getPolyhexShape(item: MaterialItem) {
     return buzzDescriptions[item.id as Buzz].effects.map((_, x) => ({ x, y: 0 }))
+  }
+
+  getItemMenu(item: MaterialItem, context: ItemContext, legalMoves: MaterialMove[]) {
+    const { rules, type, index } = context
+    if (!legalMoves.some(move => this.canDrag(move, context))) return
+    switch (buzzDescriptions[item.id as Buzz].effects.length) {
+      case 2:
+        return <>
+          {this.getHelpButton(item, context)}
+          <ItemMenuButton label={<Trans defaults="Rotate"/>}
+                          move={rules.material(type).index(index).rotateItem(item =>
+                            (item.location.rotation + (item.location.rotation % 3 === 0 ? 2 : 1)) % 6
+                          )}
+                          options={{ local: true }}
+                          angle={90}>
+            <FontAwesomeIcon icon={faRotateRight}/>
+          </ItemMenuButton>
+          <ItemMenuButton label={<Trans defaults="Rotate"/>}
+                          move={rules.material(type).index(index).rotateItem(item =>
+                            (item.location.rotation + (item.location.rotation % 3 === 2 ? 4 : 5)) % 6
+                          )}
+                          options={{ local: true }}
+                          angle={270}>
+            <FontAwesomeIcon icon={faRotateLeft}/>
+          </ItemMenuButton>
+        </>
+      case 3:
+        return <>
+          {this.getHelpButton(item, context)}
+          <ItemMenuButton label={<Trans defaults="Rotate"/>}
+                          move={rules.material(type).index(index).rotateItem(item => (item.location.rotation + 3) % 6)}
+                          options={{ local: true }}
+                          angle={90}>
+            <FontAwesomeIcon icon={faRotate}/>
+          </ItemMenuButton>
+        </>
+      default:
+        return
+    }
   }
 }
 

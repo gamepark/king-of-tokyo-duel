@@ -1,7 +1,7 @@
 import { MaterialGameSetup } from '@gamepark/rules-api'
 import { KingOfTokyoDuelOptions } from './KingOfTokyoDuelOptions'
 import { KingOfTokyoDuelRules } from './KingOfTokyoDuelRules'
-import { Buzz, buzzDescriptions, commonBuzz } from './material/Buzz'
+import { Buzz, commonBuzz } from './material/Buzz'
 import { powerCards } from './material/cards/PowerCard'
 import { DiceColor } from './material/DiceColor'
 import { HealthCounter } from './material/HealthCounter'
@@ -44,7 +44,7 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<Monster, MaterialTyp
       id: buzz,
       location: {
         type: LocationType.BuzzStock,
-        rotation: buzzDescriptions[buzz].effects.length === 2 ? 5.5 : 0
+        rotation: 0
       }
     }))
 

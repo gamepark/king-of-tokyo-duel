@@ -1,5 +1,7 @@
-import { FlexLocator } from '@gamepark/react-game'
-import { Location } from '@gamepark/rules-api'
+import { Buzz, buzzDescriptions } from '@gamepark/king-of-tokyo-duel/material/Buzz'
+import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType'
+import { FlexLocator, ItemContext } from '@gamepark/react-game'
+import { Location, MaterialItem } from '@gamepark/rules-api'
 
 export class BuzzStockLocator extends FlexLocator {
   coordinates = { x: -12.5, y: 13 }
@@ -18,7 +20,20 @@ export class BuzzStockLocator extends FlexLocator {
     if (location.x! < 9) return { x: 6.5 }
     return { x: 5.5 }
   }
-  lineGap = { y: 4}
+
+  lineGap = { y: 4 }
+
+  getRotateZ(location: Location) {
+    return typeof location.rotation === 'number' ? location.rotation * 60 : 0
+  }
+
+  getItemRotateZ(item: MaterialItem, context: ItemContext) {
+    const rotateZ = super.getItemRotateZ(item, context)
+    if (context.type === MaterialType.Buzz && buzzDescriptions[item.id as Buzz].effects.length === 2) {
+      return item.location.rotation % 3 === 0 ? rotateZ + 40 : rotateZ + 20
+    }
+    return rotateZ
+  }
 }
 
 export const buzzStockLocator = new BuzzStockLocator()

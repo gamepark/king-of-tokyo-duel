@@ -1,6 +1,6 @@
 import { axialToEvenQ, getPolyhexSpaces, HexGridSystem, isMoveItemType, ItemMove, Location, MaterialMove, oddQToAxial } from '@gamepark/rules-api'
 import range from 'lodash/range'
-import { Buzz, buzzDescriptions } from '../material/Buzz'
+import { Buzz, buzzDescriptions, commonBuzz } from '../material/Buzz'
 import { PowerCard } from '../material/cards/PowerCard'
 import { powerCardCharacteristics } from '../material/cards/PowerCardCharacteristics'
 import { LocationType } from '../material/LocationType'
@@ -21,8 +21,12 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
           // The fame or destruction marker is on the buzz token, it cannot be moved
           return this.startNextRule
         } else {
-          // The buzz token is on the track: move it up a little bit so that player can rotate it and replace it on the original spot or wherever he likes
-          return [this.material(MaterialType.Buzz).id(buzz).moveItem(item => ({ ...item.location, y: -1 }))]
+          // The buzz token is on the track: move it back to the stock
+          return [this.material(MaterialType.Buzz).id(buzz).moveItem({
+            type: LocationType.BuzzStock,
+            x: commonBuzz.indexOf(buzz),
+            rotation: buzzItem.location.rotation
+          })]
         }
       }
     }
@@ -76,7 +80,7 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
 
   afterItemMove(move: ItemMove) {
     const moves: MaterialMove[] = super.afterItemMove(move)
-    if (!isMoveItemType(MaterialType.Buzz)(move) || move.location.y === -1) return moves
+    if (!isMoveItemType(MaterialType.Buzz)(move) || move.location.type === LocationType.BuzzStock) return moves
     moves.push(...this.startNextRule)
     return moves
   }
