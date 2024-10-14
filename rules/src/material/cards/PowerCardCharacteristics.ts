@@ -15,7 +15,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.AcidAttack]: {
     cost: 6,
     timing: Timing.Keep,
-    buzz: Buzz.Buzz5
+    buzz: Buzz.TigerEnergy
   },
   [PowerCard.AdrenalineAugment]: {
     cost: 5,
@@ -24,7 +24,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.AlienMetabolism]: {
     cost: 2,
     timing: Timing.Keep,
-    buzz: Buzz.Buzz7
+    buzz: Buzz.AnubisEnergyHeal
   },
   [PowerCard.AntimatterPellets]: {
     cost: 5,
@@ -33,12 +33,12 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.ArmorPlating]: {
     cost: 6,
     timing: Timing.Keep,
-    buzz: Buzz.Buzz1
+    buzz: Buzz.CatSmash
   },
   [PowerCard.BreakingNews]: {
     cost: 6,
     timing: Timing.Keep,
-    buzz: Buzz.Buzz8
+    buzz: Buzz.DragonEnergySmashHeal
   },
   [PowerCard.Camouflage]: {
     cost: 4,
@@ -47,7 +47,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.CannonBall]: {
     cost: 7,
     timing: Timing.Discard,
-    buzz: Buzz.Buzz7,
+    buzz: Buzz.AnubisEnergyHeal,
     effects: [
       { type: EffectType.PullPawn, pawn: Pawn.Fame, count: 1 },
       { type: EffectType.Smash, rival: true, count: 1 },
@@ -57,7 +57,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.Dominate]: {
     cost: 3,
     timing: Timing.Discard,
-    buzz: Buzz.Buzz10,
+    buzz: Buzz.PumpkinHealSmash2Heal,
     effects: [
       { type: EffectType.Dominate }
     ]
@@ -65,12 +65,12 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.ElectricalAura]: {
     cost: 4,
     timing: Timing.Keep,
-    buzz: Buzz.Buzz6
+    buzz: Buzz.LizardSmashDice
   },
   [PowerCard.Energize]: {
     cost: 10,
     timing: Timing.Discard,
-    buzz: Buzz.Buzz6,
+    buzz: Buzz.LizardSmashDice,
     effects: [
       { type: EffectType.GainEnergy, count: 8 },
       { type: EffectType.GetWhiteDiceToken, count: 2 },
@@ -83,7 +83,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.EyeOfTheStorm]: {
     cost: 2,
     timing: Timing.Keep,
-    buzz: Buzz.Buzz8
+    buzz: Buzz.DragonEnergySmashHeal
   },
   [PowerCard.Frenzy]: {
     cost: 6,
@@ -95,7 +95,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.GentleGiant]: {
     cost: 5,
     timing: Timing.Keep,
-    buzz: Buzz.Buzz4
+    buzz: Buzz.FishHeal
   },
   [PowerCard.GiantBrain]: {
     cost: 4,
@@ -108,7 +108,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.HorsDOeuvre]: {
     cost: 3,
     timing: Timing.Discard,
-    buzz: Buzz.Buzz1,
+    buzz: Buzz.CatSmash,
     effects: [
       { type: EffectType.Smash, count: 3 },
       { type: EffectType.PullPawn, pawn: Pawn.Destruction, count: 2 },
@@ -121,12 +121,12 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.InTheShadows]: {
     cost: 5,
     timing: Timing.Keep,
-    buzz: Buzz.Buzz9
+    buzz: Buzz.AlienShortcut
   },
   [PowerCard.JetsScrambled]: {
     cost: 5,
     timing: Timing.Discard,
-    buzz: Buzz.Buzz12,
+    buzz: Buzz.PenguinExtendSmash,
     effects: [
       { type: EffectType.Smash, count: 5 },
       { type: EffectType.Smash, rival: true, count: 5 },
@@ -135,7 +135,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.Kaijutsu]: {
     cost: 5,
     timing: Timing.Discard,
-    buzz: Buzz.Buzz10,
+    buzz: Buzz.PumpkinHealSmash2Heal,
     effects: [
       { type: EffectType.PullPawn, pawn: Pawn.Destruction, count: 1 },
       { type: EffectType.Smash, rival: true, count: 2 },
@@ -144,17 +144,17 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.LightingSpeed]: {
     cost: 4,
     timing: Timing.Keep,
-    buzz: Buzz.Buzz9
+    buzz: Buzz.AlienShortcut
   },
   [PowerCard.MadeInALab]: {
     cost: 2,
     timing: Timing.Keep,
-    buzz: Buzz.Buzz5
+    buzz: Buzz.TigerEnergy
   },
   [PowerCard.MomentOfRespite]: {
     cost: 4,
     timing: Timing.Discard,
-    buzz: Buzz.Buzz9,
+    buzz: Buzz.AlienShortcut,
     effects: [
       { type: EffectType.Heal, count: 2 },
       { type: EffectType.GetWhiteDiceToken, count: 1 },
@@ -170,7 +170,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.Monumental]: {
     cost: 5,
     timing: Timing.Discard,
-    buzz: Buzz.Buzz2,
+    buzz: Buzz.PandaDice,
     effects: [
       { type: EffectType.PullPawn, pawn: Pawn.Destruction, count: 1 },
       { type: EffectType.PullPawn, pawn: Pawn.Fame, count: 1 },
@@ -187,7 +187,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.OperationMedia]: {
     cost: 6,
     timing: Timing.Discard,
-    buzz: Buzz.Buzz7,
+    buzz: Buzz.AnubisEnergyHeal,
     effects: [
       { type: EffectType.OperationMedia }
     ]
@@ -195,7 +195,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.Photoshoot]: {
     cost: 2,
     timing: Timing.Discard,
-    buzz: Buzz.Buzz4,
+    buzz: Buzz.FishHeal,
     effects: [
       { type: EffectType.PullPawn, pawn: Pawn.Fame, count: 1 },
     ]
@@ -203,7 +203,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.Rebooting]: {
     cost: 3,
     timing: Timing.Keep,
-    buzz: Buzz.Buzz1
+    buzz: Buzz.CatSmash
   },
   [PowerCard.Regeneration]: {
     cost: 4,
@@ -212,7 +212,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.SackTheStadium]: {
     cost: 8,
     timing: Timing.Discard,
-    buzz: Buzz.Buzz11,
+    buzz: Buzz.PhantomExtendHeal,
     effects: [
       { type: EffectType.PullPawn, pawn: Pawn.Destruction, count: 2 },
       { type: EffectType.PullPawn, pawn: Pawn.Fame, count: 2 },
@@ -221,7 +221,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.Scrappy]: {
     cost: 2,
     timing: Timing.Keep,
-    buzz: Buzz.Buzz6
+    buzz: Buzz.LizardSmashDice
   },
   [PowerCard.SeismicTest]: {
     cost: 5,
@@ -233,7 +233,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.SignatureMove]: {
     cost: 6,
     timing: Timing.Keep,
-    buzz: Buzz.Buzz11
+    buzz: Buzz.PhantomExtendHeal
   },
   [PowerCard.SnackTime]: {
     cost: 3,
@@ -253,7 +253,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.TeslaImpulse]: {
     cost: 6,
     timing: Timing.Discard,
-    buzz: Buzz.Buzz12,
+    buzz: Buzz.PenguinExtendSmash,
     effects: [
       { type: EffectType.TeslaImpulse }
     ]
@@ -261,7 +261,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.ThePartyIsOver]: {
     cost: 4,
     timing: Timing.Discard,
-    buzz: Buzz.Buzz11,
+    buzz: Buzz.PhantomExtendHeal,
     effects: [
       { type: EffectType.ThePartyIsOver }
     ]
@@ -269,7 +269,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.ThermonuclearCooking]: {
     cost: 7,
     timing: Timing.Discard,
-    buzz: Buzz.Buzz2,
+    buzz: Buzz.PandaDice,
     effects: [
       { type: EffectType.PullPawn, pawn: Pawn.Destruction, count: 1 },
       { type: EffectType.Heal, count: 2 },
@@ -283,12 +283,12 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.TitanicBatteries]: {
     cost: 4,
     timing: Timing.Keep,
-    buzz: Buzz.Buzz10
+    buzz: Buzz.PumpkinHealSmash2Heal
   },
   [PowerCard.TooCute]: {
     cost: 3,
     timing: Timing.Discard,
-    buzz: Buzz.Buzz4,
+    buzz: Buzz.FishHeal,
     effects: [
       { type: EffectType.Smash, rival: true, count: 2 }
     ]
@@ -296,17 +296,17 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.TrendSetter]: {
     cost: 3,
     timing: Timing.Keep,
-    buzz: Buzz.Buzz8
+    buzz: Buzz.DragonEnergySmashHeal
   },
   [PowerCard.Unchained]: {
     cost: 3,
     timing: Timing.Keep,
-    buzz: Buzz.Buzz12
+    buzz: Buzz.PenguinExtendSmash
   },
   [PowerCard.UnstableDna]: {
     cost: 3,
     timing: Timing.Keep,
-    buzz: Buzz.Buzz5
+    buzz: Buzz.TigerEnergy
   },
   [PowerCard.Unstoppable]: {
     cost: 3,
@@ -315,6 +315,6 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
   [PowerCard.UtterDestruction]: {
     cost: 4,
     timing: Timing.Keep,
-    buzz: Buzz.Buzz2
+    buzz: Buzz.PandaDice
   }
 }

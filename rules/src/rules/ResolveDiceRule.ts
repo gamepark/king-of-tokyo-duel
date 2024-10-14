@@ -126,7 +126,6 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
 
     const bonuses = new KeepHelper(this.game).getBonusFaces(face)
     const bonus = sumBy(bonuses, (bonus) => bonus.count)
-    console.log(bonus)
     if (bonus) {
       effectWithSource.effect.count += bonus
       effectWithSource.sources.push(

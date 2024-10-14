@@ -21,7 +21,7 @@ export abstract class TrackLocator extends HexagonalGridLocator {
     return { x, y }
   }
 
-  placeItem(item: MaterialItem<number, number>, context: ItemContext<number, number, number>): string[] {
+  placeItem(item: MaterialItem, context: ItemContext): string[] {
     const transform = super.placeItem(item, context)
     if (context.type === MaterialType.Buzz) {
       const description = buzzDescriptions[item.id as Buzz]
@@ -36,7 +36,7 @@ export abstract class TrackLocator extends HexagonalGridLocator {
 
   getItemRotateZ(item: MaterialItem, context: ItemContext) {
     const rotateZ = super.getItemRotateZ(item, context)
-    if (buzzDescriptions[item.id as Buzz].effects.length === 2) {
+    if (context.type === MaterialType.Buzz && buzzDescriptions[item.id as Buzz].effects.length === 2) {
       return item.location.rotation % 3 === 0 ? rotateZ + 40 : rotateZ + 20
     }
     return rotateZ
