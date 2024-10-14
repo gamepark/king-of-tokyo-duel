@@ -8,15 +8,18 @@ import { RuleId } from './RuleId'
 
 export class GainWhiteDiceTokenRule extends BasePlayerTurnEffectRule<GainWhiteDiceToken> {
   onRuleStart() {
-    const whiteDice = this.actualWhiteDice
+    const countTokens = this.countTokens
     const moves: MaterialMove[] = []
-    if (whiteDice.length < 2) {
+    if (countTokens < 2) {
       moves.push(
-        ...this
-          .reserveWhiteDice
-          .limit(this.currentEffect.effect.count)
-          .moveItems({
-            type: MaterialType.Dice
+        this
+          .material(MaterialType.DiceToken)
+          .createItem({
+            location: {
+              type: LocationType.PlayerDiceToken,
+              player: this.currentEffect.target
+            },
+            quantity: this.currentEffect.effect.count
           })
       )
     }
@@ -25,17 +28,11 @@ export class GainWhiteDiceTokenRule extends BasePlayerTurnEffectRule<GainWhiteDi
     return moves
   }
 
-  get reserveWhiteDice() {
-    return this
-      .material(MaterialType.Dice)
-      .id(DiceColor.White)
-      .location(LocationType.WhiteDiceStock)
-  }
-
-  get actualWhiteDice() {
+  get countTokens() {
     return this
       .material(MaterialType.Dice)
       .id(DiceColor.White)
       .location(LocationType.PlayerHand)
+      .getQuantity()
   }
 }

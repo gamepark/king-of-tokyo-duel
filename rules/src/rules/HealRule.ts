@@ -30,7 +30,7 @@ export class HealRule extends BasePlayerTurnEffectRule<Heal> {
     const newHealth = Math.min(this.maxHealth, health + healCount)
     const countHeal = newHealth - health
     if (newHealth === this.maxHealth) return countHeal
-    return Math.min(this.maxHealth, newHealth + new KeepHelper(this.game).onHeal())
+    return countHeal + new KeepHelper(this.game).onHeal()
   }
 
   get healthWheel() {

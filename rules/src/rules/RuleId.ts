@@ -26,11 +26,11 @@ export enum RuleId {
   ThePartyIsOver,
   FreeTurn,
   OperationMedia,
-    OnStartTurn,
+  OnStartTurn,
   Alienoid,
   CyberKitty,
   Gigazaur,
   MekaDragon,
-  SpacePenguin,
+    SpacePenguin,
   TheKing
 }

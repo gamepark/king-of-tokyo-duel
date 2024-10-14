@@ -20,6 +20,10 @@ import { InShapeRule } from './rules/InShapeRule'
 import { MadeInALabRule } from './rules/MadeInALabRule'
 import { MoveBuzzTokenRule } from './rules/MoveBuzzTokenRule'
 import { OnStartTurnRule } from './rules/OnStartTurnRule'
+import { AlienoidRule } from './rules/power/AlienoidRule'
+import { CyberKittyRule } from './rules/power/CyberKittyRule'
+import { GigazaurRule } from './rules/power/GigazaurRule'
+import { SpacePenguinRule } from './rules/power/SpacePenguinRule'
 import { PullPawnRule } from './rules/PullPawnRule'
 import { RebootingRule } from './rules/RebootingRule'
 import { ResolveDiceRule } from './rules/ResolveDiceRule'
@@ -65,7 +69,11 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     [RuleId.ThePartyIsOver]: ThePartyIsOverRule,
     [RuleId.FreeTurn]: FreeTurnEffectRule,
     [RuleId.OnStartTurn]: OnStartTurnRule,
-    [RuleId.OperationMedia]: OperationMediaRule
+    [RuleId.OperationMedia]: OperationMediaRule,
+    [RuleId.CyberKitty]: CyberKittyRule,
+    [RuleId.SpacePenguin]: SpacePenguinRule,
+    [RuleId.Gigazaur]: GigazaurRule,
+    [RuleId.Alienoid]: AlienoidRule
   }
 
   hidingStrategies = {

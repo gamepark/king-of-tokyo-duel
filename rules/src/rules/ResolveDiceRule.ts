@@ -13,6 +13,10 @@ import { EffectWithSource } from './effects/EffectWithSource'
 import { HealHelper } from './helper/HealHelper'
 import { KeepHelper } from './helper/KeepHelper'
 import { Memory } from './Memory'
+import { AlienoidRule } from './power/AlienoidRule'
+import { CyberKittyRule } from './power/CyberKittyRule'
+import { GigazaurRule } from './power/GigazaurRule'
+import { SpacePenguinRule } from './power/SpacePenguinRule'
 import { RuleId } from './RuleId'
 
 export class ResolveDiceRule extends BasePlayerTurnRule {
@@ -39,13 +43,37 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
 
   getResolveMoves() {
     const moves: MaterialMove[] = []
-    if (!this.isAlreadyConsumed(DiceFace.Energy) && this.buildEffect(EffectType.GainEnergy, DiceFace.Energy) !== undefined) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Energy))
-    if (!this.isAlreadyConsumed(DiceFace.Claw) && this.buildEffect(EffectType.Smash, DiceFace.Claw, this.rival) !== undefined) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Claw))
-    if (!this.isAlreadyConsumed(DiceFace.Fame) && this.buildEffect(EffectType.PullPawn, DiceFace.Fame) !== undefined) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Fame))
-    if (!this.isAlreadyConsumed(DiceFace.Destruction) && this.buildEffect(EffectType.PullPawn, DiceFace.Destruction) !== undefined) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Destruction))
-    if (!this.isAlreadyConsumed(DiceFace.Heal) && this.buildEffect(EffectType.Heal, DiceFace.Heal) !== undefined) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Heal))
-    if (!this.isAlreadyConsumed(DiceFace.Power)) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Power))
+    if (this.canGainEnergy()) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Energy))
+    if (this.canSmash()) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Claw))
+    if (this.canPullFame()) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Fame))
+    if (this.canPullDestruction()) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Destruction))
+    if (this.canHeal()) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Heal))
+    if (this.canUsePower()) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Power))
     return moves
+  }
+
+  canUsePower() {
+    return this.isPowerWithRule
+  }
+
+  canHeal() {
+    return !this.isAlreadyConsumed(DiceFace.Heal) && this.buildEffect(EffectType.Heal, DiceFace.Heal) !== undefined
+  }
+
+  canPullDestruction() {
+    return !this.isAlreadyConsumed(DiceFace.Destruction) && this.buildEffect(EffectType.PullPawn, DiceFace.Destruction) !== undefined
+  }
+
+  canPullFame() {
+    return !this.isAlreadyConsumed(DiceFace.Fame) && this.buildEffect(EffectType.PullPawn, DiceFace.Fame) !== undefined
+  }
+
+  canGainEnergy() {
+    return !this.isAlreadyConsumed(DiceFace.Energy) && this.buildEffect(EffectType.GainEnergy, DiceFace.Energy) !== undefined
+  }
+
+  canSmash() {
+    return !this.isAlreadyConsumed(DiceFace.Claw) && this.buildEffect(EffectType.Smash, DiceFace.Claw, this.rival) !== undefined
   }
 
   onCustomMove(move: CustomMove): MaterialMove[] {
@@ -68,7 +96,9 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
         this.pushEffect(this.buildEffect(EffectType.PullPawn, DiceFace.Destruction)!)
         break
       case DiceFace.Power:
-        return this.getMonsterPower()
+        const power = this.getMonsterPower()
+        if (power.length) return power
+        break
       default:
         console.log("NOT IMPLEMENTED YET", move.data)
     }
@@ -81,23 +111,35 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
 
   }
 
+  get isPowerWithRule() {
+    return this.getMonsterPower().length > 0
+  }
+
   getMonsterPower() {
+    const powerDice = this.getDiceForFace(DiceFace.Power).length - this.consumedPower
     switch (this.player) {
       case Monster.Alienoid:
-        return [this.startRule(RuleId.Alienoid)]
+        if (new AlienoidRule(this.game).getPlayerMoves().length > 0) return [this.startRule(RuleId.Alienoid)]
+        return []
       case Monster.CyberKitty:
-        return [this.startRule(RuleId.CyberKitty)]
+        if (new CyberKittyRule(this.game).getPlayerMoves().length > 0) return [this.startRule(RuleId.CyberKitty)]
+        return []
       case Monster.Gigazaur:
-        return [this.startRule(RuleId.Gigazaur)]
-      case Monster.MekaDragon:
-        return [this.startRule(RuleId.MekaDragon)]
+        if (new GigazaurRule(this.game).getPlayerMoves().length > 0) return [this.startRule(RuleId.Gigazaur)]
+        return []
       case Monster.SpacePenguin:
-        return [this.startRule(RuleId.SpacePenguin)]
+        if (new SpacePenguinRule(this.game).onRuleStart().length > 0) return [this.startRule(RuleId.SpacePenguin)]
+        return []
       case Monster.TheKing:
+        if (powerDice < 2) return []
         return [this.startRule(RuleId.TheKing)]
     }
 
     return []
+  }
+
+  get consumedPower() {
+    return this.remind(Memory.ConsumedPower) ?? 0
   }
 
   get effects() {
@@ -110,7 +152,7 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
       effect: {
         type: type,
         count: 0,
-        me: target === this.player
+        rival: target !== this.player
       },
       target: target,
     }
@@ -146,6 +188,10 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
         if (!effectWithSource.effect.count) return
       }
 
+      if (face === DiceFace.Claw) {
+        effectWithSource.effect.count = this.getClawCount(effectWithSource.effect.count)
+      }
+
       return effectWithSource
     }
 
@@ -163,6 +209,15 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
     return this
       .dice
       .rotation(face)
+  }
+
+  getClawCount(baseCount: number) {
+    if (this.player === Monster.MekaDragon) {
+      const powerDice = this.dice.rotation(DiceFace.Power).length
+      if (powerDice > 1) return powerDice * baseCount
+    }
+
+    return baseCount
   }
 
   get dice() {

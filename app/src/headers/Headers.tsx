@@ -3,6 +3,7 @@ import { RuleId } from '@gamepark/king-of-tokyo-duel/rules/RuleId'
 import { ComponentType } from 'react'
 import { BuyHeader } from './BuyHeader'
 import { DominateHeader } from './DominateHeader'
+import { GigazaurHeader } from './GigazaurHeader'
 import { HibernationHeader } from './HibernationHeader'
 import { MadeInALabHeader } from './MadeInALabHeader'
 import { OnStartHeader } from './OnStartHeader'
@@ -22,5 +23,6 @@ export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.Hibernation]: HibernationHeader,
   [RuleId.Dominate]: DominateHeader,
   [RuleId.OnStartTurn]: OnStartHeader,
-  [RuleId.MadeInALab]: MadeInALabHeader
+  [RuleId.MadeInALab]: MadeInALabHeader,
+  [RuleId.Gigazaur]: GigazaurHeader
 }

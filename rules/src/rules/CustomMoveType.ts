@@ -8,5 +8,13 @@ export enum CustomMoveType {
   Ignore,
   PullPawn,
   ResolveKind,
-  SkipResolving
+  SkipResolving,
+  Power,
+  Pull,
+  Alienoid
+}
+
+export enum PowerUse {
+  Normal = 1,
+  Bonus
 }

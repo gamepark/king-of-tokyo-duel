@@ -14,5 +14,7 @@ export enum Memory {
   Immune,
   ActivePlayer,
   Dominate,
-  SkipReboot
+  SkipReboot,
+  ConsumedPower,
+  AdditionalRollFaces
 }
