@@ -1,4 +1,5 @@
 import { getEnumValues } from '@gamepark/rules-api'
+import { Effect, EffectType, GainEnergy, GainWhiteDiceToken, Heal, Smash } from '../rules/effects/EffectType'
 
 export enum Buzz {
   CatSmash = 1,
@@ -18,28 +19,29 @@ export enum Buzz {
 export const allBuzz = getEnumValues(Buzz)
 export const commonBuzz = allBuzz.filter((buzz) => buzz !== Buzz.TheKingBuzz)
 
-// TODO: use effects data structure that already exists
-enum BuzzEffect {
-  Smash, Heal, Energy, DiceToken, TheKing, DoubleSmash
-}
+const smash: Smash = { type: EffectType.Smash, count: 1 }
+const smash2: Smash = { type: EffectType.Smash, count: 2 }
+const gainDiceToken: GainWhiteDiceToken = { type: EffectType.GetWhiteDiceToken, count: 1 }
+const heal: Heal = { type: EffectType.Heal, count: 1 }
+const gainEnergy: GainEnergy = { type: EffectType.GainEnergy, count: 1 }
 
 type BuzzDescription = {
   changeTrack?: number
-  extraSpaceEffect?: BuzzEffect
-  effects: (BuzzEffect | null)[]
+  extraSpaceEffect?: Effect
+  effects: (Effect | null)[]
 }
 
 export const buzzDescriptions: Record<Buzz, BuzzDescription> = {
-  [Buzz.CatSmash]: { effects: [BuzzEffect.Smash] },
-  [Buzz.PandaDice]: { effects: [BuzzEffect.DiceToken] },
-  [Buzz.TheKingBuzz]: { effects: [BuzzEffect.TheKing] },
-  [Buzz.FishHeal]: { effects: [BuzzEffect.Heal] },
-  [Buzz.TigerEnergy]: { effects: [BuzzEffect.Energy] },
-  [Buzz.LizardSmashDice]: { effects: [BuzzEffect.Smash, BuzzEffect.DiceToken] },
-  [Buzz.AnubisEnergyHeal]: { effects: [BuzzEffect.Energy, BuzzEffect.Heal] },
-  [Buzz.DragonEnergySmashHeal]: { effects: [BuzzEffect.Energy, BuzzEffect.Smash, BuzzEffect.Heal] },
+  [Buzz.CatSmash]: { effects: [smash] },
+  [Buzz.PandaDice]: { effects: [gainDiceToken] },
+  [Buzz.TheKingBuzz]: { effects: [null] },
+  [Buzz.FishHeal]: { effects: [heal] },
+  [Buzz.TigerEnergy]: { effects: [gainEnergy] },
+  [Buzz.LizardSmashDice]: { effects: [smash, gainDiceToken] },
+  [Buzz.AnubisEnergyHeal]: { effects: [gainEnergy, heal] },
+  [Buzz.DragonEnergySmashHeal]: { effects: [gainEnergy, smash, heal] },
   [Buzz.AlienShortcut]: { changeTrack: -1, effects: [null, null, null] },
-  [Buzz.PumpkinHealSmash2Heal]: { effects: [BuzzEffect.Heal, BuzzEffect.DoubleSmash, BuzzEffect.Heal] },
-  [Buzz.PhantomExtendHeal]: { changeTrack: +1, extraSpaceEffect: BuzzEffect.Heal, effects: [null, null] },
-  [Buzz.PenguinExtendSmash]: { changeTrack: +1, extraSpaceEffect: BuzzEffect.Smash, effects: [null, null] }
+  [Buzz.PumpkinHealSmash2Heal]: { effects: [heal, smash2, heal] },
+  [Buzz.PhantomExtendHeal]: { changeTrack: +1, extraSpaceEffect: heal, effects: [null, null] },
+  [Buzz.PenguinExtendSmash]: { changeTrack: +1, extraSpaceEffect: smash, effects: [null, null] }
 }
