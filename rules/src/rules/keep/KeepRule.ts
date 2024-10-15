@@ -62,7 +62,7 @@ export class KeepRule extends MaterialRulesPart {
   beforeResolvingDice() {
   }
 
-  afterPullPawn(_pawn: Pawn, _count: number) {
+  afterPullPawn(_pawn: Pawn) {
   }
 
   canPreventDamagesOn(_player: Monster): boolean {

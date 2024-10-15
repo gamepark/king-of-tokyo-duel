@@ -116,9 +116,9 @@ export class KeepHelper extends MaterialRulesPart {
       .forEach((index) => this.getEffectRule(index)?.afterRollingDice())
   }
 
-  afterPullPawn(pawn: Pawn, count: number) {
+  afterPullPawn(pawn: Pawn) {
     this.keepCardsIndexes
-      .forEach((index) => this.getEffectRule(index)?.afterPullPawn(pawn, count))
+      .forEach((index) => this.getEffectRule(index)?.afterPullPawn(pawn))
   }
 
   canPreventDamagesOn(player: Monster): boolean {
@@ -215,5 +215,5 @@ const keepEffects: Partial<Record<PowerCard, KeepRuleCreator>> = {
   [PowerCard.Unchained]: UnchainedKeepRule,
   [PowerCard.UnstableDna]: UnstableDnaKeepRule,
   [PowerCard.Unstoppable]: UnstoppableKeepRule,
-  [PowerCard.UtterDestruction]: UtterDestructionKeepRule,
+  [PowerCard.UtterDestruction]: UtterDestructionKeepRule
 }

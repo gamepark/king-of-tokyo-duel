@@ -6,7 +6,7 @@ export enum CustomMoveType {
   ChangePlayer,
   RollAll,
   Ignore,
-  PullPawn,
+  PullPawn, // TODO: unused, remove
   ResolveKind,
   SkipResolving,
   Power,
