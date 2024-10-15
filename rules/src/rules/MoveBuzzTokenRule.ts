@@ -1,6 +1,6 @@
-import { axialToEvenQ, getPolyhexSpaces, HexGridSystem, isMoveItemType, ItemMove, Location, MaterialMove, oddQToAxial } from '@gamepark/rules-api'
+import { isMoveItemType, ItemMove, Location, MaterialMove } from '@gamepark/rules-api'
 import range from 'lodash/range'
-import { Buzz, buzzDescriptions, commonBuzz } from '../material/Buzz'
+import { Buzz, buzzDescriptions, commonBuzz, getBuzzSpaces } from '../material/Buzz'
 import { PowerCard } from '../material/cards/PowerCard'
 import { powerCardCharacteristics } from '../material/cards/PowerCardCharacteristics'
 import { LocationType } from '../material/LocationType'
@@ -15,7 +15,7 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
     if (buzz !== undefined && buzz !== Buzz.TheKingBuzz) {
       const buzzItem = this.material(MaterialType.Buzz).id(buzz).getItem<Buzz>()!
       if (buzzItem.location.type === LocationType.FameTrack || buzzItem.location.type === LocationType.DestructionTrack) {
-        const buzzSpaces = this.getBuzzSpaces(buzzItem.location, buzz)
+        const buzzSpaces = getBuzzSpaces(buzzItem.location, buzz)
         const pawnItem = this.material(MaterialType.Pawn).location(buzzItem.location.type).getItem()!
         if (buzzSpaces.some(space => space.x === pawnItem.location.x)) {
           // The fame or destruction marker is on the buzz token, it cannot be moved
@@ -43,7 +43,7 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
       const freeSpaces = this.getTrackFreeSpaces(track)
       for (const x of freeSpaces) {
         for (const rotation of rotations) {
-          if (buzzSize === 1 || this.getBuzzSpaces({ type: track, x, rotation }).every(hex => hex.y === 0 && freeSpaces.includes(hex.x))) {
+          if (buzzSize === 1 || getBuzzSpaces({ type: track, x, rotation }, buzz).every(hex => hex.y === 0 && freeSpaces.includes(hex.x))) {
             validLocations.push({ type: track, x, y: 0, rotation })
           }
         }
@@ -57,24 +57,11 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
     )
   }
 
-  getBuzzSpaces(location: Location, buzz: Buzz = this.buzz!) {
-    if (location.type === LocationType.FameTrack) {
-      const shape = this.getBuzzShape(buzz).map(oddQToAxial).map(axialToEvenQ)
-      return getPolyhexSpaces(shape, location, HexGridSystem.EvenQ)
-    } else {
-      return getPolyhexSpaces(this.getBuzzShape(buzz), location, HexGridSystem.OddQ)
-    }
-  }
-
-  getBuzzShape(buzz: Buzz = this.buzz!) {
-    return buzzDescriptions[buzz].effects.map((_, x) => ({ x, y: 0 }))
-  }
-
   getTrackFreeSpaces(track: LocationType) {
     const pawns = this.material(MaterialType.Pawn).location(track).getItems()
     const buzzItems = this.material(MaterialType.Buzz).location(track).getItems<Buzz>()
     // TODO: ignore the buzz being moved if size > 1 so that it can be moved and still recover partially its old location
-    const buzzSpaces = buzzItems.flatMap(item => this.getBuzzSpaces(item.location, item.id))
+    const buzzSpaces = buzzItems.flatMap(item => getBuzzSpaces(item.location, item.id as Buzz))
     return range(-7, 8).filter(x => !pawns.some(pawn => pawn.location.x === x) && !buzzSpaces.some(space => space.x === x))
   }
 

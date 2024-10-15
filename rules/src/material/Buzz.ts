@@ -1,5 +1,6 @@
-import { getEnumValues } from '@gamepark/rules-api'
+import { axialToEvenQ, getEnumValues, getPolyhexSpaces, HexGridSystem, Location, oddQToAxial } from '@gamepark/rules-api'
 import { Effect, EffectType, GainEnergy, GainWhiteDiceToken, Heal, Smash } from '../rules/effects/EffectType'
+import { LocationType } from './LocationType'
 
 export enum Buzz {
   CatSmash = 1,
@@ -44,4 +45,17 @@ export const buzzDescriptions: Record<Buzz, BuzzDescription> = {
   [Buzz.PumpkinHealSmash2Heal]: { effects: [heal, smash2, heal] },
   [Buzz.PhantomExtendHeal]: { changeTrack: +1, extraSpaceEffect: heal, effects: [null, null] },
   [Buzz.PenguinExtendSmash]: { changeTrack: +1, extraSpaceEffect: smash, effects: [null, null] }
+}
+
+export function getBuzzShape(buzz: Buzz) {
+  return buzzDescriptions[buzz].effects.map((_, x) => ({ x, y: 0 }))
+}
+
+export function getBuzzSpaces(location: Location, buzz: Buzz) {
+  if (location.type === LocationType.FameTrack) {
+    const shape = getBuzzShape(buzz).map(oddQToAxial).map(axialToEvenQ)
+    return getPolyhexSpaces(shape, location, HexGridSystem.EvenQ)
+  } else {
+    return getPolyhexSpaces(getBuzzShape(buzz), location, HexGridSystem.OddQ)
+  }
 }

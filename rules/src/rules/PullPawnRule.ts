@@ -1,4 +1,6 @@
-import { isMoveItem, ItemMove } from '@gamepark/rules-api'
+import { isMoveItem, ItemMove, Location } from '@gamepark/rules-api'
+import { Buzz, buzzDescriptions, getBuzzSpaces } from '../material/Buzz'
+import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { Pawn } from '../material/Pawn'
 import { BasePlayerTurnEffectRule } from './BasePlayerTurnEffectRule'
@@ -10,11 +12,33 @@ export class PullPawnRule extends BasePlayerTurnEffectRule<PullPawn> {
   onRuleStart() {
     const effectWSource = this.currentEffect
     const pawn = this.getPawn(effectWSource.effect.pawn)
-    const isLeft = this.game.players[0] === this.currentEffect.target
-    const item = pawn.getItem()!
-    const nextX = isLeft ? item.location.x! - 1 : item.location.x! + 1
-    // TODO: buzz with shortcut or extra step
+    const nextX = this.getNextX(pawn.getItem()!.location)
     return [pawn.moveItem((item) => ({ ...item.location, x: nextX }))]
+  }
+
+  getNextX(pawnLocation: Location) {
+    const isLeft = this.game.players[0] === this.currentEffect.target
+    const x = pawnLocation.x!
+    if (x - Math.floor(x) === 0.5) {
+      return isLeft ? x - 0.5 : x + 0.5
+    } else {
+      const nextX = isLeft ? x - 1 : x + 1
+      const startBuzz = this.getBuzzItemAtX(pawnLocation.type, x)
+      const endBuzz = this.getBuzzItemAtX(pawnLocation.type, nextX)
+      if (startBuzz && endBuzz && startBuzz.id === endBuzz.id) {
+        if (buzzDescriptions[startBuzz.id!].changeTrack === -1) {
+          return isLeft ? nextX - 1 : nextX + 1
+        } else if (buzzDescriptions[startBuzz.id!].changeTrack === +1) {
+          return isLeft ? nextX + 0.5 : nextX - 0.5
+        }
+      }
+      return nextX
+    }
+  }
+
+  getBuzzItemAtX(track: LocationType, x: number) {
+    const buzzItems = this.material(MaterialType.Buzz).location(track).getItems<Buzz>()
+    return buzzItems.find(item => getBuzzSpaces(item.location, item.id!).some(space => space.x === x))
   }
 
   afterItemMove(move: ItemMove) {

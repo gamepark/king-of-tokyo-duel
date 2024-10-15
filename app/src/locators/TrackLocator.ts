@@ -1,13 +1,32 @@
 import { Buzz, buzzDescriptions } from '@gamepark/king-of-tokyo-duel/material/Buzz'
 import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType'
 import { Pawn } from '@gamepark/king-of-tokyo-duel/material/Pawn'
-import { HexagonalGridLocator, ItemContext } from '@gamepark/react-game'
-import { Coordinates, MaterialItem } from '@gamepark/rules-api'
+import { HexagonalGridLocator, ItemContext, MaterialContext } from '@gamepark/react-game'
+import { Coordinates, Location, MaterialItem } from '@gamepark/rules-api'
 
 export abstract class TrackLocator extends HexagonalGridLocator {
   parentItemType = MaterialType.MainBoard
   size = { x: 1.27, y: 1.8 }
   boundaries = { xMin: -7, xMax: 7 }
+
+  getLocationCoordinates(location: Location, context: MaterialContext) {
+    const { x = 0, y = 0, z } = super.getLocationCoordinates(location, context)
+    if (location.x! - Math.floor(location.x!) === 0.5) {
+      const buzz = context.rules.material(MaterialType.Buzz).location(location.type).getItems<Buzz>()
+        .find(item => Math.abs(item.location.x! - location.x!) === 0.5)!
+      switch (buzz.location.rotation) {
+        case 0:
+          return { x: x + 0.5, y: y - 0.5, z }
+        case 2:
+          return { x: x + 0.5, y: y + 0.5, z }
+        case 3:
+          return { x: x - 0.5, y: y + 0.5, z }
+        case 5:
+          return { x: x - 0.5, y: y - 0.5, z }
+      }
+    }
+    return { x, y, z }
+  }
 
   getItemCoordinates(item: MaterialItem, context: ItemContext): Partial<Coordinates> {
     const { x = 0, y = 0 } = super.getItemCoordinates(item, context)
