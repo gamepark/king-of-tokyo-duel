@@ -2,6 +2,7 @@ import { HexGridSystem, hexRotate, isMoveItem, ItemMove, Location, MaterialItem 
 import { Buzz, buzzDescriptions, getBuzzSpaces } from '../material/Buzz'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
+import { Monster } from '../material/Monster'
 import { Pawn } from '../material/Pawn'
 import { BasePlayerTurnEffectRule } from './BasePlayerTurnEffectRule'
 import { Effect, EffectType, PullPawn } from './effects/EffectType'
@@ -46,6 +47,7 @@ export class PullPawnRule extends BasePlayerTurnEffectRule<PullPawn> {
   }
 
   pullIsStopped(x: number) {
+    if (this.player === Monster.TheKing) return false
     const effectWSource = this.currentEffect
     const pawn = this.getPawn(effectWSource.effect.pawn)
     return this.getBuzzAtX(pawn.getItem()!.location.type, x).getItem<Buzz>()?.id === Buzz.TheKingBuzz
