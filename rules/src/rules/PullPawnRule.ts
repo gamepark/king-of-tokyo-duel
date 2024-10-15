@@ -1,5 +1,5 @@
 import { HexGridSystem, hexRotate, isMoveItem, ItemMove, Location, MaterialItem } from '@gamepark/rules-api'
-import { buzzDescriptions, getBuzzSpaces } from '../material/Buzz'
+import { Buzz, buzzDescriptions, getBuzzSpaces } from '../material/Buzz'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { Pawn } from '../material/Pawn'
@@ -16,7 +16,7 @@ export class PullPawnRule extends BasePlayerTurnEffectRule<PullPawn> {
     const pawn = this.getPawn(effectWSource.effect.pawn)
     const nextX = this.getNextX(pawn.getItem()!.location)
 
-    if (effectWSource.effect.count === 1) {
+    if (effectWSource.effect.count === 1 || this.pullIsStopped(nextX)) {
       this.memorize(Memory.Effects, (effects: EffectWithSource[]) => effects.slice(1))
     } else {
       effectWSource.effect.count--
@@ -43,6 +43,12 @@ export class PullPawnRule extends BasePlayerTurnEffectRule<PullPawn> {
       }
       return nextX
     }
+  }
+
+  pullIsStopped(x: number) {
+    const effectWSource = this.currentEffect
+    const pawn = this.getPawn(effectWSource.effect.pawn)
+    return this.getBuzzAtX(pawn.getItem()!.location.type, x).getItem<Buzz>()?.id === Buzz.TheKingBuzz
   }
 
   getBuzzAtX(track: LocationType, x: number) {

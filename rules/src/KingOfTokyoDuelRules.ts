@@ -24,6 +24,7 @@ import { AlienoidRule } from './rules/power/AlienoidRule'
 import { CyberKittyRule } from './rules/power/CyberKittyRule'
 import { GigazaurRule } from './rules/power/GigazaurRule'
 import { SpacePenguinRule } from './rules/power/SpacePenguinRule'
+import { TheKingRule } from './rules/power/TheKingRule'
 import { PullPawnRule } from './rules/PullPawnRule'
 import { RebootingRule } from './rules/RebootingRule'
 import { ResolveDiceRule } from './rules/ResolveDiceRule'
@@ -73,7 +74,8 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     [RuleId.CyberKitty]: CyberKittyRule,
     [RuleId.SpacePenguin]: SpacePenguinRule,
     [RuleId.Gigazaur]: GigazaurRule,
-    [RuleId.Alienoid]: AlienoidRule
+    [RuleId.Alienoid]: AlienoidRule,
+    [RuleId.TheKing]: TheKingRule
   }
 
   hidingStrategies = {
@@ -97,7 +99,7 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
       [LocationType.PlayerHand]: new PositiveSequenceStrategy(),
       [LocationType.PlayerRolledDice]: new FillGapStrategy(),
       [LocationType.WhiteDiceStock]: new PositiveSequenceStrategy(),
-      [LocationType.OnPowerCard]: new FillGapStrategy(),
+      [LocationType.OnPowerCard]: new FillGapStrategy()
     }
   }
 
