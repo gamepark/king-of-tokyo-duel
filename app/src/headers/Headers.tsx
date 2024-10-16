@@ -2,6 +2,7 @@
 import { RuleId } from '@gamepark/king-of-tokyo-duel/rules/RuleId'
 import { ComponentType } from 'react'
 import { BuyHeader } from './BuyHeader'
+import { ChangePlayerHeader } from './ChangePlayerHeader'
 import { DominateHeader } from './DominateHeader'
 import { GainEnergyHeader } from './GainEnergyHeader'
 import { GainWhiteDiceTokenHeader } from './GainWhiteDiceTokenHeader'
@@ -24,6 +25,7 @@ export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.PullPawn]: PullPawnHeader,
   [RuleId.Buy]: BuyHeader,
   [RuleId.MoveBuzzToken]: MoveBuzzTokenHeader,
+  [RuleId.ChangePlayer]: ChangePlayerHeader,
   [RuleId.GainWhiteDiceToken]: GainWhiteDiceTokenHeader,
   [RuleId.SuperConductor]: SuperConductorHeader,
   [RuleId.Hibernation]: HibernationHeader,

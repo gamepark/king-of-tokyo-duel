@@ -147,6 +147,7 @@
       "header.buy.player": "{player} peut acheter des cartes Énergie",
       "header.buzz.you": "Placez le jeton Buzz sur le plateau",
       "header.buzz.player": "{player} place le jeton Buzz sur le plateau",
+      "header.end-turn": "Fin de tour",
       "header.gain-dice-token.you": "Vous gagnez 1 <token/>",
       "header.gain-dice-token.player": "{player} gagne 1 <token/>",
       "Menu": "Menu",
