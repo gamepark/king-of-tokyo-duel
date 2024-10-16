@@ -7,7 +7,7 @@ import { GigazaurHeader } from './GigazaurHeader'
 import { HibernationHeader } from './HibernationHeader'
 import { MadeInALabHeader } from './MadeInALabHeader'
 import { OnStartHeader } from './OnStartHeader'
-import { PlayerTurnHeader } from './PlayerTurnHeader'
+import { PullPawnHeader } from './PullPawnHeader'
 import { ResolveDiceHeader } from './ResolveDiceHeader'
 import { RollDiceHeader } from './RollDiceHeader'
 import { SmashHeader } from './SmashHeader'
@@ -15,12 +15,12 @@ import { SuperConductorHeader } from './SuperConductorHeader'
 
 export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.RollDice]: RollDiceHeader,
-  [RuleId.PullPawn]: PlayerTurnHeader,
-  [RuleId.GainEnergy]: () => <>Gain Energy</>,
+  [RuleId.ResolveDice]: ResolveDiceHeader,
   [RuleId.Smash]: SmashHeader,
+  [RuleId.GainEnergy]: () => <>Gain Energy</>,
+  [RuleId.PullPawn]: PullPawnHeader,
   [RuleId.Buy]: BuyHeader,
   [RuleId.SuperConductor]: SuperConductorHeader,
-  [RuleId.ResolveDice]: ResolveDiceHeader,
   [RuleId.Hibernation]: HibernationHeader,
   [RuleId.Dominate]: DominateHeader,
   [RuleId.OnStartTurn]: OnStartHeader,

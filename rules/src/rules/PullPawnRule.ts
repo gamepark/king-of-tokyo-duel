@@ -6,9 +6,7 @@ import { Monster } from '../material/Monster'
 import { Pawn } from '../material/Pawn'
 import { BasePlayerTurnEffectRule } from './BasePlayerTurnEffectRule'
 import { Effect, EffectType, PullPawn } from './effects/EffectType'
-import { EffectWithSource } from './effects/EffectWithSource'
 import { KeepHelper } from './helper/KeepHelper'
-import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class PullPawnRule extends BasePlayerTurnEffectRule<PullPawn> {
@@ -16,13 +14,6 @@ export class PullPawnRule extends BasePlayerTurnEffectRule<PullPawn> {
     const effectWSource = this.currentEffect
     const pawn = this.getPawn(effectWSource.effect.pawn)
     const nextX = this.getNextX(pawn.getItem()!.location)
-
-    if (effectWSource.effect.count === 1 || this.pullIsStopped(nextX)) {
-      this.memorize(Memory.Effects, (effects: EffectWithSource[]) => effects.slice(1))
-    } else {
-      effectWSource.effect.count--
-    }
-
     return [pawn.moveItem((item) => ({ ...item.location, x: nextX }))]
   }
 
@@ -68,7 +59,7 @@ export class PullPawnRule extends BasePlayerTurnEffectRule<PullPawn> {
           const effect = this.getBuzzEffect(buzz.getItem()!, move.location as Location)
           if (effect) {
             const target = effect.type === EffectType.Smash ? this.nextPlayer : this.player
-            this.unshiftEffect({ sources: [{ type: MaterialType.Buzz, indexes: buzz.getIndexes() }], target, effect })
+            this.effects.splice(1, 0, { sources: [{ type: MaterialType.Buzz, indexes: buzz.getIndexes() }], target, effect })
           }
         }
 
@@ -97,7 +88,14 @@ export class PullPawnRule extends BasePlayerTurnEffectRule<PullPawn> {
   }
 
   onRuleEnd() {
-    // We removed or decremented the effect onRuleStart, so we must not call super.onRuleEnd()
-    return []
+    const effectWSource = this.currentEffect
+    const pawn = this.getPawn(effectWSource.effect.pawn)
+
+    if (effectWSource.effect.count === 1 || this.pullIsStopped(pawn.getItem()!.location.x!)) {
+      return super.onRuleEnd()
+    } else {
+      effectWSource.effect.count--
+      return []
+    }
   }
 }

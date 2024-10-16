@@ -137,6 +137,8 @@
       "header.resolve.player": "{player} doit utiliser ses dés",
       "header.smash.you": "Vous subissez {count} <hit/>",
       "header.smash.player": "{player} subit {count} <hit/>",
+      "header.pull.you": "Vous déplacez le pion <pawn/>",
+      "header.pull.player": "{player} déplace le pion <pawn/>",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Valider",

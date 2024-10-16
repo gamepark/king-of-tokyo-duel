@@ -1,22 +1,24 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelRules'
-import { Smash } from '@gamepark/king-of-tokyo-duel/rules/effects/EffectType'
+import { Pawn } from '@gamepark/king-of-tokyo-duel/material/Pawn'
+import { PullPawn } from '@gamepark/king-of-tokyo-duel/rules/effects/EffectType'
 import { EffectWithSource } from '@gamepark/king-of-tokyo-duel/rules/effects/EffectWithSource'
 import { Memory } from '@gamepark/king-of-tokyo-duel/rules/Memory'
 import { Picture, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { Trans } from 'react-i18next'
-import Hit from '../images/icons/Hit.png'
+import destruction from '../images/pawn/destruction.png'
+import fame from '../images/pawn/fame.png'
 
-export const SmashHeader = () => {
+export const PullPawnHeader = () => {
   const rules = useRules<KingOfTokyoDuelRules>()!
-  const effect = rules.remind<EffectWithSource<Smash>[]>(Memory.Effects)[0]
-  const count = effect.effect.count
+  const effect = rules.remind<EffectWithSource<PullPawn>[]>(Memory.Effects)[0]
   const target = effect.target
   const me = usePlayerId() === target
   const player = usePlayerName(target)
-  return <Trans defaults={`header.smash.${me ? 'you' : 'player'}`} values={{ player, count }} components={{
-    hit: <Picture src={Hit} css={iconCss}/>
+  const pawn = effect.effect.pawn
+  return <Trans defaults={`header.pull.${me ? 'you' : 'player'}`} values={{ player }} components={{
+    pawn: <Picture src={pawn === Pawn.Fame ? fame : destruction} css={iconCss}/>
   }}/>
 }
 
