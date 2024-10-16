@@ -1,6 +1,13 @@
 {
   "en": {
     "translation": {
+      "Name": "King of Tokyo Duel",
+      "monster.1": "Alienoid",
+      "monster.2": "Cyber Kitty",
+      "monster.3": "Gigazaur",
+      "monster.4": "Meka Dragon",
+      "monster.5": "Space Penguin",
+      "monster.6": "The King",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Validate",
@@ -115,6 +122,17 @@
   },
   "fr": {
     "translation": {
+      "Name": "King of Tokyo Duel",
+      "monster.1": "Alienoid",
+      "monster.2": "Cyber Kitty",
+      "monster.3": "Gigazaur",
+      "monster.4": "Meka Dragon",
+      "monster.5": "Space Penguin",
+      "monster.6": "The King",
+      "header.roll.you": "Vous pouvez <roll>lancer les dés</roll> ou <add>prendre un dé supplémentaire</add>",
+      "header.reroll.you": "<stop>Garder ces dés</stop> ou sélectionner les dés à relancer ({rollLeft, plural, one{# lancer restant} other{# lancers restants}})",
+      "header.reroll.selection": "<reroll>Relancer {dice, plural, one{le dé sélectionné} other{les dés sélectionnés}}</reroll>",
+      "header.roll.player": "{player} lance les dés ({rollLeft, plural, one{# lancer restant} other{# lancers restants}})",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Valider",
