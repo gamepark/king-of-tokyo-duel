@@ -19,7 +19,7 @@ export class CyberKittyRule extends PowerRule {
   getPlayerMoves(): MaterialMove<number, number, number>[] {
     const remainingPower = this.remainingPower
     const moves: MaterialMove[] = []
-    if (!remainingPower) return moves
+    if (remainingPower < 2) return moves
     moves.push(this.customMove(CustomMoveType.Power, PowerUse.Normal))
     if (remainingPower > 2) {
       moves.push(this.customMove(CustomMoveType.Power, PowerUse.Bonus))

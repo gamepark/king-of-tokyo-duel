@@ -8,7 +8,7 @@ export class ScrappyKeepRule extends KeepRule {
     if (this.getActivePlayer() !== this.cardPlayer) return
     if (this.bonusTokensCount === 2) return
 
-    // TODO: define "each time you pull the pawn marker of a buzz token"
+    // TODO @rfromi: define "each time you pull the pawn marker of a buzz token"
     this.pushEffect({
       type: EffectType.GetWhiteDiceToken,
       count: 1

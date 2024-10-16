@@ -8,6 +8,10 @@ import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class RebootingRule extends BasePlayerTurnRule {
+  onRuleStart() {
+    this.removeEffect()
+    return []
+  }
   getPlayerMoves() {
     const moves: MaterialMove[] = []
     moves.push(this.customMove(CustomMoveType.Ignore))

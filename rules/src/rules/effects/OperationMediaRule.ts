@@ -10,6 +10,7 @@ import { EffectType } from './EffectType'
 
 export class OperationMediaRule extends BasePlayerTurnRule {
   onRuleStart() {
+    this.removeEffect()
     this.unshiftEffect({
       effect: {
         type: EffectType.PullPawn,

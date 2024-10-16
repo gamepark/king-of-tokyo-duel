@@ -8,6 +8,7 @@ import { RuleId } from './RuleId'
 
 export class TeslaImpulseRule extends BasePlayerTurnRule {
   onRuleStart() {
+    this.removeEffect()
     if (!this.rivalKeepCards.length) return [this.startRule(RuleId.Effect)]
     return []
   }

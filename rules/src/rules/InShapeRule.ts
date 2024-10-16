@@ -3,13 +3,14 @@ import { MaterialMove } from '@gamepark/rules-api/dist/material/moves/MaterialMo
 import { PowerCard } from '../material/cards/PowerCard'
 import { MaterialType } from '../material/MaterialType'
 import { Pawn } from '../material/Pawn'
-import { BasePlayerTurnEffectRule } from './BasePlayerTurnEffectRule'
+import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
 import { EffectType, InShape } from './effects/EffectType'
 import { RuleId } from './RuleId'
 
-export class InShapeRule extends BasePlayerTurnEffectRule<InShape> {
+export class InShapeRule extends BasePlayerTurnRule<InShape> {
   onRuleStart() {
+    this.removeEffect()
     const energy = this.energy
     if (!energy.length) return [this.startRule(RuleId.Effect)]
     return []

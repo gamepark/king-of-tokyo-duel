@@ -1,5 +1,4 @@
 import { MaterialMove } from '@gamepark/rules-api'
-import { Monster } from '../material/Monster'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { EffectType } from './effects/EffectType'
 import { EffectWithSource } from './effects/EffectWithSource'
@@ -44,33 +43,24 @@ export class EffectRule extends BasePlayerTurnRule {
       case EffectType.FreeTurn:
         return this.startRule(RuleId.FreeTurn)
       case EffectType.TeslaImpulse:
-        return this.sliceAndStart(RuleId.TeslaImpulse)
+        return this.startRule(RuleId.TeslaImpulse)
       case EffectType.OperationMedia:
-        return this.sliceAndStart(RuleId.OperationMedia)
+        return this.startRule(RuleId.OperationMedia)
       case EffectType.Dominate:
+        this.memorize(Memory.Effects, (effects: EffectWithSource[]) => effects.slice(1))
         this.memorize(Memory.Dominate, true)
-        return this.sliceAndStart(RuleId.Effect)
+        return this.startRule(RuleId.Effect)
       case EffectType.UnstableDna:
-        return this.sliceAndStartPlayerTurn(RuleId.UnstableDna, this.currentEffect.target);
+        return this.startPlayerTurn(RuleId.UnstableDna, this.currentEffect.target);
       case EffectType.InShape:
         return this.startRule(RuleId.InShape);
       case EffectType.SuperConductor:
-        return this.sliceAndStartPlayerTurn(RuleId.SuperConductor, this.currentEffect.target);
+        return this.startPlayerTurn(RuleId.SuperConductor, this.currentEffect.target);
       case EffectType.Rebooting:
-        return this.sliceAndStart(RuleId.Rebooting)
+        return this.startRule(RuleId.Rebooting)
       default:
         return
     }
-  }
-
-  sliceAndStart(id: RuleId) {
-    this.memorize(Memory.Effects, (effects: EffectWithSource[]) => effects.slice(1))
-    return this.startRule(id)
-  }
-
-  sliceAndStartPlayerTurn(id: RuleId, player: Monster) {
-    this.memorize(Memory.Effects, (effects: EffectWithSource[]) => effects.slice(1))
-    return this.startPlayerTurn(id, player)
   }
 
   goToNextRule() {

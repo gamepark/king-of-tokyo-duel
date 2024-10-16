@@ -67,4 +67,9 @@ export class BasePlayerTurnRule<E extends Effect = any> extends PlayerTurnRule {
       return effects
     })
   }
+
+  removeEffect() {
+    this.memorize(Memory.Effects, (effects: EffectWithSource[]) => effects.slice(1))
+    return []
+  }
 }

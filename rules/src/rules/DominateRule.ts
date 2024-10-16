@@ -8,6 +8,10 @@ import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class DominateRule extends BasePlayerTurnRule {
+  onRuleStart() {
+    this.removeEffect()
+    return []
+  }
 
   getPlayerMoves() {
     const moves = super.getPlayerMoves()
