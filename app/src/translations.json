@@ -135,6 +135,8 @@
       "header.roll.player": "{player} lance les dés ({rollLeft, plural, one{# lancer restant} other{# lancers restants}})",
       "header.resolve.you": "Utilisez vos dés : <smash/> <heal/> <energy/> <fame/> <destruction/> <power/>",
       "header.resolve.player": "{player} doit utiliser ses dés",
+      "header.smash.you": "Vous subissez {count} <hit/>",
+      "header.smash.player": "{player} subit {count} <hit/>",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Valider",

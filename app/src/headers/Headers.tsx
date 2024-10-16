@@ -10,13 +10,14 @@ import { OnStartHeader } from './OnStartHeader'
 import { PlayerTurnHeader } from './PlayerTurnHeader'
 import { ResolveDiceHeader } from './ResolveDiceHeader'
 import { RollDiceHeader } from './RollDiceHeader'
+import { SmashHeader } from './SmashHeader'
 import { SuperConductorHeader } from './SuperConductorHeader'
 
 export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.RollDice]: RollDiceHeader,
   [RuleId.PullPawn]: PlayerTurnHeader,
   [RuleId.GainEnergy]: () => <>Gain Energy</>,
-  [RuleId.Smash]: () => <>Smash</>,
+  [RuleId.Smash]: SmashHeader,
   [RuleId.Buy]: BuyHeader,
   [RuleId.SuperConductor]: SuperConductorHeader,
   [RuleId.ResolveDice]: ResolveDiceHeader,
