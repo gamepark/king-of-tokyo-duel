@@ -3,6 +3,7 @@ import { RuleId } from '@gamepark/king-of-tokyo-duel/rules/RuleId'
 import { ComponentType } from 'react'
 import { BuyHeader } from './BuyHeader'
 import { DominateHeader } from './DominateHeader'
+import { GainEnergyHeader } from './GainEnergyHeader'
 import { GigazaurHeader } from './GigazaurHeader'
 import { HibernationHeader } from './HibernationHeader'
 import { MadeInALabHeader } from './MadeInALabHeader'
@@ -18,7 +19,7 @@ export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.RollDice]: RollDiceHeader,
   [RuleId.ResolveDice]: ResolveDiceHeader,
   [RuleId.Smash]: SmashHeader,
-  [RuleId.GainEnergy]: () => <>Gain Energy</>,
+  [RuleId.GainEnergy]: GainEnergyHeader,
   [RuleId.PullPawn]: PullPawnHeader,
   [RuleId.Buy]: BuyHeader,
   [RuleId.MoveBuzzToken]: MoveBuzzTokenHeader,
