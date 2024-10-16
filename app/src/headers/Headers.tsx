@@ -4,6 +4,7 @@ import { ComponentType } from 'react'
 import { BuyHeader } from './BuyHeader'
 import { DominateHeader } from './DominateHeader'
 import { GainEnergyHeader } from './GainEnergyHeader'
+import { GainWhiteDiceTokenHeader } from './GainWhiteDiceTokenHeader'
 import { GigazaurHeader } from './GigazaurHeader'
 import { HibernationHeader } from './HibernationHeader'
 import { MadeInALabHeader } from './MadeInALabHeader'
@@ -23,6 +24,7 @@ export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.PullPawn]: PullPawnHeader,
   [RuleId.Buy]: BuyHeader,
   [RuleId.MoveBuzzToken]: MoveBuzzTokenHeader,
+  [RuleId.GainWhiteDiceToken]: GainWhiteDiceTokenHeader,
   [RuleId.SuperConductor]: SuperConductorHeader,
   [RuleId.Hibernation]: HibernationHeader,
   [RuleId.Dominate]: DominateHeader,
