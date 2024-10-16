@@ -7,6 +7,7 @@ import { DominateHeader } from './DominateHeader'
 import { GainEnergyHeader } from './GainEnergyHeader'
 import { GainWhiteDiceTokenHeader } from './GainWhiteDiceTokenHeader'
 import { GigazaurHeader } from './GigazaurHeader'
+import { HealHeader } from './HealHeader'
 import { HibernationHeader } from './HibernationHeader'
 import { MadeInALabHeader } from './MadeInALabHeader'
 import { MoveBuzzTokenHeader } from './MoveBuzzTokenHeader'
@@ -21,6 +22,7 @@ export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.RollDice]: RollDiceHeader,
   [RuleId.ResolveDice]: ResolveDiceHeader,
   [RuleId.Smash]: SmashHeader,
+  [RuleId.Heal]: HealHeader,
   [RuleId.GainEnergy]: GainEnergyHeader,
   [RuleId.PullPawn]: PullPawnHeader,
   [RuleId.Buy]: BuyHeader,

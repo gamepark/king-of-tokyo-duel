@@ -137,6 +137,8 @@
       "header.resolve.player": "{player} doit utiliser ses dés",
       "header.smash.you": "Vous subissez {count} <hit/>",
       "header.smash.player": "{player} subit {count} <hit/>",
+      "header.heal.you": "Vous gagnez {count} <heart/>",
+      "header.heal.player": "{player} gagne {count} <heart/>",
       "header.gain-energy.you": "Vous récupérez {count} <energy/>",
       "header.gain-energy.player": "{player} récupère {count} <energy/>",
       "header.pull.you": "Vous déplacez le pion <pawn/>",
