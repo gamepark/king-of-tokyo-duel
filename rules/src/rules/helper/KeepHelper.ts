@@ -126,9 +126,9 @@ export class KeepHelper extends MaterialRulesPart {
       .some((index) => this.getEffectRule(index)?.canPreventDamagesOn(player) ?? false)
   }
 
-  afterSmashTakenComputed(player: Monster) {
+  afterSmashTakenComputed(player: Monster, takenDamages: number) {
     this.keepCardsIndexes
-      .flatMap((index) => this.getEffectRule(index)?.afterSmashTakenComputed(player) ?? [])
+      .flatMap((index) => this.getEffectRule(index)?.afterSmashTakenComputed(player, takenDamages) ?? [])
   }
 
   ignoredSmash(player: Monster, damages?: number): number {

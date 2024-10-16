@@ -22,12 +22,13 @@ export class SmashRule extends BasePlayerTurnEffectRule<Smash> {
     const target = this.currentEffect.target
     const wheel = this.wheel
     const newHealth = Math.max(wheel.getItem()!.location.rotation - damages, 0)
-    if (target !== this.player) this.memorize(Memory.RivalSmashCount, (count: number = 0) => count + (newHealth - wheel.getItem()!.location.rotation))
+    const takenDamages = (newHealth - wheel.getItem()!.location.rotation)
+    if (target !== this.player) this.memorize(Memory.RivalSmashCount, (count: number = 0) => count + takenDamages)
     const moves: MaterialMove[] = [
       wheel.rotateItem(newHealth)
     ]
 
-    new KeepHelper(this.game).afterSmashTakenComputed(target)
+    new KeepHelper(this.game).afterSmashTakenComputed(target, takenDamages)
     if (!newHealth) {
       const onDieMoves = new KeepHelper(this.game).onDie(target)
       moves.push(...onDieMoves)

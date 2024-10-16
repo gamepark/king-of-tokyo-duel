@@ -69,7 +69,7 @@ export class KeepRule extends MaterialRulesPart {
     return false
   }
 
-  afterSmashTakenComputed(_player: Monster) {
+  afterSmashTakenComputed(_player: Monster, _takenDamages: number) {
   }
 
   ignoredSmash(_player: Monster, _damages?: number): number {

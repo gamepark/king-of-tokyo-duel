@@ -7,9 +7,12 @@ import { EffectType } from './effects/EffectType'
 import { RuleId } from './RuleId'
 
 export class TeslaImpulseRule extends BasePlayerTurnRule {
+  onRuleStart() {
+    if (!this.rivalKeepCards.length) return [this.startRule(RuleId.Effect)]
+    return []
+  }
   getPlayerMoves() {
     const moves = super.getPlayerMoves()
-    if (!this.rivalKeepCards.length) return [this.startRule(RuleId.Effect)]
     moves.push(
       ...this.rivalKeepCards.moveItems({
         type: LocationType.Discard

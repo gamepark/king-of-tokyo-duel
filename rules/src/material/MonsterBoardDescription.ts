@@ -2,7 +2,6 @@ import { Monster } from './Monster'
 
 export type MonsterBoardDescription = {
   health: number,
-  // TODO: EFFECTS
 }
 
 export const monsterBoardDescriptions: Record<Monster, MonsterBoardDescription> = {

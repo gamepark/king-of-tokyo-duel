@@ -53,7 +53,7 @@ export class EffectRule extends BasePlayerTurnRule {
       case EffectType.UnstableDna:
         return this.sliceAndStartPlayerTurn(RuleId.UnstableDna, this.currentEffect.target);
       case EffectType.InShape:
-        return this.sliceAndStart(RuleId.InShape);
+        return this.startRule(RuleId.InShape);
       case EffectType.SuperConductor:
         return this.sliceAndStartPlayerTurn(RuleId.SuperConductor, this.currentEffect.target);
       case EffectType.Rebooting:
