@@ -143,6 +143,8 @@
       "header.renew.confirm": "Vous pouvez dépenser 2 <energy/> pour défausser les 3 cartes Énergie face visible et en révéler 3 nouvelles qui deviennent immédiatement disponibles à l’achat.",
       "header.buy-more.you": "Achetez une autre carte, <renew>remplacez les cartes</renew> ou <pass>passez</pass>",
       "header.buy.player": "{player} peut acheter des cartes Énergie",
+      "header.buzz.you": "Placez le jeton Buzz sur le plateau",
+      "header.buzz.player": "{player} place le jeton Buzz sur le plateau",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Valider",

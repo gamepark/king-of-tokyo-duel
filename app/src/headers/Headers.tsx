@@ -6,6 +6,7 @@ import { DominateHeader } from './DominateHeader'
 import { GigazaurHeader } from './GigazaurHeader'
 import { HibernationHeader } from './HibernationHeader'
 import { MadeInALabHeader } from './MadeInALabHeader'
+import { MoveBuzzTokenHeader } from './MoveBuzzTokenHeader'
 import { OnStartHeader } from './OnStartHeader'
 import { PullPawnHeader } from './PullPawnHeader'
 import { ResolveDiceHeader } from './ResolveDiceHeader'
@@ -20,6 +21,7 @@ export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.GainEnergy]: () => <>Gain Energy</>,
   [RuleId.PullPawn]: PullPawnHeader,
   [RuleId.Buy]: BuyHeader,
+  [RuleId.MoveBuzzToken]: MoveBuzzTokenHeader,
   [RuleId.SuperConductor]: SuperConductorHeader,
   [RuleId.Hibernation]: HibernationHeader,
   [RuleId.Dominate]: DominateHeader,
