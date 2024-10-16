@@ -17,7 +17,7 @@ export const RollDiceHeader = () => {
   const rollCount = rules.remind(Memory.RollCount) ?? 0
   const rollLeft = 3 - rollCount
   const roll = useLegalMove((move) => isCustomMoveType(CustomMoveType.Roll)(move))
-  const dice = rules.material(MaterialType.Dice).location(LocationType.PlayerHand).length
+  const dice = rules.material(MaterialType.Dice).location(LocationType.PlayerHand).player(activePlayer).length
   const addDice = useLegalMove(isDeleteItemType(MaterialType.DiceToken))
   // TODO: remove this legal move or find a way to fit everything in the header
   //const rerollEverything = useLegalMove((move) => isCustomMoveType(CustomMoveType.RollAll)(move))
