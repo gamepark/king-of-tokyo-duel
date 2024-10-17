@@ -209,6 +209,13 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
     return
   }
 
+  countFaces(face: DiceFace) {
+    const bonuses = this.getBonusDiceFaces(face)
+    const bonus = sumBy(bonuses, (bonus) => bonus.count)
+    console.log(face, this.getDiceForFace(face).length, bonus)
+    return this.getDiceForFace(face).length + bonus
+  }
+
   getBonusDiceFaces(face: DiceFace) {
     const faces = new KeepHelper(this.game).getBonusFaces(face)
     const memoryExtraFaces = (this.remind<DiceFace[]>(Memory.ExtraDiceFaces) ?? []).filter((d) => d === face)

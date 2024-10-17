@@ -25,12 +25,12 @@ export const ResolveDiceHeader = () => {
   if (me) {
     const faceImages = diceDescription.images[DiceColor.Red]
     return <Trans defaults="header.resolve.you" components={{
-      smash: <DiceFaceButton move={smash} image={faceImages[DiceFace.Claw]} count={resolveDiceRule.getEffect(DiceFace.Claw)?.effect.count}/>,
-      heal: <DiceFaceButton move={heal} image={faceImages[DiceFace.Heal]} count={resolveDiceRule.getEffect(DiceFace.Heal)?.effect.count}/>,
-      energy: <DiceFaceButton move={gainEnergy} image={faceImages[DiceFace.Energy]} count={resolveDiceRule.getEffect(DiceFace.Energy)?.effect.count}/>,
-      fame: <DiceFaceButton move={pullFamePawn} image={faceImages[DiceFace.Fame]} count={resolveDiceRule.getEffect(DiceFace.Fame)?.effect.count}/>,
+      smash: <DiceFaceButton move={smash} image={faceImages[DiceFace.Claw]} count={resolveDiceRule.countFaces(DiceFace.Claw)}/>,
+      heal: <DiceFaceButton move={heal} image={faceImages[DiceFace.Heal]} count={resolveDiceRule.countFaces(DiceFace.Heal)}/>,
+      energy: <DiceFaceButton move={gainEnergy} image={faceImages[DiceFace.Energy]} count={resolveDiceRule.countFaces(DiceFace.Energy)}/>,
+      fame: <DiceFaceButton move={pullFamePawn} image={faceImages[DiceFace.Fame]} count={resolveDiceRule.countFaces(DiceFace.Fame)}/>,
       destruction: <DiceFaceButton move={pullDestructionPawn} image={faceImages[DiceFace.Destruction]}
-                                   count={resolveDiceRule.getEffect(DiceFace.Destruction)?.effect.count}/>,
+                                   count={resolveDiceRule.countFaces(DiceFace.Destruction)}/>,
       power: <DiceFaceButton move={power} image={faceImages[DiceFace.Power]}
                              count={resolveDiceRule.getDiceForFace(DiceFace.Power).length - resolveDiceRule.consumedPower}/>
     }}/>
