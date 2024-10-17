@@ -1,10 +1,13 @@
 import { MaterialMove } from '@gamepark/rules-api/dist/material/moves/MaterialMove'
+import { Monster } from '../material/Monster'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
+import { Smash } from './effects/EffectType'
 import { KeepHelper } from './helper/KeepHelper'
 import { KeepRule } from './keep/KeepRule'
+import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
-export class PreventDamagesRule extends BasePlayerTurnRule {
+export class PreventDamagesRule extends BasePlayerTurnRule<Smash> {
   onRuleStart() {
     if (!this.smashEffect.effect.count || new KeepHelper(this.game).immune(this.smashEffect.target)) {
       return this.cancelEffect()
@@ -12,7 +15,7 @@ export class PreventDamagesRule extends BasePlayerTurnRule {
 
     const effects: KeepRule[] = this.preventDamagesKeepEffect
     for (const keepRule of effects) {
-      if (!this.smashEffect.effect.count) break;
+      if (!this.smashEffect.effect.count) break
       const moves = keepRule.preventDamages()
       if (moves.length) return moves
     }
@@ -21,15 +24,19 @@ export class PreventDamagesRule extends BasePlayerTurnRule {
       return this.cancelEffect()
     }
 
-    if (this.smashEffect.effect.rival) return [this.startPlayerTurn(RuleId.Smash, this.rival)]
+    const activePlayer = this.remind<Monster>(Memory.ActivePlayer)
+    if (this.player !== activePlayer) {
+      return [this.startPlayerTurn(RuleId.Smash, activePlayer)]
+    }
     return [this.startRule(RuleId.Smash)]
 
   }
 
   cancelEffect() {
     const moves: MaterialMove[] = []
-    if (this.smashEffect.effect.rival) {
-      moves.push(this.startPlayerTurn(RuleId.Effect, this.rival))
+    const activePlayer = this.remind<Monster>(Memory.ActivePlayer)
+    if (this.player !== activePlayer) {
+      moves.push(this.startPlayerTurn(RuleId.Effect, activePlayer))
     } else {
       moves.push(this.startRule(RuleId.Effect))
     }
