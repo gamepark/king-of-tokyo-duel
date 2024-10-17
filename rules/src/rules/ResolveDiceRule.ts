@@ -189,10 +189,10 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
     effectWithSource.effect.count += sumBy(effectWithSource.sources, (source) => source.count ?? 0)
     if (face === DiceFace.Fame || face === DiceFace.Destruction) {
       effectWithSource.effect.pawn = face === DiceFace.Fame ? Pawn.Fame : Pawn.Destruction
-      effectWithSource.effect.count = Math.floor(effectWithSource.effect.count / 3) + Math.max(0, effectWithSource.effect.count - 3)
+      effectWithSource.effect.count -= 2
     }
 
-    if (effectWithSource.effect.count) {
+    if (effectWithSource.effect.count > 0) {
       if (face === DiceFace.Heal) {
         effectWithSource.effect.count = new HealHelper(this.game, this.player).heal(effectWithSource.effect.count)
         if (!effectWithSource.effect.count) return
