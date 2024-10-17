@@ -20,7 +20,7 @@ gameAnimations
 gameAnimations
   .when()
   .move((move) => isMoveItemType(MaterialType.Buzz)(move) && move.location.rotation !== undefined)
-  .none()
+  .duration(0.1)
 
 
 gameAnimations
