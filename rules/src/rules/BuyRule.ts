@@ -15,7 +15,7 @@ export class BuyRule extends BasePlayerTurnRule {
     const moves: MaterialMove[] = []
     moves.push(...this.placeCard())
     this.memorize(Memory.Phase, RuleId.Buy)
-    if (!this.getPurchasableCards().length) {
+    if (!this.getPurchasableCards().length && !this.canRenewCards) {
       if (this.boughtCards.length) {
         moves.push(this.getNextRule())
         return moves
@@ -63,7 +63,7 @@ export class BuyRule extends BasePlayerTurnRule {
   getPlayerMoves() {
     const moves: MaterialMove[] = super.getPlayerMoves()
     moves.push(this.customMove(CustomMoveType.Pass))
-    if (!this.remind(Memory.RefillRiver)) {
+    if (this.canRenewCards) {
       moves.push(this.customMove(CustomMoveType.RenewCards))
     }
 
@@ -76,6 +76,10 @@ export class BuyRule extends BasePlayerTurnRule {
     )
 
     return moves
+  }
+
+  get canRenewCards() {
+    return !this.remind(Memory.RefillRiver) && this.energies.getQuantity() >= 2
   }
 
   get boughtCards() {
@@ -148,6 +152,7 @@ export class BuyRule extends BasePlayerTurnRule {
     if (isCustomMoveType(CustomMoveType.RenewCards)(move)) {
       this.memorize(Memory.RefillRiver, true)
       return [
+        this.energies.deleteItem(2),
         this.river.moveItemsAtOnce({
           type: LocationType.Discard
         }),
