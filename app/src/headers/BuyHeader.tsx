@@ -14,7 +14,7 @@ export const BuyHeader = () => {
   const me = usePlayerId()
   const player = usePlayerName(activePlayer)
   const stop = useLegalMove(isCustomMoveType(CustomMoveType.Pass))
-  const renew = useLegalMove(isCustomMoveType(CustomMoveType.RenewCards)) // TODO: CustomMoveType.RenewCards
+  const renew = useLegalMove(isCustomMoveType(CustomMoveType.RenewCards))
   const hasBoughtCards = rules?.remind(Memory.BoughtCards)?.length
   if (me !== activePlayer) {
     return <Trans defaults="header.buy.player" values={{ player }}/>

@@ -13,6 +13,7 @@ export class CamouflageKeepRule extends KeepRule {
   }
 
   preventDamages(): MaterialMove[] {
+    this.markKeepCardConsumed()
     return [this.startRule(RuleId.Camouflage)]
   }
 }
