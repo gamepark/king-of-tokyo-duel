@@ -7,6 +7,17 @@ import { RuleId } from '../RuleId'
 import { PowerRule } from './PowerRule'
 
 export class TheKingRule extends PowerRule {
+  canUsePower(): boolean {
+    return super.canUsePower() && this.freeBuzz.length > 0
+  }
+
+  get freeBuzz() {
+    return this.material(MaterialType.Buzz).id(Buzz.TheKingBuzz).location(l => {
+      const pawnOnSameTrack = this.material(MaterialType.Pawn).location(l.type).getItem()
+      return !pawnOnSameTrack || pawnOnSameTrack.location.x !== l.x
+    })
+  }
+
   onRuleStart() {
     if (this.getPlayerMoves().length === 0) {
       this.consumePower(2)
@@ -26,7 +37,7 @@ export class TheKingRule extends PowerRule {
 
     return super.getPlayerMoves().concat(
       ...validLocations.map(location =>
-        this.material(MaterialType.Buzz).id(Buzz.TheKingBuzz).moveItems(location)
+        this.freeBuzz.moveItems(location)
       )
     )
   }
