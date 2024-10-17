@@ -32,6 +32,7 @@ export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.GainWhiteDiceToken]: GainWhiteDiceTokenHeader,
   [RuleId.Alienoid]: AlienoidHeader,
   [RuleId.Gigazaur]: GigazaurHeader,
+  [RuleId.TheKing]: MoveBuzzTokenHeader,
   [RuleId.SuperConductor]: SuperConductorHeader,
   [RuleId.Hibernation]: HibernationHeader,
   [RuleId.Dominate]: DominateHeader,
