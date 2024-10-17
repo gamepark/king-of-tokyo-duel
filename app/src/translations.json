@@ -152,6 +152,8 @@
       "header.end-turn": "Fin de tour",
       "header.gain-dice-token.you": "Vous gagnez 1 <token/>",
       "header.gain-dice-token.player": "{player} gagne 1 <token/>",
+      "header.alienoid.you": "Alienoid : <power/> <power/> > Add <smash/> <heal/> <energy/> <fame/> <destruction/>",
+      "header.alienoid.extra.you": "Alienoid : +<power/> > Add one more <face/> or <pass/>",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Valider",

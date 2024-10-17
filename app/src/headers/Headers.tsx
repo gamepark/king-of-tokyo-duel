@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { RuleId } from '@gamepark/king-of-tokyo-duel/rules/RuleId'
 import { ComponentType } from 'react'
+import { AlienoidHeader } from './AlienoidHeader'
 import { BuyHeader } from './BuyHeader'
 import { ChangePlayerHeader } from './ChangePlayerHeader'
 import { DominateHeader } from './DominateHeader'
@@ -29,6 +30,7 @@ export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.MoveBuzzToken]: MoveBuzzTokenHeader,
   [RuleId.ChangePlayer]: ChangePlayerHeader,
   [RuleId.GainWhiteDiceToken]: GainWhiteDiceTokenHeader,
+  [RuleId.Alienoid]: AlienoidHeader,
   [RuleId.SuperConductor]: SuperConductorHeader,
   [RuleId.Hibernation]: HibernationHeader,
   [RuleId.Dominate]: DominateHeader,
