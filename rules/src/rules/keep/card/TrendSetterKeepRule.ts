@@ -10,6 +10,7 @@ export class TrendSetterKeepRule extends KeepRule {
   }
 
   get isFameOnBuzzToken() {
+    // TODO: @rfromi
     return false
   }
 

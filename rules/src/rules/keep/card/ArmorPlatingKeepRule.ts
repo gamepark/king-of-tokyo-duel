@@ -3,7 +3,6 @@ import { EffectWithSource } from '../../effects/EffectWithSource'
 import { Memory } from '../../Memory'
 import { KeepRule } from '../KeepRule'
 
-// TODO : Prevent damages
 export class ArmorPlatingKeepRule extends KeepRule {
 
   canPreventDamagesOn(player: Monster): boolean {
