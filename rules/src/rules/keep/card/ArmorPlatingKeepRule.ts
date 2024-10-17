@@ -14,7 +14,6 @@ export class ArmorPlatingKeepRule extends KeepRule {
   }
 
   preventDamages() {
-    console.log("????", this.effect.effect.count)
     this.markKeepCardConsumed()
     this.effect.effect.count -= 1
     return []
