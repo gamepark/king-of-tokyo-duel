@@ -1,4 +1,4 @@
-import { getEnumValues, MaterialGame, MaterialMove, MaterialRulesPart } from '@gamepark/rules-api'
+import { CustomMove, getEnumValues, MaterialGame, MaterialMove, MaterialRulesPart, PlayMoveContext } from '@gamepark/rules-api'
 import { DiceFace } from '../../material/DiceFace'
 import { LocationType } from '../../material/LocationType'
 import { MaterialType } from '../../material/MaterialType'
@@ -40,6 +40,10 @@ export class KeepRule extends MaterialRulesPart {
 
   atEndOfTurn() {
     return
+  }
+
+  onCustomMove(_move: CustomMove, _context?: PlayMoveContext): MaterialMove<number, number, number>[] {
+    return super.onCustomMove(_move, _context)
   }
 
   afterResolvingDice() {

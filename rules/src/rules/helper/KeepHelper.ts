@@ -1,4 +1,4 @@
-import { CustomMove, ItemMove, Material, MaterialGame, MaterialMove, MaterialRulesPart } from '@gamepark/rules-api'
+import { ItemMove, Material, MaterialGame, MaterialMove, MaterialRulesPart } from '@gamepark/rules-api'
 import sumBy from 'lodash/sumBy'
 import { PowerCard } from '../../material/cards/PowerCard'
 import { DiceFace } from '../../material/DiceFace'
@@ -156,16 +156,6 @@ export class KeepHelper extends MaterialRulesPart {
   beforeItemMove(move: ItemMove): MaterialMove[] {
     return this.keepCardsIndexes
       .flatMap((index) => this.getEffectRule(index)?.beforeItemMove(move) ?? [])
-  }
-
-  afterItemMove(move: ItemMove): MaterialMove[] {
-    return this.keepCardsIndexes
-      .flatMap((index) => this.getEffectRule(index)?.afterItemMove(move) ?? [])
-  }
-
-  onCustomMove(move: CustomMove): MaterialMove[] {
-    return this.keepCardsIndexes
-      .flatMap((index) => this.getEffectRule(index)?.onCustomMove(move) ?? [])
   }
 
   onBuyPowerCard() {

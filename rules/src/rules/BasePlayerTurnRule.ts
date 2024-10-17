@@ -22,7 +22,7 @@ export class BasePlayerTurnRule<E extends Effect = any> extends PlayerTurnRule {
   }
 
   afterItemMove(move: ItemMove) {
-    const moves = new KeepHelper(this.game).afterItemMove(move)
+    const moves: MaterialMove[] = []
     if (!isMoveItemType(MaterialType.PowerCard)(move) && !isMoveItemTypeAtOnce(MaterialType.PowerCard)(move)) return moves
     if (this.cardOnBoard.length < 3) {
       const powerCardDeck = this.powerCardDeck
@@ -54,7 +54,7 @@ export class BasePlayerTurnRule<E extends Effect = any> extends PlayerTurnRule {
     return this.effects[0]!
   }
 
-  unshiftEffect(effect:EffectWithSource) {
+  unshiftEffect(effect: EffectWithSource) {
     this.memorize(Memory.Effects, (effects: EffectWithSource[] = []) => {
       effects.unshift(effect)
       return effects

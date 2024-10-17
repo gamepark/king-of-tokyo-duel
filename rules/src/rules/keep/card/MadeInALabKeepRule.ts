@@ -1,8 +1,7 @@
-import { CustomMove, isCustomMoveType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
+import { MaterialItem, MaterialMove } from '@gamepark/rules-api'
 import { powerCardCharacteristics } from '../../../material/cards/PowerCardCharacteristics'
 import { LocationType } from '../../../material/LocationType'
 import { MaterialType } from '../../../material/MaterialType'
-import { CustomMoveType } from '../../CustomMoveType'
 import { RuleId } from '../../RuleId'
 import { KeepRule } from '../KeepRule'
 
@@ -16,12 +15,6 @@ export class MadeInALabKeepRule extends KeepRule {
   onBuyPowerCard() {
     if (this.game.rule?.id !== RuleId.MadeInALab) return
     this.markKeepCardConsumed()
-  }
-
-  onCustomMove(move: CustomMove) {
-    if (this.game.rule?.id !== RuleId.MadeInALab || !isCustomMoveType(CustomMoveType.Pass)(move)) return []
-    this.markKeepCardConsumed()
-    return []
   }
 
   getPurchasableCards(energy: number = this.energies.getQuantity()) {
