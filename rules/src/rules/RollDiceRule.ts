@@ -1,4 +1,4 @@
-import { CustomMove, isCustomMoveType, isDeleteItemType, ItemMove, MaterialMove } from '@gamepark/rules-api'
+import { CustomMove, isCustomMoveType, isMoveItemType, ItemMove, MaterialMove } from '@gamepark/rules-api'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
@@ -34,7 +34,7 @@ export class RollDiceRule extends BasePlayerTurnRule {
     const moves: MaterialMove[] = super.getPlayerMoves()
     if (!rollCount) {
       moves.push(
-        ...this.diceToken.deleteItems(1)
+        ...this.diceToken.moveItems({ type: LocationType.WhiteTokenStock }, 1)
       )
       moves.push(this.customMove(CustomMoveType.Roll))
       return moves
@@ -74,7 +74,7 @@ export class RollDiceRule extends BasePlayerTurnRule {
 
   afterItemMove(move: ItemMove) {
     const moves: MaterialMove[] = super.afterItemMove(move)
-    if (!isDeleteItemType(MaterialType.DiceToken)(move)) return moves
+    if (!isMoveItemType(MaterialType.DiceToken)(move)) return moves
     moves.push(
       this.whiteDice.moveItem({
         type: LocationType.PlayerHand,

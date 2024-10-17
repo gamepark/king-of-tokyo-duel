@@ -13,13 +13,13 @@ export class GainWhiteDiceTokenRule extends BasePlayerTurnRule<GainWhiteDiceToke
       moves.push(
         this
           .material(MaterialType.DiceToken)
-          .createItem({
-            location: {
+          .location(LocationType.WhiteTokenStock)
+          .moveItem({
               type: LocationType.PlayerDiceToken,
               player: this.currentEffect.target
             },
-            quantity: this.currentEffect.effect.count
-          })
+            this.currentEffect.effect.count
+          )
       )
     }
 

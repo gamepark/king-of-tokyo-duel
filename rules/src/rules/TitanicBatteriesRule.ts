@@ -41,12 +41,12 @@ export class TitanicBatteriesRule extends BasePlayerTurnRule {
     this.incrementIgnoredDice()
     if (this.ignoredDice === 2) {
       moves.push(
-        this.material(MaterialType.DiceToken).createItem({
-          location: {
+        this.material(MaterialType.DiceToken)
+          .location(LocationType.WhiteTokenStock)
+          .moveItem({
             type: LocationType.PlayerDiceToken,
             player: this.player
-          }
-        })
+          }, 1)
       )
 
       moves.push(this.startRule(RuleId.ResolveDice))

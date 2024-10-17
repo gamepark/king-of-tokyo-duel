@@ -7,7 +7,7 @@ import { CustomMoveType } from '@gamepark/king-of-tokyo-duel/rules/CustomMoveTyp
 import { Memory } from '@gamepark/king-of-tokyo-duel/rules/Memory'
 import { RollDiceRule } from '@gamepark/king-of-tokyo-duel/rules/RollDiceRule'
 import { PlayMoveButton, useLegalMove, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
-import { isCustomMoveType, isDeleteItemType } from '@gamepark/rules-api'
+import { isCustomMoveType, isMoveItemType } from '@gamepark/rules-api'
 import { Trans } from 'react-i18next'
 
 export const RollDiceHeader = () => {
@@ -19,7 +19,7 @@ export const RollDiceHeader = () => {
   const rollLeft = new RollDiceRule(rules.game).maxRollCount - rollCount
   const roll = useLegalMove((move) => isCustomMoveType(CustomMoveType.Roll)(move))
   const dice = rules.material(MaterialType.Dice).location(LocationType.PlayerHand).player(activePlayer).length
-  const addDice = useLegalMove(isDeleteItemType(MaterialType.DiceToken))
+  const addDice = useLegalMove(isMoveItemType(MaterialType.DiceToken))
   // TODO: remove this legal move or find a way to fit everything in the header
   //const rerollEverything = useLegalMove((move) => isCustomMoveType(CustomMoveType.RollAll)(move))
   const stop = useLegalMove((move) => isCustomMoveType(CustomMoveType.Pass)(move))

@@ -1,4 +1,5 @@
 import { MaterialMove } from '@gamepark/rules-api'
+import { LocationType } from '../../../material/LocationType'
 import { MaterialType } from '../../../material/MaterialType'
 import { RuleId } from '../../RuleId'
 import { KeepRule } from '../KeepRule'
@@ -15,6 +16,7 @@ export class TitanicBatteriesKeepRule extends KeepRule {
   get bonusTokensCount() {
     return this
       .material(MaterialType.DiceToken)
+      .location(LocationType.PlayerDiceToken)
       .player(this.cardPlayer)
       .length
   }

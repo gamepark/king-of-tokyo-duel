@@ -29,6 +29,7 @@ export class ScrappyKeepRule extends KeepRule {
   get bonusTokensCount() {
     return this
       .material(MaterialType.DiceToken)
+      .location(LocationType.PlayerDiceToken)
       .player(this.cardPlayer)
       .length
   }

@@ -75,7 +75,7 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<Monster, MaterialTyp
   setupPlayerHealthCounter(monster: Monster) {
     this.material(MaterialType.HealthCounter)
       .createItem({
-        id: this.rules.players[0] === monster? HealthCounter.Red: HealthCounter.Blue,
+        id: this.rules.players[0] === monster ? HealthCounter.Red : HealthCounter.Blue,
         location: {
           type: LocationType.HealthCounter,
           player: monster,
@@ -112,11 +112,11 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<Monster, MaterialTyp
     const cards = powerCards
       //.filter((c) => powerCardCharacteristics[c].timing === Timing.Keep)
       .map((c) => ({
-      id: c,
-      location: {
-        type: LocationType.PowerCardDeck
-      }
-    }))
+        id: c,
+        location: {
+          type: LocationType.PowerCardDeck
+        }
+      }))
 
     this.material(MaterialType.PowerCard).createItems(cards)
     this.material(MaterialType.PowerCard).shuffle()
@@ -143,6 +143,8 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<Monster, MaterialTyp
         }
       }))
     }
+
+    this.material(MaterialType.DiceToken).createItem({ location: { type: LocationType.WhiteTokenStock }, quantity: 4 })
   }
 
 
