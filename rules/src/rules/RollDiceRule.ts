@@ -11,8 +11,22 @@ import { RuleId } from './RuleId'
 export class RollDiceRule extends BasePlayerTurnRule {
   onRuleStart() {
     this.memorize(Memory.Phase, RuleId.RollDice)
-    if (!this.diceInHand && !this.diceToken.length) return [this.customMove(CustomMoveType.Pass)]
-    return []
+    const moves = this.getFreeWhiteDiceMoves()
+    if (!moves.length && !this.diceInHand && !this.diceToken.length) {
+      moves.push(this.customMove(CustomMoveType.Pass))
+    }
+    return moves
+  }
+
+  getFreeWhiteDiceMoves(): MaterialMove[] {
+    const additionalDice = Math.min(new KeepHelper(this.game).additionalDice, 2)
+    return [this
+      .whiteDice
+      .limit(additionalDice)
+      .moveItemsAtOnce({
+        type: LocationType.PlayerHand,
+        player: this.player
+      })]
   }
 
   getPlayerMoves() {

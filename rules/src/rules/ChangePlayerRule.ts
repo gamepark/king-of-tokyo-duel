@@ -4,15 +4,13 @@ import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
-import { KeepHelper } from './helper/KeepHelper'
 import { Memory, SetDiceOn } from './Memory'
 import { RuleId } from './RuleId'
 
 export class ChangePlayerRule extends BasePlayerTurnRule {
 
   onRuleStart() {
-    const white = this.whiteDice
-    const additionalDice = Math.min(new KeepHelper(this.game).additionalDice, 2)
+    const white = this.whiteDice.deck()
     const diceToSetApart = this.diceToSetApart
     const moves: MaterialMove[] = []
     const redDice = this.redDice.deck()
@@ -39,18 +37,8 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
       )
     }
 
-    if (additionalDice) {
-      moves.push(
-        white.limit(additionalDice)
-          .moveItemsAtOnce({
-            type: LocationType.PlayerHand,
-            player: nextPlayer
-          })
-      )
-    }
-
     moves.push(
-      white.limit(2 - additionalDice)
+      white
         .moveItemsAtOnce({
           type: LocationType.WhiteDiceStock,
           player: nextPlayer

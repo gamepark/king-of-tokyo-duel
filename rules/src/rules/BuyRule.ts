@@ -15,16 +15,6 @@ export class BuyRule extends BasePlayerTurnRule {
     const moves: MaterialMove[] = []
     moves.push(...this.placeCard())
     this.memorize(Memory.Phase, RuleId.Buy)
-    if (!this.getPurchasableCards().length && !this.canRenewCards) {
-      if (this.boughtCards.length) {
-        moves.push(this.getNextRule())
-        return moves
-      }
-
-      moves.push(this.customMove(CustomMoveType.Pass))
-      return moves
-    }
-
     return moves
   }
 
