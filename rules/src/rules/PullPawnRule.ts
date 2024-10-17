@@ -14,6 +14,11 @@ export class PullPawnRule extends BasePlayerTurnEffectRule<PullPawn> {
     const effectWSource = this.currentEffect
     const pawn = this.getPawn(effectWSource.effect.pawn)
     const nextX = this.getNextX(pawn.getItem()!.location)
+
+    if (effectWSource.effect.count > 1 && !this.pullIsStopped(nextX)) {
+      this.effects.splice(1, 0, { ...effectWSource, effect: { ...effectWSource.effect, count: effectWSource.effect.count - 1 } })
+    }
+
     return [pawn.moveItem((item) => ({ ...item.location, x: nextX }))]
   }
 
@@ -76,17 +81,5 @@ export class PullPawnRule extends BasePlayerTurnEffectRule<PullPawn> {
 
   getPawn(pawn: Pawn) {
     return this.material(MaterialType.Pawn).id(pawn)
-  }
-
-  onRuleEnd() {
-    const effectWSource = this.currentEffect
-    const pawn = this.getPawn(effectWSource.effect.pawn)
-
-    if (effectWSource.effect.count === 1 || this.pullIsStopped(pawn.getItem()!.location.x!)) {
-      return super.onRuleEnd()
-    } else {
-      effectWSource.effect.count--
-      return []
-    }
   }
 }
