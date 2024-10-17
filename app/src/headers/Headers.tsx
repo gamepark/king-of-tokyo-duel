@@ -31,10 +31,10 @@ export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.ChangePlayer]: ChangePlayerHeader,
   [RuleId.GainWhiteDiceToken]: GainWhiteDiceTokenHeader,
   [RuleId.Alienoid]: AlienoidHeader,
+  [RuleId.Gigazaur]: GigazaurHeader,
   [RuleId.SuperConductor]: SuperConductorHeader,
   [RuleId.Hibernation]: HibernationHeader,
   [RuleId.Dominate]: DominateHeader,
   [RuleId.OnStartTurn]: OnStartHeader,
-  [RuleId.MadeInALab]: MadeInALabHeader,
-  [RuleId.Gigazaur]: GigazaurHeader
+  [RuleId.MadeInALab]: MadeInALabHeader
 }

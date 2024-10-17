@@ -31,7 +31,8 @@ export const ResolveDiceHeader = () => {
       fame: <DiceFaceButton move={pullFamePawn} image={faceImages[DiceFace.Fame]} count={resolveDiceRule.getDiceForFace(DiceFace.Fame).length}/>,
       destruction: <DiceFaceButton move={pullDestructionPawn} image={faceImages[DiceFace.Destruction]}
                                    count={resolveDiceRule.getDiceForFace(DiceFace.Destruction).length}/>,
-      power: <DiceFaceButton move={power} image={faceImages[DiceFace.Power]} count={resolveDiceRule.getDiceForFace(DiceFace.Power).length}/>
+      power: <DiceFaceButton move={power} image={faceImages[DiceFace.Power]}
+                             count={resolveDiceRule.getDiceForFace(DiceFace.Power).length - resolveDiceRule.consumedPower}/>
     }}/>
   } else {
     return <Trans defaults="header.resolve.player" values={{ player }}/>
