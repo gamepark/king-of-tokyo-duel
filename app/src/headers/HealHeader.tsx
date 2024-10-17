@@ -10,7 +10,7 @@ import Heart from '../images/icons/Heart.png'
 
 export const HealHeader = () => {
   const rules = useRules<KingOfTokyoDuelRules>()!
-  const effect = rules.remind<EffectWithSource<Heal>[]>(Memory.Effects)[0]
+  const effect = rules.remind<EffectWithSource<Heal>>(Memory.CurrentEffect)
   const count = effect.effect.count
   const target = effect.target
   const me = usePlayerId() === target

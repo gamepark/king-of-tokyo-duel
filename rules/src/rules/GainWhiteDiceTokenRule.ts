@@ -1,11 +1,11 @@
 import { MaterialMove } from '@gamepark/rules-api/dist/material/moves/MaterialMove'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
-import { BasePlayerTurnEffectRule } from './BasePlayerTurnEffectRule'
+import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { GainWhiteDiceToken } from './effects/EffectType'
 import { RuleId } from './RuleId'
 
-export class GainWhiteDiceTokenRule extends BasePlayerTurnEffectRule<GainWhiteDiceToken> {
+export class GainWhiteDiceTokenRule extends BasePlayerTurnRule<GainWhiteDiceToken> {
   onRuleStart() {
     const countTokens = this.countTokens
     const moves: MaterialMove[] = []

@@ -9,11 +9,6 @@ import { EffectType } from './effects/EffectType'
 import { RuleId } from './RuleId'
 
 export class SuperConductorRule extends BasePlayerTurnRule {
-  onRuleStart() {
-    this.removeEffect()
-    return []
-  }
-  
   getPlayerMoves() {
     const moves = super.getPlayerMoves()
     moves.push(this.customMove(CustomMoveType.Ignore))

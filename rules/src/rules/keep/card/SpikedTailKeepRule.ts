@@ -2,8 +2,6 @@ import { PowerCard } from '../../../material/cards/PowerCard'
 import { MaterialType } from '../../../material/MaterialType'
 import { Pawn } from '../../../material/Pawn'
 import { EffectType } from '../../effects/EffectType'
-import { EffectWithSource } from '../../effects/EffectWithSource'
-import { Memory } from '../../Memory'
 import { KeepRule } from '../KeepRule'
 
 
@@ -19,11 +17,6 @@ export class SpikedTailKeepRule extends KeepRule {
         count: 1
       }, this.rival)
     }
-
-  }
-
-  get effects() {
-    return this.remind<EffectWithSource[]>(Memory.Effects) ?? []
   }
 
   get spikeTail() {

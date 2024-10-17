@@ -4,19 +4,19 @@ import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { Monster } from '../material/Monster'
 import { Pawn } from '../material/Pawn'
-import { BasePlayerTurnEffectRule } from './BasePlayerTurnEffectRule'
+import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { EffectType, PullPawn } from './effects/EffectType'
 import { KeepHelper } from './helper/KeepHelper'
 import { RuleId } from './RuleId'
 
-export class PullPawnRule extends BasePlayerTurnEffectRule<PullPawn> {
+export class PullPawnRule extends BasePlayerTurnRule<PullPawn> {
   onRuleStart() {
     const effectWSource = this.currentEffect
     const pawn = this.getPawn(effectWSource.effect.pawn)
     const nextX = this.getNextX(pawn.getItem()!.location)
 
     if (effectWSource.effect.count > 1 && !this.pullIsStopped(nextX)) {
-      this.effects.splice(1, 0, { ...effectWSource, effect: { ...effectWSource.effect, count: effectWSource.effect.count - 1 } })
+      this.unshiftEffect({ ...effectWSource, effect: { ...effectWSource.effect, count: effectWSource.effect.count - 1 } })
     }
 
     return [pawn.moveItem((item) => ({ ...item.location, x: nextX }))]
@@ -64,7 +64,7 @@ export class PullPawnRule extends BasePlayerTurnEffectRule<PullPawn> {
           const effect = getBuzzEffect(buzz.getItem()!, move.location as Location)
           if (effect) {
             const target = effect.type === EffectType.Smash ? this.nextPlayer : this.player
-            this.effects.splice(1, 0, { sources: [{ type: MaterialType.Buzz, indexes: buzz.getIndexes() }], target, effect })
+            this.unshiftEffect({ sources: [{ type: MaterialType.Buzz, indexes: buzz.getIndexes() }], target, effect })
           }
         }
 

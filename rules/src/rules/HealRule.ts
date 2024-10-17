@@ -1,11 +1,11 @@
 import { MaterialType } from '../material/MaterialType'
 import { monsterBoardDescriptions } from '../material/MonsterBoardDescription'
-import { BasePlayerTurnEffectRule } from './BasePlayerTurnEffectRule'
+import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { Heal } from './effects/EffectType'
 import { KeepHelper } from './helper/KeepHelper'
 import { RuleId } from './RuleId'
 
-export class HealRule extends BasePlayerTurnEffectRule<Heal> {
+export class HealRule extends BasePlayerTurnRule<Heal> {
 
   onRuleStart() {
     const heal = this.countHeal

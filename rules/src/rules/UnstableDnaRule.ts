@@ -7,7 +7,6 @@ import { RuleId } from './RuleId'
 
 export class UnstableDnaRule extends BasePlayerTurnRule {
   onRuleStart(): MaterialMove[] {
-    this.removeEffect()
     if (!this.rivalKeepCards.length) return [this.startPlayerTurn(RuleId.Effect, this.rival)]
     return [this.startPlayerTurn(RuleId.Effect, this.rival)]
   }

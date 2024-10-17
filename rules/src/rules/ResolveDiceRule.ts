@@ -153,10 +153,6 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
     return this.remind(Memory.ConsumedPower) ?? 0
   }
 
-  get effects() {
-    return this.remind(Memory.Effects)
-  }
-
   buildEffect(type: EffectType, face: DiceFace, target: Monster = this.player): EffectWithSource | undefined {
     const effectWithSource: EffectWithSource = {
       sources: [],

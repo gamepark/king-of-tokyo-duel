@@ -10,7 +10,7 @@ import Energy from '../images/icons/Energy.png'
 
 export const GainEnergyHeader = () => {
   const rules = useRules<KingOfTokyoDuelRules>()!
-  const effect = rules.remind<EffectWithSource<GainEnergy>[]>(Memory.Effects)[0]
+  const effect = rules.remind<EffectWithSource<GainEnergy>>(Memory.CurrentEffect)
   const count = effect.effect.count
   const target = effect.target
   const me = usePlayerId() === target

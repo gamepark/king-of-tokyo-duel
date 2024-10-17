@@ -5,6 +5,7 @@ export enum Memory {
   RollCount,
   BoughtCards,
   Effects,
+  CurrentEffect,
   FreeTurn,
   KeepCardPlayed,
   Phase,

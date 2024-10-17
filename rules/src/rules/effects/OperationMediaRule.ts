@@ -10,7 +10,6 @@ import { EffectType } from './EffectType'
 
 export class OperationMediaRule extends BasePlayerTurnRule {
   onRuleStart() {
-    this.removeEffect()
     this.unshiftEffect({
       effect: {
         type: EffectType.PullPawn,
@@ -23,7 +22,7 @@ export class OperationMediaRule extends BasePlayerTurnRule {
       }],
       target: this.player
     })
-    
+
     return [this.startRule(RuleId.Effect)]
   }
 

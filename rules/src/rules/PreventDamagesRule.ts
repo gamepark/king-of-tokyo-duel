@@ -40,7 +40,6 @@ export class PreventDamagesRule extends BasePlayerTurnRule<Smash> {
     } else {
       moves.push(this.startRule(RuleId.Effect))
     }
-    this.removeEffect()
     return moves
   }
 

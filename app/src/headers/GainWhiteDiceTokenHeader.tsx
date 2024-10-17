@@ -10,7 +10,7 @@ import DiceToken from '../images/tokens/DiceToken.jpg'
 
 export const GainWhiteDiceTokenHeader = () => {
   const rules = useRules<KingOfTokyoDuelRules>()!
-  const effect = rules.remind<EffectWithSource<GainWhiteDiceToken>[]>(Memory.Effects)[0]
+  const effect = rules.remind<EffectWithSource<GainWhiteDiceToken>>(Memory.CurrentEffect)
   const target = effect.target
   const me = usePlayerId() === target
   const player = usePlayerName(target)

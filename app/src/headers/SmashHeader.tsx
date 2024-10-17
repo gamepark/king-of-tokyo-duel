@@ -10,7 +10,7 @@ import Hit from '../images/icons/Hit.png'
 
 export const SmashHeader = () => {
   const rules = useRules<KingOfTokyoDuelRules>()!
-  const effect = rules.remind<EffectWithSource<Smash>[]>(Memory.Effects)[0]
+  const effect = rules.remind<EffectWithSource<Smash>>(Memory.CurrentEffect)
   const count = effect.effect.count
   const target = effect.target
   const me = usePlayerId() === target

@@ -10,7 +10,6 @@ import { RuleId } from './RuleId'
 
 export class InShapeRule extends BasePlayerTurnRule<InShape> {
   onRuleStart() {
-    this.removeEffect()
     const energy = this.energy
     if (!energy.length) return [this.startRule(RuleId.Effect)]
     return []
@@ -18,8 +17,7 @@ export class InShapeRule extends BasePlayerTurnRule<InShape> {
 
   getPlayerMoves() {
     const moves: MaterialMove[] = []
-    const inShape = this.inShapeEffect!
-    for (let i = 1; i <= inShape.effect.count; i++) {
+    for (let i = 1; i <= this.currentEffect.effect.count; i++) {
       moves.push(this.customMove(CustomMoveType.Pull, i))
     }
 
@@ -30,12 +28,12 @@ export class InShapeRule extends BasePlayerTurnRule<InShape> {
 
   onCustomMove(move: CustomMove) {
     if (isCustomMoveType(CustomMoveType.Pass)) return [this.startRule(RuleId.Effect)]
-    this.inShapeEffect!.effect.count -= move.data
+    this.currentEffect.effect.count -= move.data
     this.pushEffect({
       effect: {
         type: EffectType.PullPawn,
         pawn: Pawn.Fame,
-        count: move.data,
+        count: move.data
       },
       sources: [{
         type: MaterialType.PowerCard,
@@ -44,12 +42,8 @@ export class InShapeRule extends BasePlayerTurnRule<InShape> {
       target: this.player
     })
 
-    if (!this.inShapeEffect!.effect.count) return [this.startRule(RuleId.Effect)]
+    if (!this.currentEffect.effect.count) return [this.startRule(RuleId.Effect)]
     return []
-  }
-
-  get inShapeEffect() {
-    return this.effects.find((e) => e.effect.type === EffectType.InShape)
   }
 
   get energy() {

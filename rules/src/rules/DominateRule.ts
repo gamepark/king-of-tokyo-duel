@@ -9,11 +9,6 @@ import { Memory, SetDiceOn } from './Memory'
 import { RuleId } from './RuleId'
 
 export class DominateRule extends BasePlayerTurnRule {
-  onRuleStart() {
-    this.removeEffect()
-    return []
-  }
-
   getPlayerMoves() {
     const moves = super.getPlayerMoves()
     if (!this.keepCards.length) return [this.startRule(RuleId.RollDice)]
@@ -34,7 +29,7 @@ export class DominateRule extends BasePlayerTurnRule {
     const moves: MaterialMove[] = []
     for (let i = 0; i < diceToSetApart.length; i++) {
       const infos = diceToSetApart[i]
-      if(moves.length === 6) break
+      if (moves.length === 6) break
       moves.push(
         redDice
           .moveItem({
@@ -45,7 +40,7 @@ export class DominateRule extends BasePlayerTurnRule {
     }
 
     for (let i = 0; i < this.keepCards.length; i++) {
-      if(moves.length === 6) break
+      if (moves.length === 6) break
       moves.push(
         redDice
           .dealOne({

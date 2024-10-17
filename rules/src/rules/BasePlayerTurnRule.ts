@@ -51,7 +51,7 @@ export class BasePlayerTurnRule<E extends Effect = any> extends PlayerTurnRule {
   }
 
   get currentEffect(): EffectWithSource<E> {
-    return this.effects[0]!
+    return this.remind<EffectWithSource<E>>(Memory.CurrentEffect)
   }
 
   unshiftEffect(effect: EffectWithSource) {
@@ -66,10 +66,5 @@ export class BasePlayerTurnRule<E extends Effect = any> extends PlayerTurnRule {
       effects.push(effect)
       return effects
     })
-  }
-
-  removeEffect() {
-    this.memorize(Memory.Effects, (effects: EffectWithSource[]) => effects.slice(1))
-    return []
   }
 }

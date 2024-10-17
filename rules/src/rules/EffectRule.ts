@@ -9,18 +9,17 @@ import { RuleId } from './RuleId'
 export class EffectRule extends BasePlayerTurnRule {
   onRuleStart() {
     const effects = this.effects
-    if (!effects.length) return this.goToNextRule()
-    const moves: MaterialMove[] = []
-    const effectRuleMove = this.getEffectRuleMove()
-    if (effectRuleMove) {
-      moves.push(effectRuleMove)
-      return moves
+    if (effects.length) {
+      const effect = effects.shift()!
+      this.memorize(Memory.CurrentEffect, effect)
+      return [this.getEffectRuleMove(effect)]
+    } else {
+      this.forget(Memory.CurrentEffect)
+      return this.goToNextRule()
     }
-    return moves
   }
 
-  getEffectRuleMove(): MaterialMove | undefined {
-    const effect = this.currentEffect
+  getEffectRuleMove(effect: EffectWithSource): MaterialMove {
     const type: EffectType = effect.effect.type
     switch (type) {
 
@@ -48,19 +47,16 @@ export class EffectRule extends BasePlayerTurnRule {
       case EffectType.OperationMedia:
         return this.startRule(RuleId.OperationMedia)
       case EffectType.Dominate:
-        this.memorize(Memory.Effects, (effects: EffectWithSource[]) => effects.slice(1))
         this.memorize(Memory.Dominate, true)
         return this.startRule(RuleId.Effect)
       case EffectType.UnstableDna:
-        return this.startPlayerTurn(RuleId.UnstableDna, this.currentEffect.target);
+        return this.startPlayerTurn(RuleId.UnstableDna, effect.target)
       case EffectType.InShape:
-        return this.startRule(RuleId.InShape);
+        return this.startRule(RuleId.InShape)
       case EffectType.SuperConductor:
-        return this.startPlayerTurn(RuleId.SuperConductor, this.currentEffect.target);
+        return this.startPlayerTurn(RuleId.SuperConductor, effect.target)
       case EffectType.Rebooting:
         return this.startRule(RuleId.Rebooting)
-      default:
-        return
     }
   }
 

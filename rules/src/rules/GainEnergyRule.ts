@@ -2,13 +2,13 @@ import { MaterialMove } from '@gamepark/rules-api/dist/material/moves/MaterialMo
 import { DiceFace } from '../material/DiceFace'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
-import { BasePlayerTurnEffectRule } from './BasePlayerTurnEffectRule'
+import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { GainEnergy } from './effects/EffectType'
 import { KeepHelper } from './helper/KeepHelper'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
-export class GainEnergyRule extends BasePlayerTurnEffectRule<GainEnergy> {
+export class GainEnergyRule extends BasePlayerTurnRule<GainEnergy> {
 
   onRuleStart() {
     const moves: MaterialMove[] = []

@@ -12,7 +12,7 @@ import fame from '../images/pawn/fame.png'
 
 export const PullPawnHeader = () => {
   const rules = useRules<KingOfTokyoDuelRules>()!
-  const effect = rules.remind<EffectWithSource<PullPawn>[]>(Memory.Effects)[0]
+  const effect = rules.remind<EffectWithSource<PullPawn>>(Memory.CurrentEffect)
   const target = effect.target
   const me = usePlayerId() === target
   const player = usePlayerName(target)

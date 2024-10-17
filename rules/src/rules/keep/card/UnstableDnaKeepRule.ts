@@ -18,12 +18,8 @@ export class UnstableDnaKeepRule extends KeepRule {
     )
   }
 
-  get smashEffect(): EffectWithSource<Smash> {
-    return this.effects[0]!
-  }
-
-  get effects(): EffectWithSource[] {
-    return this.remind<EffectWithSource[]>(Memory.Effects) ?? []
+  get smashEffect() {
+    return this.remind<EffectWithSource<Smash>>(Memory.CurrentEffect)
   }
 
   get rivalKeepCards() {

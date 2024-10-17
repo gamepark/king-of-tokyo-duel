@@ -13,11 +13,7 @@ export class LightningSpeedKeepRule extends KeepRule {
     if (buzz && buzz.id !== Buzz.TheKingBuzz) {
       const effect = getBuzzEffect(buzz, location)
       if (!effect) {
-        this.effects.splice(1, 0, {
-          sources: [{ type: MaterialType.PowerCard, indexes: [this.cardIndex] }],
-          target: this.rival,
-          effect: { type: EffectType.Smash, count: 1 }
-        })
+        this.unshiftEffect({ type: EffectType.Smash, count: 1 }, this.rival)
       }
     }
     return []

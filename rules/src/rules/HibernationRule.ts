@@ -2,13 +2,13 @@ import { CustomMove, isCustomMoveType, isMoveItemType, ItemMove } from '@gamepar
 import { PowerCard } from '../material/cards/PowerCard'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
-import { BasePlayerTurnEffectRule } from './BasePlayerTurnEffectRule'
+import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
 import { EffectType } from './effects/EffectType'
 import { HealHelper } from './helper/HealHelper'
 import { RuleId } from './RuleId'
 
-export class HibernationRule extends BasePlayerTurnEffectRule {
+export class HibernationRule extends BasePlayerTurnRule {
   getPlayerMoves() {
     const moves = super.getPlayerMoves()
     moves.push(

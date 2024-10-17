@@ -7,7 +7,6 @@ import { EffectType } from './EffectType'
 
 export class ThePartyIsOverRule extends BasePlayerTurnRule {
   onRuleStart() {
-    this.removeEffect()
     const fameInSpotlight = this.isInSpotlightZone(Pawn.Fame)
     if (fameInSpotlight.length) {
       const isLeft = fameInSpotlight.getItem()!.location.x! < 0
@@ -20,7 +19,7 @@ export class ThePartyIsOverRule extends BasePlayerTurnRule {
           type: MaterialType.PowerCard,
           indexes: this.material(MaterialType.PowerCard).id(PowerCard.ThePartyIsOver).getIndexes()
         }],
-        target: this.game.players[isLeft? 0: 1]
+        target: this.game.players[isLeft ? 0 : 1]
       })
     }
 
@@ -36,13 +35,12 @@ export class ThePartyIsOverRule extends BasePlayerTurnRule {
           type: MaterialType.PowerCard,
           indexes: this.material(MaterialType.PowerCard).id(PowerCard.ThePartyIsOver).getIndexes()
         }],
-        target: this.game.players[isLeft? 0: 1]
+        target: this.game.players[isLeft ? 0 : 1]
       })
     }
 
     return [this.startRule(RuleId.Effect)]
   }
-
 
 
   isInSpotlightZone(pawn: Pawn) {

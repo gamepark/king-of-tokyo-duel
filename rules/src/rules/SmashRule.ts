@@ -1,13 +1,13 @@
 import { CustomMove, isCustomMoveType, MaterialMove } from '@gamepark/rules-api'
 import { MaterialType } from '../material/MaterialType'
-import { BasePlayerTurnEffectRule } from './BasePlayerTurnEffectRule'
+import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
 import { Smash } from './effects/EffectType'
 import { KeepHelper } from './helper/KeepHelper'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
-export class SmashRule extends BasePlayerTurnEffectRule<Smash> {
+export class SmashRule extends BasePlayerTurnRule<Smash> {
   onRuleStart() {
     const smash = this.currentEffect
     return [this.customMove(CustomMoveType.Smash, smash)]

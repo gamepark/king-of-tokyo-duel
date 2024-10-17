@@ -162,12 +162,7 @@ export class KeepRule extends MaterialRulesPart {
       }],
       target
     }
-    this.memorize(Memory.Effects, (effects: EffectWithSource[] = []) => {
-      return effects
-        .slice(0, 1)
-        .concat(effectWithSource)
-        .concat(effects.slice(1))
-    })
+    this.memorize(Memory.Effects, (effects: EffectWithSource[] = []) => [effectWithSource, ...effects])
   }
 
   pushEffect(effect: Effect, target: Monster) {
