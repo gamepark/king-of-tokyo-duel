@@ -10,7 +10,7 @@ export class OnPowerCardLocator extends Locator {
     if (!isItemContext(context)) return { x: 50, y: 50}
     if (location.x === 0) {
       return {
-        x: 25, y: 90
+        x: 20, y: 90
       }
     }
 

@@ -11,6 +11,7 @@ import { RuleId } from './RuleId'
 export class RollDiceRule extends BasePlayerTurnRule {
   onRuleStart() {
     this.memorize(Memory.Phase, RuleId.RollDice)
+    if (!this.diceInHand && !this.diceToken.length) return [this.customMove(CustomMoveType.Pass)]
     return []
   }
 

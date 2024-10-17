@@ -5,7 +5,7 @@ import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
 import { KeepHelper } from './helper/KeepHelper'
-import { Memory } from './Memory'
+import { Memory, SetDiceOn } from './Memory'
 import { RuleId } from './RuleId'
 
 export class ChangePlayerRule extends BasePlayerTurnRule {
@@ -13,19 +13,29 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
   onRuleStart() {
     const white = this.whiteDice
     const additionalDice = Math.min(new KeepHelper(this.game).additionalDice, 2)
-    const removedDice = Math.min(this.removedDice, 6)
-    const nextPlayer = this.computeNextPlayer()
+    const diceToSetApart = this.diceToSetApart
     const moves: MaterialMove[] = []
-
-    if (!this.remind(Memory.Dominate)) {
+    const redDice = this.redDice.deck()
+    for (let i = 0; i < diceToSetApart.length; i++) {
+      const infos = diceToSetApart[i]
+      if(moves.length === 6) break
       moves.push(
-        this
-          .redDice
-          .limit(6 - removedDice)
-          .moveItemsAtOnce({
+        redDice
+          .dealOne({
+            type: infos.location,
+            parent: infos.parent
+          })
+      )
+    }
+    const nextPlayer = this.computeNextPlayer()
+
+    if (!this.remind(Memory.Dominate) && redDice.length > 0) {
+      moves.push(
+        redDice
+          .dealAtOnce({
             type: LocationType.PlayerHand,
             player: nextPlayer
-          })
+          }, redDice.length)
       )
     }
 
@@ -84,8 +94,8 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
       .id(DiceColor.Red)
   }
 
-  get removedDice() {
-    return this.remind(Memory.DecreaseDiceCount) ?? 0
+  get diceToSetApart() {
+    return this.remind<SetDiceOn[]>(Memory.SetDiceApart) ?? 0
   }
 
   onRuleEnd() {
@@ -95,7 +105,7 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
     this.forget(Memory.FreeTurn)
     this.forget(Memory.KeepCardPlayed)
     this.forget(Memory.RivalSmashCount)
-    this.forget(Memory.DecreaseDiceCount)
+    this.forget(Memory.SetDiceApart)
     this.forget(Memory.DiceFacesSolved)
     this.forget(Memory.SkipReboot)
     this.forget(Memory.ConsumedPower)

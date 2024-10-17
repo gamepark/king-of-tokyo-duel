@@ -1,3 +1,5 @@
+import { LocationType } from '../material/LocationType'
+
 export enum Memory {
   Round = 1,
   RollCount,
@@ -7,7 +9,7 @@ export enum Memory {
   KeepCardPlayed,
   Phase,
   RivalSmashCount,
-  DecreaseDiceCount,
+  SetDiceApart,
   TitanicBatteries,
   DiceFacesSolved,
   CamouflageRolledDiceCount,
@@ -17,4 +19,9 @@ export enum Memory {
   SkipReboot,
   ConsumedPower,
   RefillRiver
+}
+
+export type SetDiceOn = {
+  location: LocationType,
+  parent: number
 }

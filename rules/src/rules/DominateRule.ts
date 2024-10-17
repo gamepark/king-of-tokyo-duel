@@ -1,10 +1,11 @@
 import { CustomMove, isCustomMoveType, isMoveItemType, ItemMove, MaterialMove } from '@gamepark/rules-api'
+import { PowerCard } from '../material/cards/PowerCard'
 import { DiceColor } from '../material/DiceColor'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
-import { Memory } from './Memory'
+import { Memory, SetDiceOn } from './Memory'
 import { RuleId } from './RuleId'
 
 export class DominateRule extends BasePlayerTurnRule {
@@ -28,17 +29,42 @@ export class DominateRule extends BasePlayerTurnRule {
 
   onCustomMove(move: CustomMove) {
     if (!isCustomMoveType(CustomMoveType.Dominated)(move)) return []
+    const diceToSetApart = this.remind<SetDiceOn[]>(Memory.SetDiceApart) ?? []
+    const redDice = this.redDice.deck()
     const moves: MaterialMove[] = []
-    const removedDice = Math.min((this.remind(Memory.DecreaseDiceCount) ?? 0) + this.keepCards.length, 6)
-    moves.push(
-      this
-        .redDice
-        .limit(6 - removedDice)
-        .moveItemsAtOnce({
-          type: LocationType.PlayerHand,
-          player: this.player
-        })
-    )
+    for (let i = 0; i < diceToSetApart.length; i++) {
+      const infos = diceToSetApart[i]
+      if(moves.length === 6) break
+      moves.push(
+        redDice
+          .moveItem({
+            type: infos.location,
+            parent: infos.parent
+          })
+      )
+    }
+
+    for (let i = 0; i < this.keepCards.length; i++) {
+      if(moves.length === 6) break
+      moves.push(
+        redDice
+          .dealOne({
+            type: LocationType.OnPowerCard,
+            parent: this.material(MaterialType.PowerCard).id(PowerCard.Dominate).getIndex()
+          })
+      )
+    }
+
+
+    if (redDice.length) {
+      moves.push(
+        redDice
+          .dealAtOnce({
+            type: LocationType.PlayerHand,
+            player: this.player
+          }, redDice.length)
+      )
+    }
 
     moves.push(this.startRule(RuleId.RollDice))
 
