@@ -167,7 +167,7 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
       })
     }
 
-    const bonuses = new KeepHelper(this.game).getBonusFaces(face)
+    const bonuses = this.getBonusDiceFaces(face)
     const bonus = sumBy(bonuses, (bonus) => bonus.count)
     if (bonus) {
       effectWithSource.effect.count += bonus
@@ -197,6 +197,19 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
     }
 
     return
+  }
+
+  getBonusDiceFaces(face: DiceFace) {
+    const faces = new KeepHelper(this.game).getBonusFaces(face)
+    const memoryExtraFaces = (this.remind<DiceFace[]>(Memory.ExtraDiceFaces) ?? []).filter((d) => d === face)
+    faces.push({
+      items: [{
+        type: MaterialType.MonsterBoard,
+        indexes: this.material(MaterialType.MonsterBoard).player(this.player).getIndexes()
+      }],
+      count: memoryExtraFaces.length
+    })
+    return faces
   }
 
   consumeFaces(face: DiceFace) {

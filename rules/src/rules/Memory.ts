@@ -19,7 +19,8 @@ export enum Memory {
   SkipReboot,
   ConsumedPower,
   RefillRiver,
-  AlienoidExtra
+  AlienoidExtra,
+  ExtraDiceFaces
 }
 
 export type SetDiceOn = {

@@ -35,6 +35,7 @@ export const AlienoidHeader = () => {
     const move = moves[0]
     if (!move) return null
     return <Trans defaults="header.alienoid.extra.you" components={{
+      power: <Picture css={iconCss} src={faceImages[DiceFace.Power]}/>,
       face: <DiceFaceButton move={move} image={faceImages[move.data.face]}/>,
       pass: <PlayMoveButton move={pass}/>
     }}/>
