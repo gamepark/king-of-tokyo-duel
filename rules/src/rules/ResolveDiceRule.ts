@@ -17,6 +17,7 @@ import { AlienoidRule } from './power/AlienoidRule'
 import { CyberKittyRule } from './power/CyberKittyRule'
 import { GigazaurRule } from './power/GigazaurRule'
 import { SpacePenguinRule } from './power/SpacePenguinRule'
+import { TheKingRule } from './power/TheKingRule'
 import { RuleId } from './RuleId'
 
 export class ResolveDiceRule extends BasePlayerTurnRule {
@@ -48,12 +49,8 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
     if (this.canPullFame()) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Fame))
     if (this.canPullDestruction()) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Destruction))
     if (this.canHeal()) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Heal))
-    if (this.canUsePower()) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Power))
+    if (this.getMonsterPower().canUsePower()) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Power))
     return moves
-  }
-
-  canUsePower() {
-    return this.isPowerWithRule
   }
 
   canHeal() {
@@ -82,7 +79,7 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
     switch (move.data) {
       case DiceFace.Energy:
         this.pushEffect(this.buildEffect(EffectType.GainEnergy, DiceFace.Energy)!)
-        break;
+        break
       case DiceFace.Claw:
         this.pushEffect(this.buildEffect(EffectType.Smash, DiceFace.Claw, this.rival)!)
         break
@@ -96,11 +93,9 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
         this.pushEffect(this.buildEffect(EffectType.PullPawn, DiceFace.Destruction)!)
         break
       case DiceFace.Power:
-        const power = this.getMonsterPower()
-        if (power.length) return power
-        break
+        return [this.startRule(this.getMonsterRuleId())]
       default:
-        console.log("NOT IMPLEMENTED YET", move.data)
+        console.log('NOT IMPLEMENTED YET', move.data)
     }
 
     if (this.effects.length) {
@@ -111,31 +106,37 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
 
   }
 
-  get isPowerWithRule() {
-    return this.getMonsterPower().length > 0
+  getMonsterRuleId() {
+    switch (this.player as Monster) {
+      case Monster.Alienoid:
+        return RuleId.Alienoid
+      case Monster.CyberKitty:
+        return RuleId.CyberKitty
+      case Monster.Gigazaur:
+        return RuleId.Gigazaur
+      case Monster.SpacePenguin:
+        return RuleId.SpacePenguin
+      case Monster.TheKing:
+        return RuleId.TheKing
+      case Monster.MekaDragon:
+        return RuleId.ResolveDice // TODO
+    }
   }
 
   getMonsterPower() {
-    const powerDice = this.getDiceForFace(DiceFace.Power).length - this.consumedPower
-    switch (this.player) {
+    switch (this.player as Monster) {
       case Monster.Alienoid:
-        if (new AlienoidRule(this.game).getPlayerMoves().length > 0) return [this.startRule(RuleId.Alienoid)]
-        return []
+        return new AlienoidRule(this.game)
       case Monster.CyberKitty:
-        if (new CyberKittyRule(this.game).getPlayerMoves().length > 0) return [this.startRule(RuleId.CyberKitty)]
-        return []
+        return new CyberKittyRule(this.game)
       case Monster.Gigazaur:
-        if (new GigazaurRule(this.game).getPlayerMoves().length > 0) return [this.startRule(RuleId.Gigazaur)]
-        return []
+        return new GigazaurRule(this.game)
       case Monster.SpacePenguin:
-        if (new SpacePenguinRule(this.game).onRuleStart().length > 0) return [this.startRule(RuleId.SpacePenguin)]
-        return []
+        return new SpacePenguinRule(this.game)
       case Monster.TheKing:
-        if (powerDice < 2) return []
-        return [this.startRule(RuleId.TheKing)]
+      default: // TODO Meka
+        return new TheKingRule(this.game)
     }
-
-    return []
   }
 
   get consumedPower() {
@@ -154,7 +155,7 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
         count: 0,
         rival: target !== this.player
       },
-      target: target,
+      target: target
     }
 
     const dice = this.getDiceForFace(face)
@@ -171,14 +172,14 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
     if (bonus) {
       effectWithSource.effect.count += bonus
       effectWithSource.sources.push(
-        ...bonuses.flatMap(({ count, ...source }) => source.items )
+        ...bonuses.flatMap(({ count, ...source }) => source.items)
       )
     }
 
 
     effectWithSource.effect.count += sumBy(effectWithSource.sources, (source) => source.count ?? 0)
     if (face === DiceFace.Fame || face === DiceFace.Destruction) {
-      effectWithSource.effect.pawn = face === DiceFace.Fame? Pawn.Fame: Pawn.Destruction
+      effectWithSource.effect.pawn = face === DiceFace.Fame ? Pawn.Fame : Pawn.Destruction
       effectWithSource.effect.count = Math.floor(effectWithSource.effect.count / 3) + Math.max(0, effectWithSource.effect.count - 3)
     }
 

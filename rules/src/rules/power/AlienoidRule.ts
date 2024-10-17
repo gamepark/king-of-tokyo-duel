@@ -1,5 +1,4 @@
 import { CustomMove, isCustomMoveType } from '@gamepark/rules-api/dist/material/moves/CustomMove'
-import { MaterialMove } from '@gamepark/rules-api/dist/material/moves/MaterialMove'
 import { getEnumValues } from '@gamepark/rules-api/dist/utils/enum.util'
 import { DiceFace } from '../../material/DiceFace'
 import { CustomMoveType } from '../CustomMoveType'
@@ -7,10 +6,10 @@ import { RuleId } from '../RuleId'
 import { PowerRule } from './PowerRule'
 
 export class AlienoidRule extends PowerRule {
-  getPlayerMoves(): MaterialMove<number, number, number>[] {
+  getPlayerMoves() {
     const remainingPower = this.remainingPower
     if (remainingPower < 2) return []
-    const moves =  getEnumValues(DiceFace)
+    const moves = getEnumValues(DiceFace)
       .filter((face) => face !== DiceFace.Power)
       .flatMap((face: DiceFace) => {
         const alienoidMoves = [this.customMove(CustomMoveType.Alienoid, { face: face, count: 2 })]
@@ -27,7 +26,7 @@ export class AlienoidRule extends PowerRule {
 
   onCustomMove(move: CustomMove) {
     if (isCustomMoveType(CustomMoveType.Alienoid)(move)) {
-      this.consumePower(move.data.count === 2? 2: 3)
+      this.consumePower(move.data.count === 2 ? 2 : 3)
       this.stopPower()
     }
     return [this.startRule(RuleId.ResolveDice)]

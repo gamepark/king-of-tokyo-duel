@@ -4,6 +4,8 @@ import { RuleId } from '../RuleId'
 import { PowerRule } from './PowerRule'
 
 export class SpacePenguinRule extends PowerRule {
+  minPowerCost = 1
+
   onRuleStart() {
     if (!this.remainingPower) return []
     return [this.startRule(RuleId.Effect)]
