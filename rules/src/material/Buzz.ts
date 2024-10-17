@@ -1,4 +1,4 @@
-import { axialToEvenQ, getEnumValues, getPolyhexSpaces, HexGridSystem, Location, oddQToAxial } from '@gamepark/rules-api'
+import { axialToEvenQ, getEnumValues, getPolyhexSpaces, HexGridSystem, hexRotate, Location, MaterialItem, oddQToAxial } from '@gamepark/rules-api'
 import { Effect, EffectType, GainEnergy, GainWhiteDiceToken, Heal, Smash } from '../rules/effects/EffectType'
 import { LocationType } from './LocationType'
 
@@ -58,4 +58,13 @@ export function getBuzzSpaces(location: Location, buzz: Buzz) {
   } else {
     return getPolyhexSpaces(getBuzzShape(buzz), location, HexGridSystem.OddQ)
   }
+}
+
+export function getBuzzEffect(buzzItem: MaterialItem, location: Location): Effect | undefined {
+  if (location.x! - Math.floor(location.x!) === 0.5) {
+    return buzzDescriptions[buzzItem.id!].extraSpaceEffect
+  }
+  const vector = { x: location.x! - buzzItem.location.x!, y: 0 }
+  const coordinates = hexRotate(vector, buzzItem.location.rotation, location.type === LocationType.FameTrack ? HexGridSystem.EvenQ : HexGridSystem.OddQ)
+  return buzzDescriptions[buzzItem.id!].effects[coordinates.x] ?? undefined
 }

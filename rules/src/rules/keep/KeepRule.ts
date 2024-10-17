@@ -145,6 +145,10 @@ export class KeepRule extends MaterialRulesPart {
     return count
   }
 
+  get effects(): EffectWithSource[] {
+    return this.remind<EffectWithSource[]>(Memory.Effects) ?? []
+  }
+
   unshiftEffect(effect: Effect, target: Monster) {
     const effectWithSource = {
       effect,

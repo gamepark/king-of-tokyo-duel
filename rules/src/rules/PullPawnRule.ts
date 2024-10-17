@@ -1,11 +1,11 @@
-import { HexGridSystem, hexRotate, isMoveItem, ItemMove, Location, MaterialItem } from '@gamepark/rules-api'
-import { Buzz, buzzDescriptions, getBuzzSpaces } from '../material/Buzz'
+import { isMoveItem, ItemMove, Location } from '@gamepark/rules-api'
+import { Buzz, buzzDescriptions, getBuzzEffect, getBuzzSpaces } from '../material/Buzz'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { Monster } from '../material/Monster'
 import { Pawn } from '../material/Pawn'
 import { BasePlayerTurnEffectRule } from './BasePlayerTurnEffectRule'
-import { Effect, EffectType, PullPawn } from './effects/EffectType'
+import { EffectType, PullPawn } from './effects/EffectType'
 import { KeepHelper } from './helper/KeepHelper'
 import { RuleId } from './RuleId'
 
@@ -56,7 +56,7 @@ export class PullPawnRule extends BasePlayerTurnEffectRule<PullPawn> {
       } else {
         const buzz = this.getBuzzAtX(move.location.type!, move.location.x!)
         if (buzz.length === 1) {
-          const effect = this.getBuzzEffect(buzz.getItem()!, move.location as Location)
+          const effect = getBuzzEffect(buzz.getItem()!, move.location as Location)
           if (effect) {
             const target = effect.type === EffectType.Smash ? this.nextPlayer : this.player
             this.effects.splice(1, 0, { sources: [{ type: MaterialType.Buzz, indexes: buzz.getIndexes() }], target, effect })
@@ -68,15 +68,6 @@ export class PullPawnRule extends BasePlayerTurnEffectRule<PullPawn> {
       }
     }
     return super.afterItemMove(move)
-  }
-
-  getBuzzEffect(buzzItem: MaterialItem, location: Location): Effect | undefined {
-    if (location.x! - Math.floor(location.x!) === 0.5) {
-      return buzzDescriptions[buzzItem.id!].extraSpaceEffect
-    }
-    const vector = { x: location.x! - buzzItem.location.x!, y: 0 }
-    const coordinates = hexRotate(vector, buzzItem.location.rotation, location.type === LocationType.FameTrack ? HexGridSystem.EvenQ : HexGridSystem.OddQ)
-    return buzzDescriptions[buzzItem.id!].effects[coordinates.x] ?? undefined
   }
 
   isTriggeringEnd(pawnX: number) {
