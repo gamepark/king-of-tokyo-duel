@@ -18,6 +18,7 @@ import { ResolveDiceHeader } from './ResolveDiceHeader'
 import { RollDiceHeader } from './RollDiceHeader'
 import { SmashHeader } from './SmashHeader'
 import { SuperConductorHeader } from './SuperConductorHeader'
+import { TitanicBatteriesHeader } from './TitanicBatteriesHeader'
 
 export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.RollDice]: RollDiceHeader,
@@ -33,6 +34,7 @@ export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.Alienoid]: AlienoidHeader,
   [RuleId.Gigazaur]: GigazaurHeader,
   [RuleId.TheKing]: MoveBuzzTokenHeader,
+  [RuleId.TitanicBatteries]: TitanicBatteriesHeader,
   [RuleId.SuperConductor]: SuperConductorHeader,
   [RuleId.Hibernation]: HibernationHeader,
   [RuleId.Dominate]: DominateHeader,

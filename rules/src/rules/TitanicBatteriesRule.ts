@@ -1,9 +1,8 @@
-import { CustomMove, isCustomMoveType, isMoveItemType, ItemMove, MaterialMove } from '@gamepark/rules-api'
+import { isMoveItemType, ItemMove } from '@gamepark/rules-api'
 import { PowerCard } from '../material/cards/PowerCard'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
-import { CustomMoveType } from './CustomMoveType'
 import { isChangingRule } from './IsChangingRule'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
@@ -20,14 +19,7 @@ export class TitanicBatteriesRule extends BasePlayerTurnRule {
           player: this.rival
         })
     )
-
-    return moves
-  }
-
-  onCustomMove(move: CustomMove): MaterialMove[] {
-    const moves = super.onCustomMove(move)
-    if (moves.some(isChangingRule)) return moves
-    if (isCustomMoveType(CustomMoveType.Ignore)(move)) {
+    if (this.ignoredDice === 0) {
       moves.push(this.startRule(RuleId.ResolveDice))
     }
 
