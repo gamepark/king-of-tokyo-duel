@@ -22,7 +22,7 @@ export const AlienoidHeader = () => {
     return <Trans defaults="header.resolve.player" values={{ player }}/>
   }
   const faceImages = diceDescription.images[DiceColor.Red]
-  if (!extra || !moves.length) {
+  if (!extra) {
     return <Trans defaults="header.alienoid.you" components={{
       power: <Picture css={iconCss} src={faceImages[DiceFace.Power]}/>,
       smash: <DiceFaceButton move={moves.find(move => move.data.face === DiceFace.Claw)} image={faceImages[DiceFace.Claw]}/>,
@@ -35,7 +35,6 @@ export const AlienoidHeader = () => {
     const move = moves[0]
     if (!move) return null
     return <Trans defaults="header.alienoid.extra.you" components={{
-      power: <Picture css={iconCss} src={faceImages[DiceFace.Power]}/>,
       face: <DiceFaceButton move={move} image={faceImages[move.data.face]}/>,
       pass: <PlayMoveButton move={pass}/>
     }}/>
