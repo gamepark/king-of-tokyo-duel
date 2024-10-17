@@ -7,6 +7,7 @@ import { EffectType } from './EffectType'
 
 export class ThePartyIsOverRule extends BasePlayerTurnRule {
   onRuleStart() {
+    this.removeEffect()
     const fameInSpotlight = this.isInSpotlightZone(Pawn.Fame)
     if (fameInSpotlight.length) {
       const isLeft = fameInSpotlight.getItem()!.location.x! < 0
