@@ -98,7 +98,7 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
       [LocationType.PlayerBuzzToken]: new FillGapStrategy()
     },
     [MaterialType.Dice]: {
-      [LocationType.PlayerHand]: new PositiveSequenceStrategy(),
+      [LocationType.PlayerHand]: new FillGapStrategy(),
       [LocationType.PlayerRolledDice]: new FillGapStrategy(),
       [LocationType.WhiteDiceStock]: new PositiveSequenceStrategy(),
       [LocationType.OnPowerCard]: new FillGapStrategy()

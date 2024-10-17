@@ -15,7 +15,12 @@ gameAnimations
     }
   )
   .mine()
-  .duration(0.1)
+  .none()
+
+gameAnimations
+  .when()
+  .move((move) => isMoveItemType(MaterialType.Buzz)(move) && move.location.rotation !== undefined)
+  .none()
 
 
 gameAnimations

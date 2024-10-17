@@ -13,7 +13,7 @@ export class CyberKittyRule extends PowerRule {
       },
       sources: [{
         type: MaterialType.MonsterBoard,
-        indexes: [this.material(MaterialType.MonsterBoard).id(this.player).getIndex()]
+        indexes: this.material(MaterialType.MonsterBoard).id(this.player).getIndexes()
       }],
       target: this.player
     })
