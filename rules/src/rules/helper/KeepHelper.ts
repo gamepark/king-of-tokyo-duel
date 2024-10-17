@@ -121,18 +121,22 @@ export class KeepHelper extends MaterialRulesPart {
       .forEach((index) => this.getEffectRule(index)?.afterPullPawn(pawn))
   }
 
-  canPreventDamagesOn(player: Monster): boolean {
+  canPreventDamagesOn(target: Monster): boolean {
     return this.keepCardsIndexes
-      .some((index) => this.getEffectRule(index)?.canPreventDamagesOn(player) ?? false)
+      .some((index) => this.getEffectRule(index)?.canPreventDamagesOn(target) ?? false)
+  }
+
+  getPreventKeepEffects(target: Monster) {
+    return this.keepCards
+      .filter((_, index) => this.getEffectRule(index)?.canPreventDamagesOn(target) ?? false)
+      .getIndexes()
+      .sort()
+      .map((i) => this.getEffectRule(i)!)
   }
 
   afterSmashTakenComputed(player: Monster, takenDamages: number) {
     this.keepCardsIndexes
       .flatMap((index) => this.getEffectRule(index)?.afterSmashTakenComputed(player, takenDamages) ?? [])
-  }
-
-  ignoredSmash(player: Monster, damages?: number): number {
-    return sumBy(this.keepCardsIndexes, (index) => this.getEffectRule(index)?.ignoredSmash(player, damages) ?? 0)
   }
 
   immune(player: Monster): boolean {

@@ -8,7 +8,6 @@ import { PowerRule } from './PowerRule'
 
 export class GigazaurRule extends PowerRule {
   getPlayerMoves() {
-    if (this.remainingPower < 2) return []
    return [
      this.customMove(CustomMoveType.Pull, Pawn.Fame),
      this.customMove(CustomMoveType.Pull, Pawn.Destruction),

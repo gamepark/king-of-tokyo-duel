@@ -1,4 +1,4 @@
-import { CustomMove, isCustomMoveType, MaterialMove } from '@gamepark/rules-api'
+import { CustomMove, isCustomMoveType, isDeleteItemType, ItemMove, MaterialMove } from '@gamepark/rules-api'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
@@ -55,6 +55,19 @@ export class RollDiceRule extends BasePlayerTurnRule {
       rolledDice = rolledDice.filter((item) => keepHelper.canReroll(item.location.rotation))
     }
     return rolledDice.moveItems(({ location: { x, type, ...rest } }) => ({ ...rest, type: LocationType.PlayerHand }))
+  }
+
+  afterItemMove(move: ItemMove) {
+    const moves: MaterialMove[] = super.afterItemMove(move)
+    if (!isDeleteItemType(MaterialType.DiceToken)(move)) return moves
+    moves.push(
+      this.whiteDice.moveItem({
+        type: LocationType.PlayerHand,
+        player: this.player
+      })
+    )
+
+    return moves
   }
 
   onCustomMove(move: CustomMove) {
@@ -134,5 +147,11 @@ export class RollDiceRule extends BasePlayerTurnRule {
     return this
       .material(MaterialType.DiceToken)
       .player(this.player)
+  }
+
+  get whiteDice() {
+    return this
+      .material(MaterialType.Dice)
+      .location(LocationType.WhiteDiceStock)
   }
 }

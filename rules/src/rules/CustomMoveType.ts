@@ -10,7 +10,8 @@ export enum CustomMoveType {
   SkipResolving,
   Power,
   Pull,
-  Alienoid
+  Alienoid,
+  RenewCards
 }
 
 export enum PowerUse {

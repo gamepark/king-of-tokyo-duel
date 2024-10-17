@@ -1,5 +1,4 @@
 import { MaterialMove } from '@gamepark/rules-api/dist/material/moves/MaterialMove'
-import { DiceColor } from '../material/DiceColor'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnEffectRule } from './BasePlayerTurnEffectRule'
@@ -30,9 +29,9 @@ export class GainWhiteDiceTokenRule extends BasePlayerTurnEffectRule<GainWhiteDi
 
   get countTokens() {
     return this
-      .material(MaterialType.Dice)
-      .id(DiceColor.White)
-      .location(LocationType.PlayerHand)
+      .material(MaterialType.DiceToken)
+      .location(LocationType.PlayerDiceToken)
+      .player(this.player)
       .getQuantity()
   }
 }

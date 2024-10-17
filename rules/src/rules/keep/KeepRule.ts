@@ -69,6 +69,14 @@ export class KeepRule extends MaterialRulesPart {
     return false
   }
 
+  preventDamages(): MaterialMove[] {
+    return []
+  }
+
+  get preventionOrder() {
+    return 0
+  }
+
   afterSmashTakenComputed(_player: Monster, _takenDamages: number) {
   }
 

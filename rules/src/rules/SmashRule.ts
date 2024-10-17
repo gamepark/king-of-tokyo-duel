@@ -10,9 +10,6 @@ import { RuleId } from './RuleId'
 export class SmashRule extends BasePlayerTurnEffectRule<Smash> {
   onRuleStart() {
     const smash = this.currentEffect
-    if (new KeepHelper(this.game).immune(smash.target)) {
-      return [this.startRule(RuleId.Effect)]
-    }
     return [this.customMove(CustomMoveType.Smash, smash)]
   }
 
@@ -22,7 +19,7 @@ export class SmashRule extends BasePlayerTurnEffectRule<Smash> {
     const target = this.currentEffect.target
     const wheel = this.wheel
     const newHealth = Math.max(wheel.getItem()!.location.rotation - damages, 0)
-    const takenDamages = (newHealth - wheel.getItem()!.location.rotation)
+    const takenDamages = (wheel.getItem()!.location.rotation - newHealth)
     if (target !== this.player) this.memorize(Memory.RivalSmashCount, (count: number = 0) => count + takenDamages)
     const moves: MaterialMove[] = [
       wheel.rotateItem(newHealth)

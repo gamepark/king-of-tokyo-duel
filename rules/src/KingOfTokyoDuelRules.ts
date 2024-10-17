@@ -25,6 +25,7 @@ import { CyberKittyRule } from './rules/power/CyberKittyRule'
 import { GigazaurRule } from './rules/power/GigazaurRule'
 import { SpacePenguinRule } from './rules/power/SpacePenguinRule'
 import { TheKingRule } from './rules/power/TheKingRule'
+import { PreventDamagesRule } from './rules/PreventDamagesRule'
 import { PullPawnRule } from './rules/PullPawnRule'
 import { RebootingRule } from './rules/RebootingRule'
 import { ResolveDiceRule } from './rules/ResolveDiceRule'
@@ -75,7 +76,8 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     [RuleId.SpacePenguin]: SpacePenguinRule,
     [RuleId.Gigazaur]: GigazaurRule,
     [RuleId.Alienoid]: AlienoidRule,
-    [RuleId.TheKing]: TheKingRule
+    [RuleId.TheKing]: TheKingRule,
+    [RuleId.PreventDamages]: PreventDamagesRule
   }
 
   hidingStrategies = {

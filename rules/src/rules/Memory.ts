@@ -16,5 +16,5 @@ export enum Memory {
   Dominate,
   SkipReboot,
   ConsumedPower,
-  AdditionalRollFaces
+  RefillRiver
 }

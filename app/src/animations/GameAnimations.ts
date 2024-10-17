@@ -8,9 +8,10 @@ export const gameAnimations = new MaterialGameAnimations()
 
 gameAnimations
   .when()
-  .move((move) => {
+  .move((move, context) => {
       return isMoveItemType(MaterialType.Dice)(move) &&
-        (move.location.type === LocationType.PlayerHand || move.location.type === LocationType.PlayerRolledDice)
+        (move.location.type === LocationType.PlayerHand || move.location.type === LocationType.PlayerRolledDice) &&
+        context.rules.material(move.itemType).getItem(move.itemIndex)!.location.type !== LocationType.WhiteDiceStock
     }
   )
   .mine()

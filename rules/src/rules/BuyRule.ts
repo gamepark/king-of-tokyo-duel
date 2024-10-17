@@ -63,6 +63,9 @@ export class BuyRule extends BasePlayerTurnRule {
   getPlayerMoves() {
     const moves: MaterialMove[] = super.getPlayerMoves()
     moves.push(this.customMove(CustomMoveType.Pass))
+    if (!this.remind(Memory.RefillRiver)) {
+      moves.push(this.customMove(CustomMoveType.RenewCards))
+    }
 
     moves.push(
       ...this.getPurchasableCards()
@@ -142,19 +145,31 @@ export class BuyRule extends BasePlayerTurnRule {
   }
 
   onCustomMove(move: CustomMove): MaterialMove[] {
-    if (!isCustomMoveType(CustomMoveType.Pass)(move)) return []
-    this.memorize(Memory.Phase, RuleId.EndOfTurn)
-    if (this.boughtCards.length) return [this.getNextRule()]
-    this.pushEffect({
-      effect: {
-        type: EffectType.GainEnergy,
-        count: 1
-      },
-      sources: [],
-      target: this.player
-    })
+    if (isCustomMoveType(CustomMoveType.RenewCards)(move)) {
+      this.memorize(Memory.RefillRiver, true)
+      return [
+        this.river.moveItemsAtOnce({
+          type: LocationType.Discard
+        }),
+      ]
+    }
 
-    return [this.getNextRule()]
+    if (isCustomMoveType(CustomMoveType.Pass)(move)) {
+      this.memorize(Memory.Phase, RuleId.EndOfTurn)
+      if (this.boughtCards.length) return [this.getNextRule()]
+      this.pushEffect({
+        effect: {
+          type: EffectType.GainEnergy,
+          count: 1
+        },
+        sources: [],
+        target: this.player
+      })
+
+      return [this.getNextRule()]
+    }
+
+    return []
   }
 
   getPurchasableCards(energy: number = this.energies.getQuantity()) {

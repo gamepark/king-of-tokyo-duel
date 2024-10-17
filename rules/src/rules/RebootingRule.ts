@@ -9,7 +9,6 @@ import { RuleId } from './RuleId'
 
 export class RebootingRule extends BasePlayerTurnRule {
   onRuleStart() {
-    this.removeEffect()
     return []
   }
   getPlayerMoves() {

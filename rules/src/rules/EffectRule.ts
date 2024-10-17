@@ -20,13 +20,14 @@ export class EffectRule extends BasePlayerTurnRule {
   }
 
   getEffectRuleMove(): MaterialMove | undefined {
-
-    const type: EffectType = this.currentEffect.effect.type
+    const effect = this.currentEffect
+    const type: EffectType = effect.effect.type
     switch (type) {
 
       case EffectType.Smash:
-        if (new KeepHelper(this.game).canPreventDamagesOn(this.rival)) {
-          return this.startPlayerTurn(RuleId.PreventDamages, this.rival)
+        if (new KeepHelper(this.game).canPreventDamagesOn(effect.target)) {
+          if (this.player === effect.target) return this.startRule(RuleId.PreventDamages)
+          return this.startPlayerTurn(RuleId.PreventDamages, effect.target)
         }
 
         return this.startRule(RuleId.Smash)

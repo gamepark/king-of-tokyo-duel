@@ -4,14 +4,11 @@ import { DiceColor } from '../material/DiceColor'
 import { DiceFace } from '../material/DiceFace'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
-import { BasePlayerTurnEffectRule } from './BasePlayerTurnEffectRule'
-import { Smash } from './effects/EffectType'
-import { EffectWithSource } from './effects/EffectWithSource'
+import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
-// TODO
-export class CamouflageRule extends BasePlayerTurnEffectRule<Smash> {
+export class CamouflageRule extends BasePlayerTurnRule {
   onRuleStart(): MaterialMove[] {
     return [
       this.material(MaterialType.Dice)
@@ -33,6 +30,7 @@ export class CamouflageRule extends BasePlayerTurnEffectRule<Smash> {
       .material(MaterialType.Dice)
       .location(LocationType.PlayerHand)
       .player(this.player)
+
     if (isCreateItemTypeAtOnce(MaterialType.Dice)(move)) {
       moves.push(...dice.rollItems())
       moves.push(dice.deleteItemsAtOnce())
@@ -49,22 +47,10 @@ export class CamouflageRule extends BasePlayerTurnEffectRule<Smash> {
             break;
           }
         }
-
-        this.memorize(Memory.Effects, (effects: EffectWithSource[] = []) => {
-          const effectsWithoutFirst = effects.slice(1)
-          return [
-            damagesContext,
-            ...effectsWithoutFirst
-          ]
-        })
       }
 
       if (isDeleteItemTypeAtOnce(MaterialType.Dice)(move)) {
-        if (damagesContext.effect.count > 0) {
-          moves.push(this.startPlayerTurn(RuleId.Smash, this.rival))
-        } else {
-          moves.push(this.startPlayerTurn(RuleId.Effect, this.rival))
-        }
+        moves.push(this.startPlayerTurn(RuleId.PreventDamages, this.rival))
       }
 
       this.forget(Memory.CamouflageRolledDiceCount)

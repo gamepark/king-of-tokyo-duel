@@ -5,7 +5,6 @@ import { BasePlayerTurnRule } from '../BasePlayerTurnRule'
 import { RuleId } from '../RuleId'
 import { EffectType } from './EffectType'
 
-// TODO
 export class ThePartyIsOverRule extends BasePlayerTurnRule {
   onRuleStart() {
     const fameInSpotlight = this.isInSpotlightZone(Pawn.Fame)

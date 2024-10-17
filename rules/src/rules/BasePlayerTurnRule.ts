@@ -1,4 +1,4 @@
-import { isMoveItemType, ItemMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
+import { isMoveItemType, isMoveItemTypeAtOnce, ItemMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
 import { DiceFace } from '../material/DiceFace'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
@@ -23,7 +23,7 @@ export class BasePlayerTurnRule<E extends Effect = any> extends PlayerTurnRule {
 
   afterItemMove(move: ItemMove) {
     const moves = new KeepHelper(this.game).afterItemMove(move)
-    if (!isMoveItemType(MaterialType.PowerCard)(move)) return moves
+    if (!isMoveItemType(MaterialType.PowerCard)(move) && !isMoveItemTypeAtOnce(MaterialType.PowerCard)(move)) return moves
     if (this.cardOnBoard.length < 3) {
       const powerCardDeck = this.powerCardDeck
       if (this.powerCardDeck.length) moves.push(powerCardDeck.dealOne({ type: LocationType.PowerCardOnBoard }))

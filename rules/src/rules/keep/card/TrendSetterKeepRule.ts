@@ -1,16 +1,29 @@
+import { Monster } from '../../../material/Monster'
+import { EffectWithSource } from '../../effects/EffectWithSource'
+import { Memory } from '../../Memory'
 import { KeepRule } from '../KeepRule'
 
-
-// TODO : Prevent damages
 export class TrendSetterKeepRule extends KeepRule {
-  ignoredSmash(): number {
-    if (this.isConsumed || this.getActivePlayer() === this.cardPlayer) return 0
-    if (!this.isFameOnBuzzToken) return 0
-    this.markKeepCardConsumed()
-    return 1
+
+  canPreventDamagesOn(player: Monster): boolean {
+    return !this.isConsumed && player === this.cardPlayer && this.isFameOnBuzzToken
   }
 
   get isFameOnBuzzToken() {
     return false
+  }
+
+  get preventionOrder() {
+    return 10
+  }
+
+  preventDamages() {
+    this.markKeepCardConsumed()
+    this.effect.effect.count -= 1
+    return []
+  }
+
+  get effect() {
+    return (this.remind<EffectWithSource[]>(Memory.Effects) ?? [])[0]
   }
 }
