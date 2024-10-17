@@ -23,6 +23,7 @@ import { OnStartTurnRule } from './rules/OnStartTurnRule'
 import { AlienoidRule } from './rules/power/AlienoidRule'
 import { CyberKittyRule } from './rules/power/CyberKittyRule'
 import { GigazaurRule } from './rules/power/GigazaurRule'
+import { MekaDragonRule } from './rules/power/MekaDragonRule'
 import { SpacePenguinRule } from './rules/power/SpacePenguinRule'
 import { TheKingRule } from './rules/power/TheKingRule'
 import { PreventDamagesRule } from './rules/PreventDamagesRule'
@@ -77,6 +78,7 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     [RuleId.Gigazaur]: GigazaurRule,
     [RuleId.Alienoid]: AlienoidRule,
     [RuleId.TheKing]: TheKingRule,
+    [RuleId.MekaDragon]: MekaDragonRule,
     [RuleId.PreventDamages]: PreventDamagesRule
   }
 

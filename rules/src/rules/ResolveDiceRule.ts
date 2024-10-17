@@ -16,6 +16,8 @@ import { Memory } from './Memory'
 import { AlienoidRule } from './power/AlienoidRule'
 import { CyberKittyRule } from './power/CyberKittyRule'
 import { GigazaurRule } from './power/GigazaurRule'
+import { MekaDragonRule } from './power/MekaDragonRule'
+import { PowerRule } from './power/PowerRule'
 import { SpacePenguinRule } from './power/SpacePenguinRule'
 import { TheKingRule } from './power/TheKingRule'
 import { RuleId } from './RuleId'
@@ -129,11 +131,11 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
       case Monster.TheKing:
         return RuleId.TheKing
       case Monster.MekaDragon:
-        return RuleId.ResolveDice // TODO
+        return RuleId.MekaDragon
     }
   }
 
-  getMonsterPower() {
+  getMonsterPower(): PowerRule {
     switch (this.player as Monster) {
       case Monster.Alienoid:
         return new AlienoidRule(this.game)
@@ -144,8 +146,9 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
       case Monster.SpacePenguin:
         return new SpacePenguinRule(this.game)
       case Monster.TheKing:
-      default: // TODO Meka
         return new TheKingRule(this.game)
+      case Monster.MekaDragon:
+        return new MekaDragonRule(this.game)
     }
   }
 
@@ -195,10 +198,6 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
         if (!effectWithSource.effect.count) return
       }
 
-      if (face === DiceFace.Claw) {
-        effectWithSource.effect.count = this.getClawCount(effectWithSource.effect.count)
-      }
-
       return effectWithSource
     }
 
@@ -235,15 +234,6 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
     return this
       .dice
       .rotation(face)
-  }
-
-  getClawCount(baseCount: number) {
-    if (this.player === Monster.MekaDragon) {
-      const powerDice = this.dice.rotation(DiceFace.Power).length
-      if (powerDice > 1) return powerDice * baseCount
-    }
-
-    return baseCount
   }
 
   get dice() {
