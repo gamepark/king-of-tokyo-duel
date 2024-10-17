@@ -124,12 +124,12 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<Monster, MaterialTyp
 
 
   setupDice() {
-    for (let index = 0; index < 6; index++) {
+    for (let index = 0; index < 5; index++) {
       this.material(MaterialType.Dice).createItem({
         id: DiceColor.Red,
         location: {
           type: LocationType.PlayerHand,
-          player: this.players[index === 0? 1: 0]
+          player: this.players[0]
         }
       })
     }

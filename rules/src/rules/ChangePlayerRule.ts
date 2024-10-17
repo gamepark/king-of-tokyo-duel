@@ -14,9 +14,23 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
     const diceToSetApart = this.diceToSetApart
     const moves: MaterialMove[] = []
     const redDice = this.redDice.deck()
+    const nextPlayer = this.computeNextPlayer()
+    if (redDice.length < 6) {
+      moves.push(
+        this.material(MaterialType.Dice)
+          .createItem({
+            id: DiceColor.Red,
+            location: {
+              type: LocationType.PlayerHand,
+              player: nextPlayer
+            }
+          })
+      )
+    }
+
     for (let i = 0; i < diceToSetApart.length; i++) {
       const infos = diceToSetApart[i]
-      if(moves.length === 6) break
+      if(moves.length >= redDice.length) break
       moves.push(
         redDice
           .dealOne({
@@ -25,7 +39,6 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
           })
       )
     }
-    const nextPlayer = this.computeNextPlayer()
 
     if (!this.remind(Memory.Dominate) && redDice.length > 0) {
       moves.push(
