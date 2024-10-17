@@ -4,6 +4,8 @@ import { KeepRule } from '../KeepRule'
 export class NaturalSelectionKeepRule extends KeepRule {
   get additionalDice(): number {
     if (this.getActivePlayer() !== this.cardPlayer) return 0
+    if (this.isConsumed) return 0
+    this.markKeepCardConsumed()
     return 1
   }
 
