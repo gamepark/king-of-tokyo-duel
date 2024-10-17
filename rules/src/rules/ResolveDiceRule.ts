@@ -54,43 +54,53 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
   }
 
   canHeal() {
-    return !this.isAlreadyConsumed(DiceFace.Heal) && this.buildEffect(EffectType.Heal, DiceFace.Heal) !== undefined
+    return !this.isAlreadyConsumed(DiceFace.Heal) && this.getEffect(DiceFace.Heal) !== undefined
   }
 
   canPullDestruction() {
-    return !this.isAlreadyConsumed(DiceFace.Destruction) && this.buildEffect(EffectType.PullPawn, DiceFace.Destruction) !== undefined
+    return !this.isAlreadyConsumed(DiceFace.Destruction) && this.getEffect(DiceFace.Destruction) !== undefined
   }
 
   canPullFame() {
-    return !this.isAlreadyConsumed(DiceFace.Fame) && this.buildEffect(EffectType.PullPawn, DiceFace.Fame) !== undefined
+    return !this.isAlreadyConsumed(DiceFace.Fame) && this.getEffect(DiceFace.Fame) !== undefined
   }
 
   canGainEnergy() {
-    return !this.isAlreadyConsumed(DiceFace.Energy) && this.buildEffect(EffectType.GainEnergy, DiceFace.Energy) !== undefined
+    return !this.isAlreadyConsumed(DiceFace.Energy) && this.getEffect(DiceFace.Energy) !== undefined
   }
 
   canSmash() {
-    return !this.isAlreadyConsumed(DiceFace.Claw) && this.buildEffect(EffectType.Smash, DiceFace.Claw, this.rival) !== undefined
+    return !this.isAlreadyConsumed(DiceFace.Claw) && this.getEffect(DiceFace.Claw) !== undefined
+  }
+
+  getEffect(dice: DiceFace) {
+    switch (dice) {
+      case DiceFace.Energy:
+        return this.buildEffect(EffectType.GainEnergy, DiceFace.Energy)
+      case DiceFace.Claw:
+        return this.buildEffect(EffectType.Smash, DiceFace.Claw, this.rival)!
+      case DiceFace.Heal:
+        return this.buildEffect(EffectType.Heal, DiceFace.Heal)!
+      case DiceFace.Fame:
+        return this.buildEffect(EffectType.PullPawn, DiceFace.Fame)!
+      case DiceFace.Destruction:
+        return this.buildEffect(EffectType.PullPawn, DiceFace.Destruction)!
+    }
+
+    return
   }
 
   onCustomMove(move: CustomMove): MaterialMove[] {
     if (!isCustomMoveType(CustomMoveType.ResolveKind)(move)) return []
     this.consumeFaces(move.data)
+    const effect = this.getEffect(move.data)
     switch (move.data) {
       case DiceFace.Energy:
-        this.pushEffect(this.buildEffect(EffectType.GainEnergy, DiceFace.Energy)!)
-        break
       case DiceFace.Claw:
-        this.pushEffect(this.buildEffect(EffectType.Smash, DiceFace.Claw, this.rival)!)
-        break
       case DiceFace.Heal:
-        this.pushEffect(this.buildEffect(EffectType.Heal, DiceFace.Heal)!)
-        break
       case DiceFace.Fame:
-        this.pushEffect(this.buildEffect(EffectType.PullPawn, DiceFace.Fame)!)
-        break
       case DiceFace.Destruction:
-        this.pushEffect(this.buildEffect(EffectType.PullPawn, DiceFace.Destruction)!)
+        this.pushEffect(effect!)
         break
       case DiceFace.Power:
         return [this.startRule(this.getMonsterRuleId())]
