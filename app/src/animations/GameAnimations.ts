@@ -25,6 +25,16 @@ gameAnimations
 
 gameAnimations
   .when()
+  .move((move) => {
+      return isRollItemType(MaterialType.Dice)(move) &&
+        (move.location.type === LocationType.PlayerHand || move.location.type === LocationType.PlayerRolledDice)
+    }
+  )
+  .mine()
+  .duration(0.4)
+
+gameAnimations
+  .when()
   .move((move, context) => {
       return isMoveItemType(MaterialType.Dice)(move) &&
         (move.location.type === LocationType.PlayerHand || move.location.type === LocationType.PlayerRolledDice) &&

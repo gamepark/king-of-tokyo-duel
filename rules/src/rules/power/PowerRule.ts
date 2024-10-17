@@ -33,13 +33,6 @@ export class PowerRule extends BasePlayerTurnRule {
     return this.remind(Memory.ConsumedPower) ?? 0
   }
 
-  stopPower() {
-    this.memorize(Memory.DiceFacesSolved, (faces: DiceFace[] = []) => {
-      faces.push(DiceFace.Power)
-      return faces
-    })
-  }
-
   getPlayerMoves(): MaterialMove[] {
     return [] // Do not authorize "anytime during turn" moves in the middle of resolving a monster power
   }

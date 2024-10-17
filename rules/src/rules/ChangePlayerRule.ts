@@ -109,6 +109,7 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
     this.forget(Memory.DiceFacesSolved)
     this.forget(Memory.SkipReboot)
     this.forget(Memory.ConsumedPower)
+    this.forget(Memory.RefillRiver)
     if (this.remind(Memory.ActivePlayer) === this.remind(Memory.Immune)) {
       this.forget(Memory.Immune)
     }

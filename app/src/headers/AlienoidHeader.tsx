@@ -4,6 +4,7 @@ import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDu
 import { DiceColor } from '@gamepark/king-of-tokyo-duel/material/DiceColor'
 import { DiceFace } from '@gamepark/king-of-tokyo-duel/material/DiceFace'
 import { CustomMoveType } from '@gamepark/king-of-tokyo-duel/rules/CustomMoveType'
+import { Memory } from '@gamepark/king-of-tokyo-duel/rules/Memory'
 import { Picture, PlayMoveButton, useLegalMove, useLegalMoves, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { CustomMove, isCustomMoveType, MaterialMove } from '@gamepark/rules-api'
 import { Trans } from 'react-i18next'
@@ -16,12 +17,12 @@ export const AlienoidHeader = () => {
   const player = usePlayerName(activePlayer)
   const moves = useLegalMoves<CustomMove>(isCustomMoveType(CustomMoveType.Alienoid))
   const pass = useLegalMove(isCustomMoveType(CustomMoveType.Pass))
-  const extra = false // TODO
+  const extra = rules.remind(Memory.AlienoidExtra) !== undefined
   if (me !== activePlayer) {
     return <Trans defaults="header.resolve.player" values={{ player }}/>
   }
   const faceImages = diceDescription.images[DiceColor.Red]
-  if (!extra) {
+  if (!extra || !moves.length) {
     return <Trans defaults="header.alienoid.you" components={{
       power: <Picture css={iconCss} src={faceImages[DiceFace.Power]}/>,
       smash: <DiceFaceButton move={moves.find(move => move.data.face === DiceFace.Claw)} image={faceImages[DiceFace.Claw]}/>,
@@ -32,7 +33,9 @@ export const AlienoidHeader = () => {
     }}/>
   } else {
     const move = moves[0]
+    if (!move) return null
     return <Trans defaults="header.alienoid.extra.you" components={{
+      power: <Picture css={iconCss} src={faceImages[DiceFace.Power]}/>,
       face: <DiceFaceButton move={move} image={faceImages[move.data.face]}/>,
       pass: <PlayMoveButton move={pass}/>
     }}/>

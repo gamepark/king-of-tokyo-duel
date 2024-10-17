@@ -1,24 +1,30 @@
 import { CustomMove, isCustomMoveType } from '@gamepark/rules-api/dist/material/moves/CustomMove'
+import { MaterialMove } from '@gamepark/rules-api/dist/material/moves/MaterialMove'
 import { getEnumValues } from '@gamepark/rules-api/dist/utils/enum.util'
 import { DiceFace } from '../../material/DiceFace'
 import { CustomMoveType } from '../CustomMoveType'
+import { Memory } from '../Memory'
 import { RuleId } from '../RuleId'
 import { PowerRule } from './PowerRule'
 
 export class AlienoidRule extends PowerRule {
   getPlayerMoves() {
     const remainingPower = this.remainingPower
-    if (remainingPower < 2) return []
-    const moves = getEnumValues(DiceFace)
-      .filter((face) => face !== DiceFace.Power)
-      .flatMap((face: DiceFace) => {
-        const alienoidMoves = [this.customMove(CustomMoveType.Alienoid, { face: face, count: 2 })]
-        if (remainingPower > 2) {
-          alienoidMoves.push(this.customMove(CustomMoveType.Alienoid, { face: face, count: 4 }))
-        }
+    const extra: DiceFace = this.remind(Memory.AlienoidExtra)
+    const moves: MaterialMove[] = []
+    if (extra && remainingPower >= 1) {
+      moves.push(
+        this.customMove(CustomMoveType.Alienoid, { face: extra, count: 1 })
+      )
+    } else {
+      moves.push(
+        ...getEnumValues(DiceFace)
+          .filter((face) => face !== DiceFace.Power)
+          .map((face: DiceFace) => this.customMove(CustomMoveType.Alienoid, { face: face, count: 1 }))
+      )
+    }
 
-        return alienoidMoves
-      })
+
 
     moves.push(this.customMove(CustomMoveType.Pass))
     return moves
@@ -26,9 +32,23 @@ export class AlienoidRule extends PowerRule {
 
   onCustomMove(move: CustomMove) {
     if (isCustomMoveType(CustomMoveType.Alienoid)(move)) {
-      this.consumePower(move.data.count === 2 ? 2 : 3)
-      this.stopPower()
+      if (this.remind(Memory.AlienoidExtra)) {
+        this.consumePower(1)
+        this.forget(Memory.AlienoidExtra)
+        if (this.remainingPower >= 2) return []
+      } else {
+        this.consumePower(2)
+        this.memorize(Memory.AlienoidExtra, move.data.face)
+        if (this.remainingPower >= 1) return []
+      }
+
     }
+
     return [this.startRule(RuleId.ResolveDice)]
+  }
+
+  onRuleEnd() {
+    this.forget(Memory.AlienoidExtra)
+    return []
   }
 }
