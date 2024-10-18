@@ -17,7 +17,7 @@ export enum EffectType {
   Rebooting
 }
 
-export type Effect = (PullPawn | Heal | FreeTurn | Smash | GainEnergy | GainWhiteDiceToken | InShape | { type: EffectType }) & { rival?: boolean };
+export type Effect = (PullPawn | Heal | FreeTurn | Smash | GainEnergy | GainWhiteDiceToken | InShape | { type: EffectType }) & { rival?: boolean, count?: number };
 
 
 export type PullPawn = {
@@ -32,7 +32,7 @@ export type Heal = {
 }
 
 export type FreeTurn = {
-  type: EffectType.FreeTurn
+  type: EffectType.FreeTurn,
 }
 
 export type Smash = {

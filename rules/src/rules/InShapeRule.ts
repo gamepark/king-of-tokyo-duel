@@ -37,7 +37,8 @@ export class InShapeRule extends BasePlayerTurnRule<InShape> {
       },
       sources: [{
         type: MaterialType.PowerCard,
-        indexes: this.material(MaterialType.PowerCard).id(PowerCard.InShape).getIndexes()
+        indexes: this.material(MaterialType.PowerCard).id(PowerCard.InShape).getIndexes(),
+        count: move.data
       }],
       target: this.player
     })

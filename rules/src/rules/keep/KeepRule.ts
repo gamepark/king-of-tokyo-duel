@@ -158,7 +158,8 @@ export class KeepRule extends MaterialRulesPart {
       effect,
       sources: [{
         type: MaterialType.PowerCard,
-        indexes: [this.cardIndex]
+        indexes: [this.cardIndex],
+        count: effect.count ?? 1
       }],
       target
     }
@@ -170,7 +171,8 @@ export class KeepRule extends MaterialRulesPart {
       effect,
       sources: [{
         type: MaterialType.PowerCard,
-        indexes: [this.cardIndex]
+        indexes: [this.cardIndex],
+        count: effect.count ?? 1
       }],
       target
     }

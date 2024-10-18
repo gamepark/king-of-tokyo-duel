@@ -25,7 +25,8 @@ export class GigazaurRule extends PowerRule {
       },
       sources: [{
         type: MaterialType.MonsterBoard,
-        indexes: [this.material(MaterialType.MonsterBoard).id(this.player).getIndex()]
+        indexes: this.material(MaterialType.MonsterBoard).id(this.player).getIndexes(),
+        count: 1
       }],
       target: this.player
     })

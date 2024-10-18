@@ -64,7 +64,7 @@ export class PullPawnRule extends BasePlayerTurnRule<PullPawn> {
           const effect = getBuzzEffect(buzz.getItem()!, move.location as Location)
           if (effect) {
             const target = effect.type === EffectType.Smash ? this.nextPlayer : this.player
-            this.unshiftEffect({ sources: [{ type: MaterialType.Buzz, indexes: buzz.getIndexes() }], target, effect })
+            this.unshiftEffect({ sources: [{ type: MaterialType.Buzz, indexes: buzz.getIndexes(), count: 1 }], target, effect })
           }
         }
 

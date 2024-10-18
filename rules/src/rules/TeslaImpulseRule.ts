@@ -32,7 +32,8 @@ export class TeslaImpulseRule extends BasePlayerTurnRule {
       },
       sources: [{
         type: MaterialType.PowerCard,
-        indexes: [this.material(MaterialType.PowerCard).id(PowerCard.TeslaImpulse).getIndex()]
+        indexes: this.material(MaterialType.PowerCard).id(PowerCard.TeslaImpulse).getIndexes(),
+        count: 2
       }],
       target: this.player
     })

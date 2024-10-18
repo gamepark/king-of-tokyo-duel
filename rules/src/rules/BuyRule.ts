@@ -118,7 +118,8 @@ export class BuyRule extends BasePlayerTurnRule {
           effect: effect,
           sources: [{
             type: MaterialType.PowerCard,
-            indexes: [move.itemIndex]
+            indexes: [move.itemIndex],
+            count: effect.count
           }],
           target: effect?.rival ? this.rival : this.player
         })

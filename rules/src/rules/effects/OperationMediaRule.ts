@@ -10,15 +10,17 @@ import { EffectType } from './EffectType'
 
 export class OperationMediaRule extends BasePlayerTurnRule {
   onRuleStart() {
+    const claws = this.countClaws
     this.unshiftEffect({
       effect: {
         type: EffectType.PullPawn,
         pawn: Pawn.Fame,
-        count: this.countClaws
+        count: claws
       },
       sources: [{
         type: MaterialType.PowerCard,
-        indexes: [this.material(MaterialType.PowerCard).id(PowerCard.OperationMedia).getIndex()]
+        indexes: this.material(MaterialType.PowerCard).id(PowerCard.OperationMedia).getIndexes(),
+          count: claws
       }],
       target: this.player
     })

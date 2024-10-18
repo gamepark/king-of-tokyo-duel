@@ -24,7 +24,8 @@ export class SpacePenguinRule extends PowerRule {
       },
       sources: [{
         type: MaterialType.MonsterBoard,
-        indexes: this.material(MaterialType.MonsterBoard).id(this.player).getIndexes()
+        indexes: this.material(MaterialType.MonsterBoard).id(this.player).getIndexes(),
+        count: 1
       }],
       target: this.player
     })

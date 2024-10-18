@@ -32,7 +32,8 @@ export class SuperConductorRule extends BasePlayerTurnRule {
         },
         sources: [{
           type: MaterialType.PowerCard,
-          indexes: [this.material(MaterialType.PowerCard).id(PowerCard.Superconductor).getIndex()]
+          indexes: this.material(MaterialType.PowerCard).id(PowerCard.Superconductor).getIndexes(),
+          count: this.energyDice
         }],
         target: this.player
       })

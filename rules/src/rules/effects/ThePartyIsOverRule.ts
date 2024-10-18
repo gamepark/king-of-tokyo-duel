@@ -17,7 +17,8 @@ export class ThePartyIsOverRule extends BasePlayerTurnRule {
         },
         sources: [{
           type: MaterialType.PowerCard,
-          indexes: this.material(MaterialType.PowerCard).id(PowerCard.ThePartyIsOver).getIndexes()
+          indexes: this.material(MaterialType.PowerCard).id(PowerCard.ThePartyIsOver).getIndexes(),
+          count: 4
         }],
         target: this.game.players[isLeft ? 0 : 1]
       })
@@ -33,7 +34,8 @@ export class ThePartyIsOverRule extends BasePlayerTurnRule {
         },
         sources: [{
           type: MaterialType.PowerCard,
-          indexes: this.material(MaterialType.PowerCard).id(PowerCard.ThePartyIsOver).getIndexes()
+          indexes: this.material(MaterialType.PowerCard).id(PowerCard.ThePartyIsOver).getIndexes(),
+          count: 4
         }],
         target: this.game.players[isLeft ? 0 : 1]
       })

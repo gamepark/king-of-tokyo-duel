@@ -32,7 +32,8 @@ export class HibernationRule extends BasePlayerTurnRule {
         },
         sources: [{
           type: MaterialType.PowerCard,
-          indexes: [this.hibernation.getIndex()]
+          indexes: this.hibernation.getIndexes(),
+          count: healCount
         }],
         target: this.player
       })
