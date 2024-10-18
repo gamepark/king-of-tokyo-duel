@@ -5,7 +5,7 @@ import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
-import { Memory, SetDiceOn } from './Memory'
+import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class DominateRule extends BasePlayerTurnRule {
@@ -18,26 +18,14 @@ export class DominateRule extends BasePlayerTurnRule {
         type: LocationType.Discard
       }))
 
-    moves.push(this.customMove(CustomMoveType.Dominated))
+    moves.push(this.customMove(CustomMoveType.Pass))
     return moves
   }
 
   onCustomMove(move: CustomMove) {
-    if (!isCustomMoveType(CustomMoveType.Dominated)(move)) return []
-    const diceToSetApart = this.remind<SetDiceOn[]>(Memory.SetDiceApart) ?? []
+    if (!isCustomMoveType(CustomMoveType.Pass)(move)) return []
     const redDice = this.redDice.deck()
     const moves: MaterialMove[] = []
-    for (let i = 0; i < diceToSetApart.length; i++) {
-      const infos = diceToSetApart[i]
-      if (moves.length === 6) break
-      moves.push(
-        redDice
-          .moveItem({
-            type: infos.location,
-            parent: infos.parent
-          })
-      )
-    }
 
     for (let i = 0; i < this.keepCards.length; i++) {
       if (moves.length === 6) break
@@ -49,7 +37,6 @@ export class DominateRule extends BasePlayerTurnRule {
           })
       )
     }
-
 
     if (redDice.length) {
       moves.push(

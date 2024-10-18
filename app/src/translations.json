@@ -163,6 +163,8 @@
       "header.supercondutor.player": "Supra-Conducteur : {player} peut défausser sa carte pour gagner {count} <energy/>",
       "header.camouflage.you": "Camouflage : vous lancez {count} dés pour prévenir jusqu'à {count} <hit/>",
       "header.camouflage.player": "Camouflage : {player} lance {count} dés pour prévenir jusqu'à {count} <hit/>",
+      "header.dominate.you": "Dominer : défaussez des cartes Pouvoir ou <pass>lancez {count} dés de moins</pass>",
+      "header.dominate.player": "Dominer : {player} peut défausser des cartes Pouvoir avant de lancer les dés",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Valider",
