@@ -163,7 +163,7 @@ export class KeepHelper extends MaterialRulesPart {
       .forEach((index) => this.getEffectRule(index)?.onBuyPowerCard() ?? [])
   }
 
-  getBonusFaces(face: DiceFace): (Source & { count: number })[] {
+  getBonusFaces(face: DiceFace): Source[] {
     return this.keepCardsIndexes
       .flatMap((index) => {
         const bonuses = this.getEffectRule(index)?.getBonusFaces(face)

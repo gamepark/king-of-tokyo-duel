@@ -177,12 +177,10 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
     }
 
     const bonuses = this.getBonusDiceFaces(face)
-    const bonus = sumBy(bonuses, (bonus) => bonus.count)
+    const bonus = sumBy(bonuses, (bonus) => bonus.count ?? 0)
     if (bonus) {
       effectWithSource.effect.count += bonus
-      effectWithSource.sources.push(
-        ...bonuses.flatMap(({ count, ...source }) => source.items)
-      )
+      effectWithSource.sources.push(...bonuses)
     }
 
 
@@ -206,7 +204,7 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
 
   countFaces(face: DiceFace) {
     const bonuses = this.getBonusDiceFaces(face)
-    const bonus = sumBy(bonuses, (bonus) => bonus.count)
+    const bonus = sumBy(bonuses, (bonus) => bonus.count ?? 0)
     return this.getDiceForFace(face).length + bonus
   }
 
@@ -214,10 +212,8 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
     const faces = new KeepHelper(this.game).getBonusFaces(face)
     const memoryExtraFaces = (this.remind<DiceFace[]>(Memory.ExtraDiceFaces) ?? []).filter((d) => d === face)
     faces.push({
-      items: [{
-        type: MaterialType.MonsterBoard,
-        indexes: this.material(MaterialType.MonsterBoard).player(this.player).getIndexes()
-      }],
+      type: MaterialType.MonsterBoard,
+      indexes: this.material(MaterialType.MonsterBoard).player(this.player).getIndexes(),
       count: memoryExtraFaces.length
     })
     return faces

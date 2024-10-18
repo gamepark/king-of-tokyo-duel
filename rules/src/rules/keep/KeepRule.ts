@@ -104,7 +104,7 @@ export class KeepRule extends MaterialRulesPart {
   onBuyPowerCard() {
   }
 
-  getBonusFaces(_face: DiceFace): (Source & { count: number }) | undefined {
+  getBonusFaces(_face: DiceFace): Source | undefined {
     return
   }
 

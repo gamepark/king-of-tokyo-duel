@@ -2,6 +2,7 @@
 import { css } from '@emotion/react'
 import { GameTable, GameTableNavigation } from '@gamepark/react-game'
 import { FC } from 'react'
+import { SmashAnimation } from './animations/SmashAnimation'
 import { PlayerPanels } from './panels/PlayerPanels'
 
 type GameDisplayProps = {
@@ -9,12 +10,15 @@ type GameDisplayProps = {
 }
 
 export const GameDisplay: FC<GameDisplayProps> = () => {
+  const xMin = -38.5
+  const yMin = -20
   return <>
-    <GameTable xMin={-38.5} xMax={38.5} yMin={-20} yMax={20}
+    <GameTable xMin={xMin} xMax={38.5} yMin={yMin} yMax={20}
                margin={{ top: 7, left: 0, right: 0, bottom: 0 }}
                css={process.env.NODE_ENV === 'development' && css`border: 1px solid white;`}>
       <GameTableNavigation css={centerNavigationCss}/>
       <PlayerPanels/>
+      <SmashAnimation left={-xMin} top={-yMin} />
     </GameTable>
   </>
 }

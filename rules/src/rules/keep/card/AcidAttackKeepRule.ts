@@ -7,10 +7,8 @@ export class AcidAttackKeepRule extends KeepRule {
     if (this.getActivePlayer() !== this.cardPlayer) return
     if (face !== DiceFace.Claw) return
     return {
-      items: [{
-        type: MaterialType.PowerCard,
-        indexes: [this.cardIndex]
-      }],
+      type: MaterialType.PowerCard,
+      indexes: [this.cardIndex],
       count: 1
     }
   }

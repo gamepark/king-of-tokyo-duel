@@ -9,10 +9,8 @@ export class AdrenalineAugmentKeepRule extends KeepRule {
     const countPawnsInSpotlightZone = this.countPawnsInSpotlightZone;
     if (!countPawnsInSpotlightZone) return
     return {
-      items: [{
-        type: MaterialType.PowerCard,
-        indexes: [this.cardIndex]
-      }],
+      type: MaterialType.PowerCard,
+      indexes: [this.cardIndex],
       count: countPawnsInSpotlightZone
     }
   }

@@ -24,7 +24,7 @@ export class GentleGiantKeepRule extends KeepRule {
 
   get clawFaces() {
     return this.rolledClawDice +
-      sumBy(new KeepHelper(this.game).getBonusFaces(DiceFace.Claw), (bonus) => bonus.count)
+      sumBy(new KeepHelper(this.game).getBonusFaces(DiceFace.Claw), (bonus) => bonus.count ?? 0)
   }
 
   get rolledClawDice() {

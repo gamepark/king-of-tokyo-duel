@@ -1,9 +1,19 @@
 import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType'
 import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType'
-import { MaterialGameAnimations } from '@gamepark/react-game'
-import { isMoveItemType, isRollItemType } from '@gamepark/rules-api'
+import { CustomMoveType } from '@gamepark/king-of-tokyo-duel/rules/CustomMoveType'
+import { AnimationStep } from '@gamepark/react-client'
+import { MaterialGameAnimationContext, MaterialGameAnimations } from '@gamepark/react-game'
+import { isCustomMoveType, isMoveItemType, isRollItemType, MaterialMove } from '@gamepark/rules-api'
 
-export const gameAnimations = new MaterialGameAnimations()
+class KingOfTokyoDuelAnimations extends MaterialGameAnimations {
+  getDuration(move: MaterialMove, context: MaterialGameAnimationContext): number {
+    if (isCustomMoveType(CustomMoveType.Smash)(move) && context.step === AnimationStep.BEFORE_MOVE) return (move.data.effect.count ?? 0) * 1.2
+    return super.getDuration(move, context)
+  }
+}
+
+
+export const gameAnimations = new KingOfTokyoDuelAnimations()
 
 
 gameAnimations

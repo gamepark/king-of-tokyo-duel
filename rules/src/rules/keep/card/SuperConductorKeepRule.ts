@@ -17,7 +17,7 @@ export class SuperConductorKeepRule extends KeepRule {
 
   get gainedRivalEnergy() {
     return this.rivalEnergyDice +
-      sumBy(new KeepHelper(this.game).getBonusFaces(DiceFace.Claw), (bonus) => bonus.count)
+      sumBy(new KeepHelper(this.game).getBonusFaces(DiceFace.Claw), (bonus) => bonus.count ?? 0)
   }
 
   get rivalEnergyDice() {
