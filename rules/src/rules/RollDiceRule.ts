@@ -20,6 +20,7 @@ export class RollDiceRule extends BasePlayerTurnRule {
 
   getFreeWhiteDiceMoves(): MaterialMove[] {
     const additionalDice = Math.min(new KeepHelper(this.game).additionalDice, 2)
+    if (!additionalDice || !this.whiteDice.length) return []
     return [this
       .whiteDice
       .limit(additionalDice)
