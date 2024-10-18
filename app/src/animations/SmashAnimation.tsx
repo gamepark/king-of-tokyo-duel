@@ -92,6 +92,7 @@ const positionCss = (type: MaterialType, index: number, itemIndex: number, conte
       displayIndex: itemIndex
     }) ?? [])
     .concat('translateZ(10em)')
+    .concat(MaterialType.PowerCard === type? "translateY(3.5em)": "")
     .filter((t) => !t.startsWith('rotate')).join(' ')
   return css`
     transform: ${transform};
