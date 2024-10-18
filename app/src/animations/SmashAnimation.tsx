@@ -31,6 +31,7 @@ export const SmashAnimation: FC<SmashAnimationProps> = ({ left, top }) => {
   if (!animation) return null
 
   const target: Monster = animation.move.data.target
+  console.log(animation.move.data)
   if (target === undefined) return null
   const sources: Source[] = animation.move.data.sources
   if (!sources?.length) console.warn('No sources ?', animation.move)
@@ -41,7 +42,7 @@ export const SmashAnimation: FC<SmashAnimationProps> = ({ left, top }) => {
     <>
       {sources.map((source) => {
         return source.indexes.map((itemIndex) => {
-          const damageForIndex = (source.count ?? 0) / source.indexes.length
+          const damageForIndex = (source.count ?? countElements ?? 0) / source.indexes.length
           return times(damageForIndex).map((currentIndex) => {
             return (
               <div key={`${itemIndex}_${currentIndex}`} css={[css`> * > * {
