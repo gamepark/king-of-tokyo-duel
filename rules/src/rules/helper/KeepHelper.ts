@@ -130,7 +130,7 @@ export class KeepHelper extends MaterialRulesPart {
     return this.keepCards
       .filter((_, index) => this.getEffectRule(index)?.canPreventDamagesOn(target) ?? false)
       .getIndexes()
-      .sort()
+      .sort(index => this.getEffectRule(index)!.preventionOrder)
       .map((i) => this.getEffectRule(i)!)
   }
 

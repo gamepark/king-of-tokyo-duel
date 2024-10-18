@@ -1,19 +1,26 @@
 import { isCreateItemTypeAtOnce, isDeleteItemTypeAtOnce, isRollItemType, ItemMove, MaterialMove } from '@gamepark/rules-api'
 import times from 'lodash/times'
+import { PowerCard } from '../material/cards/PowerCard'
 import { DiceColor } from '../material/DiceColor'
 import { DiceFace } from '../material/DiceFace'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
-import { Memory } from './Memory'
+import { Smash } from './effects/EffectType'
 import { RuleId } from './RuleId'
 
-export class CamouflageRule extends BasePlayerTurnRule {
+export class CamouflageRule extends BasePlayerTurnRule<Smash> {
   onRuleStart(): MaterialMove[] {
+    const damageContext = this.damageContext
+    damageContext.sources.push({
+      type: MaterialType.PowerCard,
+      indexes: [this.cardIndex],
+      count: 0
+    })
     return [
       this.material(MaterialType.Dice)
         .createItemsAtOnce(
-          times(this.damageContext.effect.count).map(() => ({
+          times(damageContext.effect.count).map(() => ({
             id: DiceColor.Red,
             location: {
               type: LocationType.PlayerHand,
@@ -22,6 +29,10 @@ export class CamouflageRule extends BasePlayerTurnRule {
           }))
         )
     ]
+  }
+
+  get cardIndex() {
+    return this.material(MaterialType.PowerCard).id(PowerCard.Camouflage).getIndex()
   }
 
   afterItemMove(move: ItemMove): MaterialMove[] {
@@ -37,38 +48,27 @@ export class CamouflageRule extends BasePlayerTurnRule {
     }
 
     if (isRollItemType(MaterialType.Dice)(move)) {
-      this.incrementRoll()
       const damagesContext = this.damageContext
       if (move.location.rotation === DiceFace.Heal) {
         damagesContext.effect.count -= 1
         for (const source of damagesContext.sources) {
-          if (source.indexes.length) {
-            source.indexes = source.indexes.slice(1)
-            break;
+          if (source.count && source.count > 0) {
+            source.count--
+            break
           }
         }
+        damagesContext.sources.find(source => source.type === MaterialType.PowerCard && source.indexes.includes(this.cardIndex))!.count!--
       }
+    }
 
-      if (isDeleteItemTypeAtOnce(MaterialType.Dice)(move)) {
-        moves.push(this.startPlayerTurn(RuleId.PreventDamages, this.rival))
-      }
-
-      this.forget(Memory.CamouflageRolledDiceCount)
+    if (isDeleteItemTypeAtOnce(MaterialType.Dice)(move)) {
+      moves.push(this.startRule(RuleId.PreventDamages))
     }
 
     return moves
   }
 
-  incrementRoll() {
-    this.memorize<number>(Memory.CamouflageRolledDiceCount, (count: number = 0) => count++)
-  }
-
   get damageContext() {
     return this.currentEffect
-  }
-
-  // This to prevent removing the effect from the memory
-  onRuleEnd() {
-    return []
   }
 }

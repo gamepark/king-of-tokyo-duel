@@ -161,6 +161,8 @@
       "header.titanic-batteries.player": "Batteries Titanesques : {player} peut ignorer 2 dés pour gagner <token/>",
       "header.supercondutor.you": "Supra-Conducteur : <discard>défausser</discard> pour gagner {count} <energy/> ou <pass>passer</pass>",
       "header.supercondutor.player": "Supra-Conducteur : {player} peut défausser sa carte pour gagner {count} <energy/>",
+      "header.camouflage.you": "Camouflage : vous lancez {count} dés pour prévenir jusqu'à {count} <hit/>",
+      "header.camouflage.player": "Camouflage : {player} lance {count} dés pour prévenir jusqu'à {count} <hit/>",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Valider",

@@ -2,6 +2,7 @@ import { LocationType } from '../material/LocationType'
 
 export enum Memory {
   Round = 1,
+  ActivePlayer,
   RollCount,
   BoughtCards,
   Effects,
@@ -13,9 +14,7 @@ export enum Memory {
   SetDiceApart,
   TitanicBatteries,
   DiceFacesSolved,
-  CamouflageRolledDiceCount,
   Immune,
-  ActivePlayer,
   Dominate,
   SkipReboot,
   ConsumedPower,
