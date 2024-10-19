@@ -1,17 +1,38 @@
 /** @jsxImportSource @emotion/react */
-
+import { css } from '@emotion/react'
+import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelRules'
 import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType'
 import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType'
 import { CustomMoveType } from '@gamepark/king-of-tokyo-duel/rules/CustomMoveType'
-import { PlayMoveButton, useLegalMove } from '@gamepark/react-game'
+import { DominateRule } from '@gamepark/king-of-tokyo-duel/rules/DominateRule'
+import { Picture, PlayMoveButton, useLegalMove, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { isCustomMoveType, isMoveItemType } from '@gamepark/rules-api'
+import { Trans } from 'react-i18next'
+import Heart from '../images/icons/Heart.png'
 
 export const HibernationHeader = () => {
-  const ignore = useLegalMove((move) => isCustomMoveType(CustomMoveType.Ignore)(move))
+  const rules = useRules<KingOfTokyoDuelRules>()!
+  const activePlayer = rules.getActivePlayer()
+  const me = usePlayerId()
+  const player = usePlayerName(activePlayer)
+  const pass = useLegalMove((move) => isCustomMoveType(CustomMoveType.Pass)(move))
   const discard = useLegalMove((move) => isMoveItemType(MaterialType.PowerCard)(move) && move.location.type === LocationType.Discard)
-  return (
-    <>
-       <PlayMoveButton move={discard}>Discard</PlayMoveButton> OR <PlayMoveButton move={ignore}>Ignore</PlayMoveButton>
-    </>
-  )
+  if (me !== activePlayer) {
+    return <Trans defaults="header.hibernation.player" values={{ player }} components={{
+      heart: <Picture src={Heart} css={iconCss}/>
+    }}/>
+  } else {
+    const count = new DominateRule(rules.game).keepCards.length
+    return <Trans defaults="header.hibernation.you" values={{ player, count }} components={{
+      discard: <PlayMoveButton move={discard}/>,
+      pass: <PlayMoveButton move={pass}/>,
+      heart: <Picture src={Heart} css={iconCss}/>
+    }}/>
+  }
 }
+
+const iconCss = css`
+  height: 0.9em;
+  position: relative;
+  top: 0.1em;
+`

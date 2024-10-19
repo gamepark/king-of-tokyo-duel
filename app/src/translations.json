@@ -165,6 +165,8 @@
       "header.camouflage.player": "Camouflage : {player} lance {count} dés pour prévenir jusqu'à {count} <hit/>",
       "header.dominate.you": "Dominer : défaussez des cartes Pouvoir ou <pass>lancez {count} dés de moins</pass>",
       "header.dominate.player": "Dominer : {player} peut défausser des cartes Pouvoir avant de lancer les dés",
+      "header.hibernation.you": "<discard>défaussez Hibernation</discard> ou <pass>passez votre tour</pass> pour gagner 6 <heart/>",
+      "header.hibernation.player": "{player} défausse Hibernation ou passe son tour pour gagner 6 <heart/>",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Valider",

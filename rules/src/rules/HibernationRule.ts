@@ -6,9 +6,17 @@ import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
 import { EffectType } from './effects/EffectType'
 import { HealHelper } from './helper/HealHelper'
+import { HibernationKeepRule } from './keep/card/HibernationKeepRule'
 import { RuleId } from './RuleId'
 
 export class HibernationRule extends BasePlayerTurnRule {
+  onRuleStart() {
+    if (new HibernationKeepRule(this.game, this.hibernation.getIndex()).isConsumed) {
+      return [this.startRule(RuleId.ChangePlayer)]
+    }
+    return []
+  }
+
   getPlayerMoves() {
     const moves = super.getPlayerMoves()
     moves.push(
@@ -17,12 +25,12 @@ export class HibernationRule extends BasePlayerTurnRule {
       })
     )
 
-    moves.push(this.customMove(CustomMoveType.Ignore))
+    moves.push(this.customMove(CustomMoveType.Pass))
     return moves
   }
 
   onCustomMove(move: CustomMove) {
-    if (!isCustomMoveType(CustomMoveType.Ignore)(move)) return []
+    if (!isCustomMoveType(CustomMoveType.Pass)(move)) return []
     const healCount = new HealHelper(this.game, this.player).heal(6)
     if (healCount) {
       this.pushEffect({
@@ -38,6 +46,8 @@ export class HibernationRule extends BasePlayerTurnRule {
         target: this.player
       })
     }
+
+    new HibernationKeepRule(this.game, this.hibernation.getIndex()).markKeepCardConsumed()
 
     if (this.effects.length) {
       return [this.startRule(RuleId.Effect)]
