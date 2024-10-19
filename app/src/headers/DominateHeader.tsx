@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-
 import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelRules'
 import { CustomMoveType } from '@gamepark/king-of-tokyo-duel/rules/CustomMoveType'
 import { DominateRule } from '@gamepark/king-of-tokyo-duel/rules/DominateRule'

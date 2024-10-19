@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
 import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelRules'
 import { DiceColor } from '@gamepark/king-of-tokyo-duel/material/DiceColor'
 import { DiceFace } from '@gamepark/king-of-tokyo-duel/material/DiceFace'
@@ -9,6 +8,7 @@ import { Picture, PlayMoveButton, useLegalMove, useLegalMoves, usePlayerId, useP
 import { CustomMove, isCustomMoveType, MaterialMove } from '@gamepark/rules-api'
 import { Trans } from 'react-i18next'
 import { diceDescription } from '../material/DiceDescription'
+import { headerIconCss } from './headerIconCss'
 
 export const AlienoidHeader = () => {
   const rules = useRules<KingOfTokyoDuelRules>()!
@@ -24,7 +24,7 @@ export const AlienoidHeader = () => {
   const faceImages = diceDescription.images[DiceColor.Red]
   if (!extra) {
     return <Trans defaults="header.alienoid.you" components={{
-      power: <Picture css={iconCss} src={faceImages[DiceFace.Power]}/>,
+      power: <Picture css={headerIconCss} src={faceImages[DiceFace.Power]}/>,
       smash: <DiceFaceButton move={moves.find(move => move.data.face === DiceFace.Claw)} image={faceImages[DiceFace.Claw]}/>,
       heal: <DiceFaceButton move={moves.find(move => move.data.face === DiceFace.Heal)} image={faceImages[DiceFace.Heal]}/>,
       energy: <DiceFaceButton move={moves.find(move => move.data.face === DiceFace.Energy)} image={faceImages[DiceFace.Energy]}/>,
@@ -35,7 +35,7 @@ export const AlienoidHeader = () => {
     const move = moves[0]
     if (!move) return null
     return <Trans defaults="header.alienoid.extra.you" components={{
-      power: <Picture css={iconCss} src={faceImages[DiceFace.Power]}/>,
+      power: <Picture css={headerIconCss} src={faceImages[DiceFace.Power]}/>,
       face: <DiceFaceButton move={move} image={faceImages[move.data.face]}/>,
       pass: <PlayMoveButton move={pass}/>
     }}/>
@@ -49,11 +49,5 @@ type DiceFaceButtonProps = {
 
 const DiceFaceButton = ({ move, image }: DiceFaceButtonProps) => {
   if (!move) return null
-  return <PlayMoveButton move={move}>+1 <Picture css={iconCss} src={image}/></PlayMoveButton>
+  return <PlayMoveButton move={move}>+1 <Picture css={headerIconCss} src={image}/></PlayMoveButton>
 }
-
-const iconCss = css`
-  height: 0.9em;
-  position: relative;
-  top: 0.1em;
-`

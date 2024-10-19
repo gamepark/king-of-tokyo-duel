@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-
 import { RuleId } from '@gamepark/king-of-tokyo-duel/rules/RuleId'
 import { PlayMoveButton, useLegalMove } from '@gamepark/react-game'
 import { isStartRule } from '@gamepark/rules-api'

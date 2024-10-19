@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
 import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelRules'
 import { DiceColor } from '@gamepark/king-of-tokyo-duel/material/DiceColor'
 import { DiceFace } from '@gamepark/king-of-tokyo-duel/material/DiceFace'
@@ -9,6 +8,7 @@ import { Picture, PlayMoveButton, useLegalMove, usePlayerId, usePlayerName, useR
 import { isCustomMoveType, MaterialMove } from '@gamepark/rules-api'
 import { Trans } from 'react-i18next'
 import { diceDescription } from '../material/DiceDescription'
+import { headerIconCss } from './headerIconCss'
 
 export const ResolveDiceHeader = () => {
   const rules = useRules<KingOfTokyoDuelRules>()!
@@ -47,11 +47,5 @@ type DiceFaceButtonProps = {
 
 const DiceFaceButton = ({ move, image, count }: DiceFaceButtonProps) => {
   if (!move) return null
-  return <PlayMoveButton move={move}><Picture css={iconCss} src={image}/> x {count}</PlayMoveButton>
+  return <PlayMoveButton move={move}><Picture css={headerIconCss} src={image}/> x {count}</PlayMoveButton>
 }
-
-const iconCss = css`
-  height: 0.9em;
-  position: relative;
-  top: 0.1em;
-`

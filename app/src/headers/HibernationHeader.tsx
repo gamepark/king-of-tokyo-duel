@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
 import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelRules'
 import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType'
 import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType'
@@ -9,6 +8,7 @@ import { Picture, PlayMoveButton, useLegalMove, usePlayerId, usePlayerName, useR
 import { isCustomMoveType, isMoveItemType } from '@gamepark/rules-api'
 import { Trans } from 'react-i18next'
 import Heart from '../images/icons/Heart.png'
+import { headerIconCss } from './headerIconCss'
 
 export const HibernationHeader = () => {
   const rules = useRules<KingOfTokyoDuelRules>()!
@@ -19,20 +19,14 @@ export const HibernationHeader = () => {
   const discard = useLegalMove((move) => isMoveItemType(MaterialType.PowerCard)(move) && move.location.type === LocationType.Discard)
   if (me !== activePlayer) {
     return <Trans defaults="header.hibernation.player" values={{ player }} components={{
-      heart: <Picture src={Heart} css={iconCss}/>
+      heart: <Picture src={Heart} css={headerIconCss}/>
     }}/>
   } else {
     const count = new DominateRule(rules.game).keepCards.length
     return <Trans defaults="header.hibernation.you" values={{ player, count }} components={{
       discard: <PlayMoveButton move={discard}/>,
       pass: <PlayMoveButton move={pass}/>,
-      heart: <Picture src={Heart} css={iconCss}/>
+      heart: <Picture src={Heart} css={headerIconCss}/>
     }}/>
   }
 }
-
-const iconCss = css`
-  height: 0.9em;
-  position: relative;
-  top: 0.1em;
-`

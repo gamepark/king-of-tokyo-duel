@@ -1,6 +1,4 @@
 /** @jsxImportSource @emotion/react */
-
-import { css } from '@emotion/react'
 import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelRules'
 import { DiceColor } from '@gamepark/king-of-tokyo-duel/material/DiceColor'
 import { DiceFace } from '@gamepark/king-of-tokyo-duel/material/DiceFace'
@@ -10,6 +8,7 @@ import { Picture, PlayMoveButton, useLegalMove, usePlayerId, usePlayerName, useR
 import { isCustomMoveType, MaterialMove } from '@gamepark/rules-api'
 import { Trans, useTranslation } from 'react-i18next'
 import { diceDescription } from '../material/DiceDescription'
+import { headerIconCss } from './headerIconCss'
 
 export const GigazaurHeader = () => {
   const rules = useRules<KingOfTokyoDuelRules>()!
@@ -23,7 +22,7 @@ export const GigazaurHeader = () => {
   }
   const faceImages = diceDescription.images[DiceColor.Red]
   return <Trans defaults="header.gigazaur.you" components={{
-    power: <Picture css={iconCss} src={faceImages[DiceFace.Power]}/>,
+    power: <Picture css={headerIconCss} src={faceImages[DiceFace.Power]}/>,
     fame: <PullPawnButton move={pullFame} image={faceImages[DiceFace.Fame]}/>,
     destruction: <PullPawnButton move={pullDestruction} image={faceImages[DiceFace.Destruction]}/>
   }}/>
@@ -37,11 +36,5 @@ type DiceFaceButtonProps = {
 const PullPawnButton = ({ move, image }: DiceFaceButtonProps) => {
   const { t } = useTranslation()
   if (!move) return null
-  return <PlayMoveButton move={move}>{t('Pull')} <Picture css={iconCss} src={image}/></PlayMoveButton>
+  return <PlayMoveButton move={move}>{t('Pull')} <Picture css={headerIconCss} src={image}/></PlayMoveButton>
 }
-
-const iconCss = css`
-  height: 0.9em;
-  position: relative;
-  top: 0.1em;
-`
