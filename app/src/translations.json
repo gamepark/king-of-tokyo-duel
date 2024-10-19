@@ -169,6 +169,8 @@
       "header.hibernation.player": "{player} défausse Hibernation ou passe son tour pour gagner 6 <heart/>",
       "header.made-in-a-lab.you": "Expérience Scientifique : achetez une carte pour -1 <energy/> ou <pass>passez</pass>",
       "header.made-in-a-lab.player": "Expérience Scientifique : {player} peut acheter une carte pour -1<energy/>",
+      "header.rebooting.you": "Redémarrage : <resolve>résoudre les dés</resolve> ou <reboot>utiliser Rédémarrage</reboot>",
+      "header.rebooting.player": "{player} choisit s'il utilise Redémarrage ou s'il résoud les dés",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Valider",

@@ -1,4 +1,4 @@
-import { CustomMove, isCustomMoveType, MaterialMove } from '@gamepark/rules-api'
+import { CustomMove, isCustomMoveType, isMoveItemType, ItemMove, MaterialMove } from '@gamepark/rules-api'
 import { PowerCard } from '../material/cards/PowerCard'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
@@ -11,34 +11,42 @@ export class RebootingRule extends BasePlayerTurnRule {
   onRuleStart() {
     return []
   }
+
   getPlayerMoves() {
-    const moves: MaterialMove[] = []
-    moves.push(this.customMove(CustomMoveType.Pass))
-    moves.push(this.customMove(CustomMoveType.SkipResolving))
-    return moves
+    return [
+      this.rebooting.moveItem({ type: LocationType.Discard }),
+      this.customMove(CustomMoveType.Pass)
+    ]
   }
 
   onCustomMove(move: CustomMove) {
-    const moves: MaterialMove[] = []
     if (isCustomMoveType(CustomMoveType.Pass)(move)) {
       this.memorize(Memory.SkipReboot, true)
-      moves.push(this.startRule(RuleId.ResolveDice))
+      return [this.startRule(RuleId.ResolveDice)]
     }
+    return []
+  }
 
-    if (isCustomMoveType(CustomMoveType.SkipResolving)(move)) {
-      moves.push(this.rebooting.moveItem({
-        type: LocationType.Discard
-      }))
+  afterItemMove(move: ItemMove): MaterialMove[] {
+    if (isMoveItemType(MaterialType.PowerCard)(move) && move.location.type === LocationType.Discard) {
+      const moves: MaterialMove[] = []
+      const tokens = 2 - this.material(MaterialType.DiceToken).location(LocationType.PlayerDiceToken).player(this.player).length
+      if (tokens) {
+        moves.push(this.material(MaterialType.DiceToken).location(LocationType.WhiteTokenStock).moveItem({
+          type: LocationType.PlayerDiceToken,
+          player: this.player
+        }, tokens))
+      }
+      moves.push(this.material(MaterialType.Energy).createItem({ location: { type: LocationType.PlayerEnergy, player: this.player }, quantity: 2 }))
       moves.push(this.startRule(RuleId.Buy))
+      return moves
     }
-
-    return moves
+    return []
   }
 
   get rebooting() {
     return this
       .material(MaterialType.PowerCard)
       .id(PowerCard.Rebooting)
-      .player(this.player)
   }
 }

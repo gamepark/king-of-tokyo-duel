@@ -14,6 +14,7 @@ import { HibernationHeader } from './HibernationHeader'
 import { MadeInALabHeader } from './MadeInALabHeader'
 import { MoveBuzzTokenHeader } from './MoveBuzzTokenHeader'
 import { PullPawnHeader } from './PullPawnHeader'
+import { RebootingHeader } from './RebootingHeader'
 import { ResolveDiceHeader } from './ResolveDiceHeader'
 import { RollDiceHeader } from './RollDiceHeader'
 import { SmashHeader } from './SmashHeader'
@@ -39,5 +40,6 @@ export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.Camouflage]: CamouflageHeader,
   [RuleId.Hibernation]: HibernationHeader,
   [RuleId.Dominate]: DominateHeader,
-  [RuleId.MadeInALab]: MadeInALabHeader
+  [RuleId.MadeInALab]: MadeInALabHeader,
+  [RuleId.Rebooting]: RebootingHeader
 }
