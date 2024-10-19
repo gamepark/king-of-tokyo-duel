@@ -1,4 +1,4 @@
-import { CustomMove, isMoveItemType, ItemMove, MaterialMove } from '@gamepark/rules-api'
+import { CustomMove, isCustomMoveType, isMoveItemType, ItemMove, MaterialMove } from '@gamepark/rules-api'
 import { PowerCard } from '../material/cards/PowerCard'
 import { DiceFace } from '../material/DiceFace'
 import { LocationType } from '../material/LocationType'
@@ -11,15 +11,16 @@ import { RuleId } from './RuleId'
 export class SuperConductorRule extends BasePlayerTurnRule {
   getPlayerMoves() {
     const moves = super.getPlayerMoves()
-    moves.push(this.customMove(CustomMoveType.Ignore))
+    moves.push(this.customMove(CustomMoveType.Pass))
     moves.push(this.material(MaterialType.PowerCard).id(PowerCard.Superconductor).moveItem({ type: LocationType.Discard }))
     return moves
   }
 
-  onCustomMove(_move: CustomMove) {
-    const moves = []
-    moves.push(this.startPlayerTurn(RuleId.Effect, this.rival))
-    return moves
+  onCustomMove(move: CustomMove) {
+    if (isCustomMoveType(CustomMoveType.Pass)(move)) {
+      return [this.startPlayerTurn(RuleId.Effect, this.rival)]
+    }
+    return []
   }
 
   afterItemMove(move: ItemMove): MaterialMove<number, number, number>[] {

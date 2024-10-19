@@ -13,14 +13,14 @@ export class RebootingRule extends BasePlayerTurnRule {
   }
   getPlayerMoves() {
     const moves: MaterialMove[] = []
-    moves.push(this.customMove(CustomMoveType.Ignore))
+    moves.push(this.customMove(CustomMoveType.Pass))
     moves.push(this.customMove(CustomMoveType.SkipResolving))
     return moves
   }
 
   onCustomMove(move: CustomMove) {
     const moves: MaterialMove[] = []
-    if (isCustomMoveType(CustomMoveType.Ignore)(move)) {
+    if (isCustomMoveType(CustomMoveType.Pass)(move)) {
       this.memorize(Memory.SkipReboot, true)
       moves.push(this.startRule(RuleId.ResolveDice))
     }

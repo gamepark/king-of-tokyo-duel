@@ -14,7 +14,7 @@ export const SuperConductorHeader = () => {
   const activePlayer = rules.getActivePlayer()
   const me = usePlayerId()
   const player = usePlayerName(activePlayer)
-  const ignore = useLegalMove((move) => isCustomMoveType(CustomMoveType.Ignore)(move))
+  const pass = useLegalMove((move) => isCustomMoveType(CustomMoveType.Pass)(move))
   const discard = useLegalMove<CreateItem>(isMoveItemType(MaterialType.PowerCard))
   const count = new SuperConductorRule(rules.game).energyDice
   if (me !== activePlayer) {
@@ -23,8 +23,8 @@ export const SuperConductorHeader = () => {
     }}/>
   }
   return <Trans defaults="header.supercondutor.you" values={{ count }} components={{
-    discard: <PlayMoveButton move={discard}>Gain {count} Energy</PlayMoveButton>,
-    pass: <PlayMoveButton move={ignore}>Ignore</PlayMoveButton>,
+    discard: <PlayMoveButton move={discard}/>,
+    pass: <PlayMoveButton move={pass}/>,
     energy: <Picture src={Energy} css={headerIconCss}/>
   }}/>
 }
