@@ -1,4 +1,3 @@
-import { isStartRule, MaterialMove } from '@gamepark/rules-api'
 import { PowerCard } from '../material/cards/PowerCard'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
@@ -14,27 +13,17 @@ export class OnStartTurnRule extends BasePlayerTurnRule {
       return [this.startRule(RuleId.Hibernation)]
     }
 
-    if (!this.getPlayerMoves().length) {
+    const keepMoves = new KeepHelper(this.game).atStartOfTurn()
+
+    if (keepMoves.length) {
+      return keepMoves
+    }
+
+    if (this.remind(Memory.Dominate)) {
+      return [this.startRule(RuleId.Dominate)]
+    } else {
       return [this.startRule(RuleId.RollDice)]
     }
-
-    const moves = this.getPlayerMoves()
-    if (moves.length === 1 && moves.find((m) => isStartRule(m) && (m.id === RuleId.Dominate || m.id === RuleId.RollDice))) {
-      return [moves[0]]
-    }
-
-    return []
-  }
-
-  getPlayerMoves() {
-    const moves: MaterialMove[] = new KeepHelper(this.game).atStartOfTurn()
-    if (moves.length) return moves
-    if (this.remind(Memory.Dominate)) {
-      moves.push(this.startRule(RuleId.Dominate))
-    } else {
-      moves.push(this.startRule(RuleId.RollDice))
-    }
-    return moves
   }
 
   get canHibernate() {

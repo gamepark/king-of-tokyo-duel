@@ -13,7 +13,6 @@ import { HealHeader } from './HealHeader'
 import { HibernationHeader } from './HibernationHeader'
 import { MadeInALabHeader } from './MadeInALabHeader'
 import { MoveBuzzTokenHeader } from './MoveBuzzTokenHeader'
-import { OnStartHeader } from './OnStartHeader'
 import { PullPawnHeader } from './PullPawnHeader'
 import { ResolveDiceHeader } from './ResolveDiceHeader'
 import { RollDiceHeader } from './RollDiceHeader'
@@ -40,6 +39,5 @@ export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.Camouflage]: CamouflageHeader,
   [RuleId.Hibernation]: HibernationHeader,
   [RuleId.Dominate]: DominateHeader,
-  [RuleId.OnStartTurn]: OnStartHeader,
   [RuleId.MadeInALab]: MadeInALabHeader
 }
