@@ -6,6 +6,7 @@ import { BuyHeader } from './BuyHeader'
 import { CamouflageHeader } from './CamouflageHeader'
 import { ChangePlayerHeader } from './ChangePlayerHeader'
 import { DominateHeader } from './DominateHeader'
+import { EffectChoiceHeader } from './EffectChoiceHeader'
 import { GainEnergyHeader } from './GainEnergyHeader'
 import { GainWhiteDiceTokenHeader } from './GainWhiteDiceTokenHeader'
 import { GigazaurHeader } from './GigazaurHeader'
@@ -43,5 +44,6 @@ export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.Dominate]: DominateHeader,
   [RuleId.MadeInALab]: MadeInALabHeader,
   [RuleId.Rebooting]: RebootingHeader,
-  [RuleId.TeslaImpulse]: TeslaImpulseHeader
+  [RuleId.TeslaImpulse]: TeslaImpulseHeader,
+  [RuleId.EffectChoice]: EffectChoiceHeader
 }

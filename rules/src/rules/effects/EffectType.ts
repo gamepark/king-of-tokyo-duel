@@ -1,4 +1,5 @@
 import { Pawn } from '../../material/Pawn'
+import { EffectWithSource } from './EffectWithSource'
 
 export enum EffectType {
   PullPawn = 1,
@@ -14,11 +15,12 @@ export enum EffectType {
   UnstableDna,
   InShape,
   SuperConductor,
-  Rebooting
+  Rebooting,
+  EffectChoice // Unchained
 }
 
-export type Effect = (PullPawn | Heal | FreeTurn | Smash | GainEnergy | GainWhiteDiceToken | InShape | { type: EffectType }) & { rival?: boolean, count?: number };
-
+export type Effect = (PullPawn | Heal | FreeTurn | Smash | GainEnergy | GainWhiteDiceToken | InShape | EffectChoice
+  | { type: EffectType }) & { rival?: boolean, count?: number }
 
 export type PullPawn = {
   type: EffectType.PullPawn,
@@ -53,4 +55,9 @@ export type InShape = {
 export type GainWhiteDiceToken = {
   type: EffectType.GetWhiteDiceToken,
   count: number,
+}
+
+export type EffectChoice = {
+  type: EffectType.EffectChoice
+  effects: EffectWithSource[]
 }

@@ -92,8 +92,7 @@ export class KeepRule extends MaterialRulesPart {
     return false
   }
 
-  // TODO: replace number by effect type
-  get buzzBonusAlternatives(): number | undefined {
+  get buzzBonusAlternatives(): EffectWithSource | undefined {
     return
   }
 

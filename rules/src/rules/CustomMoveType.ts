@@ -5,7 +5,7 @@ export enum CustomMoveType {
   ChangePlayer,
   RollAll,
   ResolveKind,
-  SkipResolving,
+  ChooseEffect,
   Pull,
   Alienoid,
   RenewCards

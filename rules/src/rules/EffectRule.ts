@@ -57,6 +57,8 @@ export class EffectRule extends BasePlayerTurnRule {
         return this.startPlayerTurn(RuleId.SuperConductor, effect.target)
       case EffectType.Rebooting:
         return this.startRule(RuleId.Rebooting)
+      case EffectType.EffectChoice:
+        return this.startRule(RuleId.EffectChoice)
     }
   }
 

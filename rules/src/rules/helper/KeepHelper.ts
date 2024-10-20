@@ -6,7 +6,7 @@ import { LocationType } from '../../material/LocationType'
 import { MaterialType } from '../../material/MaterialType'
 import { Monster } from '../../material/Monster'
 import { Pawn } from '../../material/Pawn'
-import { Source } from '../effects/EffectWithSource'
+import { EffectWithSource, Source } from '../effects/EffectWithSource'
 import { AcidAttackKeepRule } from '../keep/card/AcidAttackKeepRule'
 import { AdrenalineAugmentKeepRule } from '../keep/card/AdrenalineAugmentKeepRule'
 import { AlienMetabolismKeepRule } from '../keep/card/AlienMetabolismKeepRule'
@@ -143,7 +143,7 @@ export class KeepHelper extends MaterialRulesPart {
     return this.keepCardsIndexes.some((index) => this.getEffectRule(index)?.immune(player))
   }
 
-  get buzzBonusAlternatives(): number[] {
+  get buzzBonusAlternatives(): EffectWithSource[] {
     return this.keepCardsIndexes
       .flatMap((index) => this.getEffectRule(index)?.buzzBonusAlternatives ?? [])
   }

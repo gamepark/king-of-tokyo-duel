@@ -31,6 +31,7 @@ export enum RuleId {
   CyberKitty,
   Gigazaur,
   MekaDragon,
-    SpacePenguin,
-  TheKing
+  SpacePenguin,
+  TheKing,
+  EffectChoice
 }

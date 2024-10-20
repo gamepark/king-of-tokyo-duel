@@ -7,6 +7,7 @@ import { BuyRule } from './rules/BuyRule'
 import { CamouflageRule } from './rules/CamouflageRule'
 import { ChangePlayerRule } from './rules/ChangePlayerRule'
 import { DominateRule } from './rules/DominateRule'
+import { EffectChoiceRule } from './rules/EffectChoiceRule'
 import { EffectRule } from './rules/EffectRule'
 import { FreeTurnEffectRule } from './rules/effects/FreeTurnEffectRule'
 import { OperationMediaRule } from './rules/effects/OperationMediaRule'
@@ -79,7 +80,8 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     [RuleId.Alienoid]: AlienoidRule,
     [RuleId.TheKing]: TheKingRule,
     [RuleId.MekaDragon]: MekaDragonRule,
-    [RuleId.PreventDamages]: PreventDamagesRule
+    [RuleId.PreventDamages]: PreventDamagesRule,
+    [RuleId.EffectChoice]: EffectChoiceRule
   }
 
   hidingStrategies = {

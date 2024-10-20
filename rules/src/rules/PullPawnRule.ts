@@ -64,7 +64,17 @@ export class PullPawnRule extends BasePlayerTurnRule<PullPawn> {
           const effect = getBuzzEffect(buzz.getItem()!, move.location as Location)
           if (effect) {
             const target = effect.type === EffectType.Smash ? this.nextPlayer : this.player
-            this.unshiftEffect({ sources: [{ type: MaterialType.Buzz, indexes: buzz.getIndexes(), count: 1 }], target, effect })
+            const effectWithSource = { sources: [{ type: MaterialType.Buzz, indexes: buzz.getIndexes(), count: 1 }], target, effect }
+            const buzzBonusAlternatives = new KeepHelper(this.game).buzzBonusAlternatives.filter(alt => alt.effect.type !== effect.type)
+            if (buzzBonusAlternatives.length > 0) {
+              this.unshiftEffect({
+                sources: [],
+                target: this.player,
+                effect: { type: EffectType.EffectChoice, effects: buzzBonusAlternatives.concat(effectWithSource) }
+              })
+            } else {
+              this.unshiftEffect(effectWithSource)
+            }
           }
         }
 
