@@ -12,6 +12,7 @@ import { GainWhiteDiceTokenHeader } from './GainWhiteDiceTokenHeader'
 import { GigazaurHeader } from './GigazaurHeader'
 import { HealHeader } from './HealHeader'
 import { HibernationHeader } from './HibernationHeader'
+import { InShapeHeader } from './InShapeHeader'
 import { MadeInALabHeader } from './MadeInALabHeader'
 import { MoveBuzzTokenHeader } from './MoveBuzzTokenHeader'
 import { PullPawnHeader } from './PullPawnHeader'
@@ -48,4 +49,5 @@ export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.TeslaImpulse]: TeslaImpulseHeader,
   [RuleId.EffectChoice]: EffectChoiceHeader,
   [RuleId.UnstableDna]: UnstableDnaHeader,
+  [RuleId.InShape]: InShapeHeader
 }

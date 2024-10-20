@@ -3,7 +3,6 @@ import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDu
 import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType'
 import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType'
 import { CustomMoveType } from '@gamepark/king-of-tokyo-duel/rules/CustomMoveType'
-import { DominateRule } from '@gamepark/king-of-tokyo-duel/rules/DominateRule'
 import { Picture, PlayMoveButton, useLegalMove, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { isCustomMoveType, isMoveItemType } from '@gamepark/rules-api'
 import { Trans } from 'react-i18next'
@@ -22,8 +21,7 @@ export const HibernationHeader = () => {
       heart: <Picture src={Heart} css={headerIconCss}/>
     }}/>
   } else {
-    const count = new DominateRule(rules.game).keepCards.length
-    return <Trans defaults="header.hibernation.you" values={{ player, count }} components={{
+    return <Trans defaults="header.hibernation.you" values={{ player }} components={{
       discard: <PlayMoveButton move={discard}/>,
       pass: <PlayMoveButton move={pass}/>,
       heart: <Picture src={Heart} css={headerIconCss}/>

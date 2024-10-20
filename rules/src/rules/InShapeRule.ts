@@ -1,5 +1,4 @@
-import { CustomMove, isCustomMoveType } from '@gamepark/rules-api'
-import { MaterialMove } from '@gamepark/rules-api/dist/material/moves/MaterialMove'
+import { CustomMove, isCustomMoveType, isDeleteItemType, ItemMove } from '@gamepark/rules-api'
 import { PowerCard } from '../material/cards/PowerCard'
 import { MaterialType } from '../material/MaterialType'
 import { Pawn } from '../material/Pawn'
@@ -16,34 +15,39 @@ export class InShapeRule extends BasePlayerTurnRule<InShape> {
   }
 
   getPlayerMoves() {
-    const moves: MaterialMove[] = []
-    for (let i = 1; i <= this.currentEffect.effect.count; i++) {
-      moves.push(this.customMove(CustomMoveType.Pull, i))
-    }
-
-    moves.push(this.customMove(CustomMoveType.Pass))
-
-    return moves
+    return [
+      this.energy.deleteItem(1),
+      this.customMove(CustomMoveType.Pass)
+    ]
   }
 
   onCustomMove(move: CustomMove) {
-    if (isCustomMoveType(CustomMoveType.Pass)) return [this.startRule(RuleId.Effect)]
-    this.currentEffect.effect.count -= move.data
-    this.pushEffect({
-      effect: {
-        type: EffectType.PullPawn,
-        pawn: Pawn.Fame,
-        count: move.data
-      },
-      sources: [{
-        type: MaterialType.PowerCard,
-        indexes: this.material(MaterialType.PowerCard).id(PowerCard.InShape).getIndexes(),
-        count: move.data
-      }],
-      target: this.player
-    })
+    return isCustomMoveType(CustomMoveType.Pass)(move) ? [this.startRule(RuleId.Effect)] : []
+  }
 
-    if (!this.currentEffect.effect.count) return [this.startRule(RuleId.Effect)]
+  afterItemMove(move: ItemMove) {
+    if (isDeleteItemType(MaterialType.Energy)(move)) {
+      const currentEffect = this.currentEffect
+      if (currentEffect.effect.count > 1) {
+        currentEffect.effect.count--
+        this.unshiftEffect(currentEffect)
+      }
+      this.unshiftEffect({
+        effect: {
+          type: EffectType.PullPawn,
+          pawn: Pawn.Fame,
+          count: 1
+        },
+        sources: [{
+          type: MaterialType.PowerCard,
+          indexes: this.material(MaterialType.PowerCard).id(PowerCard.InShape).getIndexes(),
+          count: 1
+        }],
+        target: this.player
+      })
+
+      return [this.startRule(RuleId.Effect)]
+    }
     return []
   }
 
@@ -52,5 +56,4 @@ export class InShapeRule extends BasePlayerTurnRule<InShape> {
       .material(MaterialType.Energy)
       .player(this.player)
   }
-
 }
