@@ -42,20 +42,14 @@ export class RollDiceRule extends BasePlayerTurnRule {
     }
 
 
-    const takeDiceInHand = this.getDiceInHand()
-    if (takeDiceInHand.length) {
-      moves.push(this.customMove(CustomMoveType.RollAll))
-    }
-
     const diceInHand = this.diceInHand
 
     const undoTakeDice = diceInHand.moveItems(({ location: { x, type, ...rest } }) => ({ ...rest, type: LocationType.PlayerRolledDice }))
-    moves.push(...takeDiceInHand)
+
+    moves.push(...this.getDiceInHand())
     moves.push(...undoTakeDice)
 
-    if (diceInHand.length) {
-      moves.push(this.customMove(CustomMoveType.Roll))
-    }
+    moves.push(this.customMove(CustomMoveType.Roll))
 
     if (!diceInHand.length) {
       moves.push(this.customMove(CustomMoveType.Pass))
@@ -89,11 +83,6 @@ export class RollDiceRule extends BasePlayerTurnRule {
   onCustomMove(move: CustomMove) {
     const moves: MaterialMove[] = super.onCustomMove(move)
     if (moves.some(isChangingRule)) return moves
-    if (isCustomMoveType(CustomMoveType.RollAll)(move)) {
-      moves.push(...this.getDiceInHand())
-      moves.push(this.customMove(CustomMoveType.Roll))
-      return moves
-    }
 
     this.memorize(Memory.RollCount, (roll: number) => (roll ?? 0) + 1)
 
@@ -102,12 +91,21 @@ export class RollDiceRule extends BasePlayerTurnRule {
     }
 
     if (isCustomMoveType(CustomMoveType.Roll)(move)) {
-      moves.push(
-        ...this.diceInHand.rollItems({
+      const diceInHand = this.diceInHand
+      if (diceInHand.length) {
+        moves.push(
+          ...this.diceInHand.rollItems({
+            type: LocationType.PlayerRolledDice,
+            player: this.player
+          })
+        )
+      } else {
+        // Reroll all dice
+        moves.push(...this.rolledDice.rollItems({
           type: LocationType.PlayerRolledDice,
           player: this.player
-        })
-      )
+        }))
+      }
 
       if (!this.canRollADice) {
         moves.push(this.customMove(CustomMoveType.Pass))
