@@ -1,9 +1,8 @@
-import { CustomMove, isCustomMoveType, MaterialMove } from '@gamepark/rules-api'
+import { MaterialMove } from '@gamepark/rules-api'
 import { DiceColor } from '../material/DiceColor'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
-import { CustomMoveType } from './CustomMoveType'
 import { Memory, SetDiceOn } from './Memory'
 import { RuleId } from './RuleId'
 
@@ -30,7 +29,7 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
 
     for (let i = 0; i < diceToSetApart.length; i++) {
       const infos = diceToSetApart[i]
-      if(moves.length >= redDice.length) break
+      if (moves.length >= redDice.length) break
       moves.push(
         redDice
           .dealOne({
@@ -60,19 +59,15 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
       )
     }
 
-    moves.push(this.customMove(CustomMoveType.ChangePlayer))
-
-    return moves
-  }
-
-  onCustomMove(move: CustomMove) {
-    const moves: MaterialMove[] = []
-    const nextPlayer = this.computeNextPlayer()
-    if (!isCustomMoveType(CustomMoveType.ChangePlayer)(move)) return moves
     this.memorize(Memory.ActivePlayer, nextPlayer)
     this.forget(Memory.FreeTurn)
 
-    moves.push(this.startPlayerTurn(RuleId.OnStartTurn, nextPlayer))
+    if (nextPlayer === this.player) {
+      moves.push(this.startRule(RuleId.OnStartTurn))
+    } else {
+      moves.push(this.startPlayerTurn(RuleId.OnStartTurn, nextPlayer))
+    }
+
     return moves
   }
 
