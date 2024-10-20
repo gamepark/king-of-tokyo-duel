@@ -18,6 +18,6 @@ export class TitanicBatteriesKeepRule extends KeepRule {
       .material(MaterialType.DiceToken)
       .location(LocationType.PlayerDiceToken)
       .player(this.cardPlayer)
-      .length
+      .getQuantity()
   }
 }

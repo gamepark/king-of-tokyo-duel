@@ -30,7 +30,7 @@ export class RebootingRule extends BasePlayerTurnRule {
   afterItemMove(move: ItemMove): MaterialMove[] {
     if (isMoveItemType(MaterialType.PowerCard)(move) && move.location.type === LocationType.Discard) {
       const moves: MaterialMove[] = []
-      const tokens = 2 - this.material(MaterialType.DiceToken).location(LocationType.PlayerDiceToken).player(this.player).length
+      const tokens = 2 - this.material(MaterialType.DiceToken).location(LocationType.PlayerDiceToken).player(this.player).getQuantity()
       if (tokens) {
         moves.push(this.material(MaterialType.DiceToken).location(LocationType.WhiteTokenStock).moveItem({
           type: LocationType.PlayerDiceToken,
