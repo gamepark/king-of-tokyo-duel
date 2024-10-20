@@ -5,6 +5,5 @@ export enum CustomMoveType {
   ChooseDiceFace,
   ChooseEffect,
   ChoosePawn,
-  Alienoid,
   RenewCards
 }

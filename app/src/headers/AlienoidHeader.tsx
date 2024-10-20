@@ -15,7 +15,7 @@ export const AlienoidHeader = () => {
   const activePlayer = rules.getActivePlayer()
   const me = usePlayerId()
   const player = usePlayerName(activePlayer)
-  const moves = useLegalMoves<CustomMove>(isCustomMoveType(CustomMoveType.Alienoid))
+  const moves = useLegalMoves<CustomMove>(isCustomMoveType(CustomMoveType.ChooseDiceFace))
   const pass = useLegalMove(isCustomMoveType(CustomMoveType.Pass))
   const extra = rules.remind(Memory.AlienoidExtra) !== undefined
   if (me !== activePlayer) {
@@ -25,18 +25,18 @@ export const AlienoidHeader = () => {
   if (!extra) {
     return <Trans defaults="header.alienoid.you" components={{
       power: <Picture css={headerIconCss} src={faceImages[DiceFace.Power]}/>,
-      smash: <DiceFaceButton move={moves.find(move => move.data.face === DiceFace.Claw)} image={faceImages[DiceFace.Claw]}/>,
-      heal: <DiceFaceButton move={moves.find(move => move.data.face === DiceFace.Heal)} image={faceImages[DiceFace.Heal]}/>,
-      energy: <DiceFaceButton move={moves.find(move => move.data.face === DiceFace.Energy)} image={faceImages[DiceFace.Energy]}/>,
-      fame: <DiceFaceButton move={moves.find(move => move.data.face === DiceFace.Fame)} image={faceImages[DiceFace.Fame]}/>,
-      destruction: <DiceFaceButton move={moves.find(move => move.data.face === DiceFace.Destruction)} image={faceImages[DiceFace.Destruction]}/>
+      smash: <DiceFaceButton move={moves.find(move => move.data === DiceFace.Claw)} image={faceImages[DiceFace.Claw]}/>,
+      heal: <DiceFaceButton move={moves.find(move => move.data === DiceFace.Heal)} image={faceImages[DiceFace.Heal]}/>,
+      energy: <DiceFaceButton move={moves.find(move => move.data === DiceFace.Energy)} image={faceImages[DiceFace.Energy]}/>,
+      fame: <DiceFaceButton move={moves.find(move => move.data === DiceFace.Fame)} image={faceImages[DiceFace.Fame]}/>,
+      destruction: <DiceFaceButton move={moves.find(move => move.data === DiceFace.Destruction)} image={faceImages[DiceFace.Destruction]}/>
     }}/>
   } else {
     const move = moves[0]
     if (!move) return null
     return <Trans defaults="header.alienoid.extra.you" components={{
       power: <Picture css={headerIconCss} src={faceImages[DiceFace.Power]}/>,
-      face: <DiceFaceButton move={move} image={faceImages[move.data.face]}/>,
+      face: <DiceFaceButton move={move} image={faceImages[move.data]}/>,
       pass: <PlayMoveButton move={pass}/>
     }}/>
   }

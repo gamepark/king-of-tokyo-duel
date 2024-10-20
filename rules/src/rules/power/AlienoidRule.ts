@@ -14,37 +14,33 @@ export class AlienoidRule extends PowerRule {
     const moves: MaterialMove[] = []
     if (extra && remainingPower >= 1) {
       moves.push(
-        this.customMove(CustomMoveType.Alienoid, { face: extra })
+        this.customMove(CustomMoveType.ChooseDiceFace, extra)
       )
     } else {
       moves.push(
         ...getEnumValues(DiceFace)
-          .filter((face) => face !== DiceFace.Power)
-          .map((face: DiceFace) => this.customMove(CustomMoveType.Alienoid, { face: face }))
+          .filter(face => face !== DiceFace.Power)
+          .map(face => this.customMove(CustomMoveType.ChooseDiceFace, face))
       )
     }
-
-
 
     moves.push(this.customMove(CustomMoveType.Pass))
     return moves
   }
 
   onCustomMove(move: CustomMove) {
-    if (isCustomMoveType(CustomMoveType.Alienoid)(move)) {
-      this.addExtraFace(move.data.face)
+    if (isCustomMoveType(CustomMoveType.ChooseDiceFace)(move)) {
+      this.addExtraFace(move.data)
       if (this.remind(Memory.AlienoidExtra)) {
         this.consumePower(1)
         this.forget(Memory.AlienoidExtra)
         if (this.remainingPower >= 2) return []
       } else {
         this.consumePower(2)
-        this.memorize(Memory.AlienoidExtra, move.data.face)
+        this.memorize(Memory.AlienoidExtra, move.data)
         if (this.remainingPower >= 1) return []
       }
-
     }
-
     return [this.startRule(RuleId.ResolveDice)]
   }
 
