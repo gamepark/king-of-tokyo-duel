@@ -2,6 +2,7 @@ import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType
 import { MaterialDescription } from '@gamepark/react-game'
 import { buzzTokenDescription } from './BuzzTokenDescription'
 import { diceTokenDescription } from './DiceTokenDescription'
+import { frenchPowerCardDescription } from './FrenchPowerCardDescription'
 import { powerCardDescription } from './PowerCardDescription'
 import { energyTokenDescription } from './EnergyTokenDescription'
 import { healthCounterDescription } from './HealthCounterDescription'
@@ -20,4 +21,10 @@ export const Material: Partial<Record<MaterialType, MaterialDescription>> = {
   [MaterialType.Dice]: diceDescription,
   [MaterialType.Energy]: energyTokenDescription,
   [MaterialType.DiceToken]: diceTokenDescription
+}
+
+export const MaterialI18n: Record<string, Partial<Record<MaterialType, MaterialDescription>>> = {
+  'fr': {
+    [MaterialType.PowerCard]: frenchPowerCardDescription
+  }
 }
