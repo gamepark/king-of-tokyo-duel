@@ -7,6 +7,8 @@ import { CustomMoveType } from '@gamepark/king-of-tokyo-duel/rules/CustomMoveTyp
 import { Picture, PlayMoveButton, useLegalMove, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { isCustomMoveType, MaterialMove } from '@gamepark/rules-api'
 import { Trans, useTranslation } from 'react-i18next'
+import Destruction from '../images/icons/Destruction.png'
+import Fame from '../images/icons/Fame.png'
 import { diceDescription } from '../material/DiceDescription'
 import { headerIconCss } from './headerIconCss'
 
@@ -23,8 +25,8 @@ export const GigazaurHeader = () => {
   const faceImages = diceDescription.images[DiceColor.Red]
   return <Trans defaults="header.gigazaur.you" components={{
     power: <Picture css={headerIconCss} src={faceImages[DiceFace.Power]}/>,
-    fame: <PullPawnButton move={pullFame} image={faceImages[DiceFace.Fame]}/>,
-    destruction: <PullPawnButton move={pullDestruction} image={faceImages[DiceFace.Destruction]}/>
+    fame: <PullPawnButton move={pullFame} image={Fame}/>,
+    destruction: <PullPawnButton move={pullDestruction} image={Destruction}/>
   }}/>
 }
 

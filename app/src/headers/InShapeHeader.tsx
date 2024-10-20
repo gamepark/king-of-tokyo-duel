@@ -9,7 +9,7 @@ import { Picture, PlayMoveButton, useLegalMove, usePlayerId, usePlayerName, useR
 import { isCustomMoveType, isDeleteItemType, MaterialMove } from '@gamepark/rules-api'
 import { Trans } from 'react-i18next'
 import Energy from '../images/icons/Energy.png'
-import fame from '../images/pawn/fame.png'
+import Fame from '../images/icons/Fame.png'
 import { headerIconCss } from './headerIconCss'
 
 export const InShapeHeader = () => {
@@ -23,12 +23,12 @@ export const InShapeHeader = () => {
   if (me !== activePlayer) {
     return <Trans defaults="header.in-shape.player" values={{ player, count }} components={{
       energy: <Picture src={Energy} css={headerIconCss}/>,
-      fame: <Picture src={fame} css={headerIconCss}/>
+      fame: <Picture src={Fame} css={headerIconCss}/>
     }}/>
   } else {
     return <Trans defaults="header.in-shape.you" values={{ player, count }} components={{
       pay: <PayEnergyButton move={pay}/>,
-      fame: <Picture src={fame} css={headerIconCss}/>,
+      fame: <Picture src={Fame} css={headerIconCss}/>,
       pass: <PlayMoveButton move={pass}/>
     }}/>
   }
