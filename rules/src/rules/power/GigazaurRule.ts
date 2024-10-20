@@ -9,13 +9,13 @@ import { PowerRule } from './PowerRule'
 export class GigazaurRule extends PowerRule {
   getPlayerMoves() {
    return [
-     this.customMove(CustomMoveType.Pull, Pawn.Fame),
-     this.customMove(CustomMoveType.Pull, Pawn.Destruction),
+     this.customMove(CustomMoveType.ChoosePawn, Pawn.Fame),
+     this.customMove(CustomMoveType.ChoosePawn, Pawn.Destruction),
    ]
   }
 
   onCustomMove(move: CustomMove) {
-    if (!isCustomMoveType(CustomMoveType.Pull)(move)) return []
+    if (!isCustomMoveType(CustomMoveType.ChoosePawn)(move)) return []
     this.consumePower(2)
     this.pushEffect({
       effect: {

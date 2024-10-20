@@ -15,8 +15,8 @@ export const GigazaurHeader = () => {
   const activePlayer = rules.getActivePlayer()
   const me = usePlayerId()
   const player = usePlayerName(activePlayer)
-  const pullFame = useLegalMove((move) => isCustomMoveType(CustomMoveType.Pull)(move) && move.data === Pawn.Fame)
-  const pullDestruction = useLegalMove((move) => isCustomMoveType(CustomMoveType.Pull)(move) && move.data === Pawn.Destruction)
+  const pullFame = useLegalMove((move) => isCustomMoveType(CustomMoveType.ChoosePawn)(move) && move.data === Pawn.Fame)
+  const pullDestruction = useLegalMove((move) => isCustomMoveType(CustomMoveType.ChoosePawn)(move) && move.data === Pawn.Destruction)
   if (me !== activePlayer) {
     return <Trans defaults="header.resolve.player" values={{ player }}/>
   }

@@ -4,7 +4,7 @@ export enum CustomMoveType {
   Pass,
   ChooseDiceFace,
   ChooseEffect,
-  Pull,
+  ChoosePawn,
   Alienoid,
   RenewCards
 }
