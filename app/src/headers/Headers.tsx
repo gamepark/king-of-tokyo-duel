@@ -19,6 +19,7 @@ import { ResolveDiceHeader } from './ResolveDiceHeader'
 import { RollDiceHeader } from './RollDiceHeader'
 import { SmashHeader } from './SmashHeader'
 import { SuperConductorHeader } from './SuperConductorHeader'
+import { TeslaImpulseHeader } from './TeslaImpulseHeader'
 import { TitanicBatteriesHeader } from './TitanicBatteriesHeader'
 
 export const Headers: Partial<Record<RuleId, ComponentType>> = {
@@ -41,5 +42,6 @@ export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.Hibernation]: HibernationHeader,
   [RuleId.Dominate]: DominateHeader,
   [RuleId.MadeInALab]: MadeInALabHeader,
-  [RuleId.Rebooting]: RebootingHeader
+  [RuleId.Rebooting]: RebootingHeader,
+  [RuleId.TeslaImpulse]: TeslaImpulseHeader
 }
