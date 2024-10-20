@@ -1,4 +1,3 @@
-import { MaterialMove } from '@gamepark/rules-api/dist/material/moves/MaterialMove'
 import { Monster } from '../material/Monster'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { Smash } from './effects/EffectType'
@@ -24,23 +23,20 @@ export class PreventDamagesRule extends BasePlayerTurnRule<Smash> {
       return this.cancelEffect()
     }
 
-    const activePlayer = this.remind<Monster>(Memory.ActivePlayer)
-    if (this.player !== activePlayer) {
-      return [this.startPlayerTurn(RuleId.Smash, activePlayer)]
-    }
-    return [this.startRule(RuleId.Smash)]
-
+    return [this.nextRule]
   }
 
   cancelEffect() {
-    const moves: MaterialMove[] = []
+    return [this.nextRule]
+  }
+
+  get nextRule() {
     const activePlayer = this.remind<Monster>(Memory.ActivePlayer)
     if (this.player !== activePlayer) {
-      moves.push(this.startPlayerTurn(RuleId.Effect, activePlayer))
+      return this.startPlayerTurn(RuleId.Effect, activePlayer)
     } else {
-      moves.push(this.startRule(RuleId.Effect))
+      return this.startRule(RuleId.Effect)
     }
-    return moves
   }
 
   get preventDamagesKeepEffect() {

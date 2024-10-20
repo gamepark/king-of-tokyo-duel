@@ -22,6 +22,7 @@ import { SmashHeader } from './SmashHeader'
 import { SuperConductorHeader } from './SuperConductorHeader'
 import { TeslaImpulseHeader } from './TeslaImpulseHeader'
 import { TitanicBatteriesHeader } from './TitanicBatteriesHeader'
+import { UnstableDnaHeader } from './UnstableDnaHeader'
 
 export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.RollDice]: RollDiceHeader,
@@ -45,5 +46,6 @@ export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.MadeInALab]: MadeInALabHeader,
   [RuleId.Rebooting]: RebootingHeader,
   [RuleId.TeslaImpulse]: TeslaImpulseHeader,
-  [RuleId.EffectChoice]: EffectChoiceHeader
+  [RuleId.EffectChoice]: EffectChoiceHeader,
+  [RuleId.UnstableDna]: UnstableDnaHeader,
 }
