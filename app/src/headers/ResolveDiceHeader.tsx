@@ -15,12 +15,12 @@ export const ResolveDiceHeader = () => {
   const activePlayer = rules.getActivePlayer()
   const me = usePlayerId() === activePlayer
   const player = usePlayerName(activePlayer)
-  const gainEnergy = useLegalMove((move) => isCustomMoveType(CustomMoveType.ResolveKind)(move) && move.data === DiceFace.Energy)
-  const smash = useLegalMove((move) => isCustomMoveType(CustomMoveType.ResolveKind)(move) && move.data === DiceFace.Claw)
-  const pullFamePawn = useLegalMove((move) => isCustomMoveType(CustomMoveType.ResolveKind)(move) && move.data === DiceFace.Fame)
-  const pullDestructionPawn = useLegalMove((move) => isCustomMoveType(CustomMoveType.ResolveKind)(move) && move.data === DiceFace.Destruction)
-  const heal = useLegalMove((move) => isCustomMoveType(CustomMoveType.ResolveKind)(move) && move.data === DiceFace.Heal)
-  const power = useLegalMove((move) => isCustomMoveType(CustomMoveType.ResolveKind)(move) && move.data === DiceFace.Power)
+  const gainEnergy = useLegalMove((move) => isCustomMoveType(CustomMoveType.ChooseDiceFace)(move) && move.data === DiceFace.Energy)
+  const smash = useLegalMove((move) => isCustomMoveType(CustomMoveType.ChooseDiceFace)(move) && move.data === DiceFace.Claw)
+  const pullFamePawn = useLegalMove((move) => isCustomMoveType(CustomMoveType.ChooseDiceFace)(move) && move.data === DiceFace.Fame)
+  const pullDestructionPawn = useLegalMove((move) => isCustomMoveType(CustomMoveType.ChooseDiceFace)(move) && move.data === DiceFace.Destruction)
+  const heal = useLegalMove((move) => isCustomMoveType(CustomMoveType.ChooseDiceFace)(move) && move.data === DiceFace.Heal)
+  const power = useLegalMove((move) => isCustomMoveType(CustomMoveType.ChooseDiceFace)(move) && move.data === DiceFace.Power)
   const resolveDiceRule = new ResolveDiceRule(rules.game)
   if (me) {
     const faceImages = diceDescription.images[DiceColor.Red]

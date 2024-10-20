@@ -46,12 +46,12 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
 
   getResolveMoves() {
     const moves: MaterialMove[] = []
-    if (this.canGainEnergy()) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Energy))
-    if (this.canSmash()) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Claw))
-    if (this.canPullFame()) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Fame))
-    if (this.canPullDestruction()) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Destruction))
-    if (this.canHeal()) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Heal))
-    if (this.getMonsterPower().canUsePower()) moves.push(this.customMove(CustomMoveType.ResolveKind, DiceFace.Power))
+    if (this.canGainEnergy()) moves.push(this.customMove(CustomMoveType.ChooseDiceFace, DiceFace.Energy))
+    if (this.canSmash()) moves.push(this.customMove(CustomMoveType.ChooseDiceFace, DiceFace.Claw))
+    if (this.canPullFame()) moves.push(this.customMove(CustomMoveType.ChooseDiceFace, DiceFace.Fame))
+    if (this.canPullDestruction()) moves.push(this.customMove(CustomMoveType.ChooseDiceFace, DiceFace.Destruction))
+    if (this.canHeal()) moves.push(this.customMove(CustomMoveType.ChooseDiceFace, DiceFace.Heal))
+    if (this.getMonsterPower().canUsePower()) moves.push(this.customMove(CustomMoveType.ChooseDiceFace, DiceFace.Power))
     return moves
   }
 
@@ -93,7 +93,7 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
   }
 
   onCustomMove(move: CustomMove): MaterialMove[] {
-    if (!isCustomMoveType(CustomMoveType.ResolveKind)(move)) return []
+    if (!isCustomMoveType(CustomMoveType.ChooseDiceFace)(move)) return []
     this.consumeFaces(move.data)
     const effect = this.getEffect(move.data)
     switch (move.data) {
