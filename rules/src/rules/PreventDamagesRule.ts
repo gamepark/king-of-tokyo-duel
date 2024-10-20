@@ -9,7 +9,7 @@ import { RuleId } from './RuleId'
 export class PreventDamagesRule extends BasePlayerTurnRule<Smash> {
   onRuleStart() {
     if (!this.smashEffect.effect.count || new KeepHelper(this.game).immune(this.smashEffect.target)) {
-      return this.cancelEffect()
+      return [this.startNextRule(RuleId.Effect)]
     }
 
     const effects: KeepRule[] = this.preventDamagesKeepEffect
@@ -20,22 +20,18 @@ export class PreventDamagesRule extends BasePlayerTurnRule<Smash> {
     }
 
     if (!this.smashEffect.effect.count) {
-      return this.cancelEffect()
+      return [this.startNextRule(RuleId.Effect)]
     }
 
-    return [this.nextRule]
+    return [this.startNextRule(RuleId.Smash)]
   }
 
-  cancelEffect() {
-    return [this.nextRule]
-  }
-
-  get nextRule() {
+  startNextRule(rule: RuleId) {
     const activePlayer = this.remind<Monster>(Memory.ActivePlayer)
     if (this.player !== activePlayer) {
-      return this.startPlayerTurn(RuleId.Effect, activePlayer)
+      return this.startPlayerTurn(rule, activePlayer)
     } else {
-      return this.startRule(RuleId.Effect)
+      return this.startRule(rule)
     }
   }
 
