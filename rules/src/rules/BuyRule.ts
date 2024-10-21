@@ -132,7 +132,10 @@ export class BuyRule extends BasePlayerTurnRule {
     if (isMoveItemType(MaterialType.PowerCard)(move) && move.location.type === LocationType.BuyArea) {
       const item = this.material(MaterialType.PowerCard).getItem(move.itemIndex)!
       new KeepHelper(this.game).onBuyPowerCard()
-      moves.push(this.energies.deleteItem(this.getCost(item)))
+      const cost = this.getCost(item)
+      if (cost > 0) {
+        moves.push(this.energies.deleteItem(cost))
+      }
       return moves
     }
 
@@ -178,8 +181,8 @@ export class BuyRule extends BasePlayerTurnRule {
   }
 
   getCost(item: MaterialItem) {
-    if (item.location.x! === 0) return Math.max(powerCardCharacteristics[item.id].cost - 1, 1)
-    return Math.max(powerCardCharacteristics[item.id].cost, 1)
+    if (item.location.x! === 0) return Math.max(powerCardCharacteristics[item.id].cost - 1, 0)
+    return Math.max(powerCardCharacteristics[item.id].cost, 0)
   }
 
   memorizeBoughtCard(index: number) {

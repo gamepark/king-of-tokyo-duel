@@ -1,6 +1,5 @@
 import { CustomMove, isCustomMoveType, isMoveItemType, ItemMove, MaterialItem, MaterialMove, RuleMove } from '@gamepark/rules-api'
 import { PowerCard } from '../material/cards/PowerCard'
-import { powerCardCharacteristics } from '../material/cards/PowerCardCharacteristics'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BuyRule } from './BuyRule'
@@ -22,8 +21,7 @@ export class MadeInALabRule extends BuyRule {
   }
 
   getCost(item: MaterialItem) {
-    if (item.location.x! === 0) return Math.max(1, powerCardCharacteristics[item.id].cost - 2)
-    return Math.max(1, powerCardCharacteristics[item.id].cost - 1)
+    return Math.max(super.getCost(item) - 1, 0)
   }
 
   onCustomMove(move: CustomMove) {
