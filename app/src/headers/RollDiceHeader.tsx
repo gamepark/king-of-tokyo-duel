@@ -19,8 +19,6 @@ export const RollDiceHeader = () => {
   const roll = useLegalMove((move) => isCustomMoveType(CustomMoveType.Roll)(move))
   const dice = rules.material(MaterialType.Dice).location(LocationType.PlayerHand).player(activePlayer).length
   const addDice = useLegalMove(isMoveItemType(MaterialType.DiceToken))
-  // TODO: remove this legal move or find a way to fit everything in the header
-  //const rerollEverything = useLegalMove((move) => isCustomMoveType(CustomMoveType.RollAll)(move))
   const stop = useLegalMove((move) => isCustomMoveType(CustomMoveType.Pass)(move))
   if (me !== activePlayer) {
     return <Trans defaults="header.roll.player" values={{ player, rollLeft }}/>
