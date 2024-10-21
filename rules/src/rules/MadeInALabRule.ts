@@ -21,7 +21,7 @@ export class MadeInALabRule extends BuyRule {
   }
 
   getCost(item: MaterialItem) {
-    return Math.max(super.getCost(item) - 1, 0)
+    return Math.max(super.getCost(item) - 1, 1)
   }
 
   onCustomMove(move: CustomMove) {

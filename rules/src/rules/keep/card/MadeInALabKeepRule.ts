@@ -28,8 +28,8 @@ export class MadeInALabKeepRule extends KeepRule {
   }
 
   getCost(item: MaterialItem) {
-    if (item.location.x! === 0) return Math.max(powerCardCharacteristics[item.id as PowerCard].cost - 2, 0)
-    return Math.max(powerCardCharacteristics[item.id as PowerCard].cost - 1, 0)
+    if (item.location.x! === 0) return Math.max(powerCardCharacteristics[item.id as PowerCard].cost - 2, 1)
+    return Math.max(powerCardCharacteristics[item.id as PowerCard].cost - 1, 1)
   }
 
   get energies() {

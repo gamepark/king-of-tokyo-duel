@@ -175,8 +175,8 @@ export class BuyRule extends BasePlayerTurnRule {
   }
 
   getCost(item: MaterialItem) {
-    if (item.location.x! === 0) return Math.max(powerCardCharacteristics[item.id as PowerCard].cost - 1, 0)
-    return Math.max(powerCardCharacteristics[item.id as PowerCard].cost, 0)
+    const cost = powerCardCharacteristics[item.id as PowerCard].cost
+    return item.location.x! === 0 ? cost - 1 : cost
   }
 
   memorizeBoughtCard(index: number) {
