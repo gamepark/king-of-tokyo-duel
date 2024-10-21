@@ -1,7 +1,8 @@
 import { MaterialItem, MaterialMove } from '@gamepark/rules-api'
+import { PowerCard } from '../../../material/cards/PowerCard'
+import { powerCardCharacteristics } from '../../../material/cards/PowerCardCharacteristics'
 import { LocationType } from '../../../material/LocationType'
 import { MaterialType } from '../../../material/MaterialType'
-import { BuyRule } from '../../BuyRule'
 import { RuleId } from '../../RuleId'
 import { KeepRule } from '../KeepRule'
 
@@ -27,7 +28,8 @@ export class MadeInALabKeepRule extends KeepRule {
   }
 
   getCost(item: MaterialItem) {
-    return Math.max(new BuyRule(this.game).getCost(item) - 1, 0)
+    if (item.location.x! === 0) return Math.max(powerCardCharacteristics[item.id as PowerCard].cost - 2, 0)
+    return Math.max(powerCardCharacteristics[item.id as PowerCard].cost - 1, 0)
   }
 
   get energies() {
