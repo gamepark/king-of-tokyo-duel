@@ -1,4 +1,4 @@
-import { CustomMove, isCreateItemType, isCustomMoveType, isMoveItemType, ItemMove, MaterialItem, MaterialMove, MoveItem, RuleMove } from '@gamepark/rules-api'
+import { CustomMove, isCustomMoveType, isMoveItemType, ItemMove, MaterialItem, MaterialMove, MoveItem, RuleMove } from '@gamepark/rules-api'
 import { PowerCard } from '../material/cards/PowerCard'
 import { powerCardCharacteristics } from '../material/cards/PowerCardCharacteristics'
 import { Timing } from '../material/cards/Timing'
@@ -97,13 +97,6 @@ export class BuyRule extends BasePlayerTurnRule {
       }
 
       moves.push(...this.placeCard())
-      if (!this.getPurchasableCards(this.energies.getQuantity() - this.getCost(item)).length) {
-        moves.push(this.getNextRule())
-      }
-    }
-
-    if (isCreateItemType(MaterialType.Energy)(move)) {
-      moves.push(this.getNextRule())
     }
 
     return moves
@@ -150,7 +143,7 @@ export class BuyRule extends BasePlayerTurnRule {
         this.energies.deleteItem(2),
         this.river.moveItemsAtOnce({
           type: LocationType.Discard
-        }),
+        })
       ]
     }
 
