@@ -6,7 +6,7 @@ import { PowerRule } from './PowerRule'
 export class CyberKittyRule extends PowerRule {
   onRuleStart() {
     const power = this.remainingPower
-    const count = Math.floor(power / 3) * 3 + (power % 3 === 2 ? 1 : 0)
+    const count = Math.floor(power / 3) * 4 + (power % 3 === 2 ? 2 : 0)
     this.pushEffect({
       effect: {
         type: EffectType.GainEnergy,
