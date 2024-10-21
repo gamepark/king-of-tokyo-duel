@@ -1,4 +1,14 @@
-import { axialToEvenQ, getEnumValues, getPolyhexSpaces, HexGridSystem, hexRotate, Location, MaterialItem, oddQToAxial } from '@gamepark/rules-api'
+import {
+  axialToEvenQ,
+  getDistanceBetweenHex,
+  getEnumValues,
+  getPolyhexSpaces,
+  HexGridSystem,
+  Location,
+  MaterialItem,
+  oddQToAxial,
+  XYCoordinates
+} from '@gamepark/rules-api'
 import { Effect, EffectType, GainEnergy, GainWhiteDiceToken, Heal, Smash } from '../rules/effects/EffectType'
 import { LocationType } from './LocationType'
 
@@ -64,7 +74,6 @@ export function getBuzzEffect(buzzItem: MaterialItem, location: Location): Effec
   if (location.x! - Math.floor(location.x!) === 0.5) {
     return buzzDescriptions[buzzItem.id as Buzz].extraSpaceEffect
   }
-  const vector = { x: location.x! - buzzItem.location.x!, y: 0 }
-  const coordinates = hexRotate(vector, buzzItem.location.rotation, location.type === LocationType.FameTrack ? HexGridSystem.EvenQ : HexGridSystem.OddQ)
-  return buzzDescriptions[buzzItem.id as Buzz].effects[coordinates.x] ?? undefined
+  const distance = getDistanceBetweenHex(buzzItem.location as XYCoordinates, { x: location.x!, y: 0 })
+  return buzzDescriptions[buzzItem.id as Buzz].effects[distance] ?? undefined
 }
