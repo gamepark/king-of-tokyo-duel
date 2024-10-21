@@ -29,12 +29,12 @@ export class PullPawnRule extends BasePlayerTurnRule<PullPawn> {
       return isLeft ? x - 0.5 : x + 0.5
     } else {
       const nextX = isLeft ? x - 1 : x + 1
-      const startBuzz = this.getBuzzAtX(pawnLocation.type, x).getItem()
-      const endBuzz = this.getBuzzAtX(pawnLocation.type, nextX).getItem()
+      const startBuzz = this.getBuzzAtX(pawnLocation.type, x).getItem<Buzz>()
+      const endBuzz = this.getBuzzAtX(pawnLocation.type, nextX).getItem<Buzz>()
       if (startBuzz && endBuzz && startBuzz.id === endBuzz.id) {
-        if (buzzDescriptions[startBuzz.id!].changeTrack === -1) {
+        if (buzzDescriptions[startBuzz.id].changeTrack === -1) {
           return isLeft ? nextX - 1 : nextX + 1
-        } else if (buzzDescriptions[startBuzz.id!].changeTrack === +1) {
+        } else if (buzzDescriptions[startBuzz.id].changeTrack === +1) {
           return isLeft ? nextX + 0.5 : nextX - 0.5
         }
       }
@@ -51,7 +51,7 @@ export class PullPawnRule extends BasePlayerTurnRule<PullPawn> {
 
   getBuzzAtX(track: LocationType, x: number) {
     return this.material(MaterialType.Buzz).location(track)
-      .filter(item => getBuzzSpaces(item.location, item.id!).some(space => Math.abs(space.x - x) <= 0.5))
+      .filter(item => getBuzzSpaces(item.location, item.id).some(space => Math.abs(space.x - x) <= 0.5))
   }
 
   afterItemMove(move: ItemMove) {
@@ -78,7 +78,7 @@ export class PullPawnRule extends BasePlayerTurnRule<PullPawn> {
           }
         }
 
-        new KeepHelper(this.game).afterPullPawn(this.material(MaterialType.Pawn).getItem<Pawn>(move.itemIndex).id!)
+        new KeepHelper(this.game).afterPullPawn(this.material(MaterialType.Pawn).getItem<Pawn>(move.itemIndex).id)
         return [this.startRule(RuleId.Effect)]
       }
     }

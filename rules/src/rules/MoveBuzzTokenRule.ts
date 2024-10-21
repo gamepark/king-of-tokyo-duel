@@ -87,7 +87,7 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
     }
 
     const item = this.material(MaterialType.PowerCard).getItem<PowerCard>(card)!
-    const buzz = powerCardCharacteristics[item.id!].buzz
+    const buzz = powerCardCharacteristics[item.id].buzz
     if (buzz === undefined) {
       //console.error('The last bought card has NO buzz token')
     }

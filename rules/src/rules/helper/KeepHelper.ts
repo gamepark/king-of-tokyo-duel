@@ -54,7 +54,7 @@ export class KeepHelper extends MaterialRulesPart {
   }
 
   getEffectRule(index: number): KeepRule | undefined {
-    const EffectRule = keepEffects[this.keepCards.getItem(index)!.id]
+    const EffectRule = keepEffects[this.keepCards.getItem<PowerCard>(index).id]
     if (!EffectRule) return
     return new EffectRule(this.game, index)
   }

@@ -62,9 +62,9 @@ export function getBuzzSpaces(location: Location, buzz: Buzz) {
 
 export function getBuzzEffect(buzzItem: MaterialItem, location: Location): Effect | undefined {
   if (location.x! - Math.floor(location.x!) === 0.5) {
-    return buzzDescriptions[buzzItem.id!].extraSpaceEffect
+    return buzzDescriptions[buzzItem.id as Buzz].extraSpaceEffect
   }
   const vector = { x: location.x! - buzzItem.location.x!, y: 0 }
   const coordinates = hexRotate(vector, buzzItem.location.rotation, location.type === LocationType.FameTrack ? HexGridSystem.EvenQ : HexGridSystem.OddQ)
-  return buzzDescriptions[buzzItem.id!].effects[coordinates.x] ?? undefined
+  return buzzDescriptions[buzzItem.id as Buzz].effects[coordinates.x] ?? undefined
 }

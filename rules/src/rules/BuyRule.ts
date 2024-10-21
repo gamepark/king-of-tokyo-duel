@@ -1,4 +1,5 @@
 import { CustomMove, isCreateItemType, isCustomMoveType, isMoveItemType, ItemMove, MaterialItem, MaterialMove, MoveItem, RuleMove } from '@gamepark/rules-api'
+import { PowerCard } from '../material/cards/PowerCard'
 import { powerCardCharacteristics } from '../material/cards/PowerCardCharacteristics'
 import { Timing } from '../material/cards/Timing'
 import { LocationType } from '../material/LocationType'
@@ -26,7 +27,7 @@ export class BuyRule extends BasePlayerTurnRule {
     if (boughtCard.length) {
       return boughtCard
         .moveItems((item) => {
-          if (powerCardCharacteristics[item.id].timing === Timing.Discard) {
+          if (powerCardCharacteristics[item.id as PowerCard].timing === Timing.Discard) {
             return {
               type: LocationType.Discard
             }
@@ -80,7 +81,7 @@ export class BuyRule extends BasePlayerTurnRule {
     const moves: MaterialMove[] = super.afterItemMove(move)
     if (isMoveItemType(MaterialType.PowerCard)(move) && move.location.type === LocationType.BuyArea) {
       this.memorizeBoughtCard(move.itemIndex)
-      const item = this.material(MaterialType.PowerCard).getItem(move.itemIndex)!
+      const item = this.material(MaterialType.PowerCard).getItem<PowerCard>(move.itemIndex)!
       const buzz = powerCardCharacteristics[item.id].buzz
 
 
@@ -109,7 +110,7 @@ export class BuyRule extends BasePlayerTurnRule {
   }
 
   addDiscardEffect(move: MoveItem) {
-    const item = this.material(MaterialType.PowerCard).getItem(move.itemIndex)!
+    const item = this.material(MaterialType.PowerCard).getItem<PowerCard>(move.itemIndex)!
     const effects = powerCardCharacteristics[item.id].effects ?? []
 
     if (effects.length) {
@@ -119,7 +120,7 @@ export class BuyRule extends BasePlayerTurnRule {
           sources: [{
             type: MaterialType.PowerCard,
             indexes: [move.itemIndex],
-            count: effect.count
+            count: effect.count ?? 0
           }],
           target: effect?.rival ? this.rival : this.player
         })
@@ -181,8 +182,8 @@ export class BuyRule extends BasePlayerTurnRule {
   }
 
   getCost(item: MaterialItem) {
-    if (item.location.x! === 0) return Math.max(powerCardCharacteristics[item.id].cost - 1, 0)
-    return Math.max(powerCardCharacteristics[item.id].cost, 0)
+    if (item.location.x! === 0) return Math.max(powerCardCharacteristics[item.id as PowerCard].cost - 1, 0)
+    return Math.max(powerCardCharacteristics[item.id as PowerCard].cost, 0)
   }
 
   memorizeBoughtCard(index: number) {

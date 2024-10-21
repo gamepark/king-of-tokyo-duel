@@ -17,7 +17,7 @@ export class TrendSetterKeepRule extends KeepRule {
   get isFameOnBuzzToken() {
     const famePawnX = this.material(MaterialType.Pawn).id(Pawn.Fame).getItem()!.location.x!
     return this.material(MaterialType.Buzz).location(LocationType.FameTrack).getItems()
-      .some(item => getBuzzSpaces(item.location, item.id!).some(space => Math.abs(space.x - famePawnX) <= 0.5))
+      .some(item => getBuzzSpaces(item.location, item.id).some(space => Math.abs(space.x - famePawnX) <= 0.5))
   }
 
   get preventionOrder() {
