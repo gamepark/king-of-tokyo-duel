@@ -1,6 +1,6 @@
 {
   "name": "@gamepark/king-of-tokyo-duel",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "The rules of King Of Tokyo Duel adapted for Game Park",
   "sideEffects": false,
   "main": "dist/index.js",
