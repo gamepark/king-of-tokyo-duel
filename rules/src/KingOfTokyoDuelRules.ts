@@ -1,4 +1,4 @@
-import { FillGapStrategy, MaterialGame, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules, TimeLimit } from '@gamepark/rules-api'
+import { FillGapStrategy, hideItemId, MaterialGame, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules, TimeLimit } from '@gamepark/rules-api'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { Monster } from './material/Monster'
@@ -86,7 +86,7 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
 
   hidingStrategies = {
     [MaterialType.PowerCard]: {
-      //[LocationType.PowerCardDeck]: hideItemId
+      [LocationType.PowerCardDeck]: hideItemId
     }
   }
 
