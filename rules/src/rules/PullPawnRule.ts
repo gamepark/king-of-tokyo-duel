@@ -6,6 +6,7 @@ import { Monster } from '../material/Monster'
 import { Pawn } from '../material/Pawn'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { EffectType, PullPawn } from './effects/EffectType'
+import { GameOverRule } from './GameOverRule'
 import { KeepHelper } from './helper/KeepHelper'
 import { RuleId } from './RuleId'
 
@@ -56,7 +57,7 @@ export class PullPawnRule extends BasePlayerTurnRule<PullPawn> {
 
   afterItemMove(move: ItemMove) {
     if (isMoveItem(move) && move.itemType === MaterialType.Pawn) {
-      if (this.isTriggeringEnd(move.location.x!)) {
+      if (new GameOverRule(this.game).isWinner(this.player)) {
         return [this.endGame()]
       } else {
         const buzz = this.getBuzzAtX(move.location.type!, move.location.x!)
@@ -83,10 +84,6 @@ export class PullPawnRule extends BasePlayerTurnRule<PullPawn> {
       }
     }
     return super.afterItemMove(move)
-  }
-
-  isTriggeringEnd(pawnX: number) {
-    return Math.abs(pawnX) === 7
   }
 
   getPawn(pawn: Pawn) {

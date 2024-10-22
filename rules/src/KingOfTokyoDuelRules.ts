@@ -1,4 +1,13 @@
-import { FillGapStrategy, hideItemId, MaterialGame, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules, TimeLimit } from '@gamepark/rules-api'
+import {
+  CompetitiveRank,
+  FillGapStrategy,
+  hideItemId,
+  MaterialGame,
+  MaterialMove,
+  PositiveSequenceStrategy,
+  SecretMaterialRules,
+  TimeLimit
+} from '@gamepark/rules-api'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { Monster } from './material/Monster'
@@ -15,6 +24,7 @@ import { ThePartyIsOverRule } from './rules/effects/ThePartyIsOverRule'
 import { EndOfTurnRule } from './rules/EndOfTurnRule'
 import { GainEnergyRule } from './rules/GainEnergyRule'
 import { GainWhiteDiceTokenRule } from './rules/GainWhiteDiceTokenRule'
+import { GameOverRule } from './rules/GameOverRule'
 import { HealRule } from './rules/HealRule'
 import { HibernationRule } from './rules/HibernationRule'
 import { InShapeRule } from './rules/InShapeRule'
@@ -45,7 +55,8 @@ import { UnstableDnaRule } from './rules/UnstableDnaRule'
  * It must follow Game Park "Rules" API so that the Game Park server can enforce the rules.
  */
 export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialType, LocationType>
-  implements TimeLimit<MaterialGame<Monster, MaterialType, LocationType>, MaterialMove<Monster, MaterialType, LocationType>, Monster> {
+  implements TimeLimit<MaterialGame<Monster, MaterialType, LocationType>, MaterialMove<Monster, MaterialType, LocationType>, Monster>,
+    CompetitiveRank<MaterialGame<Monster, MaterialType, LocationType>, MaterialMove<Monster, MaterialType, LocationType>, Monster> {
   rules = {
     [RuleId.RollDice]: RollDiceRule,
     [RuleId.PullPawn]: PullPawnRule,
@@ -83,7 +94,6 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     [RuleId.PreventDamages]: PreventDamagesRule,
     [RuleId.EffectChoice]: EffectChoiceRule
   }
-
   hidingStrategies = {
     [MaterialType.PowerCard]: {
       [LocationType.PowerCardDeck]: hideItemId
@@ -111,5 +121,14 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
 
   giveTime(): number {
     return 60
+  }
+
+  rankPlayers(playerA: Monster, playerB: Monster): number {
+    const gameOverRule = new GameOverRule(this.game)
+    const winnerA = gameOverRule.isWinner(playerA)
+    const winnerB = gameOverRule.isWinner(playerB)
+    if (winnerA && !winnerB) return 1
+    else if (!winnerA && winnerB) return -1
+    else return 0
   }
 }
