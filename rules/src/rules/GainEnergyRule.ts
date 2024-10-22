@@ -1,10 +1,8 @@
 import { MaterialMove } from '@gamepark/rules-api/dist/material/moves/MaterialMove'
-import { DiceFace } from '../material/DiceFace'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { GainEnergy } from './effects/EffectType'
-import { KeepHelper } from './helper/KeepHelper'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
@@ -23,7 +21,7 @@ export class GainEnergyRule extends BasePlayerTurnRule<GainEnergy> {
     )
 
     if (this.remind(Memory.Phase) === RuleId.ResolveDice) {
-      new KeepHelper(this.game).afterResolvingDiceFace(DiceFace.Energy)
+      this.memorize(Memory.ResolveDiceEnergyGain, gain => (gain ?? 0) + this.currentEffect.effect.count)
     }
 
     moves.push(this.startRule(RuleId.Effect))

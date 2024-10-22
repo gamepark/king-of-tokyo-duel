@@ -49,9 +49,6 @@ export class KeepRule extends MaterialRulesPart {
   afterResolvingDice() {
   }
 
-  afterResolvingDiceFace(_dice: DiceFace) {
-  }
-
   canReroll(_face: DiceFace): boolean {
     return false
   }

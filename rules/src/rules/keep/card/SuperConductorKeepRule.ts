@@ -1,31 +1,12 @@
-import sumBy from 'lodash/sumBy'
-import { DiceFace } from '../../../material/DiceFace'
-import { LocationType } from '../../../material/LocationType'
-import { MaterialType } from '../../../material/MaterialType'
 import { EffectType } from '../../effects/EffectType'
-import { KeepHelper } from '../../helper/KeepHelper'
+import { Memory } from '../../Memory'
 import { KeepRule } from '../KeepRule'
 
 
 export class SuperConductorKeepRule extends KeepRule {
-  afterResolvingDiceFace(face: DiceFace) {
+  afterResolvingDice() {
     if (this.getActivePlayer() === this.cardPlayer) return
-    if (face !== DiceFace.Energy) return
-    if (!this.gainedRivalEnergy) return
+    if (!this.remind(Memory.ResolveDiceEnergyGain)) return
     this.unshiftEffect({ type: EffectType.SuperConductor }, this.cardPlayer)
-  }
-
-  get gainedRivalEnergy() {
-    return this.rivalEnergyDice +
-      sumBy(new KeepHelper(this.game).getBonusFaces(DiceFace.Claw), (bonus) => bonus.count ?? 0)
-  }
-
-  get rivalEnergyDice() {
-    return this
-      .material(MaterialType.Dice)
-      .location(LocationType.PlayerRolledDice)
-      .player(this.rival)
-      .rotation(DiceFace.Energy)
-      .length
   }
 }

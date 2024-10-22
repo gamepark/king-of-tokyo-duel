@@ -96,11 +96,6 @@ export class KeepHelper extends MaterialRulesPart {
       .flatMap((index) => this.getEffectRule(index)?.afterResolvingDice() ?? [])
   }
 
-  afterResolvingDiceFace(dice: DiceFace) {
-    return this.keepCardsIndexes
-      .flatMap((index) => this.getEffectRule(index)?.afterResolvingDiceFace(dice) ?? [])
-  }
-
   beforeResolvingDice() {
     return this.keepCardsIndexes
       .flatMap((index) => this.getEffectRule(index)?.beforeResolvingDice() ?? [])
@@ -170,11 +165,6 @@ export class KeepHelper extends MaterialRulesPart {
         if (bonuses) return [bonuses]
         return []
       })
-  }
-
-
-  get player() {
-    return this.game.rule!.player!
   }
 }
 

@@ -1,11 +1,11 @@
 import { CustomMove, isCustomMoveType, isMoveItemType, ItemMove, MaterialMove } from '@gamepark/rules-api'
 import { PowerCard } from '../material/cards/PowerCard'
-import { DiceFace } from '../material/DiceFace'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
 import { EffectType } from './effects/EffectType'
+import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class SuperConductorRule extends BasePlayerTurnRule {
@@ -23,18 +23,19 @@ export class SuperConductorRule extends BasePlayerTurnRule {
     return []
   }
 
-  afterItemMove(move: ItemMove): MaterialMove<number, number, number>[] {
+  afterItemMove(move: ItemMove): MaterialMove[] {
     const moves = super.afterItemMove(move)
     if (isMoveItemType(MaterialType.PowerCard)(move) && move.location.type === LocationType.Discard) {
+      const energy = this.remind<number>(Memory.ResolveDiceEnergyGain)
       this.unshiftEffect({
         effect: {
           type: EffectType.GainEnergy,
-          count: this.energyDice
+          count: energy
         },
         sources: [{
           type: MaterialType.PowerCard,
           indexes: this.material(MaterialType.PowerCard).id(PowerCard.Superconductor).getIndexes(),
-          count: this.energyDice
+          count: energy
         }],
         target: this.player
       })
@@ -42,21 +43,5 @@ export class SuperConductorRule extends BasePlayerTurnRule {
       moves.push(this.startPlayerTurn(RuleId.Effect, this.rival))
     }
     return moves
-  }
-
-
-  get dice() {
-    return this
-      .material(MaterialType.Dice)
-      .location(LocationType.PlayerRolledDice)
-      .player(this.rival)
-  }
-
-  get energyDice() {
-    return this
-      .dice
-      .rotation(DiceFace.Energy)
-      .player(this.rival)
-      .length
   }
 }

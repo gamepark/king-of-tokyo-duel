@@ -20,7 +20,8 @@ export enum Memory {
   ConsumedPower,
   RefillRiver,
   AlienoidExtra,
-  ExtraDiceFaces
+  ExtraDiceFaces,
+  ResolveDiceEnergyGain
 }
 
 export type SetDiceOn = {
