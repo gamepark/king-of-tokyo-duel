@@ -1,15 +1,20 @@
-import { CustomMove, isCustomMoveType, isMoveItemType, ItemMove, MaterialItem, MaterialMove, RuleMove } from '@gamepark/rules-api'
+import { CustomMove, isCustomMoveType, isMoveItemType, ItemMove, MaterialItem, MaterialMove, MoveKind, RuleMove } from '@gamepark/rules-api'
 import { PowerCard } from '../material/cards/PowerCard'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BuyRule } from './BuyRule'
 import { CustomMoveType } from './CustomMoveType'
 import { MadeInALabKeepRule } from './keep/card/MadeInALabKeepRule'
+import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class MadeInALabRule extends BuyRule {
   onRuleStart() {
-    return []
+    this.memorize(Memory.Phase, RuleId.MadeInALab)
+    if (new MadeInALabKeepRule(this.game, this.material(MaterialType.PowerCard).id(PowerCard.MadeInALab).getIndex()).isConsumed) {
+      return super.onRuleStart().concat(this.getNextRule())
+    }
+    return super.onRuleStart()
   }
 
   getNextRule(): RuleMove {
@@ -34,6 +39,10 @@ export class MadeInALabRule extends BuyRule {
     if (isMoveItemType(MaterialType.PowerCard)(move) && move.location.type === LocationType.BuyArea) {
       new MadeInALabKeepRule(this.game, this.material(MaterialType.PowerCard).id(PowerCard.MadeInALab).getIndex()).markKeepCardConsumed()
     }
-    return super.afterItemMove(move).concat(this.getNextRule())
+    const moves = super.afterItemMove(move)
+    if (!moves.some(move => move.kind === MoveKind.RulesMove)) {
+      moves.push(this.getNextRule())
+    }
+    return moves
   }
 }

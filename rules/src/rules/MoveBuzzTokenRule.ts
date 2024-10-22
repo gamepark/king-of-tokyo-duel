@@ -75,7 +75,7 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
     if (this.effects.length) {
       return [this.startRule(RuleId.Effect)]
     } else {
-      return [this.startRule(RuleId.Buy)]
+      return [this.startRule(this.remind(Memory.Phase))]
     }
   }
 
