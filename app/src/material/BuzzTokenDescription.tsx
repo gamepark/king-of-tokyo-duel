@@ -20,6 +20,7 @@ import TheKingBuzz from '../images/buzz_token/TheKingBuzz.png'
 import TigerEnergy from '../images/buzz_token/TigerEnergy.png'
 
 export class BuzzTokenDescription extends PolyhexDescription {
+  borderRadius = 0.5
 
   coordinatesSystem = HexGridSystem.OddQ
 
