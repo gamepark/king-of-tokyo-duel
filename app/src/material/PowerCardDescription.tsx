@@ -1,6 +1,6 @@
 import { PowerCard } from '@gamepark/king-of-tokyo-duel/material/cards/PowerCard'
 import { CardDescription } from '@gamepark/react-game'
-import Back from '../images/cards/en/Back.jpg'
+import Back from '../images/cards/Back.jpg'
 import AcidAttack from '../images/cards/en/AcidAttack.jpg'
 import AdrenalineAugment from '../images/cards/en/AdrenalineAugment.jpg'
 import AlienMetabolism from '../images/cards/en/AlienMetabolism.jpg'

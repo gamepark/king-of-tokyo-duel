@@ -4,7 +4,6 @@ import AdrenalineAugment from '../images/cards/fr/AdrenalineAugment.jpg'
 import AlienMetabolism from '../images/cards/fr/AlienMetabolism.jpg'
 import AntimatterPellets from '../images/cards/fr/AntimatterPellets.jpg'
 import ArmorPlating from '../images/cards/fr/ArmorPlating.jpg'
-import Back from '../images/cards/fr/Back.jpg'
 import BreakingNews from '../images/cards/fr/BreakingNews.jpg'
 import Camouflage from '../images/cards/fr/Camouflage.jpg'
 import CannonBall from '../images/cards/fr/CannonBall.jpg'
@@ -53,8 +52,6 @@ import UtterDestruction from '../images/cards/fr/UtterDestruction.jpg'
 import { PowerCardDescription } from './PowerCardDescription'
 
 export class FrenchPowerCardDescription extends PowerCardDescription {
-  image = Back
-
   images = {
     [PowerCard.AcidAttack]: AcidAttack,
     [PowerCard.AdrenalineAugment]: AdrenalineAugment,
