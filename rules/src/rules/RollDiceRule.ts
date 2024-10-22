@@ -100,10 +100,7 @@ export class RollDiceRule extends BasePlayerTurnRule {
         )
       } else {
         // Reroll all dice
-        moves.push(...this.rolledDice.rollItems({
-          type: LocationType.PlayerRolledDice,
-          player: this.player
-        }))
+        moves.push(...this.rolledDice.rollItems(item => item.location))
       }
 
       if (!this.canRollADice) {
