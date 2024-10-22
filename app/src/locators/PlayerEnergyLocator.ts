@@ -2,18 +2,20 @@ import { FlexLocator, MaterialContext } from '@gamepark/react-game'
 import { Location } from '@gamepark/rules-api'
 
 export class PlayerEnergyLocator extends FlexLocator {
-  gap = { x: 1.2, y: 0.6 }
-  lineGap = { y: 1.2 }
-
-  getCoordinates(location: Location, context: MaterialContext) {
-    if (location.player === context.rules.players[0]) {
-      return { x: -29.2, y: -6.5, z: 0.05 }
+  getCoordinates(location: Location, { rules }: MaterialContext) {
+    return {
+      x: location.player === rules.players[0] ? -29.2 : 29.2,
+      y: -6.5
     }
-
-    return { x: 29.2, y: -6.5, z: 0.05 }
   }
 
+  gap = { x: 1.2, y: 0.6 }
   lineSize = 2
+
+  getLineGap(location: Location, { rules }: MaterialContext) {
+    return { y: location.player === rules.players[0] ? -1.2 : 1.2 }
+  }
+
   maxLines = 21
 }
 
