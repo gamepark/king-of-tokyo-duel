@@ -18,7 +18,7 @@ export class SmashRule extends BasePlayerTurnRule<Smash> {
     const damages = this.currentEffect.effect.count
     const target = this.currentEffect.target
     const wheel = this.wheel
-    const newHealth = Math.max(wheel.getItem()!.location.rotation - damages, 0)
+      const newHealth = Math.max(wheel.getItem()!.location.rotation - damages, 0)
     const takenDamages = (wheel.getItem()!.location.rotation - newHealth)
     if (target !== this.player) this.memorize(Memory.RivalSmashCount, (count: number = 0) => count + takenDamages)
     const moves: MaterialMove[] = [

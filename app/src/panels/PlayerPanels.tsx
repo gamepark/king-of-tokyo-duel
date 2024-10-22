@@ -1,8 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { StyledPlayerPanel, usePlayers } from '@gamepark/react-game'
+import { usePlayers } from '@gamepark/react-game'
 import { FC } from 'react'
 import { createPortal } from 'react-dom'
+import { PlayerPanel } from './PlayerPanel'
 
 export const PlayerPanels: FC<any> = () => {
   const players = usePlayers()
@@ -14,9 +15,10 @@ export const PlayerPanels: FC<any> = () => {
   return createPortal(
     <>
       {players.map((player, index) =>
-        <StyledPlayerPanel
+        <PlayerPanel
           key={player.id}
           player={player}
+          index={index}
           css={[panelPosition, index === 0 ? topLeft : topRight]}
         />
       )}
