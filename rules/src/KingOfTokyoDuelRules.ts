@@ -127,8 +127,8 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     const gameOverRule = new GameOverRule(this.game)
     const winnerA = gameOverRule.isWinner(playerA)
     const winnerB = gameOverRule.isWinner(playerB)
-    if (winnerA && !winnerB) return 1
-    else if (!winnerA && winnerB) return -1
+    if (winnerA && !winnerB) return -1
+    else if (!winnerA && winnerB) return 1
     else return 0
   }
 }

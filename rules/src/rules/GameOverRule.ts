@@ -15,16 +15,14 @@ export class GameOverRule extends MaterialRulesPart {
   }
 
   isPawnInSpotlightZone(pawn: Pawn, player?: Monster) {
-    return this.material(MaterialType.Pawn).id(pawn).location(({ x = 0 }) => {
-        if (player === this.game.players[0]) {
-          return -5 <= x && x <= -3
-        } else if (player === this.game.players[1]) {
-          return 3 <= x && x <= 5
-        } else {
-          return 3 <= Math.abs(x) && Math.abs(x) <= 5
-        }
-      }
-    )
+    const x = this.material(MaterialType.Pawn).id(pawn).getItem()!.location.x!
+    if (player === this.game.players[0]) {
+      return -5 <= x && x <= -3
+    } else if (player === this.game.players[1]) {
+      return 3 <= x && x <= 5
+    } else {
+      return 3 <= Math.abs(x) && Math.abs(x) <= 5
+    }
   }
 
   isPawnOnVictorySpace(player: Monster) {
