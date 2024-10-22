@@ -9,13 +9,14 @@ import { KeepRule } from '../KeepRule'
 
 export class GentleGiantKeepRule extends KeepRule {
   afterResolvingDice() {
-    if (this.getActivePlayer() !== this.cardPlayer) return []
+    if (this.getActivePlayer() !== this.cardPlayer || this.isConsumed) return []
     const clawFaces = this.clawFaces
     if (!clawFaces) {
+      this.markKeepCardConsumed()
       this.pushEffect({
         type: EffectType.PullPawn,
         pawn: Pawn.Fame,
-        count: 1,
+        count: 1
       }, this.cardPlayer)
     }
 

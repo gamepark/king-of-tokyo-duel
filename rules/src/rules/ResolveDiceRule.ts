@@ -34,7 +34,7 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
     this.memorize(Memory.Phase, RuleId.ResolveDice)
     const startMoves = new KeepHelper(this.game).atStartOfResolving()
     if (startMoves.length) return startMoves
-    if (!this.getResolveMoves().length) return [this.startRule(RuleId.Buy)]
+    if (!this.getResolveMoves().length) return [this.startRule(RuleId.AfterDiceResolution)]
     return []
   }
 
@@ -96,7 +96,7 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
     if (!isCustomMoveType(CustomMoveType.ChooseDiceFace)(move)) return []
     this.consumeFaces(move.data)
     const effect = this.getEffect(move.data)
-    switch (move.data) {
+    switch (move.data as DiceFace) {
       case DiceFace.Energy:
       case DiceFace.Claw:
       case DiceFace.Heal:
@@ -106,15 +106,13 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
         break
       case DiceFace.Power:
         return [this.startRule(this.getMonsterRuleId())]
-      default:
-        console.log('NOT IMPLEMENTED YET', move.data)
     }
 
     if (this.effects.length) {
       return [this.startRule(RuleId.Effect)]
     }
 
-    return [this.startRule(RuleId.Buy)]
+    return [this.startRule(RuleId.AfterDiceResolution)]
 
   }
 

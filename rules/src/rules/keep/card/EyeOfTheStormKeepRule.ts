@@ -1,26 +1,19 @@
 import { MaterialMove } from '@gamepark/rules-api'
-import { LocationType } from '../../../material/LocationType'
-import { MaterialType } from '../../../material/MaterialType'
+import { EffectType } from '../../effects/EffectType'
 import { KeepHelper } from '../../helper/KeepHelper'
 import { Memory } from '../../Memory'
 import { KeepRule } from '../KeepRule'
 
 export class EyeOfTheStormKeepRule extends KeepRule {
   afterRollingDice(): MaterialMove[] {
-    if (this.getActivePlayer() !== this.cardPlayer) return []
+    if (this.getActivePlayer() !== this.cardPlayer || this.isConsumed) return []
     const notUsedRolls = this.notUsedRolls
     if (notUsedRolls > 0) {
-      return [
-        this
-          .material(MaterialType.Energy)
-          .createItem({
-            location: {
-              type: LocationType.PlayerEnergy,
-              player: this.player
-            },
-            quantity: notUsedRolls
-          })
-      ]
+      this.markKeepCardConsumed()
+      this.pushEffect({
+        type: EffectType.GainEnergy,
+        count: notUsedRolls
+      }, this.cardPlayer)
     }
 
     return []

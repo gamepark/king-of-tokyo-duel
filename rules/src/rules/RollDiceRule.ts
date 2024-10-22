@@ -84,13 +84,12 @@ export class RollDiceRule extends BasePlayerTurnRule {
     const moves: MaterialMove[] = super.onCustomMove(move)
     if (moves.some(isChangingRule)) return moves
 
-    this.memorize(Memory.RollCount, (roll: number) => (roll ?? 0) + 1)
-
     if (isCustomMoveType(CustomMoveType.Pass)(move)) {
       return this.goToPhase2()
     }
 
     if (isCustomMoveType(CustomMoveType.Roll)(move)) {
+      this.memorize(Memory.RollCount, (roll: number) => (roll ?? 0) + 1)
       const diceInHand = this.diceInHand
       if (diceInHand.length) {
         moves.push(
