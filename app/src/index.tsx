@@ -10,6 +10,7 @@ import App from './App'
 import { Locators } from './locators/Locators'
 import { Material, MaterialI18n } from './material/Material'
 import translations from './translations.json'
+import { bot } from './tutorial/TutorialBot'
 
 setupTranslation(translations, { debug: false })
 
@@ -24,6 +25,7 @@ ReactDOM.render(
       materialI18n={MaterialI18n}
       locators={Locators}
       animations={gameAnimations}
+      ai={bot}
     >
       <App/>
     </GameProvider>
