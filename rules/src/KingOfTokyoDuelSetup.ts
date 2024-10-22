@@ -32,6 +32,7 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<Monster, MaterialTyp
     for (const monster of this.players) {
       this.setupPlayer(monster)
     }
+    this.material(MaterialType.Energy).createItem({ location: { type: LocationType.PlayerEnergy, player: this.players[1] }, quantity: 1 })
   }
 
   setupPlayer(monster: Monster) {
