@@ -17,9 +17,9 @@ export class PlayerKeepCardsLocator extends ListLocator {
   getAreaCoordinates(location: Location, context: MaterialContext) {
     let coordinates
     if (location.player === context.rules.players[0]) {
-      coordinates = { x: -34, y: 2.5, z: 0.05 }
+      coordinates = { x: -34.5, y: 2.5, z: 0.05 }
     } else {
-      coordinates = { x: 34, y: 2.5, z: 0.05 }
+      coordinates = { x: 34.5, y: 2.5, z: 0.05 }
     }
 
     return coordinates
