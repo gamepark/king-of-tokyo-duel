@@ -4,7 +4,7 @@ import DiceToken from '../images/tokens/DiceToken.jpg'
 export class DiceTokenDescription extends TokenDescription {
   height = 1.7
   width = 1.7
-  borderRadius = 0.1
+  borderRadius = 0.2
   image = DiceToken
 }
 
