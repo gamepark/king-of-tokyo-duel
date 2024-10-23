@@ -100,6 +100,9 @@ export class KeepRule extends MaterialRulesPart {
   onBuyPowerCard() {
   }
 
+  onGainEnergy(_player: Monster, _count: number) {
+  }
+
   getBonusFaces(_face: DiceFace): Source | undefined {
     return
   }

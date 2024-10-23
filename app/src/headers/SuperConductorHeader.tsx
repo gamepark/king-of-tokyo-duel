@@ -2,6 +2,8 @@
 import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelRules'
 import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType'
 import { CustomMoveType } from '@gamepark/king-of-tokyo-duel/rules/CustomMoveType'
+import { GainEnergy } from '@gamepark/king-of-tokyo-duel/rules/effects/EffectType'
+import { EffectWithSource } from '@gamepark/king-of-tokyo-duel/rules/effects/EffectWithSource'
 import { Memory } from '@gamepark/king-of-tokyo-duel/rules/Memory'
 import { Picture, PlayMoveButton, useLegalMove, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { CreateItem, isCustomMoveType, isMoveItemType } from '@gamepark/rules-api'
@@ -16,7 +18,7 @@ export const SuperConductorHeader = () => {
   const player = usePlayerName(activePlayer)
   const pass = useLegalMove((move) => isCustomMoveType(CustomMoveType.Pass)(move))
   const discard = useLegalMove<CreateItem>(isMoveItemType(MaterialType.PowerCard))
-  const count = rules.remind(Memory.ResolveDiceEnergyGain)
+  const count = rules.remind<EffectWithSource<GainEnergy>>(Memory.CurrentEffect).effect.count
   if (me !== activePlayer) {
     return <Trans defaults="header.superconductor.player" values={{ player, count }} components={{
       energy: <Picture src={Energy} css={headerIconCss}/>

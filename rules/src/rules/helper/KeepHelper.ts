@@ -166,6 +166,10 @@ export class KeepHelper extends MaterialRulesPart {
         return []
       })
   }
+
+  onGainEnergy(count: number, player: Monster) {
+    this.keepCardsIndexes.forEach((index) => this.getEffectRule(index)?.onGainEnergy(count, player) ?? [])
+  }
 }
 
 type KeepRuleCreator = new (game: MaterialGame, cardIndex: number) => KeepRule;

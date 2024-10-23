@@ -4,11 +4,10 @@ import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
-import { EffectType } from './effects/EffectType'
-import { Memory } from './Memory'
+import { EffectType, GainEnergy } from './effects/EffectType'
 import { RuleId } from './RuleId'
 
-export class SuperConductorRule extends BasePlayerTurnRule {
+export class SuperConductorRule extends BasePlayerTurnRule<GainEnergy> {
   getPlayerMoves() {
     const moves = super.getPlayerMoves()
     moves.push(this.customMove(CustomMoveType.Pass))
@@ -26,7 +25,7 @@ export class SuperConductorRule extends BasePlayerTurnRule {
   afterItemMove(move: ItemMove): MaterialMove[] {
     const moves = super.afterItemMove(move)
     if (isMoveItemType(MaterialType.PowerCard)(move) && move.location.type === LocationType.Discard) {
-      const energy = this.remind<number>(Memory.ResolveDiceEnergyGain)
+      const energy = this.currentEffect.effect.count
       this.unshiftEffect({
         effect: {
           type: EffectType.GainEnergy,

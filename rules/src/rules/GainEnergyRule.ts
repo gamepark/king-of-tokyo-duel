@@ -3,7 +3,7 @@ import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { GainEnergy } from './effects/EffectType'
-import { Memory } from './Memory'
+import { KeepHelper } from './helper/KeepHelper'
 import { RuleId } from './RuleId'
 
 export class GainEnergyRule extends BasePlayerTurnRule<GainEnergy> {
@@ -20,9 +20,7 @@ export class GainEnergyRule extends BasePlayerTurnRule<GainEnergy> {
       })
     )
 
-    if (this.remind(Memory.Phase) === RuleId.ResolveDice) {
-      this.memorize(Memory.ResolveDiceEnergyGain, gain => (gain ?? 0) + this.currentEffect.effect.count)
-    }
+    new KeepHelper(this.game).onGainEnergy(this.currentEffect.target, this.currentEffect.effect.count)
 
     moves.push(this.startRule(RuleId.Effect))
 
