@@ -147,7 +147,7 @@ export const powerCardCharacteristics: Record<PowerCard, CardCharacteristics> = 
     buzz: Buzz.AlienShortcut
   },
   [PowerCard.MadeInALab]: {
-    cost: 2,
+    cost: 3,
     timing: Timing.Keep,
     buzz: Buzz.TigerEnergy
   },
