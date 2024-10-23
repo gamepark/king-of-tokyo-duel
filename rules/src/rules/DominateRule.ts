@@ -11,7 +11,6 @@ import { RuleId } from './RuleId'
 export class DominateRule extends BasePlayerTurnRule {
   getPlayerMoves() {
     const moves = super.getPlayerMoves()
-    if (!this.keepCards.length) return [this.startRule(RuleId.RollDice)]
 
     moves.push(
       ...this.keepCards.moveItems({
