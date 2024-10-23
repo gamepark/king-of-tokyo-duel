@@ -6,7 +6,7 @@ import { Pawn, pawns } from '../material/Pawn'
 export class GameOverRule extends MaterialRulesPart {
   isWinner(player: Monster) {
     return this.isDead(this.game.players.find(p => p !== player)!)
-      || pawns.some(pawn => this.isPawnInSpotlightZone(pawn, player))
+      || pawns.every(pawn => this.isPawnInSpotlightZone(pawn, player))
       || this.isPawnOnVictorySpace(player)
   }
 
