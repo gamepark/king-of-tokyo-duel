@@ -59,7 +59,7 @@ export class TitanicBatteriesRule extends BasePlayerTurnRule {
   get dice() {
     return this
       .material(MaterialType.Dice)
-      .location(LocationType.PlayerRolledDice)
+      .location(LocationType.PlayerDiceKeep)
       .player(this.player)
   }
 

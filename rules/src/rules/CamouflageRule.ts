@@ -23,7 +23,7 @@ export class CamouflageRule extends BasePlayerTurnRule<Smash> {
           times(damageContext.effect.count).map(() => ({
             id: DiceColor.Red,
             location: {
-              type: LocationType.PlayerHand,
+              type: LocationType.PlayerDiceRoll,
               player: this.player
             }
           }))
@@ -39,7 +39,7 @@ export class CamouflageRule extends BasePlayerTurnRule<Smash> {
     const moves = super.afterItemMove(move)
     const dice = this
       .material(MaterialType.Dice)
-      .location(LocationType.PlayerHand)
+      .location(LocationType.PlayerDiceRoll)
       .player(this.player)
 
     if (isCreateItemTypeAtOnce(MaterialType.Dice)(move)) {

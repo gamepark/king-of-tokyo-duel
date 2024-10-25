@@ -17,7 +17,7 @@ export const RollDiceHeader = () => {
   const rollCount = rules.remind(Memory.RollCount) ?? 0
   const rollLeft = new RollDiceRule(rules.game).maxRollCount - rollCount
   const roll = useLegalMove((move) => isCustomMoveType(CustomMoveType.Roll)(move))
-  const dice = rules.material(MaterialType.Dice).location(LocationType.PlayerHand).player(activePlayer).length
+  const dice = rules.material(MaterialType.Dice).location(LocationType.PlayerDiceRoll).player(activePlayer).length
   const addDice = useLegalMove(isMoveItemType(MaterialType.DiceToken))
   const stop = useLegalMove((move) => isCustomMoveType(CustomMoveType.Pass)(move))
   if (me !== activePlayer) {
@@ -28,13 +28,10 @@ export const RollDiceHeader = () => {
       roll: <PlayMoveButton move={roll}/>,
       add: <PlayMoveButton move={addDice}/>
     }}/>
-  } else if (dice === 0) {
-    return <Trans defaults="header.reroll.you" values={{ rollLeft }} components={{
-      stop: <PlayMoveButton move={stop}/>
-    }}/>
   } else {
-    return <Trans defaults="header.reroll.selection" values={{ dice }} components={{
-      reroll: <PlayMoveButton move={roll}/>
+    return <Trans defaults="header.reroll.you" values={{ dice, rollLeft }} components={{
+      roll: <PlayMoveButton move={roll}/>,
+      stop: <PlayMoveButton move={stop}/>
     }}/>
   }
 }

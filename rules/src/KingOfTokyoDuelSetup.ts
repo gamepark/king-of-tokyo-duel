@@ -129,7 +129,7 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<Monster, MaterialTyp
       this.material(MaterialType.Dice).createItem({
         id: DiceColor.Red,
         location: {
-          type: LocationType.PlayerHand,
+          type: LocationType.PlayerDiceRoll,
           player: this.players[0]
         }
       })

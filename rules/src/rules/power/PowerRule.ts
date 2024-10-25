@@ -1,7 +1,5 @@
 import { MaterialMove } from '@gamepark/rules-api'
 import { DiceFace } from '../../material/DiceFace'
-import { LocationType } from '../../material/LocationType'
-import { MaterialType } from '../../material/MaterialType'
 import { BasePlayerTurnRule } from '../BasePlayerTurnRule'
 import { RollHelper } from '../helper/RollHelper'
 import { Memory } from '../Memory'
@@ -19,14 +17,6 @@ export class PowerRule extends BasePlayerTurnRule {
 
   get remainingPower() {
     return new RollHelper(this.game).countFace(DiceFace.Power) - this.consumedPower
-  }
-
-  get powerDice() {
-    return this
-      .material(MaterialType.Dice)
-      .location(LocationType.PlayerRolledDice)
-      .player(this.player)
-      .rotation(DiceFace.Power)
   }
 
   get consumedPower() {

@@ -20,7 +20,7 @@ gameAnimations
   .when()
   .move((move, context) => {
       return isMoveItemType(MaterialType.Dice)(move) &&
-        (move.location.type === LocationType.PlayerHand || move.location.type === LocationType.PlayerRolledDice) &&
+        (move.location.type === LocationType.PlayerDiceRoll || move.location.type === LocationType.PlayerDiceKeep) &&
         context.rules.material(move.itemType).getItem(move.itemIndex)!.location.type !== LocationType.WhiteDiceStock
     }
   )
@@ -37,7 +37,7 @@ gameAnimations
   .when()
   .move((move) => {
       return isRollItemType(MaterialType.Dice)(move) &&
-        (move.location.type === LocationType.PlayerHand || move.location.type === LocationType.PlayerRolledDice)
+        (move.location.type === LocationType.PlayerDiceRoll || move.location.type === LocationType.PlayerDiceKeep)
     }
   )
   .mine()
@@ -47,7 +47,7 @@ gameAnimations
   .when()
   .move((move, context) => {
       return isMoveItemType(MaterialType.Dice)(move) &&
-        (move.location.type === LocationType.PlayerHand || move.location.type === LocationType.PlayerRolledDice) &&
+        (move.location.type === LocationType.PlayerDiceRoll || move.location.type === LocationType.PlayerDiceKeep) &&
         context.player !== context.action.playerId
     }
   )
@@ -57,7 +57,7 @@ gameAnimations
   .when()
   .move((move, context) => {
       return isRollItemType(MaterialType.Dice)(move) &&
-        (move.location.type === LocationType.PlayerHand || move.location.type === LocationType.PlayerRolledDice) &&
+        (move.location.type === LocationType.PlayerDiceRoll || move.location.type === LocationType.PlayerDiceKeep) &&
         context.player !== context.action.playerId
     }
   )

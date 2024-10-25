@@ -20,7 +20,7 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
           .createItem({
             id: DiceColor.Red,
             location: {
-              type: LocationType.PlayerHand,
+              type: LocationType.PlayerDiceRoll,
               player: nextPlayer
             }
           })
@@ -43,7 +43,7 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
       moves.push(
         redDice
           .dealAtOnce({
-            type: LocationType.PlayerHand,
+            type: LocationType.PlayerDiceRoll,
             player: nextPlayer
           }, redDice.length)
       )

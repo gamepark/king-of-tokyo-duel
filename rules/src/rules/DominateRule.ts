@@ -41,7 +41,7 @@ export class DominateRule extends BasePlayerTurnRule {
       moves.push(
         redDice
           .dealAtOnce({
-            type: LocationType.PlayerHand,
+            type: LocationType.PlayerDiceRoll,
             player: this.player
           }, redDice.length)
       )

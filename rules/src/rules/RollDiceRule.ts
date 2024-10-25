@@ -1,11 +1,10 @@
-import { CustomMove, isCustomMoveType, isMoveItemType, ItemMove, MaterialMove } from '@gamepark/rules-api'
+import { CustomMove, isMoveItemType, isRollItemType, ItemMove, MaterialMove } from '@gamepark/rules-api'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { Monster } from '../material/Monster'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
 import { KeepHelper } from './helper/KeepHelper'
-import { isChangingRule } from './IsChangingRule'
 import { Memory } from './Memory'
 import { AlienoidRule } from './power/AlienoidRule'
 import { RuleId } from './RuleId'
@@ -14,7 +13,7 @@ export class RollDiceRule extends BasePlayerTurnRule {
   onRuleStart() {
     this.memorize(Memory.Phase, RuleId.RollDice)
     const moves = this.getFreeWhiteDiceMoves()
-    if (!moves.length && !this.diceInHand && !this.diceToken.length) {
+    if (!moves.length && !this.diceToRoll && !this.diceToken.length) {
       return this.goToPhase2()
     }
     return moves
@@ -27,7 +26,7 @@ export class RollDiceRule extends BasePlayerTurnRule {
       .whiteDice
       .limit(additionalDice)
       .moveItemsAtOnce({
-        type: LocationType.PlayerHand,
+        type: LocationType.PlayerDiceRoll,
         player: this.player
       })]
   }
@@ -44,74 +43,67 @@ export class RollDiceRule extends BasePlayerTurnRule {
     }
 
 
-    const diceInHand = this.diceInHand
+    const diceToRoll = this.diceToRoll
+    moves.push(...diceToRoll.moveItems(item => ({ type: LocationType.PlayerDiceKeep, player: this.player, rotation: item.location.rotation })))
 
-    const undoTakeDice = diceInHand.moveItems(({ location: { x, type, ...rest } }) => ({ ...rest, type: LocationType.PlayerRolledDice }))
+    const diceICanReroll = this.diceICanReroll
+    moves.push(...diceICanReroll.moveItems(item => ({ type: LocationType.PlayerDiceRoll, player: this.player, rotation: item.location.rotation })))
 
-    moves.push(...this.getDiceInHand())
-    moves.push(...undoTakeDice)
-
-    moves.push(this.customMove(CustomMoveType.Roll))
-
-    if (!diceInHand.length) {
-      moves.push(this.customMove(CustomMoveType.Pass))
+    if (diceToRoll.length) {
+      moves.push(this.customMove(CustomMoveType.Roll))
     }
+
+    moves.push(this.customMove(CustomMoveType.Pass))
 
     return moves
   }
 
-  getDiceInHand() {
-    let rolledDice = this.rolledDice
-    const keepHelper = new KeepHelper(this.game)
+  get diceICanReroll() {
     if (this.rollCount >= this.maxRollCount) {
-      rolledDice = rolledDice.filter((item) => keepHelper.canReroll(item.location.rotation))
+      const keepHelper = new KeepHelper(this.game)
+      return this.keepDice.filter((item) => keepHelper.canReroll(item.location.rotation))
     }
-    return rolledDice.moveItems(({ location: { x, type, ...rest } }) => ({ ...rest, type: LocationType.PlayerHand }))
+    return this.keepDice
   }
 
   afterItemMove(move: ItemMove) {
     const moves: MaterialMove[] = super.afterItemMove(move)
-    if (!isMoveItemType(MaterialType.DiceToken)(move)) return moves
-    moves.push(
-      this.whiteDice.moveItem({
-        type: LocationType.PlayerHand,
-        player: this.player
-      })
-    )
-
+    if (isMoveItemType(MaterialType.DiceToken)(move)) {
+      moves.push(
+        this.whiteDice.moveItem({
+          type: LocationType.PlayerDiceRoll,
+          player: this.player
+        })
+      )
+    } else if (isRollItemType(MaterialType.Dice)(move)) {
+      if (this.rollCount >= this.maxRollCount) {
+        const dice = this.material(MaterialType.Dice).index(move.itemIndex)
+        moves.push(dice.moveItem(item => ({ type: LocationType.PlayerDiceKeep, player: this.player, rotation: item.location.rotation })))
+      }
+    } else if (isMoveItemType(MaterialType.Dice)(move) && move.location.type === LocationType.PlayerDiceKeep) {
+      if (this.diceToRoll.length === 0 && this.diceICanReroll.length === 0) {
+        moves.push(...this.goToPhase2())
+      }
+    }
     return moves
   }
 
   onCustomMove(move: CustomMove) {
-    const moves: MaterialMove[] = super.onCustomMove(move)
-    if (moves.some(isChangingRule)) return moves
-
-    if (isCustomMoveType(CustomMoveType.Pass)(move)) {
-      return this.goToPhase2()
+    const diceToRoll = this.diceToRoll
+    switch (move.type) {
+      case CustomMoveType.Pass:
+        return [
+          ...diceToRoll.moveItems(item => ({ type: LocationType.PlayerDiceKeep, player: this.player, rotation: item.location.rotation })),
+          ...this.goToPhase2()
+        ]
+      case CustomMoveType.Roll:
+        this.memorize(Memory.RollCount, (roll: number) => (roll ?? 0) + 1)
+        return [
+          diceToRoll.moveItemsAtOnce({ type: LocationType.PlayerDiceRoll }),
+          ...diceToRoll.rollItems()
+        ]
     }
-
-    if (isCustomMoveType(CustomMoveType.Roll)(move)) {
-      this.memorize(Memory.RollCount, (roll: number) => (roll ?? 0) + 1)
-      const diceInHand = this.diceInHand
-      if (diceInHand.length) {
-        moves.push(
-          ...this.diceInHand.rollItems({
-            type: LocationType.PlayerRolledDice,
-            player: this.player
-          })
-        )
-      } else {
-        // Reroll all dice
-        moves.push(...this.getDiceInHand())
-        moves.push(...this.rolledDice.rollItems(item => item.location))
-      }
-
-      if (!this.canRollADice) {
-        moves.push(this.customMove(CustomMoveType.Pass))
-      }
-    }
-
-    return moves
+    return []
   }
 
   goToPhase2(): MaterialMove[] {
@@ -127,15 +119,6 @@ export class RollDiceRule extends BasePlayerTurnRule {
     return [this.startRule(RuleId.ResolveDice)]
   }
 
-  get canRollADice() {
-    if (this.rollCount < this.maxRollCount) return true
-    const keepHelper = new KeepHelper(this.game)
-    return this
-      .rolledDice
-      .filter((item) => keepHelper.canReroll(item.location.rotation))
-      .length > 0
-  }
-
   get maxRollCount() {
     return 3 + new KeepHelper(this.game).additionalRolls
   }
@@ -144,17 +127,17 @@ export class RollDiceRule extends BasePlayerTurnRule {
     return this.remind(Memory.RollCount)
   }
 
-  get rolledDice() {
+  get keepDice() {
     return this
       .material(MaterialType.Dice)
-      .location(LocationType.PlayerRolledDice)
+      .location(LocationType.PlayerDiceKeep)
       .player(this.player)
   }
 
-  get diceInHand() {
+  get diceToRoll() {
     return this
       .material(MaterialType.Dice)
-      .location(LocationType.PlayerHand)
+      .location(LocationType.PlayerDiceRoll)
       .player(this.player)
       .sort((item) => item.location.x!)
   }

@@ -11,7 +11,7 @@ export class KingOfTokyoDuelBot extends RandomBot<MaterialGame<Monster, Material
   }
 
   isUndoSelectDiceToReroll(move: MaterialMove<Monster, MaterialType, LocationType>) {
-    return isMoveItem(move) && move.itemType === MaterialType.Dice && move.location.type === LocationType.PlayerRolledDice
+    return isMoveItem(move) && move.itemType === MaterialType.Dice && move.location.type === LocationType.PlayerDiceKeep
   }
 
   override getLegalMoves(game: MaterialGame<Monster, MaterialType, LocationType>): MaterialMove<Monster, MaterialType, LocationType>[] {
