@@ -3,41 +3,42 @@ import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType
 import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType'
 import { CubicDiceDescription, ItemContext } from '@gamepark/react-game'
 import { isMoveItemType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
-import Red_Claw from '../images/dice/red/Red_Claw.png'
-import Red_Destruction from '../images/dice/red/Red_Destruction.png'
-import Red_Energy from '../images/dice/red/Red_Energy.png'
-import Red_Heart from '../images/dice/red/Red_Heart.png'
-import Red_Power from '../images/dice/red/Red_Power.png'
-import Red_Star from '../images/dice/red/Red_Star.png'
-import White_Claw from '../images/dice/white/White_Claw.png'
-import White_Destruction from '../images/dice/white/White_Destruction.png'
-import White_Energy from '../images/dice/white/White_Energy.png'
-import White_Heart from '../images/dice/white/White_Heart.png'
-import White_Power from '../images/dice/white/White_Power.png'
-import White_Star from '../images/dice/white/White_Star.png'
+import RedDestruction from '../images/dice/red/RedDestruction.jpg'
+import RedEnergy from '../images/dice/red/RedEnergy.jpg'
+import RedFame from '../images/dice/red/RedFame.jpg'
+import RedHeal from '../images/dice/red/RedHeal.jpg'
+import RedPower from '../images/dice/red/RedPower.jpg'
+import RedSmash from '../images/dice/red/RedSmash.jpg'
+import WhiteDestruction from '../images/dice/white/WhiteDestruction.jpg'
+import WhiteEnergy from '../images/dice/white/WhiteEnergy.jpg'
+import WhiteFame from '../images/dice/white/WhiteFame.jpg'
+import WhiteHeal from '../images/dice/white/WhiteHeal.jpg'
+import WhitePower from '../images/dice/white/WhitePower.jpg'
+import WhiteSmash from '../images/dice/white/WhiteSmash.jpg'
 
 export class DiceDescription extends CubicDiceDescription {
   getColor(itemId: DiceColor): string {
-    return itemId === DiceColor.Red? '#ed5c65': '#fae8c6'
+    return itemId === DiceColor.Red ? '#ed5c65' : '#fae8c6'
   }
+
   borderRadius = 0.1
 
   images = {
     [DiceColor.Red]: [
-      Red_Claw,
-      Red_Destruction,
-      Red_Energy,
-      Red_Heart,
-      Red_Power,
-      Red_Star,
+      RedSmash,
+      RedDestruction,
+      RedEnergy,
+      RedHeal,
+      RedPower,
+      RedFame
     ],
     [DiceColor.White]: [
-      White_Claw,
-      White_Destruction,
-      White_Energy,
-      White_Heart,
-      White_Power,
-      White_Star,
+      WhiteSmash,
+      WhiteDestruction,
+      WhiteEnergy,
+      WhiteHeal,
+      WhitePower,
+      WhiteFame
     ]
   }
 
