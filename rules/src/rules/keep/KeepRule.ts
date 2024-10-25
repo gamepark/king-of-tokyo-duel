@@ -81,10 +81,6 @@ export class KeepRule extends MaterialRulesPart {
   afterSmashTakenComputed(_player: Monster, _takenDamages: number) {
   }
 
-  ignoredSmash(_player: Monster, _damages?: number): number {
-    return 0
-  }
-
   immune(_player: Monster): boolean {
     return false
   }
