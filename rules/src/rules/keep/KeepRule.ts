@@ -1,6 +1,5 @@
-import { CustomMove, getEnumValues, MaterialGame, MaterialMove, MaterialRulesPart, PlayMoveContext } from '@gamepark/rules-api'
+import { CustomMove, MaterialGame, MaterialMove, MaterialRulesPart, PlayMoveContext } from '@gamepark/rules-api'
 import { DiceFace } from '../../material/DiceFace'
-import { LocationType } from '../../material/LocationType'
 import { MaterialType } from '../../material/MaterialType'
 import { Monster } from '../../material/Monster'
 import { Pawn } from '../../material/Pawn'
@@ -133,17 +132,6 @@ export class KeepRule extends MaterialRulesPart {
     return this.game.players.find((p) => p !== this.cardPlayer)!
   }
 
-  get maxNumberOfAKind() {
-    let count = 0
-    const dice = this.rolledDice
-    for (const face of getEnumValues(DiceFace)) {
-      const faceCount = dice.rotation(face).length
-      if (faceCount > count) count = faceCount
-    }
-
-    return count
-  }
-
   get effects(): EffectWithSource[] {
     return this.remind<EffectWithSource[]>(Memory.Effects) ?? []
   }
@@ -175,12 +163,5 @@ export class KeepRule extends MaterialRulesPart {
       effects.push(effectWithSource)
       return effects
     })
-  }
-
-  get rolledDice() {
-    return this
-      .material(MaterialType.Dice)
-      .location(LocationType.PlayerRolledDice)
-      .player(this.cardPlayer)
   }
 }

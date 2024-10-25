@@ -1,11 +1,13 @@
 import { CustomMove, isCustomMoveType, isMoveItemType, ItemMove, MaterialMove } from '@gamepark/rules-api'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
+import { Monster } from '../material/Monster'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
 import { KeepHelper } from './helper/KeepHelper'
 import { isChangingRule } from './IsChangingRule'
 import { Memory } from './Memory'
+import { AlienoidRule } from './power/AlienoidRule'
 import { RuleId } from './RuleId'
 
 export class RollDiceRule extends BasePlayerTurnRule {
@@ -13,7 +15,7 @@ export class RollDiceRule extends BasePlayerTurnRule {
     this.memorize(Memory.Phase, RuleId.RollDice)
     const moves = this.getFreeWhiteDiceMoves()
     if (!moves.length && !this.diceInHand && !this.diceToken.length) {
-      moves.push(this.customMove(CustomMoveType.Pass))
+      return this.goToPhase2()
     }
     return moves
   }
@@ -113,6 +115,9 @@ export class RollDiceRule extends BasePlayerTurnRule {
   }
 
   goToPhase2(): MaterialMove[] {
+    if (this.player === Monster.Alienoid && new AlienoidRule(this.game).canUsePower()) {
+      return [this.startRule(RuleId.Alienoid)]
+    }
     new KeepHelper(this.game).afterRollingDice()
     if (this.effects.length) {
       this.memorize(Memory.Phase, RuleId.ResolveDice)

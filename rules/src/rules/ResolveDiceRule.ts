@@ -25,9 +25,13 @@ import { RuleId } from './RuleId'
 export class ResolveDiceRule extends BasePlayerTurnRule {
   onRuleStart() {
     if (this.remind(Memory.Phase) !== RuleId.ResolveDice) {
-      new KeepHelper(this.game).beforeResolvingDice()
       if (this.canReboot) {
         return [this.startRule(RuleId.Rebooting)]
+      } else {
+        new KeepHelper(this.game).beforeResolvingDice()
+        if (this.effects.length) {
+          return [this.startRule(RuleId.Effect)]
+        }
       }
     }
 

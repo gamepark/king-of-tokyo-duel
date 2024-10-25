@@ -4,7 +4,7 @@ import { getEnumValues } from '@gamepark/rules-api/dist/utils/enum.util'
 import { DiceFace } from '../../material/DiceFace'
 import { CustomMoveType } from '../CustomMoveType'
 import { Memory } from '../Memory'
-import { RuleId } from '../RuleId'
+import { RollDiceRule } from '../RollDiceRule'
 import { PowerRule } from './PowerRule'
 
 export class AlienoidRule extends PowerRule {
@@ -12,10 +12,11 @@ export class AlienoidRule extends PowerRule {
     const remainingPower = this.remainingPower
     const extra: DiceFace = this.remind(Memory.AlienoidExtra)
     const moves: MaterialMove[] = []
-    if (extra && remainingPower >= 1) {
+    if (extra !== undefined && remainingPower >= 1) {
       moves.push(
         this.customMove(CustomMoveType.ChooseDiceFace, extra)
       )
+      moves.push(this.customMove(CustomMoveType.Pass))
     } else {
       moves.push(
         ...getEnumValues(DiceFace)
@@ -24,7 +25,6 @@ export class AlienoidRule extends PowerRule {
       )
     }
 
-    moves.push(this.customMove(CustomMoveType.Pass))
     return moves
   }
 
@@ -40,8 +40,11 @@ export class AlienoidRule extends PowerRule {
         this.memorize(Memory.AlienoidExtra, move.data)
         if (this.remainingPower >= 1) return []
       }
+    } else if (isCustomMoveType(CustomMoveType.Pass)) {
+      this.forget(Memory.AlienoidExtra)
+      if (this.remainingPower >= 2) return []
     }
-    return [this.startRule(RuleId.ResolveDice)]
+    return new RollDiceRule(this.game).goToPhase2()
   }
 
   addExtraFace(face: DiceFace) {
