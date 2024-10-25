@@ -81,7 +81,8 @@ export class RollDiceRule extends BasePlayerTurnRule {
         moves.push(dice.moveItem(item => ({ type: LocationType.PlayerDiceKeep, player: this.player, rotation: item.location.rotation })))
       }
     } else if (isMoveItemType(MaterialType.Dice)(move) && move.location.type === LocationType.PlayerDiceKeep) {
-      if (this.diceToRoll.length === 0 && this.diceICanReroll.length === 0) {
+      const diceRoll = this.material(MaterialType.Dice).location(LocationType.PlayerDiceRoll)
+      if (diceRoll.length === 0 && this.diceICanReroll.length === 0) {
         moves.push(...this.goToPhase2())
       }
     }
