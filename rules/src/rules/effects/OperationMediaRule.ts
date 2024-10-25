@@ -1,43 +1,29 @@
 import { PowerCard } from '../../material/cards/PowerCard'
 import { DiceFace } from '../../material/DiceFace'
-import { LocationType } from '../../material/LocationType'
 import { MaterialType } from '../../material/MaterialType'
 import { Pawn } from '../../material/Pawn'
 import { BasePlayerTurnRule } from '../BasePlayerTurnRule'
-import { KeepHelper } from '../helper/KeepHelper'
+import { RollHelper } from '../helper/RollHelper'
 import { RuleId } from '../RuleId'
 import { EffectType } from './EffectType'
 
 export class OperationMediaRule extends BasePlayerTurnRule {
   onRuleStart() {
-    const claws = this.countClaws
+    const smash = new RollHelper(this.game).countFace(DiceFace.Claw)
     this.unshiftEffect({
       effect: {
         type: EffectType.PullPawn,
         pawn: Pawn.Fame,
-        count: claws
+        count: smash
       },
       sources: [{
         type: MaterialType.PowerCard,
         indexes: this.material(MaterialType.PowerCard).id(PowerCard.OperationMedia).getIndexes(),
-          count: claws
+          count: smash
       }],
       target: this.player
     })
 
     return [this.startRule(RuleId.Effect)]
-  }
-
-  get countClaws() {
-    return this.rolledDice.length
-      + new KeepHelper(this.game).getBonusFaces(DiceFace.Claw).length
-  }
-
-  get rolledDice() {
-    return this
-      .material(MaterialType.Dice)
-      .location(LocationType.PlayerRolledDice)
-      .player(this.player)
-      .rotation(DiceFace.Claw)
   }
 }

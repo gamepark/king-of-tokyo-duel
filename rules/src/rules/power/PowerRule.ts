@@ -3,7 +3,7 @@ import { DiceFace } from '../../material/DiceFace'
 import { LocationType } from '../../material/LocationType'
 import { MaterialType } from '../../material/MaterialType'
 import { BasePlayerTurnRule } from '../BasePlayerTurnRule'
-import { KeepHelper } from '../helper/KeepHelper'
+import { RollHelper } from '../helper/RollHelper'
 import { Memory } from '../Memory'
 
 export class PowerRule extends BasePlayerTurnRule {
@@ -18,7 +18,7 @@ export class PowerRule extends BasePlayerTurnRule {
   }
 
   get remainingPower() {
-    return this.powerDice.length + new KeepHelper(this.game).getBonusFaces(DiceFace.Power).length - this.consumedPower
+    return new RollHelper(this.game).countFace(DiceFace.Power) - this.consumedPower
   }
 
   get powerDice() {

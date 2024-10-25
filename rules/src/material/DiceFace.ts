@@ -1,3 +1,5 @@
+import { getEnumValues } from '@gamepark/rules-api'
+
 export enum DiceFace {
   Claw,
   Destruction,
@@ -6,3 +8,5 @@ export enum DiceFace {
   Power,
   Fame,
 }
+
+export const diceFaces = getEnumValues(DiceFace)

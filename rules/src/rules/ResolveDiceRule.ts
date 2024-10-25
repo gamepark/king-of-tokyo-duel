@@ -2,16 +2,16 @@ import { CustomMove, isCustomMoveType, MaterialMove } from '@gamepark/rules-api'
 import sumBy from 'lodash/sumBy'
 import { PowerCard } from '../material/cards/PowerCard'
 import { DiceFace } from '../material/DiceFace'
-import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { Monster } from '../material/Monster'
 import { Pawn } from '../material/Pawn'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
 import { EffectType } from './effects/EffectType'
-import { EffectWithSource } from './effects/EffectWithSource'
+import { EffectWithSource, Source } from './effects/EffectWithSource'
 import { HealHelper } from './helper/HealHelper'
 import { KeepHelper } from './helper/KeepHelper'
+import { RollHelper } from './helper/RollHelper'
 import { Memory } from './Memory'
 import { AlienoidRule } from './power/AlienoidRule'
 import { CyberKittyRule } from './power/CyberKittyRule'
@@ -150,38 +150,20 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
     }
   }
 
-  get consumedPower() {
-    return this.remind(Memory.ConsumedPower) ?? 0
-  }
-
   buildEffect(type: EffectType, face: DiceFace, target: Monster = this.player): EffectWithSource | undefined {
+    const sources = this.getSourcesOfDiceFace(face)
+
     const effectWithSource: EffectWithSource = {
-      sources: [],
+      sources: sources,
       effect: {
         type: type,
-        count: 0,
+        count: sumBy(sources, (source) => source.count ?? 0),
         rival: target !== this.player
       },
       target: target
     }
 
-    const dice = this.getDiceForFace(face)
-    if (dice.length) {
-      effectWithSource.sources.push({
-        type: MaterialType.Dice,
-        indexes: dice.getIndexes(),
-        count: dice.length
-      })
-    }
 
-    const bonuses = this.getBonusDiceFaces(face)
-    const bonus = sumBy(bonuses, (bonus) => bonus.count ?? 0)
-    if (bonus) {
-      effectWithSource.sources.push(...bonuses)
-    }
-
-
-    effectWithSource.effect.count += sumBy(effectWithSource.sources, (source) => source.count ?? 0)
     if (face === DiceFace.Fame || face === DiceFace.Destruction) {
       effectWithSource.effect.pawn = face === DiceFace.Fame ? Pawn.Fame : Pawn.Destruction
       effectWithSource.effect.count -= 2
@@ -199,21 +181,29 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
     return
   }
 
-  countFaces(face: DiceFace) {
-    const bonuses = this.getBonusDiceFaces(face)
-    const bonus = sumBy(bonuses, (bonus) => bonus.count ?? 0)
-    return this.getDiceForFace(face).length + bonus
-  }
+  getSourcesOfDiceFace(face: DiceFace) {
+    const sources: Source[] = []
+    const rollHelper = new RollHelper(this.game)
 
-  getBonusDiceFaces(face: DiceFace) {
-    const faces = new KeepHelper(this.game).getBonusFaces(face)
-    const memoryExtraFaces = (this.remind<DiceFace[]>(Memory.ExtraDiceFaces) ?? []).filter((d) => d === face)
-    faces.push({
-      type: MaterialType.MonsterBoard,
-      indexes: this.material(MaterialType.MonsterBoard).player(this.player).getIndexes(),
-      count: memoryExtraFaces.length
+    const dice = rollHelper.getDiceWithFace(face)
+    sources.push({
+      type: MaterialType.Dice,
+      indexes: dice.getIndexes(),
+      count: dice.length
     })
-    return faces
+
+    sources.push(...new KeepHelper(this.game).getBonusFaces(face))
+
+    const extraDice = rollHelper.countExtraDice(face)
+    if (extraDice > 0) {
+      sources.push({
+        type: MaterialType.MonsterBoard,
+        indexes: this.material(MaterialType.MonsterBoard).player(this.player).getIndexes(),
+        count: extraDice
+      })
+    }
+
+    return sources
   }
 
   consumeFaces(face: DiceFace) {
@@ -221,19 +211,6 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
       faces.push(face)
       return faces
     })
-  }
-
-  getDiceForFace(face: DiceFace) {
-    return this
-      .dice
-      .rotation(face)
-  }
-
-  get dice() {
-    return this
-      .material(MaterialType.Dice)
-      .location(LocationType.PlayerRolledDice)
-      .player(this.player)
   }
 
   isAlreadyConsumed(face: DiceFace) {

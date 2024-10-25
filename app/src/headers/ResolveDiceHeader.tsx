@@ -3,7 +3,7 @@ import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDu
 import { DiceColor } from '@gamepark/king-of-tokyo-duel/material/DiceColor'
 import { DiceFace } from '@gamepark/king-of-tokyo-duel/material/DiceFace'
 import { CustomMoveType } from '@gamepark/king-of-tokyo-duel/rules/CustomMoveType'
-import { ResolveDiceRule } from '@gamepark/king-of-tokyo-duel/rules/ResolveDiceRule'
+import { RollHelper } from '@gamepark/king-of-tokyo-duel/rules/helper/RollHelper'
 import { Picture, PlayMoveButton, useLegalMove, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { isCustomMoveType, MaterialMove } from '@gamepark/rules-api'
 import { Trans } from 'react-i18next'
@@ -21,18 +21,18 @@ export const ResolveDiceHeader = () => {
   const pullDestructionPawn = useLegalMove((move) => isCustomMoveType(CustomMoveType.ChooseDiceFace)(move) && move.data === DiceFace.Destruction)
   const heal = useLegalMove((move) => isCustomMoveType(CustomMoveType.ChooseDiceFace)(move) && move.data === DiceFace.Heal)
   const power = useLegalMove((move) => isCustomMoveType(CustomMoveType.ChooseDiceFace)(move) && move.data === DiceFace.Power)
-  const resolveDiceRule = new ResolveDiceRule(rules.game)
+  const rollHelper = new RollHelper(rules.game)
   if (me) {
     const faceImages = diceDescription.images[DiceColor.Red]
     return <Trans defaults="header.resolve.you" components={{
-      smash: <DiceFaceButton move={smash} image={faceImages[DiceFace.Claw]} count={resolveDiceRule.countFaces(DiceFace.Claw)}/>,
-      heal: <DiceFaceButton move={heal} image={faceImages[DiceFace.Heal]} count={resolveDiceRule.countFaces(DiceFace.Heal)}/>,
-      energy: <DiceFaceButton move={gainEnergy} image={faceImages[DiceFace.Energy]} count={resolveDiceRule.countFaces(DiceFace.Energy)}/>,
-      fame: <DiceFaceButton move={pullFamePawn} image={faceImages[DiceFace.Fame]} count={resolveDiceRule.countFaces(DiceFace.Fame)}/>,
+      smash: <DiceFaceButton move={smash} image={faceImages[DiceFace.Claw]} count={rollHelper.countFace(DiceFace.Claw)}/>,
+      heal: <DiceFaceButton move={heal} image={faceImages[DiceFace.Heal]} count={rollHelper.countFace(DiceFace.Heal)}/>,
+      energy: <DiceFaceButton move={gainEnergy} image={faceImages[DiceFace.Energy]} count={rollHelper.countFace(DiceFace.Energy)}/>,
+      fame: <DiceFaceButton move={pullFamePawn} image={faceImages[DiceFace.Fame]} count={rollHelper.countFace(DiceFace.Fame)}/>,
       destruction: <DiceFaceButton move={pullDestructionPawn} image={faceImages[DiceFace.Destruction]}
-                                   count={resolveDiceRule.countFaces(DiceFace.Destruction)}/>,
+                                   count={rollHelper.countFace(DiceFace.Destruction)}/>,
       power: <DiceFaceButton move={power} image={faceImages[DiceFace.Power]}
-                             count={resolveDiceRule.getDiceForFace(DiceFace.Power).length - resolveDiceRule.consumedPower}/>
+                             count={rollHelper.countFace(DiceFace.Power) - rollHelper.consumedPower}/>
     }}/>
   } else {
     return <Trans defaults="header.resolve.player" values={{ player }}/>
