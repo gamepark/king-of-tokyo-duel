@@ -50,13 +50,7 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
     }
 
     if (white.length) {
-      moves.push(
-        white
-          .moveItemsAtOnce({
-            type: LocationType.WhiteDiceStock,
-            player: nextPlayer
-          })
-      )
+      moves.push(white.moveItemsAtOnce({ type: LocationType.WhiteDiceStock }))
     }
 
     this.memorize(Memory.ActivePlayer, nextPlayer)
