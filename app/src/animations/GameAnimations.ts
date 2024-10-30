@@ -28,7 +28,10 @@ gameAnimations
 
 gameAnimations
   .when()
-  .move((move) => isMoveItemTypeAtOnce(MaterialType.Dice)(move) && move.location.type === LocationType.PlayerDiceRoll)
+  .move((move) =>
+    isMoveItemTypeAtOnce(MaterialType.Dice)(move) && move.location.type === LocationType.PlayerDiceRoll
+    && move.location.player === undefined
+  )
   .duration(0.4)
 
 gameAnimations
