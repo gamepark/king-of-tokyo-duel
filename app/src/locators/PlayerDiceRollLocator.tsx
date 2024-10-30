@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType'
+import { Memory } from '@gamepark/king-of-tokyo-duel/rules/Memory'
 import { RuleId } from '@gamepark/king-of-tokyo-duel/rules/RuleId'
 import { FlexLocator, MaterialContext } from '@gamepark/react-game'
 import { Location } from '@gamepark/rules-api'
@@ -25,22 +26,22 @@ class PlayerDiceRollLocator extends FlexLocator {
 
   getCoordinates(location: Location, { rules }: MaterialContext) {
     if (location.player === undefined) {
-      return { x: -3, y: 10 }
+      return { x: rules.remind(Memory.ActivePlayer) === rules.players[0] ? -26.6 : 17.4, y: 16.5 }
     }
-    return { x: location.player === rules.players[0] ? -26.6 : 17.4, y: 12.2 }
+    return { x: location.player === rules.players[0] ? -26.6 : 17.4, y: 11.3 }
   }
 
   protected getAreaCoordinates(location: Location, context: MaterialContext) {
     const monsterBoardCoordinates = monsterBoardLocator.getCoordinates(location, context)
     return {
       x: monsterBoardCoordinates.x,
-      y: 14.7
+      y: 12.3
     }
   }
 }
 
 class PlayerDiceRollDescription extends PlayerDiceKeepDescription {
-  height = 8.5
+  height = 5.5
 
   content = () => <span><Trans defaults="roll-area"/></span>
 }

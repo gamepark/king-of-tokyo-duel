@@ -26,7 +26,10 @@ export class BasePlayerTurnRule<E extends Effect = any> extends PlayerTurnRule {
     if (!isMoveItemType(MaterialType.PowerCard)(move) && !isMoveItemTypeAtOnce(MaterialType.PowerCard)(move)) return moves
     if (this.cardOnBoard.length < 3) {
       const powerCardDeck = this.powerCardDeck
-      if (this.powerCardDeck.length) moves.push(powerCardDeck.dealOne({ type: LocationType.PowerCardOnBoard }))
+      if (this.powerCardDeck.length){
+        console.log(JSON.parse(JSON.stringify(powerCardDeck.getItem())))
+        moves.push(powerCardDeck.dealOne({ type: LocationType.PowerCardOnBoard }))
+      }
     }
     return moves
   }

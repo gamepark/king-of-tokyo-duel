@@ -3,7 +3,7 @@ import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType
 import { CustomMoveType } from '@gamepark/king-of-tokyo-duel/rules/CustomMoveType'
 import { AnimationStep } from '@gamepark/react-client'
 import { MaterialGameAnimationContext, MaterialGameAnimations } from '@gamepark/react-game'
-import { isCustomMoveType, isMoveItemType, isRollItemType, MaterialMove } from '@gamepark/rules-api'
+import { isCustomMoveType, isMoveItemType, isMoveItemTypeAtOnce, isRollItemType, MaterialMove } from '@gamepark/rules-api'
 
 class KingOfTokyoDuelAnimations extends MaterialGameAnimations {
   getDuration(move: MaterialMove, context: MaterialGameAnimationContext): number {
@@ -15,18 +15,6 @@ class KingOfTokyoDuelAnimations extends MaterialGameAnimations {
 
 export const gameAnimations = new KingOfTokyoDuelAnimations()
 
-
-gameAnimations
-  .when()
-  .move((move, context) => {
-      return isMoveItemType(MaterialType.Dice)(move) &&
-        (move.location.type === LocationType.PlayerDiceRoll || move.location.type === LocationType.PlayerDiceKeep) &&
-        context.rules.material(move.itemType).getItem(move.itemIndex)!.location.type !== LocationType.WhiteDiceStock
-    }
-  )
-  .mine()
-  .none()
-
 gameAnimations
   .when()
   .move((move) => isMoveItemType(MaterialType.Buzz)(move) && move.location.rotation !== undefined)
@@ -35,30 +23,21 @@ gameAnimations
 
 gameAnimations
   .when()
-  .move((move) => {
-      return isRollItemType(MaterialType.Dice)(move) &&
-        (move.location.type === LocationType.PlayerDiceRoll || move.location.type === LocationType.PlayerDiceKeep)
-    }
-  )
-  .mine()
+  .move((move) => isRollItemType(MaterialType.Dice)(move) && move.location.type === LocationType.PlayerDiceRoll)
   .duration(0.4)
 
 gameAnimations
   .when()
-  .move((move, context) => {
-      return isMoveItemType(MaterialType.Dice)(move) &&
-        (move.location.type === LocationType.PlayerDiceRoll || move.location.type === LocationType.PlayerDiceKeep) &&
-        context.player !== context.action.playerId
-    }
-  )
+  .move((move) => isMoveItemTypeAtOnce(MaterialType.Dice)(move) && move.location.type === LocationType.PlayerDiceRoll)
   .duration(0.4)
 
 gameAnimations
   .when()
-  .move((move, context) => {
-      return isRollItemType(MaterialType.Dice)(move) &&
-        (move.location.type === LocationType.PlayerDiceRoll || move.location.type === LocationType.PlayerDiceKeep) &&
-        context.player !== context.action.playerId
-    }
+  .move((move) => isMoveItemType(MaterialType.Dice)(move) && move.location.type === LocationType.PlayerDiceKeep
   )
-  .duration(0.6)
+  .duration(0.2)
+
+gameAnimations
+  .when()
+  .move((move) => isMoveItemType(MaterialType.Dice)(move) && move.location.type === LocationType.PlayerDiceRoll)
+  .duration(0.2)

@@ -78,6 +78,9 @@ export class RollDiceRule extends BasePlayerTurnRule {
     } else if (isRollItemType(MaterialType.Dice)(move)) {
       if (this.rollCount >= this.maxRollCount) {
         const dice = this.material(MaterialType.Dice).index(move.itemIndex)
+        if (!this.diceToRoll.length) {
+          moves.push(this.diceICanReroll.moveItem(item => ({ type: LocationType.PlayerDiceKeep, player: this.player, rotation: item.location.rotation })))
+        }
         moves.push(dice.moveItem(item => ({ type: LocationType.PlayerDiceKeep, player: this.player, rotation: item.location.rotation })))
       }
     } else if (isMoveItemType(MaterialType.Dice)(move) && move.location.type === LocationType.PlayerDiceKeep) {

@@ -55,7 +55,7 @@ import UtterDestruction from '../images/cards/en/UtterDestruction.jpg'
 export class PowerCardDescription extends CardDescription {
   height = 8.8
   width = 6.3
-  image = Back
+  backImage = Back
 
   images = {
     [PowerCard.AcidAttack]: AcidAttack,
