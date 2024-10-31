@@ -47,6 +47,8 @@ export class BuzzTokenDescription extends PolyhexDescription {
     return buzzDescriptions[item.id as Buzz].effects.map((_, x) => ({ x, y: 0 }))
   }
 
+  menuAlwaysVisible = true
+
   getItemMenu(item: MaterialItem, context: ItemContext, legalMoves: MaterialMove[]) {
     const { rules, type, index } = context
     if (!legalMoves.some(move => this.canDrag(move, context))) return
