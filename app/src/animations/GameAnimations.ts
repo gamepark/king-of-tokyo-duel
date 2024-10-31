@@ -20,10 +20,15 @@ gameAnimations
   .move((move) => isMoveItemType(MaterialType.Buzz)(move) && move.location.rotation !== undefined)
   .duration(0.1)
 
+gameAnimations
+  .when()
+  .move((move) => isMoveItemType(MaterialType.PowerCard)(move) && move.location.type === LocationType.PowerCardOnBoard)
+  .duration(0.4)
+
 
 gameAnimations
   .when()
-  .move((move) => isRollItemType(MaterialType.Dice)(move) && move.location.type === LocationType.PlayerDiceRoll)
+  .move((move) => isRollItemType(MaterialType.Dice)(move) && (move.location.type === LocationType.PlayerDiceRoll || move.location.type === LocationType.PlayerDiceKeep))
   .duration(0.4)
 
 gameAnimations
