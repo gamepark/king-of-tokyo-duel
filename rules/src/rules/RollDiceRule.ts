@@ -75,15 +75,7 @@ export class RollDiceRule extends BasePlayerTurnRule {
           player: this.player
         })
       )
-    } else if (isRollItemType(MaterialType.Dice)(move)) {
-      if (this.rollCount >= this.maxRollCount) {
-        const dice = this.material(MaterialType.Dice).index(move.itemIndex)
-        if (!this.diceToRoll.length) {
-          moves.push(this.diceICanReroll.moveItem(item => ({ type: LocationType.PlayerDiceKeep, player: this.player, rotation: item.location.rotation })))
-        }
-        moves.push(dice.moveItem(item => ({ type: LocationType.PlayerDiceKeep, player: this.player, rotation: item.location.rotation })))
-      }
-    } else if (isMoveItemType(MaterialType.Dice)(move) && move.location.type === LocationType.PlayerDiceKeep) {
+    } else if (isRollItemType(MaterialType.Dice)(move) && move.location.type === LocationType.PlayerDiceKeep) {
       const diceRoll = this.material(MaterialType.Dice).location(LocationType.PlayerDiceRoll)
       if (diceRoll.length === 0 && this.diceICanReroll.length === 0) {
         moves.push(...this.goToPhase2())
@@ -104,57 +96,72 @@ export class RollDiceRule extends BasePlayerTurnRule {
         this.memorize(Memory.RollCount, (roll: number) => (roll ?? 0) + 1)
         return [
           diceToRoll.moveItemsAtOnce({ type: LocationType.PlayerDiceRoll }),
-          ...diceToRoll.rollItems()
+          ...diceToRoll.rollItems({ type: this.rollCount >= this.maxRollCount? LocationType.PlayerDiceKeep: LocationType.PlayerDiceRoll, player: this.player })
         ]
     }
     return []
   }
 
-  goToPhase2(): MaterialMove[] {
-    if (this.player === Monster.Alienoid && new AlienoidRule(this.game).canUsePower()) {
-      return [this.startRule(RuleId.Alienoid)]
+    goToPhase2()
+  :
+    MaterialMove[]
+    {
+      if (this.player === Monster.Alienoid && new AlienoidRule(this.game).canUsePower()) {
+        return [this.startRule(RuleId.Alienoid)]
+      }
+      new KeepHelper(this.game).afterRollingDice()
+      if (this.effects.length) {
+        this.memorize(Memory.Phase, RuleId.ResolveDice)
+        return [this.startRule(RuleId.Effect)]
+      }
+
+      return [this.startRule(RuleId.ResolveDice)]
     }
-    new KeepHelper(this.game).afterRollingDice()
-    if (this.effects.length) {
-      this.memorize(Memory.Phase, RuleId.ResolveDice)
-      return [this.startRule(RuleId.Effect)]
+
+    get
+    maxRollCount()
+    {
+      return 3 + new KeepHelper(this.game).additionalRolls
     }
 
-    return [this.startRule(RuleId.ResolveDice)]
-  }
+    get
+    rollCount()
+    {
+      return this.remind(Memory.RollCount)
+    }
 
-  get maxRollCount() {
-    return 3 + new KeepHelper(this.game).additionalRolls
-  }
+    get
+    keepDice()
+    {
+      return this
+        .material(MaterialType.Dice)
+        .location(LocationType.PlayerDiceKeep)
+        .player(this.player)
+    }
 
-  get rollCount() {
-    return this.remind(Memory.RollCount)
-  }
+    get
+    diceToRoll()
+    {
+      return this
+        .material(MaterialType.Dice)
+        .location(LocationType.PlayerDiceRoll)
+        .player(this.player)
+        .sort((item) => item.location.x!)
+    }
 
-  get keepDice() {
-    return this
-      .material(MaterialType.Dice)
-      .location(LocationType.PlayerDiceKeep)
-      .player(this.player)
-  }
+    get
+    diceToken()
+    {
+      return this
+        .material(MaterialType.DiceToken)
+        .player(this.player)
+    }
 
-  get diceToRoll() {
-    return this
-      .material(MaterialType.Dice)
-      .location(LocationType.PlayerDiceRoll)
-      .player(this.player)
-      .sort((item) => item.location.x!)
+    get
+    whiteDice()
+    {
+      return this
+        .material(MaterialType.Dice)
+        .location(LocationType.WhiteDiceStock)
+    }
   }
-
-  get diceToken() {
-    return this
-      .material(MaterialType.DiceToken)
-      .player(this.player)
-  }
-
-  get whiteDice() {
-    return this
-      .material(MaterialType.Dice)
-      .location(LocationType.WhiteDiceStock)
-  }
-}

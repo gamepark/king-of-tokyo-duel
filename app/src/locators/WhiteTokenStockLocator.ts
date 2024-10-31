@@ -1,7 +1,7 @@
 import { PileLocator } from '@gamepark/react-game'
 
 export class WhiteTokenStockLocator extends PileLocator {
-  coordinates = { x: -23.5, y: -14.3 }
+  coordinates = { x: -22.5, y: -14.3 }
   radius = 1
 }
 
