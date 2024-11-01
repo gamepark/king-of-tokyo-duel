@@ -1,5 +1,11 @@
+import { faHandBackFist } from '@fortawesome/free-solid-svg-icons/faHandBackFist'
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons/faTrashCan'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { PowerCard } from '@gamepark/king-of-tokyo-duel/material/cards/PowerCard'
-import { CardDescription } from '@gamepark/react-game'
+import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType'
+import { CardDescription, ItemContext, ItemMenuButton } from '@gamepark/react-game'
+import { isMoveItemType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
+import { Trans } from 'react-i18next'
 import Back from '../images/cards/Back.jpg'
 import AcidAttack from '../images/cards/en/AcidAttack.jpg'
 import AdrenalineAugment from '../images/cards/en/AdrenalineAugment.jpg'
@@ -107,7 +113,30 @@ export class PowerCardDescription extends CardDescription {
     [PowerCard.Unchained]: Unchained,
     [PowerCard.UnstableDna]: UnstableDna,
     [PowerCard.Unstoppable]: Unstoppable,
-    [PowerCard.UtterDestruction]: UtterDestruction,
+    [PowerCard.UtterDestruction]: UtterDestruction
+  }
+
+  getItemMenu(item: MaterialItem, context: ItemContext, legalMoves: MaterialMove[]) {
+    const { type, index } = context
+    const moves = legalMoves.filter(isMoveItemType(type)).filter(move => move.itemIndex === index)
+    const buy = moves.find(move => move.location.type === LocationType.BuyArea)
+    const discard = moves.find(move => move.location.type === LocationType.Discard)
+    if (buy || discard) {
+      return <>
+        {this.getHelpButton(item, context, { angle: 20, radius: 5 })}
+        {buy &&
+          <ItemMenuButton label={<Trans defaults="Buy"/>} angle={50} radius={4} move={buy}>
+            <FontAwesomeIcon icon={faHandBackFist}/>
+          </ItemMenuButton>
+        }
+        {discard &&
+          <ItemMenuButton label={<Trans defaults="Discard"/>} angle={130} radius={4} move={discard}>
+            <FontAwesomeIcon icon={faTrashCan}/>
+          </ItemMenuButton>
+        }
+      </>
+    }
+    return
   }
 }
 
