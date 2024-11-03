@@ -1,6 +1,5 @@
 import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType'
-import { isItemContext, MaterialContext } from '@gamepark/react-game'
-import { Locator } from '@gamepark/react-game/dist/locators/Locator'
+import { isItemContext, Locator, MaterialContext } from '@gamepark/react-game'
 import { Location, XYCoordinates } from '@gamepark/rules-api'
 
 export class OnPowerCardLocator extends Locator {

@@ -1,4 +1,4 @@
-import { CustomMove, isCustomMoveType } from '@gamepark/rules-api/dist/material/moves/CustomMove'
+import { CustomMove, isCustomMoveType } from '@gamepark/rules-api'
 import { MaterialType } from '../../material/MaterialType'
 import { Pawn } from '../../material/Pawn'
 import { CustomMoveType } from '../CustomMoveType'

@@ -1,4 +1,4 @@
-import { MaterialMove } from '@gamepark/rules-api/dist/material/moves/MaterialMove'
+import { MaterialMove } from '@gamepark/rules-api'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
