@@ -57,6 +57,7 @@ import Unchained from '../images/cards/en/Unchained.jpg'
 import UnstableDna from '../images/cards/en/UnstableDna.jpg'
 import Unstoppable from '../images/cards/en/Unstoppable.jpg'
 import UtterDestruction from '../images/cards/en/UtterDestruction.jpg'
+import { PowerCardHelp } from './help/PowerCardHelp'
 
 export class PowerCardDescription extends CardDescription {
   height = 8.8
@@ -115,6 +116,8 @@ export class PowerCardDescription extends CardDescription {
     [PowerCard.Unstoppable]: Unstoppable,
     [PowerCard.UtterDestruction]: UtterDestruction
   }
+
+  help = PowerCardHelp
 
   getItemMenu(item: MaterialItem, context: ItemContext, legalMoves: MaterialMove[]) {
     const { type, index } = context

@@ -15,6 +15,7 @@ import WhiteFame from '../images/dice/white/WhiteFame.jpg'
 import WhiteHeal from '../images/dice/white/WhiteHeal.jpg'
 import WhitePower from '../images/dice/white/WhitePower.jpg'
 import WhiteSmash from '../images/dice/white/WhiteSmash.jpg'
+import { DiceHelp } from './help/DiceHelp'
 
 export class DiceDescription extends CubicDiceDescription {
   getColor(itemId: DiceColor): string {
@@ -41,6 +42,8 @@ export class DiceDescription extends CubicDiceDescription {
       WhiteFame
     ]
   }
+
+  help = DiceHelp
 
   canShortClick(move: MaterialMove, context: ItemContext) {
     if (!isMoveItemType(MaterialType.Dice)(move) || (move.location.type !== LocationType.PlayerDiceRoll && move.location.type !== LocationType.PlayerDiceKeep && move.location.type !== LocationType.OnPowerCard)) return false

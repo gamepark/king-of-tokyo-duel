@@ -6,6 +6,7 @@ import Gigazaur from '../images/monsters/en/Gigazaur.jpg'
 import MekaDragon from '../images/monsters/en/MekaDragon.jpg'
 import SpacePenguin from '../images/monsters/en/SpacePenguin.jpg'
 import TheKing from '../images/monsters/en/TheKing.jpg'
+import { MonsterBoardHelp } from './help/MonsterBoardHelp'
 
 export class MonsterBoardDescription extends BoardDescription {
   width = 12.77
@@ -20,6 +21,8 @@ export class MonsterBoardDescription extends BoardDescription {
     [Monster.SpacePenguin]: SpacePenguin,
     [Monster.TheKing]: TheKing,
   }
+
+  help = MonsterBoardHelp
 }
 
 export const monsterBoardDescription = new MonsterBoardDescription()

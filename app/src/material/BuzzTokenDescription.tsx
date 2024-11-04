@@ -18,6 +18,7 @@ import PhantomExtendHeal from '../images/buzz_token/PhantomExtendHeal.png'
 import PumpkinHealSmash2Heal from '../images/buzz_token/PumpkinHealSmash2Heal.png'
 import TheKingBuzz from '../images/buzz_token/TheKingBuzz.png'
 import TigerEnergy from '../images/buzz_token/TigerEnergy.png'
+import { BuzzTokenHelp } from './help/BuzzTokenHelp'
 
 export class BuzzTokenDescription extends PolyhexDescription {
   borderRadius = 0.5
@@ -42,6 +43,8 @@ export class BuzzTokenDescription extends PolyhexDescription {
     [Buzz.PhantomExtendHeal]: PhantomExtendHeal,
     [Buzz.PenguinExtendSmash]: PenguinExtendSmash
   }
+
+  help = BuzzTokenHelp
 
   getPolyhexShape(item: MaterialItem) {
     return buzzDescriptions[item.id as Buzz].effects.map((_, x) => ({ x, y: 0 }))

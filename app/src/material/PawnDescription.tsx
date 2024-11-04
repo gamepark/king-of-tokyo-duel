@@ -4,6 +4,7 @@ import { Pawn } from '@gamepark/king-of-tokyo-duel/material/Pawn'
 import { BoardDescription, ComponentSize } from '@gamepark/react-game'
 import Destruction from '../images/pawn/destruction.png'
 import Fame from '../images/pawn/fame.png'
+import { PawnHelp } from './help/PawnHelp'
 
 export class PawnDescription extends BoardDescription {
   getSize(id: any): ComponentSize {
@@ -24,6 +25,8 @@ export class PawnDescription extends BoardDescription {
     [Pawn.Fame]: Fame,
     [Pawn.Destruction]: Destruction
   }
+
+  help = PawnHelp
 
   getFrontExtraCss() {
     return css`

@@ -1,25 +1,22 @@
 /** @jsxImportSource @emotion/react */
+import { Pawn } from '@gamepark/king-of-tokyo-duel/material/Pawn'
 import { MaterialHelpProps } from '@gamepark/react-game'
 import { FC } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { Trans } from 'react-i18next'
 import { HelpComponents } from './HelpComponents'
 
-export const MonsterBoardHelp: FC<MaterialHelpProps> = (props) => {
+export const PawnHelp: FC<MaterialHelpProps> = (props) => {
   const { item } = props
-  const { t } = useTranslation()
   return (
     <>
       <h2>
         <Trans
-          defaults="monster.board"
-          values={{
-            monster: t(`monster.${item.id}`)
-          }}
+          defaults={item.id === Pawn.Fame? "pawn.fame": "pawn.destruction"}
         />
       </h2>
       <p>
         <Trans
-          defaults={`monster.power.${item.id}`}
+          defaults="pawn.help"
           components={HelpComponents}
         />
       </p>
