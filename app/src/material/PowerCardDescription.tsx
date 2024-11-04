@@ -128,12 +128,12 @@ export class PowerCardDescription extends CardDescription {
       return <>
         {this.getHelpButton(item, context, { angle: 20, radius: 5 })}
         {buy &&
-          <ItemMenuButton label={<Trans defaults="Buy"/>} angle={50} radius={4} move={buy}>
+          <ItemMenuButton label={<Trans defaults="buy"/>} angle={50} radius={4} move={buy}>
             <FontAwesomeIcon icon={faHandBackFist}/>
           </ItemMenuButton>
         }
         {discard &&
-          <ItemMenuButton label={<Trans defaults="Discard"/>} angle={130} radius={4} move={discard}>
+          <ItemMenuButton label={<Trans defaults="discard"/>} angle={130} radius={4} move={discard}>
             <FontAwesomeIcon icon={faTrashCan}/>
           </ItemMenuButton>
         }
