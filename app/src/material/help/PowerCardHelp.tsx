@@ -24,16 +24,14 @@ export const PowerCardHelp: FC<MaterialHelpProps> = (props) => {
           defaults={`card.${item.id}`}
         />
       </h2>
-      { !!discard && <p><PlayMoveButton move={discard} onPlay={closeDialog}>{t('discard')}</PlayMoveButton></p> }
-      { !!buy && <p><PlayMoveButton move={buy} onPlay={closeDialog}>{t('buy')}</PlayMoveButton></p> }
-        {
-        item.location?.type === LocationType.PowerCardOnBoard && <VisibleCard {...props} />
-      }
+      {!!discard && <p><PlayMoveButton move={discard} onPlay={closeDialog}>{t('discard')}</PlayMoveButton></p>}
+      {!!buy && <p><PlayMoveButton move={buy} onPlay={closeDialog}>{t('buy')}</PlayMoveButton></p>}
+      <VisibleCard {...props} />
     </>
   )
 }
 
-const Components = {...HelpComponents, ...RedDiceComponents}
+const Components = { ...HelpComponents, ...RedDiceComponents }
 const VisibleCard: FC<MaterialHelpProps> = (props) => {
   const { item } = props
   const characteristics = powerCardCharacteristics[item.id as PowerCard]
