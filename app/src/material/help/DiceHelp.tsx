@@ -1,6 +1,5 @@
-import { DiceColor } from '@gamepark/king-of-tokyo-duel/material/DiceColor'
-
 /** @jsxImportSource @emotion/react */
+import { DiceColor } from '@gamepark/king-of-tokyo-duel/material/DiceColor'
 import { MaterialHelpProps } from '@gamepark/react-game'
 import { FC } from 'react'
 import { Trans } from 'react-i18next'
@@ -8,12 +7,12 @@ import { HelpComponents, RedDiceComponents, WhiteDiceComponents } from './HelpCo
 
 export const DiceHelp: FC<MaterialHelpProps> = (props) => {
   const { item } = props
-  const Components = {...HelpComponents, ...(item.id === DiceColor.Red? RedDiceComponents: WhiteDiceComponents)}
+  const Components = { ...HelpComponents, ...(item.id === DiceColor.Red ? RedDiceComponents : WhiteDiceComponents) }
   return (
     <>
       <h2>
         <Trans
-          defaults={item.id === DiceColor.Red? 'dice': 'dice.extra'}
+          defaults={item.id === DiceColor.Red ? 'dice' : 'dice.extra'}
         />
       </h2>
       <p>
