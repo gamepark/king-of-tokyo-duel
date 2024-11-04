@@ -1,10 +1,11 @@
 /** @jsxImportSource @emotion/react */
+import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelRules'
 import { PowerCard } from '@gamepark/king-of-tokyo-duel/material/cards/PowerCard'
 import { powerCardCharacteristics } from '@gamepark/king-of-tokyo-duel/material/cards/PowerCardCharacteristics'
 import { Timing } from '@gamepark/king-of-tokyo-duel/material/cards/Timing'
 import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType'
 import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType'
-import { MaterialHelpProps, PlayMoveButton, useLegalMove } from '@gamepark/react-game'
+import { MaterialHelpProps, PlayMoveButton, useLegalMove, useRules } from '@gamepark/react-game'
 import { isMoveItemType } from '@gamepark/rules-api/dist/material/moves/items/MoveItem'
 import { FC } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -15,6 +16,7 @@ export const PowerCardHelp: FC<MaterialHelpProps> = (props) => {
   const { t } = useTranslation()
   const discard = useLegalMove((move) => isMoveItemType(MaterialType.PowerCard)(move) && move.location.type === LocationType.Discard && move.itemIndex === itemIndex)
   const buy = useLegalMove((move) => isMoveItemType(MaterialType.PowerCard)(move) && move.location.type === LocationType.BuyArea && move.itemIndex === itemIndex)
+  if (item.location?.type === LocationType.PowerCardDeck) return <PowerCardDeckHelp/>
   if (item.id === undefined) return null
 
   return (
@@ -76,4 +78,14 @@ const VisibleCard: FC<MaterialHelpProps> = (props) => {
 
     </>
   )
+}
+
+const PowerCardDeckHelp = () => {
+  const { t } = useTranslation()
+  const rules = useRules<KingOfTokyoDuelRules>()!
+  const number = rules.material(MaterialType.PowerCard).location(LocationType.PowerCardDeck).length
+  return <>
+    <h2>{t('deck')}</h2>
+    <p>{t('deck.help', { number })}</p>
+  </>
 }
