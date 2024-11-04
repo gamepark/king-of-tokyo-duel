@@ -3,6 +3,7 @@ import { WheelDescription } from '@gamepark/react-game'
 import CounterA from '../images/player_counter/CounterA.png'
 import CounterB from '../images/player_counter/CounterB.png'
 import HealthWheel from '../images/player_counter/CounterValue.png'
+import { HealthCounterHelp } from './help/HealthCounterHelp'
 
 export class HealthCounterDescription extends WheelDescription {
   width = 12.5
@@ -43,6 +44,8 @@ export class HealthCounterDescription extends WheelDescription {
     298,
     315,
     335.5]
+
+  help = HealthCounterHelp
 }
 
 export const healthCounterDescription = new HealthCounterDescription()
