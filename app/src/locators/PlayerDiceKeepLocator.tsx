@@ -43,7 +43,7 @@ export class PlayerDiceKeepDescription extends DropAreaDescription {
   borderRadius = 0.3
 
   extraCss = css`
-    border: 1px solid white;
+    background: rgba(255, 225, 255, 0.2);
     display: flex;
     justify-content: center;
     padding-bottom: 0.1em;
