@@ -2,7 +2,7 @@ import { MaterialGameSetup } from '@gamepark/rules-api'
 import { KingOfTokyoDuelOptions } from './KingOfTokyoDuelOptions'
 import { KingOfTokyoDuelRules } from './KingOfTokyoDuelRules'
 import { Buzz, commonBuzz } from './material/Buzz'
-import { powerCards } from './material/cards/PowerCard'
+import { PowerCard, powerCards } from './material/cards/PowerCard'
 import { DiceColor } from './material/DiceColor'
 import { HealthCounter } from './material/HealthCounter'
 import { LocationType } from './material/LocationType'
@@ -26,6 +26,7 @@ export class KingOfTokyoDuelSetup extends MaterialGameSetup<Monster, MaterialTyp
     this.setupBuzzToken()
     this.setupDice()
     this.setupPlayers()
+    this.material(MaterialType.PowerCard).id(PowerCard.NaturalSelection).moveItem({type: LocationType.PlayerKeepCards, player: this.players[0]})
   }
 
   setupPlayers() {

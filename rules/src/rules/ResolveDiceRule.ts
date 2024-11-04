@@ -25,6 +25,7 @@ import { RuleId } from './RuleId'
 export class ResolveDiceRule extends BasePlayerTurnRule {
   onRuleStart() {
     if (this.remind(Memory.Phase) !== RuleId.ResolveDice) {
+      this.memorize(Memory.Phase, RuleId.ResolveDice)
       if (this.canReboot) {
         return [this.startRule(RuleId.Rebooting)]
       } else {
@@ -35,7 +36,6 @@ export class ResolveDiceRule extends BasePlayerTurnRule {
       }
     }
 
-    this.memorize(Memory.Phase, RuleId.ResolveDice)
     const startMoves = new KeepHelper(this.game).atStartOfResolving()
     if (startMoves.length) return startMoves
     if (!this.getResolveMoves().length) return [this.startRule(RuleId.AfterDiceResolution)]
