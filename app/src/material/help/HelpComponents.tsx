@@ -19,7 +19,7 @@ export const iconCss = css`
   position: relative;
   border-radius: 0.2em;
   top: 0.4em;
-  margin-top: -1em;
+  margin-top: -0.3em;
 `
 export const diceIconCss = css`
   ${iconCss};
