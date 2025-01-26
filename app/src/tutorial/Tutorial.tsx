@@ -2,11 +2,16 @@ import { AccessoriesType, AvatarProps, ClotheType, GraphicType, MouthType, TopTy
 import ClotheColorName from '@gamepark/avataaars/dist/avatar/clothes/ClotheColorName'
 import SkinColor from '@gamepark/avataaars/dist/avatar/SkinColor'
 import HatColorName from '@gamepark/avataaars/dist/avatar/top/HatColorName'
+import { DiceColor } from '@gamepark/king-of-tokyo-duel/material/DiceColor'
+import { DiceFace } from '@gamepark/king-of-tokyo-duel/material/DiceFace'
 import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType'
 import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType'
 import { Monster } from '@gamepark/king-of-tokyo-duel/material/Monster'
-import { MaterialTutorial, TutorialStep } from '@gamepark/react-game'
+import { MaterialTutorial, Picture, TutorialStep } from '@gamepark/react-game'
+import { MaterialGame } from '@gamepark/rules-api'
 import { Trans } from 'react-i18next'
+import { diceDescription } from '../material/DiceDescription'
+import { diceIconCss } from '../material/help/HelpComponents'
 import { TutorialSetup } from './TutorialSetup'
 
 const me = Monster.Gigazaur
@@ -22,6 +27,8 @@ const opponentAvatar: AvatarProps = {
   mouthType: MouthType.Tongue,
   skinColor: SkinColor.Brown
 }
+
+const diceFaces = diceDescription.images[DiceColor.Red]
 
 export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationType> {
   version = 1
@@ -41,6 +48,24 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
       popup: {
         text: () => <Trans defaults="tuto.welcome" components={{ bold: <strong/> }}/>
       }
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.goal" components={{
+          bold: <strong/>,
+          smash: <Picture css={diceIconCss} src={diceFaces[DiceFace.Claw]}/>
+        }}/>
+      }
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.monster" components={{ bold: <strong/> }}/>,
+        position: { x: 30 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [this.material(game, MaterialType.MonsterBoard).id(me)],
+        margin: { right: 20 }
+      })
     }
   ]
 }

@@ -518,6 +518,8 @@
       "card.50": "Destruction totale",
       "card.effect.50": "Si vous obtenez <fameFace/><destructionFace/><energyFace/><smashFace/><heartFace/><powerFace/> dans votre Lancer, <bold>tirez 2</bold><destruction/> <bold>et 2</bold><fame/>, <bold>et votre Rival subit 2</bold><hit/>.",
       "tuto.welcome": "Bienvenue sur le tutoriel de <bold>King of Tokyo Duel</bold> !",
+      "tuto.goal": "Dans ce jeu, les deux joueurs incarnent un Monstre et s'affrontent pour la <bold>Gloire</bold>, sèment la <bold>Destruction</bold> et bien sûr, s'envoient des baffes <smash/> !",
+      "tuto.monster": "Voici votre Monstre : vous jouez Gigazaur.",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Valider",
