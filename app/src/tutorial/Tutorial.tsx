@@ -8,7 +8,7 @@ import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType
 import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType'
 import { Monster } from '@gamepark/king-of-tokyo-duel/material/Monster'
 import { MaterialTutorial, Picture, TutorialStep } from '@gamepark/react-game'
-import { MaterialGame } from '@gamepark/rules-api'
+import { isRoll, MaterialGame, MaterialMoveRandomized } from '@gamepark/rules-api'
 import { Trans } from 'react-i18next'
 import { diceDescription } from '../material/DiceDescription'
 import { diceIconCss } from '../material/help/HelpComponents'
@@ -66,6 +66,39 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
         materials: [this.material(game, MaterialType.MonsterBoard).id(me)],
         margin: { right: 20 }
       })
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.roll" components={{ bold: <strong/> }}/>,
+        position: { x: 30 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [this.material(game, MaterialType.Dice).player(me)],
+        scale: 0.5
+      }),
+      move: {
+        randomize: (move: MaterialMoveRandomized) => {
+          if (isRoll(move)) {
+            switch (move.itemIndex) {
+              case 0:
+                move.location.rotation = DiceFace.Claw
+                break
+              case 1:
+                move.location.rotation = DiceFace.Heal
+                break
+              case 2:
+                move.location.rotation = DiceFace.Energy
+                break
+              case 3:
+                move.location.rotation = DiceFace.Energy
+                break
+              case 4:
+                move.location.rotation = DiceFace.Fame
+                break
+            }
+          }
+        }
+      }
     }
   ]
 }
