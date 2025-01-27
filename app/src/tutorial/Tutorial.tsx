@@ -7,8 +7,9 @@ import { DiceFace } from '@gamepark/king-of-tokyo-duel/material/DiceFace'
 import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType'
 import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType'
 import { Monster } from '@gamepark/king-of-tokyo-duel/material/Monster'
+import { CustomMoveType } from '@gamepark/king-of-tokyo-duel/rules/CustomMoveType'
 import { MaterialTutorial, Picture, TutorialStep } from '@gamepark/react-game'
-import { isRoll, MaterialGame, MaterialMoveRandomized } from '@gamepark/rules-api'
+import { isCustomMoveType, isMoveItemType, isRoll, MaterialGame, MaterialMoveRandomized } from '@gamepark/rules-api'
 import { Trans } from 'react-i18next'
 import { diceDescription } from '../material/DiceDescription'
 import { diceIconCss } from '../material/help/HelpComponents'
@@ -94,6 +95,82 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
                 break
               case 4:
                 move.location.rotation = DiceFace.Fame
+                break
+            }
+          }
+        }
+      }
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.reroll" components={{ bold: <strong/> }}/>,
+        position: { x: 30 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [this.material(game, MaterialType.Dice).player(me)],
+        scale: 0.5
+      })
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.faces" components={{ bold: <strong/> }}/>,
+        position: { x: 30 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [this.material(game, MaterialType.Dice).player(me)],
+        scale: 0.5
+      })
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.keep1" components={{
+          bold: <strong/>,
+          smashFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Claw]}/>,
+          energyFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Energy]}/>
+        }}/>,
+        position: { x: 30 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [this.material(game, MaterialType.Dice).player(me).rotation(r => r === DiceFace.Claw || r === DiceFace.Energy)],
+        scale: 0.5
+      }),
+      move: {
+        filter: (move, game) => {
+          if (!isMoveItemType(MaterialType.Dice)(move) || move.location.type !== LocationType.PlayerDiceKeep) return false
+          const face = this.material(game, move.itemType).getItem(move.itemIndex).location.rotation
+          return face === DiceFace.Claw || face === DiceFace.Energy
+        }
+      }
+    },
+    {
+      move: {
+        filter: (move, game) => {
+          if (!isMoveItemType(MaterialType.Dice)(move) || move.location.type !== LocationType.PlayerDiceKeep) return false
+          const face = this.material(game, move.itemType).getItem(move.itemIndex).location.rotation
+          return face === DiceFace.Claw || face === DiceFace.Energy
+        }
+      }
+    },
+    {
+      move: {
+        filter: (move, game) => {
+          if (!isMoveItemType(MaterialType.Dice)(move) || move.location.type !== LocationType.PlayerDiceKeep) return false
+          const face = this.material(game, move.itemType).getItem(move.itemIndex).location.rotation
+          return face === DiceFace.Claw || face === DiceFace.Energy
+        }
+      }
+    },
+    {
+      move: {
+        filter: isCustomMoveType(CustomMoveType.Roll),
+        randomize: (move: MaterialMoveRandomized) => {
+          if (isRoll(move)) {
+            switch (move.itemIndex) {
+              case 1:
+                move.location.rotation = DiceFace.Energy
+                break
+              case 4:
+                move.location.rotation = DiceFace.Claw
                 break
             }
           }
