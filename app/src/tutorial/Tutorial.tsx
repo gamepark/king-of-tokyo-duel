@@ -11,8 +11,10 @@ import { CustomMoveType } from '@gamepark/king-of-tokyo-duel/rules/CustomMoveTyp
 import { MaterialTutorial, Picture, TutorialStep } from '@gamepark/react-game'
 import { isCustomMoveType, isMoveItemType, isRoll, MaterialGame, MaterialMoveRandomized } from '@gamepark/rules-api'
 import { Trans } from 'react-i18next'
+import Heart from '../images/icons/Heart.png'
+import Hit from '../images/icons/Hit.png'
 import { diceDescription } from '../material/DiceDescription'
-import { diceIconCss } from '../material/help/HelpComponents'
+import { diceIconCss, iconCss } from '../material/help/HelpComponents'
 import { TutorialSetup } from './TutorialSetup'
 
 const me = Monster.Gigazaur
@@ -183,12 +185,65 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
         position: { x: 30 }
       },
       focus: (game: MaterialGame) => ({
-        materials: [this.material(game, MaterialType.Dice).player(me).rotation(r => r === DiceFace.Claw || r === DiceFace.Energy)],
+        materials: [this.material(game, MaterialType.Dice).player(me)],
         scale: 0.5
       }),
       move: {
         filter: isCustomMoveType(CustomMoveType.Pass)
       }
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.use-dices" components={{ bold: <strong/> }}/>,
+        position: { x: 30 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [this.material(game, MaterialType.Dice).player(me)],
+        scale: 0.5
+      })
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.smash" components={{
+          bold: <strong/>,
+          smashFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Claw]}/>,
+          hit: <Picture src={Hit} css={iconCss}/>,
+          heart: <Picture src={Heart} css={iconCss}/>
+        }}/>
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.Dice).player(me).rotation(DiceFace.Claw),
+          this.material(game, MaterialType.HealthCounter).player(opponent)
+        ],
+        margin: { left: 15, right: 10 }
+      }),
+      move: {
+        filter: move => isCustomMoveType(CustomMoveType.ChooseDiceFace)(move) && move.data === DiceFace.Claw
+      }
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.life" components={{ bold: <strong/> }}/>,
+        position: { x: -20 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.HealthCounter).player(opponent)
+        ],
+        margin: { left: 40, right: 5 }
+      })
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.kill" components={{ bold: <strong/> }}/>
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.HealthCounter)
+        ],
+        margin: { left: 5, right: 5 }
+      })
     }
   ]
 }
