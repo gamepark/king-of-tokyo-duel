@@ -542,6 +542,8 @@
       "tuto.keep-fame2": "Gardez votre dé <fameFace/> et relancez les 2 autres.",
       "tuto.heal": "Les dés <healFace/> vous permettent de récupérer des <heart/> perdus. Résolvez-les.\n<italic>Vous ne pouvez pas dépasser votre valeur de</italic> <heart/> <italic>de départ</italic>.",
       "tuto.pull-fame": "À présent, résolvez vos dés <fameFace/>.\nUn triplé vous permet de tirer le pion de 1 case, et chaque dé supplémentaire ajoute 1 case : vous allez donc tirer <fame/> de 2 cases.",
+      "tuto.marker-win": "Si vous tirez le pion Gloire <fame/> ou Destruction <destruction/> au bout de la piste, <bold>vous gagnez la partie</bold> !",
+      "tuto.spotlight": "Vous pouvez aussi gagner en amenant le pion Gloire <fame/> ET le pion Destruction <destruction/> <bold>sous les projecteurs</bold> de votre côté, dans cette zone.",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Valider",

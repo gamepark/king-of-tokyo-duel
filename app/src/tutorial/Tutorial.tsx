@@ -587,6 +587,39 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
       move: {
         filter: move => isCustomMoveType(CustomMoveType.ChooseDiceFace)(move) && move.data === DiceFace.Fame
       }
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.marker-win" components={{
+          bold: <strong/>,
+          fame: <Picture src={Fame} css={iconCss}/>,
+          destruction: <Picture src={Destruction} css={iconCss}/>
+        }}/>,
+        position: { y: 25 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.Pawn)
+        ],
+        margin: { top: 3, bottom: 15 }
+      })
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.spotlight" components={{
+          bold: <strong/>,
+          fame: <Picture src={Fame} css={iconCss}/>,
+          destruction: <Picture src={Destruction} css={iconCss}/>
+        }}/>,
+        position: { y: 25 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.Pawn)
+        ],
+        locations: [{ type: LocationType.SpotlightArea, player: me }],
+        margin: { bottom: 12 }
+      })
     }
   ]
 }
