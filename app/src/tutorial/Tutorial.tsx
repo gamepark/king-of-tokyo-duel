@@ -266,6 +266,46 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
       move: {
         filter: move => isCustomMoveType(CustomMoveType.ChooseDiceFace)(move) && move.data === DiceFace.Energy
       }
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.cards" components={{
+          bold: <strong/>,
+          energy: <Picture css={iconCss} src={Energy}/>
+        }}/>,
+        position: { x: 20, y: 20 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.PowerCard).location(LocationType.PowerCardOnBoard),
+          this.material(game, MaterialType.Energy).player(me)
+        ],
+        margin: { left: 10, right: 10 }
+      })
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.cost" components={{
+          bold: <strong/>,
+          energy: <Picture css={iconCss} src={Energy}/>
+        }}/>,
+        position: { x: 10, y: 20 }
+      },
+      focus: (game: MaterialGame) => ({
+        locations: this.material(game, MaterialType.PowerCard).location(LocationType.PowerCardOnBoard).getIndexes().map(index => ({
+          type: LocationType.PowerCardCost, parent: index
+        })),
+        scale: 0.7
+      })
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.pass" components={{
+          bold: <strong/>,
+          energy: <Picture css={iconCss} src={Energy}/>
+        }}/>
+      },
+      move: { filter: isCustomMoveType(CustomMoveType.Pass) }
     }
   ]
 }

@@ -18,5 +18,6 @@ export enum LocationType {
   PlayerDiceToken,
   OnPowerCard,
   BuyArea,
-  WhiteTokenStock
+  WhiteTokenStock,
+  PowerCardCost
 }
