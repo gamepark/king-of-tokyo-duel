@@ -533,6 +533,7 @@
       "tuto.cards": "À la fin de votre tour, vous pouvez utiliser vos <bold>cubes d'énergie</bold> <energy/> pour acheter ces <bold>cartes Énergie</bold>.\nÀ tout moment, 3 cartes sont disponibles à l'achat.",
       "tuto.cost": "Le coût des cartes énergie est indiqué ici. En outre, <bold>la carte la plus à droite coûte 1</bold> <energy/> <bold>de moins</bold>.",
       "tuto.pass": "Enfin, si vous n'achetez pas de carte, vous gagnez 1 <energy/>.\nPassez dans l'en-tête pour gagner 1 <energy/>.",
+      "tuto.opponent": "C'est au tour de votre adversaire. Il va faire comme vous :\n• lancer les dés jusqu'à 3 fois\n• résoudre ses dés\n• acheter des cartes s'il le souhaite",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Valider",

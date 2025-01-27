@@ -306,6 +306,70 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
         }}/>
       },
       move: { filter: isCustomMoveType(CustomMoveType.Pass) }
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.opponent" components={{ bold: <strong/> }}/>
+      }
+    },
+    {
+      move: {
+        player: opponent,
+        randomize: (move: MaterialMoveRandomized) => {
+          if (isRoll(move)) {
+            switch (move.itemIndex) {
+              case 0:
+                move.location.rotation = DiceFace.Claw
+                break
+              case 1:
+                move.location.rotation = DiceFace.Heal
+                break
+              case 2:
+                move.location.rotation = DiceFace.Energy
+                break
+              case 3:
+                move.location.rotation = DiceFace.Energy
+                break
+              case 4:
+                move.location.rotation = DiceFace.Claw
+                break
+              case 7:
+                move.location.rotation = DiceFace.Claw
+                break
+            }
+          }
+        }
+      }
+    },
+    {
+      move: {
+        player: opponent,
+        filter: isCustomMoveType(CustomMoveType.Pass)
+      }
+    },
+    {
+      move: {
+        player: opponent,
+        filter: move => isCustomMoveType(CustomMoveType.ChooseDiceFace)(move) && move.data === DiceFace.Energy
+      }
+    },
+    {
+      move: {
+        player: opponent,
+        filter: move => isCustomMoveType(CustomMoveType.ChooseDiceFace)(move) && move.data === DiceFace.Claw
+      }
+    },
+    {
+      move: {
+        player: opponent,
+        filter: move => isCustomMoveType(CustomMoveType.ChooseDiceFace)(move) && move.data === DiceFace.Heal
+      }
+    },
+    {
+      move: {
+        player: opponent,
+        filter: isCustomMoveType(CustomMoveType.Pass)
+      }
     }
   ]
 }
