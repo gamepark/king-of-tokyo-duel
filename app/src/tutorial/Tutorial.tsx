@@ -546,6 +546,27 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
           }
         }
       }
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.heal" components={{
+          bold: <strong/>,
+          italic: <em/>,
+          healFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Heal]}/>,
+          heart: <Picture src={Heart} css={iconCss}/>
+        }}/>,
+        position: { x: 20 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.Dice).rotation(DiceFace.Heal),
+          this.material(game, MaterialType.HealthCounter).player(me)
+        ],
+        scale: 0.7
+      }),
+      move: {
+        filter: move => isCustomMoveType(CustomMoveType.ChooseDiceFace)(move) && move.data === DiceFace.Heal
+      }
     }
   ]
 }
