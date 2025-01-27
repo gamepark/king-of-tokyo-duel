@@ -11,9 +11,11 @@ import { CustomMoveType } from '@gamepark/king-of-tokyo-duel/rules/CustomMoveTyp
 import { MaterialTutorial, Picture, TutorialStep } from '@gamepark/react-game'
 import { isCustomMoveType, isMoveItemType, isRoll, MaterialGame, MaterialMoveRandomized } from '@gamepark/rules-api'
 import { Trans } from 'react-i18next'
+import Energy from '../images/icons/Energy.png'
 import Heart from '../images/icons/Heart.png'
 import Hit from '../images/icons/Hit.png'
 import { diceDescription } from '../material/DiceDescription'
+import { energyTokenDescription } from '../material/EnergyTokenDescription'
 import { diceIconCss, iconCss } from '../material/help/HelpComponents'
 import { TutorialSetup } from './TutorialSetup'
 
@@ -244,6 +246,26 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
         ],
         margin: { left: 5, right: 5 }
       })
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.energy" components={{
+          bold: <strong/>,
+          energyFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Energy]}/>,
+          energy: <Picture css={iconCss} src={Energy}/>
+        }}/>,
+        position: { x: 20 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.Dice).player(me).rotation(DiceFace.Energy)
+        ],
+        staticItems: { [MaterialType.Energy]: [energyTokenDescription.staticItem] },
+        scale: 0.5
+      }),
+      move: {
+        filter: move => isCustomMoveType(CustomMoveType.ChooseDiceFace)(move) && move.data === DiceFace.Energy
+      }
     }
   ]
 }

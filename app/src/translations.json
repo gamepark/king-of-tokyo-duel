@@ -529,6 +529,7 @@
       "tuto.smash": "Les dés <smashFace/> permettent d'infliger des <hit/> à votre adversaire, qui perdra autant de point de vie <heart/>.\nCliquez sur <smashFace/> dans l'en-tête pour résoudre ces dés.",
       "tuto.life": "Voici le compteur de points de vie de votre adversaire. Il lui reste 11 points de vie sur les 13 qu'il avait au départ !",
       "tuto.kill": "Réduire la vie de l'adversaire à 0 est une première façon de remporter la victoire : pensez à surveiller votre compteur de points de vie aussi !",
+      "tuto.energy": "Les dés <energyFace/> permettent de gagner des <bold>cubes d'énergie</bold> <energy/>.\nCliquez sur <energyFace/> dans l'en-tête pour résoudre ces dés.",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Valider",
