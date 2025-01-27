@@ -541,6 +541,7 @@
       "tuto.destruction": "Les dés <destructionFace/> fonctionnent comme les dés <fameFace/> mais permettent de tirer <bold>le pion Destruction</bold> <destruction/>.\nLorsque vous tirez le pion Destruction de votre côté du plateau, vous saccagez la ville et approchez de la victoire en devenant le Monstre le plus craint.",
       "tuto.keep-fame2": "Gardez votre dé <fameFace/> et relancez les 2 autres.",
       "tuto.heal": "Les dés <healFace/> vous permettent de récupérer des <heart/> perdus. Résolvez-les.\n<italic>Vous ne pouvez pas dépasser votre valeur de</italic> <heart/> <italic>de départ</italic>.",
+      "tuto.pull-fame": "À présent, résolvez vos dés <fameFace/>.\nUn triplé vous permet de tirer le pion de 1 case, et chaque dé supplémentaire ajoute 1 case : vous allez donc tirer <fame/> de 2 cases.",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Valider",

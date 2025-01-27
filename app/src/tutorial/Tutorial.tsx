@@ -567,6 +567,26 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
       move: {
         filter: move => isCustomMoveType(CustomMoveType.ChooseDiceFace)(move) && move.data === DiceFace.Heal
       }
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.pull-fame" components={{
+          bold: <strong/>,
+          fame: <Picture src={Fame} css={iconCss}/>,
+          fameFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Fame]}/>
+        }}/>,
+        position: { x: 20, y: 20 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.Dice).rotation(DiceFace.Fame),
+          this.material(game, MaterialType.Pawn).id(Pawn.Fame)
+        ],
+        scale: 0.7
+      }),
+      move: {
+        filter: move => isCustomMoveType(CustomMoveType.ChooseDiceFace)(move) && move.data === DiceFace.Fame
+      }
     }
   ]
 }
