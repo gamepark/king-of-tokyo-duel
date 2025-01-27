@@ -7,11 +7,14 @@ import { DiceFace } from '@gamepark/king-of-tokyo-duel/material/DiceFace'
 import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType'
 import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType'
 import { Monster } from '@gamepark/king-of-tokyo-duel/material/Monster'
+import { Pawn } from '@gamepark/king-of-tokyo-duel/material/Pawn'
 import { CustomMoveType } from '@gamepark/king-of-tokyo-duel/rules/CustomMoveType'
 import { MaterialTutorial, Picture, TutorialStep } from '@gamepark/react-game'
 import { isCustomMoveType, isMoveItemType, isRoll, MaterialGame, MaterialMoveRandomized } from '@gamepark/rules-api'
 import { Trans } from 'react-i18next'
+import Destruction from '../images/icons/Destruction.png'
 import Energy from '../images/icons/Energy.png'
+import Fame from '../images/icons/Fame.png'
 import Heart from '../images/icons/Heart.png'
 import Hit from '../images/icons/Hit.png'
 import { diceDescription } from '../material/DiceDescription'
@@ -369,6 +372,179 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
       move: {
         player: opponent,
         filter: isCustomMoveType(CustomMoveType.Pass)
+      }
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.turn2" components={{ bold: <strong/> }}/>
+      },
+      move: {
+        randomize: (move: MaterialMoveRandomized) => {
+          if (isRoll(move)) {
+            switch (move.itemIndex) {
+              case 0:
+                move.location.rotation = DiceFace.Claw
+                break
+              case 1:
+                move.location.rotation = DiceFace.Fame
+                break
+              case 2:
+                move.location.rotation = DiceFace.Fame
+                break
+              case 3:
+                move.location.rotation = DiceFace.Energy
+                break
+              case 4:
+                move.location.rotation = DiceFace.Fame
+                break
+              case 7:
+                move.location.rotation = DiceFace.Destruction
+                break
+            }
+          }
+        }
+      }
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.fame" components={{
+          bold: <strong/>,
+          fame: <Picture src={Fame} css={iconCss}/>
+        }}/>,
+        position: { x: 20, y: 10 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.Dice).rotation(DiceFace.Fame),
+          this.material(game, MaterialType.Pawn).id(Pawn.Fame)
+        ],
+        scale: 0.7
+      })
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.fame-marker" components={{
+          bold: <strong/>
+        }}/>,
+        position: { x: 20, y: 10 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.Dice).rotation(DiceFace.Fame),
+          this.material(game, MaterialType.Pawn).id(Pawn.Fame)
+        ],
+        scale: 0.7
+      })
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.keep-fame" components={{
+          bold: <strong/>,
+          fame: <Picture src={Fame} css={iconCss}/>,
+          fameFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Fame]}/>
+        }}/>,
+        position: { x: 20, y: 10 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.Dice).rotation(DiceFace.Fame),
+          this.material(game, MaterialType.Pawn).id(Pawn.Fame)
+        ],
+        scale: 0.7
+      }),
+      move: {
+        filter: (move, game) => isMoveItemType(MaterialType.Dice)(move)
+          && move.location.type === LocationType.PlayerDiceKeep
+          && this.material(game, move.itemType).getItem(move.itemIndex).location.rotation === DiceFace.Fame
+      }
+    },
+    {
+      move: {
+        filter: (move, game) => isMoveItemType(MaterialType.Dice)(move)
+          && move.location.type === LocationType.PlayerDiceKeep
+          && this.material(game, move.itemType).getItem(move.itemIndex).location.rotation === DiceFace.Fame
+      }
+    },
+    {
+      move: {
+        filter: (move, game) => isMoveItemType(MaterialType.Dice)(move)
+          && move.location.type === LocationType.PlayerDiceKeep
+          && this.material(game, move.itemType).getItem(move.itemIndex).location.rotation === DiceFace.Fame
+      }
+    },
+    {
+      move: {
+        filter: isCustomMoveType(CustomMoveType.Roll),
+        randomize: (move: MaterialMoveRandomized) => {
+          if (isRoll(move)) {
+            switch (move.itemIndex) {
+              case 0:
+                move.location.rotation = DiceFace.Energy
+                break
+              case 3:
+                move.location.rotation = DiceFace.Fame
+                break
+              case 7:
+                move.location.rotation = DiceFace.Destruction
+                break
+            }
+          }
+        }
+      }
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.destruction" components={{
+          bold: <strong/>,
+          fameFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Fame]}/>,
+          destructionFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Destruction]}/>,
+          destruction: <Picture css={iconCss} src={Destruction}/>
+        }}/>,
+        position: { x: 20, y: 25 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.Dice).rotation(DiceFace.Destruction),
+          this.material(game, MaterialType.Pawn).id(Pawn.Destruction)
+        ],
+        scale: 0.7
+      })
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.keep-fame2" components={{
+          bold: <strong/>,
+          fameFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Fame]}/>
+        }}/>,
+        position: { x: 20, y: 25 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.Dice).rotation(DiceFace.Fame)
+        ],
+        scale: 0.7
+      }),
+      move: {
+        filter: (move, game) => isMoveItemType(MaterialType.Dice)(move)
+          && move.location.type === LocationType.PlayerDiceKeep
+          && this.material(game, move.itemType).getItem(move.itemIndex).location.rotation === DiceFace.Fame
+      }
+    },
+    {
+      move: {
+        filter: isCustomMoveType(CustomMoveType.Roll),
+        randomize: (move: MaterialMoveRandomized) => {
+          if (isRoll(move)) {
+            switch (move.itemIndex) {
+              case 0:
+                move.location.rotation = DiceFace.Heal
+                break
+              case 7:
+                move.location.rotation = DiceFace.Heal
+                break
+            }
+          }
+        }
       }
     }
   ]
