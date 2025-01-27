@@ -2,6 +2,7 @@ import { AccessoriesType, AvatarProps, ClotheType, GraphicType, MouthType, TopTy
 import ClotheColorName from '@gamepark/avataaars/dist/avatar/clothes/ClotheColorName'
 import SkinColor from '@gamepark/avataaars/dist/avatar/SkinColor'
 import HatColorName from '@gamepark/avataaars/dist/avatar/top/HatColorName'
+import { PowerCard } from '@gamepark/king-of-tokyo-duel/material/cards/PowerCard'
 import { DiceColor } from '@gamepark/king-of-tokyo-duel/material/DiceColor'
 import { DiceFace } from '@gamepark/king-of-tokyo-duel/material/DiceFace'
 import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType'
@@ -635,6 +636,26 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
         materials: [this.material(game, MaterialType.MonsterBoard).id(me)],
         margin: { right: 20 }
       })
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.buy" components={{
+          bold: <strong/>,
+          energy: <Picture css={iconCss} src={Energy}/>
+        }}/>,
+        position: { y: 15 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.Energy).player(me),
+          this.material(game, MaterialType.PowerCard).id(PowerCard.Monumental)
+        ],
+        margin: { top: 3, bottom: 20 }
+      }),
+      move: {
+        filter: (move, game) => isMoveItemType(MaterialType.PowerCard)(move)
+          && move.itemIndex === this.material(game, MaterialType.PowerCard).id(PowerCard.Monumental).getIndex()
+      }
     }
   ]
 }

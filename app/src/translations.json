@@ -545,6 +545,7 @@
       "tuto.marker-win": "Si vous tirez le pion Gloire <fame/> ou Destruction <destruction/> au bout de la piste, <bold>vous gagnez la partie</bold> !",
       "tuto.spotlight": "Vous pouvez aussi gagner en amenant le pion Gloire <fame/> ET le pion Destruction <destruction/> <bold>sous les projecteurs</bold> de votre côté, dans cette zone.",
       "tuto.power": "Les dés <powerFace/> ont un effet différent pour chaque Monstre.\nÀ cette partie vous jouez <bold>Gigazaur</bold>. Pour 2 <powerFace/>, il peut tirer <fame/> ou <destruction/> 1 fois.\nIl est donc fort pour gagner grâce à la Gloire ou la Destruction !",
+      "tuto.buy": "Vous pouvez maintenant acheter des <bold>cartes Énergie</bold>.\nVous avez assez de <energy/> pour acheter celle-ci, grâce à sa réduction.\nAchetez-là.",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Valider",
