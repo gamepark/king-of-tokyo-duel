@@ -620,6 +620,21 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
         locations: [{ type: LocationType.SpotlightArea, player: me }],
         margin: { bottom: 12 }
       })
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.power" components={{
+          bold: <strong/>,
+          powerFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Power]}/>,
+          fame: <Picture src={Fame} css={iconCss}/>,
+          destruction: <Picture src={Destruction} css={iconCss}/>
+        }}/>,
+        position: { x: 30 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [this.material(game, MaterialType.MonsterBoard).id(me)],
+        margin: { right: 20 }
+      })
     }
   ]
 }
