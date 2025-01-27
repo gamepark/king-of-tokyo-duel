@@ -176,6 +176,19 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
           }
         }
       }
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.keep2" components={{ bold: <strong/> }}/>,
+        position: { x: 30 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [this.material(game, MaterialType.Dice).player(me).rotation(r => r === DiceFace.Claw || r === DiceFace.Energy)],
+        scale: 0.5
+      }),
+      move: {
+        filter: isCustomMoveType(CustomMoveType.Pass)
+      }
     }
   ]
 }

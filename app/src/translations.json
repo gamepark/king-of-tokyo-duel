@@ -524,6 +524,7 @@
       "tuto.reroll": "À chaque tour vous pouvez relancer tout ou partie des dés 2 fois.",
       "tuto.faces": "Chacune des 6 faces des dés est associée à une action en particulier.",
       "tuto.keep1": "Gardez vos dés <smashFace/> et <energyFace/> et relancez les autres.",
+      "tuto.keep2": "Conservez ces dés en cliquant sur <bold>tout garder</bold> dans l'en-tête.",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Valider",
