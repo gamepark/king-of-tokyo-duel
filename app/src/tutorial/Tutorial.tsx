@@ -2,6 +2,7 @@ import { AccessoriesType, AvatarProps, ClotheType, GraphicType, MouthType, TopTy
 import ClotheColorName from '@gamepark/avataaars/dist/avatar/clothes/ClotheColorName'
 import SkinColor from '@gamepark/avataaars/dist/avatar/SkinColor'
 import HatColorName from '@gamepark/avataaars/dist/avatar/top/HatColorName'
+import { Buzz } from '@gamepark/king-of-tokyo-duel/material/Buzz'
 import { PowerCard } from '@gamepark/king-of-tokyo-duel/material/cards/PowerCard'
 import { DiceColor } from '@gamepark/king-of-tokyo-duel/material/DiceColor'
 import { DiceFace } from '@gamepark/king-of-tokyo-duel/material/DiceFace'
@@ -655,6 +656,45 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
       move: {
         filter: (move, game) => isMoveItemType(MaterialType.PowerCard)(move)
           && move.itemIndex === this.material(game, MaterialType.PowerCard).id(PowerCard.Monumental).getIndex()
+      }
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.card-type" components={{ bold: <strong/> }}/>,
+        position: { y: 15 }
+      }
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.buzz" components={{ bold: <strong/> }}/>,
+        position: { y: -20 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.Buzz).id(Buzz.PandaDice)
+        ],
+        locations: [{ type: LocationType.PowerCardBuzz, parent: this.material(game, MaterialType.PowerCard).id(PowerCard.Monumental).getIndex() }],
+        margin: { left: 3, bottom: 7, right: 10 }
+      })
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.buzz-bonus" components={{
+          bold: <strong/>,
+          fame: <Picture src={Fame} css={iconCss}/>,
+          destruction: <Picture src={Destruction} css={iconCss}/>
+        }}/>,
+        position: { y: -20 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.Pawn).id(Pawn.Destruction),
+          this.material(game, MaterialType.Buzz).id(Buzz.PandaDice)
+        ],
+        margin: { left: 2, bottom: 7, right: 10, top: 15 }
+      }),
+      move: {
+        filter: move => isMoveItemType(MaterialType.Buzz)(move) && move.location.type === LocationType.DestructionTrack && move.location.x === -1
       }
     }
   ]

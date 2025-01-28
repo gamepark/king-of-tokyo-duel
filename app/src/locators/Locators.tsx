@@ -17,6 +17,7 @@ import { playerDiceRollLocator } from './PlayerDiceRollLocator'
 import { playerDiceTokenLocator } from './PlayerDiceTokenLocator'
 import { playerEnergyLocator } from './PlayerEnergyLocator'
 import { playerKeepCards } from './PlayerKeepCardsLocator'
+import { powerCardBuzzLocator } from './PowerCardBuzzLocator'
 import { powerCardCostLocator } from './PowerCardCostLocator'
 import { powerCardDeckLocator } from './PowerCardDeckLocator'
 import { powerCardOnBoardLocator } from './PowerCardOnBoardLocator'
@@ -45,5 +46,6 @@ export const Locators: Partial<Record<LocationType, Locator<Monster, MaterialTyp
   [LocationType.PlayerDiceToken]: playerDiceTokenLocator,
   [LocationType.WhiteTokenStock]: whiteTokenStockLocator,
   [LocationType.PowerCardCost]: powerCardCostLocator,
-  [LocationType.SpotlightArea]: spotlightAreaLocator
+  [LocationType.SpotlightArea]: spotlightAreaLocator,
+  [LocationType.PowerCardBuzz]: powerCardBuzzLocator
 }

@@ -20,5 +20,6 @@ export enum LocationType {
   BuyArea,
   WhiteTokenStock,
   PowerCardCost,
-  SpotlightArea
+  SpotlightArea,
+  PowerCardBuzz
 }
