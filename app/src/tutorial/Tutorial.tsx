@@ -694,8 +694,63 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
         margin: { left: 2, bottom: 7, right: 10, top: 15 }
       }),
       move: {
-        filter: move => isMoveItemType(MaterialType.Buzz)(move) && move.location.type === LocationType.DestructionTrack && move.location.x === -1
+        filter: move => isMoveItemType(MaterialType.Buzz)(move) && move.location.type === LocationType.DestructionTrack && move.location.x === -1,
+        interrupt: isMoveItemType(MaterialType.Pawn)
       }
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.card-effect" components={{
+          bold: <strong/>,
+          fame: <Picture src={Fame} css={iconCss}/>,
+          destruction: <Picture src={Destruction} css={iconCss}/>
+        }}/>,
+        position: { y: -25 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.Pawn),
+          this.material(game, MaterialType.PowerCard).id(PowerCard.Monumental)
+        ],
+        margin: { bottom: 1, top: 15 }
+      }),
+      move: {
+        interrupt: isMoveItemType(MaterialType.DiceToken)
+      }
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.dice-token" components={{
+          bold: <strong/>,
+          destruction: <Picture src={Destruction} css={iconCss}/>
+        }}/>,
+        position: { y: -25 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.Pawn).id(Pawn.Destruction),
+          this.material(game, MaterialType.Buzz).id(Buzz.PandaDice),
+          this.material(game, MaterialType.DiceToken)
+        ],
+        margin: { bottom: 1, top: 15 }
+      }),
+      move: {}
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.extra-dice" components={{
+          bold: <strong/>,
+          destruction: <Picture src={Destruction} css={iconCss}/>
+        }}/>,
+        position: { x: 10 }
+      },
+      focus: (game: MaterialGame) => ({
+        materials: [
+          this.material(game, MaterialType.Dice).id(DiceColor.White),
+          this.material(game, MaterialType.DiceToken)
+        ],
+        margin: { bottom: 1, top: 15 }
+      })
     }
   ]
 }
