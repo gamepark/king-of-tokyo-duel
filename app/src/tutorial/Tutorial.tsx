@@ -751,6 +751,22 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
         ],
         margin: { bottom: 1, top: 15 }
       })
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.win" components={{
+          bold: <strong/>,
+          heart: <Picture src={Heart} css={iconCss}/>,
+          fame: <Picture src={Fame} css={iconCss}/>,
+          destruction: <Picture src={Destruction} css={iconCss}/>
+        }}/>
+      }
+    },
+    {
+      popup: {
+        text: () => <Trans defaults="tuto.end" components={{ bold: <strong/> }}/>
+      },
+      move: { filter: isCustomMoveType(CustomMoveType.Pass) }
     }
   ]
 }
