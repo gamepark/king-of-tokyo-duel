@@ -8,7 +8,10 @@ import { RuleId } from './RuleId'
 
 export class PreventDamagesRule extends BasePlayerTurnRule<Smash> {
   onRuleStart() {
-    if (!this.smashEffect.effect.count || new KeepHelper(this.game).immune(this.smashEffect.target)) {
+    if (!this.smashEffect.effect.count
+      || new KeepHelper(this.game).immune(this.smashEffect.target)
+      || this.isImmune(this.smashEffect.target)
+    ) {
       return [this.startNextRule(RuleId.Effect)]
     }
 
@@ -24,6 +27,10 @@ export class PreventDamagesRule extends BasePlayerTurnRule<Smash> {
     }
 
     return [this.startNextRule(RuleId.Smash)]
+  }
+
+  isImmune(player: Monster) {
+    return player === this.remind(Memory.Immune)
   }
 
   startNextRule(rule: RuleId) {

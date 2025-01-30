@@ -14,6 +14,15 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
     const moves: MaterialMove[] = []
     const redDice = this.redDice.deck()
     const nextPlayer = this.computeNextPlayer()
+
+    // In case the player has a free turn, the immunity must be removed
+    const immune = this.remind(Memory.Immune)
+    const opponentIsImmune = immune !== undefined && immune !== this.player
+    if (this.hasFreeTurn && opponentIsImmune) {
+      this.forget(Memory.Immune)
+    }
+
+
     if (redDice.length < 6) {
       moves.push(
         this.material(MaterialType.Dice)
@@ -91,6 +100,9 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
   }
 
   onRuleEnd() {
+    if (this.remind(Memory.ActivePlayer) === this.remind(Memory.Immune)) {
+      this.forget(Memory.Immune)
+    }
     this.forget(Memory.RollCount)
     this.forget(Memory.BoughtCards)
     this.forget(Memory.Effects)
@@ -103,9 +115,6 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
     this.forget(Memory.ConsumedPower)
     this.forget(Memory.RefillRiver)
     this.forget(Memory.ExtraDiceFaces)
-    if (this.remind(Memory.ActivePlayer) === this.remind(Memory.Immune)) {
-      this.forget(Memory.Immune)
-    }
     this.memorize(Memory.Round, (round: number) => round + 1)
     return []
   }

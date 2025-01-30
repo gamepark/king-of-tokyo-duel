@@ -24,6 +24,10 @@ export class EffectRule extends BasePlayerTurnRule {
     switch (type) {
 
       case EffectType.Smash:
+        if (effect.target === this.remind(Memory.Immune)) {
+          return this.startPlayerTurn(RuleId.PreventDamages, effect.target)
+        }
+
         if (new KeepHelper(this.game).canPreventDamagesOn(effect.target)) {
           if (this.player === effect.target) return this.startRule(RuleId.PreventDamages)
           return this.startPlayerTurn(RuleId.PreventDamages, effect.target)
