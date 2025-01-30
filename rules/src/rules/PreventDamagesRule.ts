@@ -12,6 +12,7 @@ export class PreventDamagesRule extends BasePlayerTurnRule<Smash> {
       || new KeepHelper(this.game).immune(this.smashEffect.target)
       || this.isImmune(this.smashEffect.target)
     ) {
+
       return [this.startNextRule(RuleId.Effect)]
     }
 
