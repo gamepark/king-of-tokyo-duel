@@ -17,7 +17,7 @@ export class MoveBuzzTokenRule extends BasePlayerTurnRule {
       if (buzzItem.location.type === LocationType.FameTrack || buzzItem.location.type === LocationType.DestructionTrack) {
         const buzzSpaces = getBuzzSpaces(buzzItem.location, buzz)
         const pawnItem = this.material(MaterialType.Pawn).location(buzzItem.location.type).getItem()!
-        if (buzzSpaces.some(space => space.x === pawnItem.location.x)) {
+        if (buzzSpaces.some(space => Math.abs(space.x - pawnItem.location.x!) <= 0.5)) {
           // The fame or destruction marker is on the buzz token, it cannot be moved
           return this.startNextRule
         } else {
