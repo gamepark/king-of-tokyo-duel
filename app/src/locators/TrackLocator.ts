@@ -16,13 +16,13 @@ export abstract class TrackLocator extends HexagonalGridLocator {
         .find(item => Math.abs(item.location.x! - location.x!) === 0.5)!
       switch (buzz.location.rotation) {
         case 0:
-          return { x: x + 0.5, y: y - 0.5, z }
+          return { x: x + 0.5, y: y - 2.25, z }
         case 2:
           return { x: x + 0.5, y: y + 0.5, z }
         case 3:
           return { x: x - 0.5, y: y + 0.5, z }
         case 5:
-          return { x: x - 0.5, y: y - 0.5, z }
+          return { x: x - 0.5, y: y - 2.25, z }
       }
     }
     return { x, y, z }
