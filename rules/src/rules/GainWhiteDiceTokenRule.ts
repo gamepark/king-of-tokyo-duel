@@ -18,7 +18,7 @@ export class GainWhiteDiceTokenRule extends BasePlayerTurnRule<GainWhiteDiceToke
               type: LocationType.PlayerDiceToken,
               player: this.currentEffect.target
             },
-            this.currentEffect.effect.count
+            Math.min(2 - countTokens, this.currentEffect.effect.count)
           )
       )
     }
