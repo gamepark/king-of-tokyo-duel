@@ -10,11 +10,14 @@ import { RuleId } from './RuleId'
 
 export class MadeInALabRule extends BuyRule {
   onRuleStart() {
-    this.memorize(Memory.Phase, RuleId.MadeInALab)
+    const moves = super.onRuleStart()
     if (new MadeInALabKeepRule(this.game, this.material(MaterialType.PowerCard).id(PowerCard.MadeInALab).getIndex()).isConsumed) {
-      return super.onRuleStart().concat(this.getNextRule())
+      moves.push(this.getNextRule())
+      this.memorize(Memory.Phase, RuleId.MadeInALab)
+      return moves
     }
-    return super.onRuleStart()
+    this.memorize(Memory.Phase, RuleId.MadeInALab)
+    return moves
   }
 
   getNextRule(): RuleMove {
