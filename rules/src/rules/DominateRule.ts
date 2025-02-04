@@ -9,6 +9,11 @@ import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class DominateRule extends BasePlayerTurnRule {
+  onRuleStart() {
+    if (!this.keepCards.length) return [this.customMove(CustomMoveType.Pass)]
+    return []
+  }
+
   getPlayerMoves() {
     const moves = super.getPlayerMoves()
 

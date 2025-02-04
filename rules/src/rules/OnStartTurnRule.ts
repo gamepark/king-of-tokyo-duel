@@ -1,5 +1,4 @@
 import { PowerCard } from '../material/cards/PowerCard'
-import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { KeepHelper } from './helper/KeepHelper'
@@ -21,12 +20,9 @@ export class OnStartTurnRule extends BasePlayerTurnRule {
     }
 
     if (this.remind(Memory.Dominate)) {
-      if (this.material(MaterialType.PowerCard).location(LocationType.PlayerKeepCards).player(this.player).length > 0) {
-        return [this.startRule(RuleId.Dominate)]
-      } else {
-        this.forget(Memory.Dominate)
-      }
+      return [this.startRule(RuleId.Dominate)]
     }
+
     return [this.startRule(RuleId.RollDice)]
   }
 
