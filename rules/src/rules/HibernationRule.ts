@@ -7,6 +7,7 @@ import { CustomMoveType } from './CustomMoveType'
 import { EffectType } from './effects/EffectType'
 import { HealHelper } from './helper/HealHelper'
 import { HibernationKeepRule } from './keep/card/HibernationKeepRule'
+import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class HibernationRule extends BasePlayerTurnRule {
@@ -52,6 +53,8 @@ export class HibernationRule extends BasePlayerTurnRule {
     if (this.effects.length) {
       return [this.startRule(RuleId.Effect)]
     }
+
+    if (this.remind(Memory.Dominate)) this.forget(Memory.Dominate)
     return [this.startRule(RuleId.ChangePlayer)]
   }
 
