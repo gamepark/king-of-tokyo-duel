@@ -126,7 +126,13 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
   play(
     move: MaterialMoveRandomized<Monster, MaterialType, LocationType> | MaterialMoveView<Monster, MaterialType, LocationType>, context?: PlayMoveContext
   ): MaterialMove<Monster, MaterialType, LocationType>[] {
-    if (!isEndGame(move) && this.remind(Memory.Ended)) {
+    if (isEndGame(move)) {
+      this.game.memory[Memory.Ended] = true
+      return super.play(move)
+    }
+
+    if (this.remind(Memory.Ended)) {
+      //super.play(move)
       return []
     }
 
