@@ -2,8 +2,11 @@ import {
   CompetitiveRank,
   FillGapStrategy,
   hideItemId,
+  isEndGame,
   MaterialGame,
   MaterialMove,
+  MaterialMoveRandomized,
+  MaterialMoveView, PlayMoveContext,
   PositiveSequenceStrategy,
   SecretMaterialRules,
   TimeLimit
@@ -29,6 +32,7 @@ import { HealRule } from './rules/HealRule'
 import { HibernationRule } from './rules/HibernationRule'
 import { InShapeRule } from './rules/InShapeRule'
 import { MadeInALabRule } from './rules/MadeInALabRule'
+import { Memory } from './rules/Memory'
 import { MoveBuzzTokenRule } from './rules/MoveBuzzTokenRule'
 import { OnStartTurnRule } from './rules/OnStartTurnRule'
 import { AlienoidRule } from './rules/power/AlienoidRule'
@@ -117,6 +121,16 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
       [LocationType.WhiteDiceStock]: new PositiveSequenceStrategy(),
       [LocationType.OnPowerCard]: new FillGapStrategy()
     }
+  }
+
+  play(
+    move: MaterialMoveRandomized<Monster, MaterialType, LocationType> | MaterialMoveView<Monster, MaterialType, LocationType>, context?: PlayMoveContext
+  ): MaterialMove<Monster, MaterialType, LocationType>[] {
+    if (!isEndGame(move) && this.remind(Memory.Ended)) {
+      return []
+    }
+
+    return super.play(move, context)
   }
 
   giveTime(): number {

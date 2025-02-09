@@ -8,6 +8,7 @@ import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { EffectType, PullPawn } from './effects/EffectType'
 import { GameOverRule } from './GameOverRule'
 import { KeepHelper } from './helper/KeepHelper'
+import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class PullPawnRule extends BasePlayerTurnRule<PullPawn> {
@@ -58,6 +59,7 @@ export class PullPawnRule extends BasePlayerTurnRule<PullPawn> {
   afterItemMove(move: ItemMove) {
     if (isMoveItem(move) && move.itemType === MaterialType.Pawn) {
       if (new GameOverRule(this.game).isWinner(this.player)) {
+        this.memorize(Memory.Ended, true)
         return [this.endGame()]
       } else {
         const buzz = this.getBuzzAtX(move.location.type!, move.location.x!)

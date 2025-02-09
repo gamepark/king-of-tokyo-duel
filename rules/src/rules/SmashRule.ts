@@ -31,6 +31,7 @@ export class SmashRule extends BasePlayerTurnRule<Smash> {
       moves.push(...onDieMoves)
 
       if (this.remind(Memory.Immune) !== target) {
+        this.memorize(Memory.Ended, true)
         moves.push(this.endGame())
         return moves
       }
