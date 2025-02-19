@@ -7,15 +7,9 @@ export class OnPowerCardLocator extends Locator {
 
   getPositionOnParent(location: Location, context: MaterialContext): XYCoordinates {
     if (!isItemContext(context)) return { x: 50, y: 50}
-    if (location.x === 0) {
-      return {
-        x: 20, y: 90
-      }
-    }
-
-    return {
-      x: 80, y: 90
-    }
+    const x = location.x! % 2 === 0? 17: 87
+    const y = 90 - (25 * Math.floor(location.x! / 2))
+    return { x: x, y: y }
   }
 }
 
