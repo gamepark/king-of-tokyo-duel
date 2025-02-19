@@ -86,7 +86,8 @@ export class ChangePlayerRule extends BasePlayerTurnRule {
     return this
       .material(MaterialType.Dice)
       .id(DiceColor.White)
-      .player(this.player)
+    // Sometimes dice is on card that has no player. In practice, all white dice must go in stock when player change
+    //.player(this.player)
   }
 
   get redDice() {
