@@ -1,47 +1,22 @@
 import { CustomMove, isCustomMoveType, isMoveItemType, ItemMove, MaterialItem, MaterialMove, MoveItem, RuleMove } from '@gamepark/rules-api'
 import { PowerCard } from '../material/cards/PowerCard'
 import { powerCardCharacteristics } from '../material/cards/PowerCardCharacteristics'
-import { Timing } from '../material/cards/Timing'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { BasePlayerTurnRule } from './BasePlayerTurnRule'
 import { CustomMoveType } from './CustomMoveType'
 import { EffectType } from './effects/EffectType'
 import { KeepHelper } from './helper/KeepHelper'
+import { BuyCardHelper } from './helper/BuyCardHelper'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class BuyRule extends BasePlayerTurnRule {
   onRuleStart(): MaterialMove[] {
     const moves: MaterialMove[] = []
-    moves.push(...this.placeCard())
+    moves.push(...new BuyCardHelper(this.game, this.player).placeBoughtCard())
     this.memorize(Memory.Phase, RuleId.Buy)
     return moves
-  }
-
-  placeCard() {
-    const boughtCard = this
-      .material(MaterialType.PowerCard)
-      .location(LocationType.BuyArea)
-
-    if (boughtCard.length) {
-      return boughtCard
-        .moveItems((item) => {
-          if (powerCardCharacteristics[item.id as PowerCard].timing === Timing.Discard) {
-            return {
-              type: LocationType.Discard
-            }
-          } else {
-            return {
-              type: LocationType.PlayerKeepCards,
-              player: this.player
-            }
-          }
-        })
-    }
-
-    return []
-
   }
 
   getNextRule(): RuleMove {
@@ -96,7 +71,7 @@ export class BuyRule extends BasePlayerTurnRule {
         return moves
       }
 
-      moves.push(...this.placeCard())
+      moves.push(...new BuyCardHelper(this.game, this.player).placeBoughtCard())
     }
 
     return moves

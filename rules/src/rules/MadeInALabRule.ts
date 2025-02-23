@@ -11,6 +11,7 @@ import { RuleId } from './RuleId'
 export class MadeInALabRule extends BuyRule {
   onRuleStart() {
     const moves = super.onRuleStart()
+
     if (new MadeInALabKeepRule(this.game, this.material(MaterialType.PowerCard).id(PowerCard.MadeInALab).getIndex()).isConsumed) {
       moves.push(this.getNextRule())
       this.memorize(Memory.Phase, RuleId.MadeInALab)
@@ -39,12 +40,17 @@ export class MadeInALabRule extends BuyRule {
   }
 
   afterItemMove(move: ItemMove): MaterialMove[] {
-    if (isMoveItemType(MaterialType.PowerCard)(move) && move.location.type === LocationType.BuyArea) {
+    if (!isMoveItemType(MaterialType.PowerCard)(move)) return []
+    if (move.location.type === LocationType.BuyArea) {
       new MadeInALabKeepRule(this.game, this.material(MaterialType.PowerCard).id(PowerCard.MadeInALab).getIndex()).markKeepCardConsumed()
     }
+
     const moves = super.afterItemMove(move)
-    if (!moves.some(move => move.kind === MoveKind.RulesMove)) {
-      moves.push(this.getNextRule())
+
+    if (move.location.type === LocationType.BuyArea) {
+      if (!moves.some(move => move.kind === MoveKind.RulesMove)) {
+        moves.push(this.getNextRule())
+      }
     }
     return moves
   }
