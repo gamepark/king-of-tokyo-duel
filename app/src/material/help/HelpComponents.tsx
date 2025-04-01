@@ -66,4 +66,5 @@ export const HelpComponents: Record<any, any> = {
   death: <Picture css={iconCss} src={Skull}/>,
   kingbuzz: <Picture css={bigIconCss} src={buzzTokenDescription.images[Buzz.TheKingBuzz]}/>,
   bold: <strong />,
+  italic: <em />,
 }
