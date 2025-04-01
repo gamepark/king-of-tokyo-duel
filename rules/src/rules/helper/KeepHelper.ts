@@ -38,6 +38,7 @@ import { UnstableDnaKeepRule } from '../keep/card/UnstableDnaKeepRule'
 import { UnstoppableKeepRule } from '../keep/card/UnstoppableKeepRule'
 import { UtterDestructionKeepRule } from '../keep/card/UtterDestructionKeepRule'
 import { KeepRule } from '../keep/KeepRule'
+import { Memory } from '../Memory'
 
 export class KeepHelper extends MaterialRulesPart {
   private keepCards: Material
@@ -135,6 +136,7 @@ export class KeepHelper extends MaterialRulesPart {
   }
 
   immune(player: Monster): boolean {
+    if (this.remind(Memory.Immune) === player) return true
     return this.keepCardsIndexes.some((index) => this.getEffectRule(index)?.immune(player))
   }
 

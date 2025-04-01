@@ -132,7 +132,6 @@ export class KingOfTokyoDuelRules extends SecretMaterialRules<Monster, MaterialT
     }
 
     if (this.remind(Memory.Ended)) {
-      //super.play(move)
       return []
     }
 
