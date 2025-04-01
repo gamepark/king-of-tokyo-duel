@@ -116,7 +116,7 @@
       "card.effect.6": "<bold>Pull 1</bold><fame/> each time you buy a Power card.",
       "card.7": "Camouflage",
       "card.effect.7": "You may roll 1 die for each <hit/> you take. For each <heartFace/> you roll, <bold>ignore 1</bold><hit/>.",
-      "card.8": "TRUE",
+      "card.8": "Cannonball!",
       "card.effect.8": "<bold>Pull 1</bold><fame/>.\n<bold>Your Rival takes 1</bold><hit/>.\n<bold>Gain 4</bold><energy/>.",
       "card.9": "Dominate",
       "card.effect.9": "On their next turn, <bold>your Rival rolls 1 less die for each</bold> KEEP card they have. They can decide to discard KEEP cards before resolving this effect.",
@@ -312,6 +312,8 @@
       "fs.dialog.p2": "You can also enable fullscreen.",
       "Enable sound": "Enable sound",
       "Mute sound": "Mute sound",
+      "Enable live history": "Show history",
+      "Disable live history": "Hide history",
       "Light mode": "Light mode",
       "Dark mode": "Dark mode",
       "Back to Game Park": "Back to Game Park",
@@ -348,7 +350,9 @@
       "time.wait.max": "Maximum down time",
       "time.awaited": "Made others wait (average)",
       "tuto.over": "Congratulations, you've completed the tutorial!\r\nReady to play with other players?",
-      "quantity.tooltip": "Quantity: {n}"
+      "quantity.tooltip": "Quantity: {n}",
+      "history.game.start": "Start of the game",
+      "history.game.over": "End of the game"
     }
   },
   "fr": {
@@ -664,6 +668,8 @@
       "fs.dialog.p2": "Vous pouvez aussi passer en plein écran.",
       "Enable sound": "Activer le son",
       "Mute sound": "Couper le son",
+      "Enable live history": "Afficher l'historique",
+      "Disable live history": "Masquer l'historique",
       "Light mode": "Mode clair",
       "Dark mode": "Mode sombre",
       "Back to Game Park": "Retour à Game Park",
@@ -700,7 +706,9 @@
       "time.wait.max": "Temps d’attente maximum",
       "time.awaited": "A fait attendre les autres (moyenne)",
       "tuto.over": "Félicitations, vous avez terminé le tutoriel !\nPrêt⸱e à jouer avec d’autres joueurs ?",
-      "quantity.tooltip": "Quantité : {n}"
+      "quantity.tooltip": "Quantité : {n}",
+      "history.game.start": "Début de la partie",
+      "history.game.over": "Fin de la partie"
     }
   },
   "es": {
