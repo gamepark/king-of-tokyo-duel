@@ -32,7 +32,7 @@ export class RollHelper extends MaterialRulesPart {
   get dice() {
     return this
       .material(MaterialType.Dice)
-      .location(LocationType.PlayerDiceKeep)
+      .location((l) => LocationType.PlayerDiceKeep === l.type || LocationType.PlayerDiceRoll === l.type)
       .player(this.player)
   }
 

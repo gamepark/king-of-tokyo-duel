@@ -84,6 +84,7 @@ export class RollDiceRule extends BasePlayerTurnRule {
         moves.push(...this.goToPhase2())
       }
     }
+
     return moves
   }
 
