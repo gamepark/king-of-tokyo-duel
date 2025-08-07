@@ -21,6 +21,6 @@ export class LightningSpeedKeepRule extends KeepRule {
 
   getBuzzAtX(track: LocationType, x: number) {
     return this.material(MaterialType.Buzz).location(track)
-      .filter(item => getBuzzSpaces(item.location, item.id).some(space => Math.abs(space.x - x) <= 0.5))
+      .filter<Buzz>(item => getBuzzSpaces(item.location, item.id).some(space => Math.abs(space.x - x) <= 0.5))
   }
 }

@@ -4,7 +4,7 @@ import { faRotateRight } from '@fortawesome/free-solid-svg-icons/faRotateRight'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Buzz, buzzDescriptions } from '@gamepark/king-of-tokyo-duel/material/Buzz'
 import { ItemContext, ItemMenuButton, PolyhexDescription } from '@gamepark/react-game'
-import { HexGridSystem, MaterialItem, MaterialMove } from '@gamepark/rules-api'
+import { HexGridSystem, MaterialItem, MaterialMove, Polyhex } from '@gamepark/rules-api'
 import { Trans } from 'react-i18next'
 import AlienShortcut from '../images/buzz_token/AlienShortcut.png'
 import AnubisEnergyHeal from '../images/buzz_token/AnubisEnergyHeal.png'
@@ -22,8 +22,6 @@ import { BuzzTokenHelp } from './help/BuzzTokenHelp'
 
 export class BuzzTokenDescription extends PolyhexDescription {
   borderRadius = 0.5
-
-  coordinatesSystem = HexGridSystem.OddQ
 
   getSize(id: Buzz) {
     return tokenSizes[id]
@@ -46,8 +44,8 @@ export class BuzzTokenDescription extends PolyhexDescription {
 
   help = BuzzTokenHelp
 
-  getPolyhexShape(item: MaterialItem) {
-    return buzzDescriptions[item.id as Buzz].effects.map((_, x) => ({ x, y: 0 }))
+  getPolyhex(item: MaterialItem) {
+    return new Polyhex([buzzDescriptions[item.id as Buzz].effects], { system: HexGridSystem.OddQ, isEmpty: () => false })
   }
 
   menuAlwaysVisible = true
@@ -60,6 +58,7 @@ export class BuzzTokenDescription extends PolyhexDescription {
         return <>
           {this.getHelpButton(item, context)}
           <ItemMenuButton label={<Trans defaults="Rotate"/>}
+                          labelPosition="right"
                           move={rules.material(type).index(index).rotateItem(item =>
                             (item.location.rotation + (item.location.rotation % 3 === 0 ? 2 : 1)) % 6
                           )}
@@ -68,6 +67,7 @@ export class BuzzTokenDescription extends PolyhexDescription {
             <FontAwesomeIcon icon={faRotateRight}/>
           </ItemMenuButton>
           <ItemMenuButton label={<Trans defaults="Rotate"/>}
+                          labelPosition="left"
                           move={rules.material(type).index(index).rotateItem(item =>
                             (item.location.rotation + (item.location.rotation % 3 === 2 ? 4 : 5)) % 6
                           )}

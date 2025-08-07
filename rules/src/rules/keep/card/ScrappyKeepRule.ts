@@ -1,4 +1,4 @@
-import { getBuzzSpaces } from '../../../material/Buzz'
+import { Buzz, getBuzzSpaces } from '../../../material/Buzz'
 import { LocationType } from '../../../material/LocationType'
 import { MaterialType } from '../../../material/MaterialType'
 import { Pawn } from '../../../material/Pawn'
@@ -23,7 +23,7 @@ export class ScrappyKeepRule extends KeepRule {
 
   getBuzzAtX(track: LocationType, x: number) {
     return this.material(MaterialType.Buzz).location(track)
-      .filter(item => getBuzzSpaces(item.location, item.id).some(space => Math.abs(space.x - x) <= 0.5))
+      .filter<Buzz>(item => getBuzzSpaces(item.location, item.id).some(space => Math.abs(space.x - x) <= 0.5))
   }
 
   get bonusTokensCount() {
