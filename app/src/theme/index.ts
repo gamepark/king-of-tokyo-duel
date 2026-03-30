@@ -58,6 +58,16 @@ export const theme = {
         font-size: 2.7em;
       }
 
+      select {
+        background: ${navyLight};
+        color: ${textLight};
+
+        option {
+          background: ${navy};
+          color: ${textLight};
+        }
+      }
+
       button {
         background: linear-gradient(135deg, #1a3a2a, #2a4a38);
         color: #c0e8c0;
