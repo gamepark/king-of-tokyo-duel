@@ -118,5 +118,22 @@ export const theme = {
         linear-gradient(160deg, #101028, ${navy}, #101028);
       color: ${textMuted};
     `
+  },
+  timeStats: {
+    container: css`
+      background: linear-gradient(160deg, #141430, ${navy}, #141430);
+      color: ${textLight};
+
+      th, td {
+        color: ${textMuted};
+        border-color: rgba(130, 140, 180, 0.12);
+      }
+
+      th {
+        color: ${textLight};
+      }
+    `,
+    thinkBackground: '#1a3a2a',
+    waitBackground: '#2a2040'
   }
 }
