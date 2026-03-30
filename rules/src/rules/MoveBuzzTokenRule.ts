@@ -1,5 +1,5 @@
 import { isMoveItemType, ItemMove, Location, MaterialMove } from '@gamepark/rules-api'
-import range from 'lodash/range'
+import { range } from 'es-toolkit/compat'
 import { Buzz, buzzDescriptions, commonBuzz, getBuzzSpaces } from '../material/Buzz'
 import { PowerCard } from '../material/cards/PowerCard'
 import { powerCardCharacteristics } from '../material/cards/PowerCardCharacteristics'

@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { Pawn } from '@gamepark/king-of-tokyo-duel/material/Pawn'
 import { BoardDescription, ComponentSize } from '@gamepark/react-game'
@@ -7,6 +6,8 @@ import Fame from '../images/pawn/fame.png'
 import { PawnHelp } from './help/PawnHelp'
 
 export class PawnDescription extends BoardDescription {
+
+  transparency = true
   getSize(id: any): ComponentSize {
     if (id === Pawn.Fame) {
       return {

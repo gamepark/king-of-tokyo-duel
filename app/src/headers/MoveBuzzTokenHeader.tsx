@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelRules'
 import { usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { useTranslation } from 'react-i18next'

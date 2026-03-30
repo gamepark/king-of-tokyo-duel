@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelRules'
 import { MaterialType } from '@gamepark/king-of-tokyo-duel/material/MaterialType'
 import { CustomMoveType } from '@gamepark/king-of-tokyo-duel/rules/CustomMoveType'

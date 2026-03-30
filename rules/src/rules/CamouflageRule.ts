@@ -1,5 +1,5 @@
 import { isCreateItemTypeAtOnce, isDeleteItemTypeAtOnce, isRollItemType, ItemMove, MaterialMove } from '@gamepark/rules-api'
-import times from 'lodash/times'
+import { times } from 'es-toolkit/compat'
 import { PowerCard } from '../material/cards/PowerCard'
 import { DiceColor } from '../material/DiceColor'
 import { DiceFace } from '../material/DiceFace'

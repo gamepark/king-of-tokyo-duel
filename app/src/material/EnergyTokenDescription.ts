@@ -4,6 +4,7 @@ import Energy from '../images/tokens/energy.png'
 import { EnergyTokenHelp } from './help/EnergyTokenHelp';
 
 export class EnergyTokenDescription extends TokenDescription {
+  transparency = true
   height = 1
   width = 0.9
   image = Energy

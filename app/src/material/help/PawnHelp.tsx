@@ -1,25 +1,21 @@
-/** @jsxImportSource @emotion/react */
 import { Pawn } from '@gamepark/king-of-tokyo-duel/material/Pawn'
 import { MaterialHelpProps } from '@gamepark/react-game'
 import { FC } from 'react'
 import { Trans } from 'react-i18next'
+import { helpContainerCss, helpSeparatorCss, helpTextCss, helpTitleCss } from './helpCss'
 import { HelpComponents } from './HelpComponents'
 
 export const PawnHelp: FC<MaterialHelpProps> = (props) => {
   const { item } = props
   return (
-    <>
-      <h2>
-        <Trans
-          defaults={item.id === Pawn.Fame? "pawn.fame": "pawn.destruction"}
-        />
+    <div css={helpContainerCss}>
+      <h2 css={helpTitleCss}>
+        <Trans defaults={item.id === Pawn.Fame ? 'pawn.fame' : 'pawn.destruction'}/>
       </h2>
-      <p>
-        <Trans
-          defaults="pawn.help"
-          components={HelpComponents}
-        />
-      </p>
-    </>
+      <div css={helpSeparatorCss}/>
+      <div css={helpTextCss}>
+        <Trans defaults="pawn.help" components={HelpComponents}/>
+      </div>
+    </div>
   )
 }

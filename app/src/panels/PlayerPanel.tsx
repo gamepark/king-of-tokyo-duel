@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelRules'
 import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType'
@@ -36,7 +35,7 @@ export const PlayerPanel: FC<PlayerPanelProps> = (props) => {
     counters={counters}
     backgroundImage={monsterBoardDescription.images[player.id as Monster]}
     css={panelCss}
-    countersPerLine={2}
+    countersPerLine={3}
     {...rest}
   />
 }

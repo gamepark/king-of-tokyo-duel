@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelRules'
 import { GainEnergy } from '@gamepark/king-of-tokyo-duel/rules/effects/EffectType'
 import { EffectWithSource } from '@gamepark/king-of-tokyo-duel/rules/effects/EffectWithSource'

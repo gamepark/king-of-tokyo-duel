@@ -1,21 +1,18 @@
-/** @jsxImportSource @emotion/react */
 import { KingOfTokyoDuelOptionsSpec } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelOptions'
 import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelRules'
 import { KingOfTokyoDuelSetup } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelSetup'
-import { GameProvider, setupTranslation } from '@gamepark/react-game'
+import { GameProvider } from '@gamepark/react-game'
 import { StrictMode } from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { gameAnimations } from './animations/GameAnimations'
-import App from './App'
+import { App } from './App'
 import { Locators } from './locators/Locators'
 import { Material, MaterialI18n } from './material/Material'
-import translations from './translations.json'
+import { theme } from './theme'
 import { Tutorial } from './tutorial/Tutorial'
 import { bot } from './tutorial/TutorialBot'
 
-setupTranslation(translations, { debug: false })
-
-ReactDOM.render(
+createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <GameProvider
       game="king-of-tokyo-duel"
@@ -28,9 +25,9 @@ ReactDOM.render(
       animations={gameAnimations}
       tutorial={new Tutorial()}
       ai={bot}
+      theme={theme}
     >
       <App/>
     </GameProvider>
-  </StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 )

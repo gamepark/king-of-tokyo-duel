@@ -50,6 +50,8 @@ export class PlayerKeepCardsLocator extends ListLocator {
   }*/
 
 
+  navigationSorts = [(item: MaterialItem) => item.location.x!]
+
   locationDescription = new PlayerKeepCardsDescription()
 }
 

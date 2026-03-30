@@ -22,6 +22,7 @@ import { BuzzTokenHelp } from './help/BuzzTokenHelp'
 
 export class BuzzTokenDescription extends PolyhexDescription {
   borderRadius = 0.5
+  transparency = true
 
   getSize(id: Buzz) {
     return tokenSizes[id]

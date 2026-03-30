@@ -1,5 +1,5 @@
 import { MaterialGame, MaterialRulesPart } from '@gamepark/rules-api'
-import sumBy from 'lodash/sumBy'
+import { sumBy } from 'es-toolkit/compat'
 import { DiceFace } from '../../material/DiceFace'
 import { LocationType } from '../../material/LocationType'
 import { MaterialType } from '../../material/MaterialType'

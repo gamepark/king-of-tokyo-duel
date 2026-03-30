@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { RuleId } from '@gamepark/king-of-tokyo-duel/rules/RuleId'
 import { ComponentType } from 'react'
 import { AlienoidHeader } from './AlienoidHeader'

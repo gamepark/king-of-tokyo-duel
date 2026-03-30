@@ -7,7 +7,7 @@ import { isCustomMoveType, isMoveItemType, isMoveItemTypeAtOnce, isRollItemType,
 
 class KingOfTokyoDuelAnimations extends MaterialGameAnimations {
   getDuration(move: MaterialMove, context: MaterialGameAnimationContext): number {
-    if (isCustomMoveType(CustomMoveType.Smash)(move) && context.step === AnimationStep.BEFORE_MOVE) return( ((move.data.effect.count - 1) ?? 0) * 0.5) + 1
+    if (isCustomMoveType(CustomMoveType.Smash)(move) && context.step === AnimationStep.BEFORE_MOVE) return ((move.data.effect.count - 1) * 0.5) + 1
     return super.getDuration(move, context)
   }
 }

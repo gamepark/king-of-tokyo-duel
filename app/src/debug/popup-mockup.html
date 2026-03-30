@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KoTD - Card Popup Mockup v2</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #080818;
+    color: #c8cee0;
+    font-family: system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    padding: 40px 20px;
+  }
+
+  .page-label {
+    font-family: system-ui, sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #404860;
+  }
+
+  /* ═══════════════════════════════════
+     DIALOG SHELL
+     ═══════════════════════════════════ */
+  .dialog {
+    position: relative;
+    width: 700px;
+    max-width: 96vw;
+    border-radius: 14px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 15% 10%, rgba(90, 120, 180, 0.07), transparent 45%),
+      radial-gradient(ellipse at 85% 90%, rgba(60, 80, 140, 0.05), transparent 45%),
+      linear-gradient(165deg, #131330 0%, #1a1a3a 25%, #20203e 50%, #1a1a3a 75%, #131330 100%);
+    box-shadow:
+      0 40px 100px rgba(0, 0, 0, 0.65),
+      0 0 0 1px rgba(120, 140, 200, 0.07),
+      0 0 0 3px rgba(0, 0, 0, 0.5);
+  }
+
+  .close-x {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(120, 130, 170, 0.08);
+    color: #505878;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: 0.2s;
+  }
+  .close-x:hover { background: rgba(200, 60, 60, 0.14); color: #d06060; }
+
+  /* ═══════════════════════════════════
+     BODY: card + details
+     ═══════════════════════════════════ */
+  .dialog-body {
+    display: flex;
+  }
+
+  /* LEFT — card image placeholder */
+  .card-side {
+    flex-shrink: 0;
+    width: 210px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 22px;
+    background: rgba(0, 0, 0, 0.12);
+  }
+
+  .card-mock {
+    width: 155px;
+    aspect-ratio: 6.3 / 8.8;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.55);
+  }
+  .card-mock.keep-bg {
+    background: linear-gradient(150deg, #1a3848, #102838 45%, #182838);
+    border: 2px solid rgba(80, 170, 110, 0.28);
+  }
+  .card-mock.discard-bg {
+    background: linear-gradient(150deg, #38281a, #2e1c0e 45%, #382418);
+    border: 2px solid rgba(210, 140, 60, 0.28);
+  }
+  .card-mock::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 22%, rgba(255,255,255,0.05), transparent 55%);
+  }
+
+  .card-cost-pip {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 32%, #ffe848, #e0a018);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: system-ui, sans-serif;
+    font-size: 17px;
+    color: #1a0e00;
+    box-shadow: 0 2px 8px rgba(224, 160, 24, 0.45);
+    z-index: 1;
+  }
+  .card-mock-label {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: system-ui, sans-serif;
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    z-index: 1;
+  }
+
+  /* RIGHT — details */
+  .details {
+    flex: 1;
+    padding: 22px 26px 18px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  /* ─── Title ─── */
+  .card-title {
+    font-family: system-ui, sans-serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #f0ece0;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+
+  /* ─── Meta row: cost + timing badge ─── */
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .cost-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px 3px 4px;
+    border-radius: 6px;
+    background: rgba(60, 150, 40, 0.1);
+    border: 1px solid rgba(60, 150, 40, 0.2);
+  }
+  .cost-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #48b830, #308820);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    box-shadow: 0 1px 4px rgba(60, 160, 40, 0.35);
+  }
+  .cost-num {
+    font-weight: 700;
+    font-size: 15px;
+    color: #90d880;
+  }
+
+  .timing {
+    font-family: system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 3px 10px;
+    border-radius: 5px;
+    text-transform: uppercase;
+  }
+  .timing.keep {
+    background: rgba(70, 165, 90, 0.1);
+    color: #68c478;
+    border: 1px solid rgba(70, 165, 90, 0.22);
+  }
+  .timing.discard {
+    background: rgba(210, 130, 50, 0.1);
+    color: #d0a050;
+    border: 1px solid rgba(210, 130, 50, 0.22);
+  }
+
+  /* ─── Buzz token row ─── */
+  .buzz-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    padding: 5px 0;
+  }
+  .buzz-token {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .buzz-token.tiger { background: linear-gradient(135deg, #d89030, #b07020); }
+  .buzz-token.anubis { background: linear-gradient(135deg, #7868a0, #504878); }
+  .buzz-label {
+    font-size: 12px;
+    color: #707898;
+    font-weight: 500;
+  }
+  .buzz-name {
+    color: #98a0b8;
+    font-weight: 600;
+  }
+
+  /* ─── Separator ─── */
+  .sep {
+    height: 1px;
+    margin: 10px 0;
+    background: linear-gradient(90deg, transparent, rgba(130, 140, 180, 0.15) 15%, rgba(130, 140, 180, 0.15) 85%, transparent);
+  }
+
+  /* ─── Effects list ─── */
+  .effects {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .effect-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 5px 8px;
+    border-radius: 6px;
+    background: rgba(100, 120, 180, 0.04);
+    border-left: 3px solid transparent;
+  }
+  .effect-line.smash-line  { border-left-color: rgba(220, 70, 70, 0.35); }
+  .effect-line.fame-line   { border-left-color: rgba(64, 168, 224, 0.35); }
+  .effect-line.hit-line    { border-left-color: rgba(220, 70, 70, 0.35); }
+  .effect-line.energy-line { border-left-color: rgba(80, 180, 60, 0.35); }
+
+  .effect-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    margin-top: 1px;
+  }
+  .effect-icon.smash  { background: rgba(220, 70, 70, 0.12); color: #e07070; }
+  .effect-icon.fame   { background: rgba(64, 168, 224, 0.12); color: #60c0f0; }
+  .effect-icon.hit    { background: rgba(220, 70, 70, 0.12); color: #e07070; }
+  .effect-icon.energy { background: rgba(80, 180, 60, 0.12); color: #68c050; }
+
+  .effect-text {
+    font-size: 14px;
+    line-height: 1.55;
+    color: #b0b8d0;
+    padding-top: 2px;
+  }
+  .effect-text strong {
+    color: #d0d8e8;
+    font-weight: 600;
+  }
+
+  /* ─── Actions ─── */
+  .actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .act-btn {
+    flex: 1;
+    padding: 9px 14px;
+    font-family: system-ui, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 7px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .act-btn.buy {
+    background: rgba(70, 165, 90, 0.12);
+    color: #68c478;
+    border: 1px solid rgba(70, 165, 90, 0.25);
+  }
+  .act-btn.buy:hover {
+    background: rgba(70, 165, 90, 0.22);
+    border-color: rgba(70, 165, 90, 0.45);
+    color: #88e898;
+    box-shadow: 0 0 18px rgba(70, 165, 90, 0.1);
+  }
+  .act-btn.disc {
+    background: rgba(210, 130, 50, 0.12);
+    color: #d0a050;
+    border: 1px solid rgba(210, 130, 50, 0.25);
+  }
+  .act-btn.disc:hover {
+    background: rgba(210, 130, 50, 0.22);
+    border-color: rgba(210, 130, 50, 0.45);
+    color: #e8b868;
+    box-shadow: 0 0 18px rgba(210, 130, 50, 0.1);
+  }
+
+  /* ═══════════════════════════════════
+     BOTTOM NAVIGATION
+     ═══════════════════════════════════ */
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 22px;
+    border-top: 1px solid rgba(120, 130, 170, 0.07);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.18), transparent);
+  }
+
+  .nav-arrow {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(120, 130, 170, 0.15);
+    background: rgba(120, 130, 170, 0.05);
+    color: #7880a0;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+  }
+  .nav-arrow:hover:not(:disabled) {
+    background: rgba(120, 130, 170, 0.12);
+    border-color: rgba(120, 130, 170, 0.3);
+    color: #b0b8d0;
+  }
+  .nav-arrow:disabled { opacity: 0.18; cursor: default; }
+
+  .nav-mid {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: #505868;
+    font-weight: 600;
+  }
+  .dots { display: flex; gap: 5px; }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(120, 130, 170, 0.15);
+    transition: 0.25s;
+  }
+  .dot.on {
+    background: #7880a0;
+    width: 16px;
+    border-radius: 3px;
+  }
+
+  /* ─── Mockup label ─── */
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #383e58;
+    align-self: flex-start;
+    margin-bottom: -36px;
+  }
+</style>
+</head>
+<body>
+
+<p class="page-label">King of Tokyo Duel &mdash; Popup Mockup v2</p>
+
+<!-- ════════════════════════════════════════
+     EXAMPLE 1 : KEEP card, no actions
+     ════════════════════════════════════════ -->
+<p class="tag">Keep card &mdash; browsing</p>
+<div class="dialog">
+  <button class="close-x">&times;</button>
+  <div class="dialog-body">
+
+    <div class="card-side">
+      <div class="card-mock keep-bg">
+        <div class="card-cost-pip">6</div>
+        <div class="card-mock-label">Acid Attack</div>
+      </div>
+    </div>
+
+    <div class="details">
+      <div class="card-title">Acid Attack</div>
+
+      <div class="meta">
+        <div class="cost-chip">
+          <span class="cost-icon">⚡</span>
+          <span class="cost-num">6</span>
+        </div>
+        <span class="timing keep">Keep</span>
+      </div>
+
+      <div class="buzz-row">
+        <div class="buzz-token tiger">🐯</div>
+        <span class="buzz-label">Buzz &mdash; <span class="buzz-name">Tiger Energy</span></span>
+      </div>
+
+      <div class="sep"></div>
+
+      <div class="effects">
+        <div class="effect-line smash-line">
+          <div class="effect-icon smash">👊</div>
+          <div class="effect-text"><strong>Add 1</strong> 👊 <strong>to your Roll.</strong></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="nav">
+    <button class="nav-arrow" disabled>&#9664;</button>
+    <div class="nav-mid">
+      <div class="dots">
+        <div class="dot on"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <span>1 / 3</span>
+    </div>
+    <button class="nav-arrow">&#9654;</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     EXAMPLE 2 : DISCARD card, with actions
+     ════════════════════════════════════════ -->
+<p class="tag">Discard card &mdash; with Buy / Discard</p>
+<div class="dialog">
+  <button class="close-x">&times;</button>
+  <div class="dialog-body">
+
+    <div class="card-side">
+      <div class="card-mock discard-bg">
+        <div class="card-cost-pip">7</div>
+        <div class="card-mock-label">Cannonball!</div>
+      </div>
+    </div>
+
+    <div class="details">
+      <div class="card-title">Cannonball!</div>
+
+      <div class="meta">
+        <div class="cost-chip">
+          <span class="cost-icon">⚡</span>
+          <span class="cost-num">7</span>
+        </div>
+        <span class="timing discard">Discard</span>
+      </div>
+
+      <div class="buzz-row">
+        <div class="buzz-token anubis">🐺</div>
+        <span class="buzz-label">Buzz &mdash; <span class="buzz-name">Anubis Energy/Heal</span></span>
+      </div>
+
+      <div class="sep"></div>
+
+      <div class="effects">
+        <div class="effect-line fame-line">
+          <div class="effect-icon fame">⭐</div>
+          <div class="effect-text"><strong>Pull 1</strong> Fame</div>
+        </div>
+        <div class="effect-line hit-line">
+          <div class="effect-icon hit">💥</div>
+          <div class="effect-text"><strong>Your Rival takes 1</strong> hit</div>
+        </div>
+        <div class="effect-line energy-line">
+          <div class="effect-icon energy">⚡</div>
+          <div class="effect-text"><strong>Gain 4</strong> Energy</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="act-btn buy">Buy</button>
+        <button class="act-btn disc">Discard</button>
+      </div>
+    </div>
+
+  </div>
+  <div class="nav">
+    <button class="nav-arrow">&#9664;</button>
+    <div class="nav-mid">
+      <div class="dots">
+        <div class="dot"></div>
+        <div class="dot on"></div>
+        <div class="dot"></div>
+      </div>
+      <span>2 / 3</span>
+    </div>
+    <button class="nav-arrow">&#9654;</button>
+  </div>
+</div>
+
+</body>
+</html>

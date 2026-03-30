@@ -1,23 +1,19 @@
-/** @jsxImportSource @emotion/react */
 import { MaterialHelpProps } from '@gamepark/react-game'
 import { FC } from 'react'
 import { Trans } from 'react-i18next'
+import { helpContainerCss, helpSeparatorCss, helpTextCss, helpTitleCss } from './helpCss'
 import { HelpComponents } from './HelpComponents'
 
 export const MainBoardHelp: FC<MaterialHelpProps> = () => {
   return (
-    <>
-      <h2>
-        <Trans
-          defaults="board"
-        />
+    <div css={helpContainerCss}>
+      <h2 css={helpTitleCss}>
+        <Trans defaults="board"/>
       </h2>
-      <p>
-        <Trans
-          defaults="board.help"
-          components={HelpComponents}
-        />
-      </p>
-    </>
+      <div css={helpSeparatorCss}/>
+      <div css={helpTextCss}>
+        <Trans defaults="board.help" components={HelpComponents}/>
+      </div>
+    </div>
   )
 }

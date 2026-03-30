@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType'
 import { RuleId } from '@gamepark/king-of-tokyo-duel/rules/RuleId'

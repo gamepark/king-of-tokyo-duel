@@ -1,6 +1,6 @@
 {
   "en": {
-    "translation": {
+    "king-of-tokyo-duel": {
       "Name": "King of Tokyo Duel",
       "monster.1": "Alienoid",
       "monster.2": "Cyber Kitty",
@@ -353,10 +353,19 @@
       "quantity.tooltip": "Quantity: {n}",
       "history.game.start": "Start of the game",
       "history.game.over": "End of the game"
+    },
+    "king-of-tokyo-duel-options": {
+      "option.monster": "Monster",
+      "monster.1": "Alienoid",
+      "monster.2": "Cyber Kitty",
+      "monster.3": "Gigazaur",
+      "monster.4": "Meka Dragon",
+      "monster.5": "Space Penguin",
+      "monster.6": "The King"
     }
   },
   "fr": {
-    "translation": {
+    "king-of-tokyo-duel": {
       "Name": "King of Tokyo Duel",
       "monster.1": "Alienoid",
       "monster.2": "Cyber Kitty",
@@ -709,10 +718,19 @@
       "quantity.tooltip": "Quantité : {n}",
       "history.game.start": "Début de la partie",
       "history.game.over": "Fin de la partie"
+    },
+    "king-of-tokyo-duel-options": {
+      "option.monster": "Monstre",
+      "monster.1": "Alienoid",
+      "monster.2": "Cyber Kitty",
+      "monster.3": "Gigazaur",
+      "monster.4": "Meka Dragon",
+      "monster.5": "Space Penguin",
+      "monster.6": "The King"
     }
   },
   "es": {
-    "translation": {
+    "king-of-tokyo-duel": {
       "Menu": "Menú",
       "OK": "OK",
       "Validate": "Validar",
@@ -826,7 +844,7 @@
     }
   },
   "de": {
-    "translation": {
+    "king-of-tokyo-duel": {
       "Menu": "Menü",
       "OK": "OK",
       "Validate": "Bestätigen",
@@ -892,7 +910,7 @@
     }
   },
   "ru": {
-    "translation": {
+    "king-of-tokyo-duel": {
       "Menu": "Меню",
       "OK": "ОК",
       "Validate": "Подтвердить",

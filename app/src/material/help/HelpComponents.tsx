@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { Buzz } from '@gamepark/king-of-tokyo-duel/material/Buzz'
 import { DiceColor } from '@gamepark/king-of-tokyo-duel/material/DiceColor'

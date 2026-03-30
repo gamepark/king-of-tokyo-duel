@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelRules'
 import { CamouflageRule } from '@gamepark/king-of-tokyo-duel/rules/CamouflageRule'
 import { Picture, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'

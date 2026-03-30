@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css, keyframes } from '@emotion/react'
 import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelRules'
 import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType'
@@ -8,7 +7,7 @@ import { CustomMoveType } from '@gamepark/king-of-tokyo-duel/rules/CustomMoveTyp
 import { Source } from '@gamepark/king-of-tokyo-duel/rules/effects/EffectWithSource'
 import { MaterialContext, Picture, useAnimation, useMaterialContext, useRules } from '@gamepark/react-game'
 import { isCustomMoveType, Material } from '@gamepark/rules-api'
-import { times } from 'lodash'
+import { times } from 'es-toolkit/compat'
 import { FC } from 'react'
 import Hit from '../images/icons/Hit.png'
 

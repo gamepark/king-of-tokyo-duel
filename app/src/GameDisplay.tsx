@@ -1,9 +1,22 @@
-/** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { GameTable, GameTableNavigation } from '@gamepark/react-game'
-import { FC } from 'react'
+import { DevToolEntry, DevToolsHub, GameTable, GameTableNavigation } from '@gamepark/react-game'
+import { FC, lazy, Suspense, useState } from 'react'
 import { SmashAnimation } from './animations/SmashAnimation'
 import { PlayerPanels } from './panels/PlayerPanels'
+
+const CardDebugViewer = import.meta.env.DEV ? lazy(() => import('./debug/CardDebugViewer').then(m => ({ default: m.CardDebugViewer }))) : null
+
+const KingOfTokyoDuelDevTools: FC = () => {
+  const [showCards, setShowCards] = useState(false)
+  return (
+    <>
+      <DevToolsHub>
+        <DevToolEntry icon={'\u2726'} label="Card Viewer" desc="Browse all power cards" onClick={() => setShowCards(!showCards)}/>
+      </DevToolsHub>
+      {showCards && CardDebugViewer && <Suspense><CardDebugViewer onClose={() => setShowCards(false)}/></Suspense>}
+    </>
+  )
+}
 
 type GameDisplayProps = {
   players: number
@@ -19,6 +32,7 @@ export const GameDisplay: FC<GameDisplayProps> = () => {
       <GameTableNavigation css={centerNavigationCss}/>
       <PlayerPanels/>
       <SmashAnimation left={-xMin} top={-yMin} />
+      {import.meta.env.DEV && <KingOfTokyoDuelDevTools/>}
     </GameTable>
   </>
 }

@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelRules'
 import { DiceColor } from '@gamepark/king-of-tokyo-duel/material/DiceColor'
 import { DiceFace } from '@gamepark/king-of-tokyo-duel/material/DiceFace'

@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { LocationType } from '@gamepark/king-of-tokyo-duel/material/LocationType'
 import { Memory } from '@gamepark/king-of-tokyo-duel/rules/Memory'
 import { RuleId } from '@gamepark/king-of-tokyo-duel/rules/RuleId'

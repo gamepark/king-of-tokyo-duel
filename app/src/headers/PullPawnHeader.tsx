@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelRules'
 import { Pawn } from '@gamepark/king-of-tokyo-duel/material/Pawn'
 import { PullPawn } from '@gamepark/king-of-tokyo-duel/rules/effects/EffectType'

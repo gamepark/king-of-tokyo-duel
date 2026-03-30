@@ -1,5 +1,5 @@
 import { CustomMove, isCustomMoveType, MaterialMove } from '@gamepark/rules-api'
-import sumBy from 'lodash/sumBy'
+import { sumBy } from 'es-toolkit/compat'
 import { PowerCard } from '../material/cards/PowerCard'
 import { DiceFace } from '../material/DiceFace'
 import { MaterialType } from '../material/MaterialType'

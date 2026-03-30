@@ -1,23 +1,19 @@
-/** @jsxImportSource @emotion/react */
 import { MaterialHelpProps } from '@gamepark/react-game'
 import { FC } from 'react'
 import { Trans } from 'react-i18next'
+import { helpContainerCss, helpSeparatorCss, helpTextCss, helpTitleCss } from './helpCss'
 import { HelpComponents } from './HelpComponents'
 
 export const EnergyTokenHelp: FC<MaterialHelpProps> = () => {
   return (
-    <>
-      <h2>
-        <Trans
-          defaults="energy"
-        />
+    <div css={helpContainerCss}>
+      <h2 css={helpTitleCss}>
+        <Trans defaults="energy"/>
       </h2>
-      <p>
-        <Trans
-          defaults="energy.help"
-          components={HelpComponents}
-        />
-      </p>
-    </>
+      <div css={helpSeparatorCss}/>
+      <div css={helpTextCss}>
+        <Trans defaults="energy.help" components={HelpComponents}/>
+      </div>
+    </div>
   )
 }
