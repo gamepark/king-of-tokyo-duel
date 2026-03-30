@@ -50,22 +50,22 @@ export const theme = {
       h2 {
         color: ${textLight};
       }
+
+      select {
+        background-color: ${navyLight};
+        color: ${textLight};
+
+        option {
+          background-color: ${navy};
+          color: ${textLight};
+        }
+      }
     `,
     content: css`
       color: ${textMuted};
 
       @media only screen and (max-height: 599px) {
         font-size: 2.7em;
-      }
-
-      select {
-        background: ${navyLight};
-        color: ${textLight};
-
-        option {
-          background: ${navy};
-          color: ${textLight};
-        }
       }
 
       button {
