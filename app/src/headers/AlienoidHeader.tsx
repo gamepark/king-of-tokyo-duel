@@ -18,11 +18,11 @@ export const AlienoidHeader = () => {
   const pass = useLegalMove(isCustomMoveType(CustomMoveType.Pass))
   const extra = rules.remind(Memory.AlienoidExtra) !== undefined
   if (me !== activePlayer) {
-    return <Trans defaults="header.resolve.player" values={{ player }}/>
+    return <Trans i18nKey="header.resolve.player" values={{ player }}/>
   }
   const faceImages = diceDescription.images[DiceColor.Red]
   if (!extra) {
-    return <Trans defaults="header.alienoid.you" components={{
+    return <Trans i18nKey="header.alienoid.you" components={{
       power: <Picture css={headerIconCss} src={faceImages[DiceFace.Power]}/>,
       smash: <DiceFaceButton move={moves.find(move => move.data === DiceFace.Claw)} image={faceImages[DiceFace.Claw]}/>,
       heal: <DiceFaceButton move={moves.find(move => move.data === DiceFace.Heal)} image={faceImages[DiceFace.Heal]}/>,
@@ -33,7 +33,7 @@ export const AlienoidHeader = () => {
   } else {
     const move = moves[0]
     if (!move) return null
-    return <Trans defaults="header.alienoid.extra.you" components={{
+    return <Trans i18nKey="header.alienoid.extra.you" components={{
       power: <Picture css={headerIconCss} src={faceImages[DiceFace.Power]}/>,
       face: <DiceFaceButton move={move} image={faceImages[move.data]}/>,
       pass: <PlayMoveButton move={pass}/>

@@ -10,10 +10,10 @@ export const TitanicBatteriesHeader = () => {
   const player = usePlayerName(activePlayer)
   const pass = useLegalMove(isStartRule)
   if (me !== activePlayer) {
-    return <Trans defaults="header.titanic-batteries.player" values={{ player }} components={{
+    return <Trans i18nKey="header.titanic-batteries.player" values={{ player }} components={{
     }}/>
   }
-  return <Trans defaults="header.titanic-batteries.you" components={{
+  return <Trans i18nKey="header.titanic-batteries.you" components={{
     pass: <PlayMoveButton move={pass}/>
   }}/>
 }

@@ -14,7 +14,7 @@ export const SmashHeader = () => {
   const target = effect.target
   const me = usePlayerId() === target
   const player = usePlayerName(target)
-  return <Trans defaults={`header.smash.${me ? 'you' : 'player'}`} values={{ player, count }} components={{
+  return <Trans i18nKey={`header.smash.${me ? 'you' : 'player'}`} values={{ player, count }} components={{
     hit: <Picture src={Hit} css={headerIconCss}/>
   }}/>
 }

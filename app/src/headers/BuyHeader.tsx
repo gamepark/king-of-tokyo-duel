@@ -16,12 +16,12 @@ export const BuyHeader = () => {
   const renew = useLegalMove(isCustomMoveType(CustomMoveType.RenewCards))
   const hasBoughtCards = rules?.remind(Memory.BoughtCards)?.length
   if (me !== activePlayer) {
-    return <Trans defaults="header.buy.player" values={{ player }}/>
+    return <Trans i18nKey="header.buy.player" values={{ player }}/>
   }
-  return <Trans defaults={`header.${hasBoughtCards ? 'buy-more' : 'buy'}.you`} components={{
+  return <Trans i18nKey={`header.${hasBoughtCards ? 'buy-more' : 'buy'}.you`} components={{
     renew: <PlayMoveButton move={renew}
                            confirmation={{
-                             text: <Trans defaults="header.renew.confirm" components={{ energy: <Picture src={Energy} css={headerIconCss}/> }}/>
+                             text: <Trans i18nKey="header.renew.confirm" components={{ energy: <Picture src={Energy} css={headerIconCss}/> }}/>
                            }}/>,
     pass: <PlayMoveButton move={stop}/>,
     energy: <Picture src={Energy} css={headerIconCss}/>

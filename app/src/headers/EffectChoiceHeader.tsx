@@ -17,9 +17,9 @@ export const EffectChoiceHeader = () => {
   const me = usePlayerId()
   const player = usePlayerName(activePlayer)
   if (me !== activePlayer) {
-    return <Trans defaults="header.effect-choice.player" values={{ player }}/>
+    return <Trans i18nKey="header.effect-choice.player" values={{ player }}/>
   }
-  return <Trans defaults="header.effect-choice.you" components={{
+  return <Trans i18nKey="header.effect-choice.you" components={{
     effects: <EffectChoiceButtons/>
   }}/>
 }

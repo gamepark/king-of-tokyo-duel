@@ -13,9 +13,9 @@ export const RebootingHeader = () => {
   const pass = useLegalMove(isCustomMoveType(CustomMoveType.Pass))
   const reboot = useLegalMove(isMoveItemType(MaterialType.PowerCard))
   if (me !== activePlayer) {
-    return <Trans defaults="header.rebooting.player" values={{ player }}/>
+    return <Trans i18nKey="header.rebooting.player" values={{ player }}/>
   }
-  return <Trans defaults="header.rebooting.you" components={{
+  return <Trans i18nKey="header.rebooting.you" components={{
     resolve: <PlayMoveButton move={pass}/>,
     reboot: <PlayMoveButton move={reboot}/>
   }}/>

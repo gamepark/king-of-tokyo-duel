@@ -8,11 +8,11 @@ export const EnergyTokenHelp: FC<MaterialHelpProps> = () => {
   return (
     <div css={helpContainerCss}>
       <h2 css={helpTitleCss}>
-        <Trans defaults="energy"/>
+        <Trans i18nKey="energy"/>
       </h2>
       <div css={helpSeparatorCss}/>
       <div css={helpTextCss}>
-        <Trans defaults="energy.help" components={HelpComponents}/>
+        <Trans i18nKey="energy.help" components={HelpComponents}/>
       </div>
     </div>
   )

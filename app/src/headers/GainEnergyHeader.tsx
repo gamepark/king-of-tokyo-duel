@@ -14,7 +14,7 @@ export const GainEnergyHeader = () => {
   const target = effect.target
   const me = usePlayerId() === target
   const player = usePlayerName(target)
-  return <Trans defaults={`header.gain-energy.${me ? 'you' : 'player'}`} values={{ player, count }} components={{
+  return <Trans i18nKey={`header.gain-energy.${me ? 'you' : 'player'}`} values={{ player, count }} components={{
     energy: <Picture src={Energy} css={headerIconCss}/>
   }}/>
 }

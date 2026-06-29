@@ -16,11 +16,11 @@ export const HibernationHeader = () => {
   const pass = useLegalMove((move) => isCustomMoveType(CustomMoveType.Pass)(move))
   const discard = useLegalMove((move) => isMoveItemType(MaterialType.PowerCard)(move) && move.location.type === LocationType.Discard)
   if (me !== activePlayer) {
-    return <Trans defaults="header.hibernation.player" values={{ player }} components={{
+    return <Trans i18nKey="header.hibernation.player" values={{ player }} components={{
       heart: <Picture src={Heart} css={headerIconCss}/>
     }}/>
   } else {
-    return <Trans defaults="header.hibernation.you" values={{ player }} components={{
+    return <Trans i18nKey="header.hibernation.you" values={{ player }} components={{
       discard: <PlayMoveButton move={discard}/>,
       pass: <PlayMoveButton move={pass}/>,
       heart: <Picture src={Heart} css={headerIconCss}/>

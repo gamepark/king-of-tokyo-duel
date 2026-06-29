@@ -23,6 +23,11 @@ class PlayerDiceRollLocator extends FlexLocator {
   gap = { x: diceDescription.width + 0.8 }
   lineGap = { y: diceDescription.width + 0.8 }
 
+  getPositionDependencies(_location: Location, { rules }: MaterialContext) {
+    // When the location has no player, the roll area is placed on the active player's side.
+    return rules.remind(Memory.ActivePlayer)
+  }
+
   getCoordinates(location: Location, { rules }: MaterialContext) {
     if (location.player === undefined) {
       return { x: rules.remind(Memory.ActivePlayer) === rules.players[0] ? -26.6 : 17.4, y: 16.5 }
@@ -42,7 +47,7 @@ class PlayerDiceRollLocator extends FlexLocator {
 class PlayerDiceRollDescription extends PlayerDiceKeepDescription {
   height = 5.5
 
-  content = () => <span><Trans defaults="roll-area"/></span>
+  content = () => <span><Trans i18nKey="roll-area"/></span>
 }
 
 export const playerDiceRollLocator = new PlayerDiceRollLocator()

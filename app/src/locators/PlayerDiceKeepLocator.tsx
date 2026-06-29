@@ -54,7 +54,7 @@ export class PlayerDiceKeepDescription extends DropAreaDescription {
     }
   `
 
-  content = () => <span><Trans defaults="keep-area"/></span>
+  content = () => <span><Trans i18nKey="keep-area"/></span>
 
   canLongClick() {
     return false

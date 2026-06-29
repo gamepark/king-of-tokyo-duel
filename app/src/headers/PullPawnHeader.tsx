@@ -16,7 +16,7 @@ export const PullPawnHeader = () => {
   const me = usePlayerId() === target
   const player = usePlayerName(target)
   const pawn = effect.effect.pawn
-  return <Trans defaults={`header.pull.${me ? 'you' : 'player'}`} values={{ player }} components={{
+  return <Trans i18nKey={`header.pull.${me ? 'you' : 'player'}`} values={{ player }} components={{
     pawn: <Picture src={pawn === Pawn.Fame ? Fame : Destruction} css={headerIconCss}/>
   }}/>
 }

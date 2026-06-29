@@ -19,7 +19,7 @@ export const HealthCounterHelp: FC<MaterialHelpProps> = ({ item }) => {
       <h2 css={helpTitleCss}>{t('life-tracker')}</h2>
       <div css={helpSeparatorCss}/>
       <div css={helpTextCss}>
-        <Trans defaults={isMine ? 'life-tracker.you' : 'life-tracker.player'} values={{ life, max, player }} components={{
+        <Trans i18nKey={isMine ? 'life-tracker.you' : 'life-tracker.player'} values={{ life, max, player }} components={{
           heart: <Picture src={Heart} css={headerIconCss}/>
         }}/>
       </div>

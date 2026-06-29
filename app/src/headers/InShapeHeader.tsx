@@ -20,12 +20,12 @@ export const InShapeHeader = () => {
   const pass = useLegalMove(isCustomMoveType(CustomMoveType.Pass))
   const count = rules.remind<EffectWithSource<InShape>>(Memory.CurrentEffect).effect.count
   if (me !== activePlayer) {
-    return <Trans defaults="header.in-shape.player" values={{ player, count }} components={{
+    return <Trans i18nKey="header.in-shape.player" values={{ player, count }} components={{
       energy: <Picture src={Energy} css={headerIconCss}/>,
       fame: <Picture src={Fame} css={headerIconCss}/>
     }}/>
   } else {
-    return <Trans defaults="header.in-shape.you" values={{ player, count }} components={{
+    return <Trans i18nKey="header.in-shape.you" values={{ player, count }} components={{
       pay: <PayEnergyButton move={pay}/>,
       fame: <Picture src={Fame} css={headerIconCss}/>,
       pass: <PlayMoveButton move={pass}/>
@@ -35,7 +35,7 @@ export const InShapeHeader = () => {
 
 const PayEnergyButton = ({ move }: { move?: MaterialMove }) => {
   return <PlayMoveButton move={move}>
-    <Trans defaults="pay.button" values={{ amount: 1 }} components={{
+    <Trans i18nKey="pay.button" values={{ amount: 1 }} components={{
       icon: <Picture css={headerIconCss} src={Energy}/>
     }}/>
   </PlayMoveButton>

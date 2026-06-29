@@ -8,11 +8,11 @@ export const DiceTokenHelp: FC<MaterialHelpProps> = () => {
   return (
     <div css={helpContainerCss}>
       <h2 css={helpTitleCss}>
-        <Trans defaults="dice.token"/>
+        <Trans i18nKey="dice.token"/>
       </h2>
       <div css={helpSeparatorCss}/>
       <div css={helpTextCss}>
-        <Trans defaults="dice.token.help" components={HelpComponents}/>
+        <Trans i18nKey="dice.token.help" components={HelpComponents}/>
       </div>
     </div>
   )

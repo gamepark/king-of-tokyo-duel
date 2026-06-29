@@ -10,14 +10,14 @@ export const MonsterBoardHelp: FC<MaterialHelpProps> = (props) => {
   return (
     <div css={helpContainerCss}>
       <h2 css={helpTitleCss}>
-        <Trans defaults="monster.board" values={{ monster: t(`monster.${item.id}`) }}/>
+        <Trans i18nKey="monster.board" values={{ monster: t(`monster.${item.id}`) }}/>
       </h2>
 
       <div css={helpSeparatorCss}/>
 
       <div css={helpSectionCss}>
         <div css={helpTextCss}>
-          <Trans defaults={`monster.power.${item.id}`} components={HelpComponents}/>
+          <Trans i18nKey={`monster.power.${item.id}`} components={HelpComponents}/>
         </div>
       </div>
     </div>

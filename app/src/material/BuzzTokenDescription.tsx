@@ -58,7 +58,7 @@ export class BuzzTokenDescription extends PolyhexDescription {
       case 2:
         return <>
           {this.getHelpButton(item, context)}
-          <ItemMenuButton label={<Trans defaults="Rotate"/>}
+          <ItemMenuButton label={<Trans i18nKey="Rotate" ns="common"/>}
                           labelPosition="right"
                           move={rules.material(type).index(index).rotateItem(item =>
                             (item.location.rotation + (item.location.rotation % 3 === 0 ? 2 : 1)) % 6
@@ -67,7 +67,7 @@ export class BuzzTokenDescription extends PolyhexDescription {
                           angle={90}>
             <FontAwesomeIcon icon={faRotateRight}/>
           </ItemMenuButton>
-          <ItemMenuButton label={<Trans defaults="Rotate"/>}
+          <ItemMenuButton label={<Trans i18nKey="Rotate" ns="common"/>}
                           labelPosition="left"
                           move={rules.material(type).index(index).rotateItem(item =>
                             (item.location.rotation + (item.location.rotation % 3 === 2 ? 4 : 5)) % 6
@@ -80,7 +80,7 @@ export class BuzzTokenDescription extends PolyhexDescription {
       case 3:
         return <>
           {this.getHelpButton(item, context)}
-          <ItemMenuButton label={<Trans defaults="Rotate"/>}
+          <ItemMenuButton label={<Trans i18nKey="Rotate" ns="common"/>}
                           move={rules.material(type).index(index).rotateItem(item => (item.location.rotation + 3) % 6)}
                           options={{ local: true }}
                           angle={90}>

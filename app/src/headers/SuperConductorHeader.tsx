@@ -19,11 +19,11 @@ export const SuperConductorHeader = () => {
   const discard = useLegalMove<CreateItem>(isMoveItemType(MaterialType.PowerCard))
   const count = rules.remind<EffectWithSource<GainEnergy>>(Memory.CurrentEffect).effect.count
   if (me !== activePlayer) {
-    return <Trans defaults="header.superconductor.player" values={{ player, count }} components={{
+    return <Trans i18nKey="header.superconductor.player" values={{ player, count }} components={{
       energy: <Picture src={Energy} css={headerIconCss}/>
     }}/>
   }
-  return <Trans defaults="header.superconductor.you" values={{ count }} components={{
+  return <Trans i18nKey="header.superconductor.you" values={{ count }} components={{
     discard: <PlayMoveButton move={discard}/>,
     pass: <PlayMoveButton move={pass}/>,
     energy: <Picture src={Energy} css={headerIconCss}/>

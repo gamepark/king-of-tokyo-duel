@@ -12,10 +12,10 @@ export const DominateHeader = () => {
   const player = usePlayerName(activePlayer)
   const dominated = useLegalMove(isCustomMoveType(CustomMoveType.Pass))
   if (me !== activePlayer) {
-    return <Trans defaults="header.dominate.player" values={{ player }}/>
+    return <Trans i18nKey="header.dominate.player" values={{ player }}/>
   } else {
     const count = new DominateRule(rules.game).keepCards.length
-    return <Trans defaults="header.dominate.you" values={{ player, count }} components={{
+    return <Trans i18nKey="header.dominate.you" values={{ player, count }} components={{
       pass: <PlayMoveButton move={dominated}/>
     }}/>
   }

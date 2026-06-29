@@ -56,12 +56,12 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
   steps: TutorialStep[] = [
     {
       popup: {
-        text: () => <Trans defaults="tuto.welcome" components={{ bold: <strong/> }}/>
+        text: () => <Trans i18nKey="tuto.welcome" components={{ bold: <strong/> }}/>
       }
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.goal" components={{
+        text: () => <Trans i18nKey="tuto.goal" components={{
           bold: <strong/>,
           smash: <Picture css={diceIconCss} src={diceFaces[DiceFace.Claw]}/>
         }}/>
@@ -69,7 +69,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.monster" components={{ bold: <strong/> }}/>,
+        text: () => <Trans i18nKey="tuto.monster" components={{ bold: <strong/> }}/>,
         position: { x: 30 }
       },
       focus: (game: MaterialGame) => ({
@@ -79,7 +79,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.roll" components={{ bold: <strong/> }}/>,
+        text: () => <Trans i18nKey="tuto.roll" components={{ bold: <strong/> }}/>,
         position: { x: 30 }
       },
       focus: (game: MaterialGame) => ({
@@ -112,7 +112,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.reroll" components={{ bold: <strong/> }}/>,
+        text: () => <Trans i18nKey="tuto.reroll" components={{ bold: <strong/> }}/>,
         position: { x: 30 }
       },
       focus: (game: MaterialGame) => ({
@@ -122,7 +122,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.faces" components={{ bold: <strong/> }}/>,
+        text: () => <Trans i18nKey="tuto.faces" components={{ bold: <strong/> }}/>,
         position: { x: 30 }
       },
       focus: (game: MaterialGame) => ({
@@ -132,7 +132,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.keep1" components={{
+        text: () => <Trans i18nKey="tuto.keep1" components={{
           bold: <strong/>,
           smashFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Claw]}/>,
           energyFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Energy]}/>
@@ -188,7 +188,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.keep2" components={{ bold: <strong/> }}/>,
+        text: () => <Trans i18nKey="tuto.keep2" components={{ bold: <strong/> }}/>,
         position: { x: 30 }
       },
       focus: (game: MaterialGame) => ({
@@ -201,7 +201,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.use-dices" components={{ bold: <strong/> }}/>,
+        text: () => <Trans i18nKey="tuto.use-dices" components={{ bold: <strong/> }}/>,
         position: { x: 30 }
       },
       focus: (game: MaterialGame) => ({
@@ -211,7 +211,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.smash" components={{
+        text: () => <Trans i18nKey="tuto.smash" components={{
           bold: <strong/>,
           smashFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Claw]}/>,
           hit: <Picture src={Hit} css={iconCss}/>,
@@ -231,7 +231,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.life" components={{ bold: <strong/> }}/>,
+        text: () => <Trans i18nKey="tuto.life" components={{ bold: <strong/> }}/>,
         position: { x: -20 }
       },
       focus: (game: MaterialGame) => ({
@@ -243,7 +243,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.kill" components={{ bold: <strong/> }}/>
+        text: () => <Trans i18nKey="tuto.kill" components={{ bold: <strong/> }}/>
       },
       focus: (game: MaterialGame) => ({
         materials: [
@@ -254,7 +254,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.energy" components={{
+        text: () => <Trans i18nKey="tuto.energy" components={{
           bold: <strong/>,
           energyFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Energy]}/>,
           energy: <Picture css={iconCss} src={Energy}/>
@@ -274,7 +274,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.cards" components={{
+        text: () => <Trans i18nKey="tuto.cards" components={{
           bold: <strong/>,
           energy: <Picture css={iconCss} src={Energy}/>
         }}/>,
@@ -290,7 +290,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.cost" components={{
+        text: () => <Trans i18nKey="tuto.cost" components={{
           bold: <strong/>,
           energy: <Picture css={iconCss} src={Energy}/>
         }}/>,
@@ -305,7 +305,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.pass" components={{
+        text: () => <Trans i18nKey="tuto.pass" components={{
           bold: <strong/>,
           energy: <Picture css={iconCss} src={Energy}/>
         }}/>
@@ -314,7 +314,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.opponent" components={{ bold: <strong/> }}/>
+        text: () => <Trans i18nKey="tuto.opponent" components={{ bold: <strong/> }}/>
       }
     },
     {
@@ -378,7 +378,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.turn2" components={{ bold: <strong/> }}/>
+        text: () => <Trans i18nKey="tuto.turn2" components={{ bold: <strong/> }}/>
       },
       move: {
         randomize: (move: MaterialMoveRandomized) => {
@@ -409,7 +409,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.fame" components={{
+        text: () => <Trans i18nKey="tuto.fame" components={{
           bold: <strong/>,
           fame: <Picture src={Fame} css={iconCss}/>
         }}/>,
@@ -425,7 +425,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.fame-marker" components={{
+        text: () => <Trans i18nKey="tuto.fame-marker" components={{
           bold: <strong/>
         }}/>,
         position: { x: 20, y: 10 }
@@ -440,7 +440,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.keep-fame" components={{
+        text: () => <Trans i18nKey="tuto.keep-fame" components={{
           bold: <strong/>,
           fame: <Picture src={Fame} css={iconCss}/>,
           fameFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Fame]}/>
@@ -496,7 +496,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.destruction" components={{
+        text: () => <Trans i18nKey="tuto.destruction" components={{
           bold: <strong/>,
           fameFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Fame]}/>,
           destructionFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Destruction]}/>,
@@ -514,7 +514,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.keep-fame2" components={{
+        text: () => <Trans i18nKey="tuto.keep-fame2" components={{
           bold: <strong/>,
           fameFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Fame]}/>
         }}/>,
@@ -551,7 +551,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.heal" components={{
+        text: () => <Trans i18nKey="tuto.heal" components={{
           bold: <strong/>,
           italic: <em/>,
           healFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Heal]}/>,
@@ -572,7 +572,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.pull-fame" components={{
+        text: () => <Trans i18nKey="tuto.pull-fame" components={{
           bold: <strong/>,
           fame: <Picture src={Fame} css={iconCss}/>,
           fameFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Fame]}/>
@@ -592,7 +592,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.marker-win" components={{
+        text: () => <Trans i18nKey="tuto.marker-win" components={{
           bold: <strong/>,
           fame: <Picture src={Fame} css={iconCss}/>,
           destruction: <Picture src={Destruction} css={iconCss}/>
@@ -608,7 +608,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.spotlight" components={{
+        text: () => <Trans i18nKey="tuto.spotlight" components={{
           bold: <strong/>,
           fame: <Picture src={Fame} css={iconCss}/>,
           destruction: <Picture src={Destruction} css={iconCss}/>
@@ -625,7 +625,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.power" components={{
+        text: () => <Trans i18nKey="tuto.power" components={{
           bold: <strong/>,
           powerFace: <Picture css={diceIconCss} src={diceFaces[DiceFace.Power]}/>,
           fame: <Picture src={Fame} css={iconCss}/>,
@@ -640,7 +640,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.buy" components={{
+        text: () => <Trans i18nKey="tuto.buy" components={{
           bold: <strong/>,
           energy: <Picture css={iconCss} src={Energy}/>
         }}/>,
@@ -660,13 +660,13 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.card-type" components={{ bold: <strong/> }}/>,
+        text: () => <Trans i18nKey="tuto.card-type" components={{ bold: <strong/> }}/>,
         position: { y: 15 }
       }
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.buzz" components={{ bold: <strong/> }}/>,
+        text: () => <Trans i18nKey="tuto.buzz" components={{ bold: <strong/> }}/>,
         position: { y: -20 }
       },
       focus: (game: MaterialGame) => ({
@@ -679,7 +679,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.buzz-bonus" components={{
+        text: () => <Trans i18nKey="tuto.buzz-bonus" components={{
           bold: <strong/>,
           fame: <Picture src={Fame} css={iconCss}/>,
           destruction: <Picture src={Destruction} css={iconCss}/>
@@ -700,7 +700,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.card-effect" components={{
+        text: () => <Trans i18nKey="tuto.card-effect" components={{
           bold: <strong/>,
           fame: <Picture src={Fame} css={iconCss}/>,
           destruction: <Picture src={Destruction} css={iconCss}/>
@@ -720,7 +720,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.dice-token" components={{
+        text: () => <Trans i18nKey="tuto.dice-token" components={{
           bold: <strong/>,
           destruction: <Picture src={Destruction} css={iconCss}/>
         }}/>,
@@ -738,7 +738,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.extra-dice" components={{
+        text: () => <Trans i18nKey="tuto.extra-dice" components={{
           bold: <strong/>,
           destruction: <Picture src={Destruction} css={iconCss}/>
         }}/>,
@@ -754,7 +754,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.win" components={{
+        text: () => <Trans i18nKey="tuto.win" components={{
           bold: <strong/>,
           heart: <Picture src={Heart} css={iconCss}/>,
           fame: <Picture src={Fame} css={iconCss}/>,
@@ -764,7 +764,7 @@ export class Tutorial extends MaterialTutorial<Monster, MaterialType, LocationTy
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.end" components={{ bold: <strong/> }}/>
+        text: () => <Trans i18nKey="tuto.end" components={{ bold: <strong/> }}/>
       },
       move: { filter: isCustomMoveType(CustomMoveType.Pass) }
     }

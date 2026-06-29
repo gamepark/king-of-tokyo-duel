@@ -8,11 +8,11 @@ export const MainBoardHelp: FC<MaterialHelpProps> = () => {
   return (
     <div css={helpContainerCss}>
       <h2 css={helpTitleCss}>
-        <Trans defaults="board"/>
+        <Trans i18nKey="board"/>
       </h2>
       <div css={helpSeparatorCss}/>
       <div css={helpTextCss}>
-        <Trans defaults="board.help" components={HelpComponents}/>
+        <Trans i18nKey="board.help" components={HelpComponents}/>
       </div>
     </div>
   )

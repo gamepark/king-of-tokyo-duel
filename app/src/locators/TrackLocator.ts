@@ -12,6 +12,11 @@ export abstract class TrackLocator extends HexagonalGridLocator {
     return new Polyhex([Array(15).fill(true)], { xMin: -7, system: this.coordinatesSystem })
   }
 
+  getPositionDependencies(location: Location, context: MaterialContext) {
+    // Location coordinates of half-step spaces depend on the Buzz tokens placed on this track (their x and rotation).
+    return context.rules.material(MaterialType.Buzz).location(location.type).getItems<Buzz>()
+  }
+
   getLocationCoordinates(location: Location, context: MaterialContext) {
     const { x = 0, y = 0, z } = super.getLocationCoordinates(location, context)
     if (location.x! - Math.floor(location.x!) === 0.5) {

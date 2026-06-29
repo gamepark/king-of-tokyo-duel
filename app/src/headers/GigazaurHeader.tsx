@@ -19,10 +19,10 @@ export const GigazaurHeader = () => {
   const pullFame = useLegalMove((move) => isCustomMoveType(CustomMoveType.ChoosePawn)(move) && move.data === Pawn.Fame)
   const pullDestruction = useLegalMove((move) => isCustomMoveType(CustomMoveType.ChoosePawn)(move) && move.data === Pawn.Destruction)
   if (me !== activePlayer) {
-    return <Trans defaults="header.resolve.player" values={{ player }}/>
+    return <Trans i18nKey="header.resolve.player" values={{ player }}/>
   }
   const faceImages = diceDescription.images[DiceColor.Red]
-  return <Trans defaults="header.gigazaur.you" components={{
+  return <Trans i18nKey="header.gigazaur.you" components={{
     power: <Picture css={headerIconCss} src={faceImages[DiceFace.Power]}/>,
     fame: <PullPawnButton move={pullFame} image={Fame}/>,
     destruction: <PullPawnButton move={pullDestruction} image={Destruction}/>

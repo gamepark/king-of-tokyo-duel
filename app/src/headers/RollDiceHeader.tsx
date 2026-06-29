@@ -20,15 +20,15 @@ export const RollDiceHeader = () => {
   const addDice = useLegalMove(isMoveItemType(MaterialType.DiceToken))
   const stop = useLegalMove((move) => isCustomMoveType(CustomMoveType.Pass)(move))
   if (me !== activePlayer) {
-    return <Trans defaults="header.roll.player" values={{ player, rollLeft }}/>
+    return <Trans i18nKey="header.roll.player" values={{ player, rollLeft }}/>
   }
   if (rollCount === 0) {
-    return <Trans defaults="header.roll.you" components={{
+    return <Trans i18nKey="header.roll.you" components={{
       roll: <PlayMoveButton move={roll}/>,
       add: <PlayMoveButton move={addDice}/>
     }}/>
   } else {
-    return <Trans defaults="header.reroll.you" values={{ dice, rollLeft }} components={{
+    return <Trans i18nKey="header.reroll.you" values={{ dice, rollLeft }} components={{
       roll: <PlayMoveButton move={roll}/>,
       stop: <PlayMoveButton move={stop}/>
     }}/>

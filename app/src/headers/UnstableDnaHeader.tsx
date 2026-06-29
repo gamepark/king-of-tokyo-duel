@@ -14,7 +14,7 @@ export const UnstableDnaHeader = () => {
   const pass = useLegalMove(isCustomMoveType(CustomMoveType.Pass))
   const rival = usePlayerName(new UnstableDnaRule(rules.game).rival)
   if (me === activePlayer) {
-    return <Trans defaults="header.unstable-dna.you" values={{ rival }} components={{
+    return <Trans i18nKey="header.unstable-dna.you" values={{ rival }} components={{
       pass: <PlayMoveButton move={pass}/>
     }}/>
   } else if (me !== undefined) {

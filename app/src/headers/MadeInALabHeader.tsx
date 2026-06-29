@@ -13,11 +13,11 @@ export const MadeInALabHeader = () => {
   const player = usePlayerName(activePlayer)
   const pass = useLegalMove(isCustomMoveType(CustomMoveType.Pass))
   if (me !== activePlayer) {
-    return <Trans defaults="header.made-in-a-lab.player" values={{ player }} components={{
+    return <Trans i18nKey="header.made-in-a-lab.player" values={{ player }} components={{
       energy: <Picture src={Energy} css={headerIconCss}/>
     }}/>
   }
-  return <Trans defaults="header.made-in-a-lab.you" components={{
+  return <Trans i18nKey="header.made-in-a-lab.you" components={{
     pass: <PlayMoveButton move={pass}/>,
     energy: <Picture src={Energy} css={headerIconCss}/>
   }}/>

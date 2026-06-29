@@ -23,7 +23,7 @@ export const ResolveDiceHeader = () => {
   const rollHelper = new RollHelper(rules.game)
   if (me) {
     const faceImages = diceDescription.images[DiceColor.Red]
-    return <Trans defaults="header.resolve.you" components={{
+    return <Trans i18nKey="header.resolve.you" components={{
       smash: <DiceFaceButton move={smash} image={faceImages[DiceFace.Claw]} count={rollHelper.countFace(DiceFace.Claw)}/>,
       heal: <DiceFaceButton move={heal} image={faceImages[DiceFace.Heal]} count={rollHelper.countFace(DiceFace.Heal)}/>,
       energy: <DiceFaceButton move={gainEnergy} image={faceImages[DiceFace.Energy]} count={rollHelper.countFace(DiceFace.Energy)}/>,
@@ -34,7 +34,7 @@ export const ResolveDiceHeader = () => {
                              count={rollHelper.countFace(DiceFace.Power) - rollHelper.consumedPower}/>
     }}/>
   } else {
-    return <Trans defaults="header.resolve.player" values={{ player }}/>
+    return <Trans i18nKey="header.resolve.player" values={{ player }}/>
   }
 }
 

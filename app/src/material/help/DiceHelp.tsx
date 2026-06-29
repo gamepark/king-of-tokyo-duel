@@ -12,10 +12,10 @@ export const DiceHelp: FC<MaterialHelpProps> = (props) => {
   return (
     <div css={helpContainerCss}>
       <h2 css={helpTitleCss}>
-        <Trans defaults={item.id === DiceColor.Red ? 'dice' : 'dice.extra'}/>
+        <Trans i18nKey={item.id === DiceColor.Red ? 'dice' : 'dice.extra'}/>
       </h2>
       <div css={helpTextCss}>
-        <Trans defaults="dice.help"/>
+        <Trans i18nKey="dice.help"/>
       </div>
 
       <div css={helpSeparatorCss}/>
@@ -23,27 +23,27 @@ export const DiceHelp: FC<MaterialHelpProps> = (props) => {
       <div css={faceSectionCss}>
         <div css={[helpSectionCss, smashBorderCss]}>
           <div css={helpTextCss}>
-            <Trans defaults="dice.smash" components={Components}/>
+            <Trans i18nKey="dice.smash" components={Components}/>
           </div>
         </div>
         <div css={[helpSectionCss, healBorderCss]}>
           <div css={helpTextCss}>
-            <Trans defaults="dice.hearth" components={Components}/>
+            <Trans i18nKey="dice.hearth" components={Components}/>
           </div>
         </div>
         <div css={[helpSectionCss, energyBorderCss]}>
           <div css={helpTextCss}>
-            <Trans defaults="dice.energy" components={Components}/>
+            <Trans i18nKey="dice.energy" components={Components}/>
           </div>
         </div>
         <div css={[helpSectionCss, fameBorderCss]}>
           <div css={helpTextCss}>
-            <Trans defaults="dice.pull" components={Components}/>
+            <Trans i18nKey="dice.pull" components={Components}/>
           </div>
         </div>
         <div css={[helpSectionCss, powerBorderCss]}>
           <div css={helpTextCss}>
-            <Trans defaults="dice.power" components={Components}/>
+            <Trans i18nKey="dice.power" components={Components}/>
           </div>
         </div>
       </div>

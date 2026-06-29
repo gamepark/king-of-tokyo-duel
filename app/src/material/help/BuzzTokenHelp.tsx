@@ -11,10 +11,10 @@ export const BuzzTokenHelp: FC<MaterialHelpProps> = (props) => {
   return (
     <div css={helpContainerCss}>
       <h2 css={helpTitleCss}>
-        <Trans defaults="buzz.token"/>
+        <Trans i18nKey="buzz.token"/>
       </h2>
       <div css={helpTextCss}>
-        <Trans defaults="buzz.token.help" components={HelpComponents}/>
+        <Trans i18nKey="buzz.token.help" components={HelpComponents}/>
       </div>
 
       <div css={helpSeparatorCss}/>
@@ -22,21 +22,21 @@ export const BuzzTokenHelp: FC<MaterialHelpProps> = (props) => {
       {(buzz.changeTrack ?? 0) < 0 && (
         <div css={[helpSectionCss]}>
           <div css={helpInfoCss}>
-            <Trans defaults="buzz.token.track.less"/>
+            <Trans i18nKey="buzz.token.track.less"/>
           </div>
         </div>
       )}
       {(buzz.changeTrack ?? 0) > 0 && (
         <div css={[helpSectionCss]}>
           <div css={helpInfoCss}>
-            <Trans defaults="buzz.token.track.more"/>
+            <Trans i18nKey="buzz.token.track.more"/>
           </div>
         </div>
       )}
       {item.id === Buzz.TheKingBuzz && (
         <div css={[helpSectionCss]}>
           <div css={helpInfoCss}>
-            <Trans defaults="buzz.king"/>
+            <Trans i18nKey="buzz.king"/>
           </div>
         </div>
       )}

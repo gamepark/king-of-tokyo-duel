@@ -137,7 +137,7 @@ export const CardDebugViewer: FC<{ onClose?: () => void }> = ({ onClose }) => {
                     {chars.buzz !== undefined && <span css={[tagCss, buzzTagCss]}>{buzzNames[chars.buzz] ?? `Buzz ${chars.buzz}`}</span>}
                   </div>
                   <div css={detailCss}>
-                    <Trans defaults={`card.effect.${card}`} components={Components}/>
+                    <Trans i18nKey={`card.effect.${card}`} components={Components}/>
                   </div>
                 </div>
               </div>

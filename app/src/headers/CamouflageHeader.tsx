@@ -12,11 +12,11 @@ export const CamouflageHeader = () => {
   const player = usePlayerName(activePlayer)
   const count = new CamouflageRule(rules.game).damageContext.effect.count
   if (me !== activePlayer) {
-    return <Trans defaults="header.camouflage.player" values={{ player, count }} components={{
+    return <Trans i18nKey="header.camouflage.player" values={{ player, count }} components={{
       hit: <Picture src={Hit} css={headerIconCss}/>
     }}/>
   }
-  return <Trans defaults="header.camouflage.you" values={{ count }} components={{
+  return <Trans i18nKey="header.camouflage.you" values={{ count }} components={{
     hit: <Picture src={Hit} css={headerIconCss}/>
   }}/>
 }

@@ -30,7 +30,7 @@ export const PowerCardHelp: FC<MaterialHelpProps> = (props) => {
   return (
     <div css={containerCss}>
       <h2 css={titleCss}>
-        <Trans defaults={`card.${item.id}`}/>
+        <Trans i18nKey={`card.${item.id}`}/>
       </h2>
 
       <div css={metaRowCss}>
@@ -44,14 +44,14 @@ export const PowerCardHelp: FC<MaterialHelpProps> = (props) => {
         </div>
       </div>
       <div css={timingDescCss}>
-        <Trans defaults={isKeep ? 'card.keep' : 'card.discard'} components={Components}/>
+        <Trans i18nKey={isKeep ? 'card.keep' : 'card.discard'} components={Components}/>
       </div>
 
       {characteristics.buzz !== undefined && (
         <div css={buzzRowCss}>
           <Picture src={buzzTokenDescription.images[characteristics.buzz]} css={buzzImgCss}/>
           <span css={buzzLabelCss}>
-            Buzz — <Trans defaults={`card.buzz`} components={Components}/>
+            Buzz — <Trans i18nKey={`card.buzz`} components={Components}/>
           </span>
         </div>
       )}
@@ -60,7 +60,7 @@ export const PowerCardHelp: FC<MaterialHelpProps> = (props) => {
 
       <div css={effectBlockCss}>
         <div css={effectTextCss}>
-          <Trans defaults={`card.effect.${item.id}`} components={Components}/>
+          <Trans i18nKey={`card.effect.${item.id}`} components={Components}/>
         </div>
       </div>
 

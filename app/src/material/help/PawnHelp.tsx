@@ -10,11 +10,11 @@ export const PawnHelp: FC<MaterialHelpProps> = (props) => {
   return (
     <div css={helpContainerCss}>
       <h2 css={helpTitleCss}>
-        <Trans defaults={item.id === Pawn.Fame ? 'pawn.fame' : 'pawn.destruction'}/>
+        <Trans i18nKey={item.id === Pawn.Fame ? 'pawn.fame' : 'pawn.destruction'}/>
       </h2>
       <div css={helpSeparatorCss}/>
       <div css={helpTextCss}>
-        <Trans defaults="pawn.help" components={HelpComponents}/>
+        <Trans i18nKey="pawn.help" components={HelpComponents}/>
       </div>
     </div>
   )

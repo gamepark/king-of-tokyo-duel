@@ -14,7 +14,7 @@ export const HealHeader = () => {
   const target = effect.target
   const me = usePlayerId() === target
   const player = usePlayerName(target)
-  return <Trans defaults={`header.heal.${me ? 'you' : 'player'}`} values={{ player, count }} components={{
+  return <Trans i18nKey={`header.heal.${me ? 'you' : 'player'}`} values={{ player, count }} components={{
     heart: <Picture src={Heart} css={headerIconCss}/>
   }}/>
 }

@@ -13,7 +13,7 @@ export const GainWhiteDiceTokenHeader = () => {
   const target = effect.target
   const me = usePlayerId() === target
   const player = usePlayerName(target)
-  return <Trans defaults={`header.gain-dice-token.${me ? 'you' : 'player'}`} values={{ player }} components={{
+  return <Trans i18nKey={`header.gain-dice-token.${me ? 'you' : 'player'}`} values={{ player }} components={{
     token: <Picture src={DiceToken} css={headerIconCss}/>
   }}/>
 }
