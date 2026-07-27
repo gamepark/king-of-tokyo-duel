@@ -1,5 +1,4 @@
-import { getEnumValues, OptionsSpec } from '@gamepark/rules-api'
-import { TFunction } from 'i18next'
+import { getEnumValues, OptionsSpec, TFunction } from '@gamepark/rules-api'
 import { Monster } from './material/Monster'
 
 /**
