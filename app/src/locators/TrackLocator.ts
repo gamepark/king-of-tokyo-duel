@@ -4,6 +4,12 @@ import { Pawn } from '@gamepark/king-of-tokyo-duel/material/Pawn'
 import { HexagonalGridLocator, ItemContext, MaterialContext } from '@gamepark/react-game'
 import { Coordinates, Location, MaterialItem, Polyhex } from '@gamepark/rules-api'
 
+// Tilt applied to the 2-spaces Buzz tokens so they follow the diagonal between 2 consecutive track spaces
+const buzzTokenTilt = 40
+
+// Distance between the extra space drawn on a Buzz token and the middle of the 2 track spaces it covers
+const extraSpaceDistance = 0.7
+
 export abstract class TrackLocator extends HexagonalGridLocator {
   parentItemType = MaterialType.MainBoard
   size = { x: 1.28, y: 1.75 }
@@ -18,22 +24,22 @@ export abstract class TrackLocator extends HexagonalGridLocator {
   }
 
   getLocationCoordinates(location: Location, context: MaterialContext) {
-    const { x = 0, y = 0, z } = super.getLocationCoordinates(location, context)
     if (location.x! - Math.floor(location.x!) === 0.5) {
+      // Half-step space: an extra space drawn on a Buzz token, between the 2 track spaces it covers.
       const buzz = context.rules.material(MaterialType.Buzz).location(location.type).getItems<Buzz>()
         .find(item => Math.abs(item.location.x! - location.x!) === 0.5)!
-      switch (buzz.location.rotation) {
-        case 0:
-          return { x: x + 0.5, y: y + 1, z }
-        case 2:
-          return { x: x + 0.5, y: y + 0.5, z }
-        case 3:
-          return { x: x - 0.5, y: y + 0.5, z }
-        case 5:
-          return { x: x - 0.5, y: y - 2.25, z }
+      // The center of the 2 track spaces cannot be interpolated (the columns are staggered): take the middle of both spaces.
+      const before = super.getLocationCoordinates({ ...location, x: Math.floor(location.x!) }, context)
+      const after = super.getLocationCoordinates({ ...location, x: Math.ceil(location.x!) }, context)
+      // From there, the extra space is drawn perpendicularly to the token direction
+      const angle = (this.getRotateZ(buzz.location, context) + buzzTokenTilt - 90) * Math.PI / 180
+      return {
+        x: (before.x! + after.x!) / 2 + extraSpaceDistance * Math.cos(angle),
+        y: (before.y! + after.y!) / 2 + extraSpaceDistance * Math.sin(angle),
+        z: before.z
       }
     }
-    return { x, y, z }
+    return super.getLocationCoordinates(location, context)
   }
 
   getItemCoordinates(item: MaterialItem, context: ItemContext): Partial<Coordinates> {
@@ -58,7 +64,7 @@ export abstract class TrackLocator extends HexagonalGridLocator {
         transform.push('translateY(-0.3em)')
       }
       if (buzzDescriptions[item.id as Buzz].effects.length === 2) {
-        transform.push('rotateZ(40deg)')
+        transform.push(`rotateZ(${buzzTokenTilt}deg)`)
       }
     }
     return transform
