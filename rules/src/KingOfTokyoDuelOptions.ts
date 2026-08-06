@@ -1,4 +1,4 @@
-import { getEnumValues, OptionsSpec, TFunction } from '@gamepark/rules-api'
+import { getEnumValues, OptionsSpecV2 } from '@gamepark/rules-api'
 import { Monster } from './material/Monster'
 
 /**
@@ -15,15 +15,14 @@ export type KingOfTokyoDuelOptions = {
 }
 
 /**
- * This object describes all the options a game can have, and will be used by GamePark website to create automatically forms for you game
- * (forms for friendly games, or forms for matchmaking preferences, for instance).
+ * The option space of king-of-tokyo-duel: structure only.
+ *
+ * Labels live in the game's presentation document, published beside its translations at
+ * `/options/<locale>.json` and keyed by convention. Subscription and competitive gates live in
+ * the platform database, so they can change without releasing the game again.
  */
-export const KingOfTokyoDuelOptionsSpec: OptionsSpec<KingOfTokyoDuelOptions> = {
-  players: {
-    id: {
-      label: (t: TFunction) => t('option.monster'),
-      values: getEnumValues(Monster),
-      valueSpec: monster => ({ label: t => t(`monster.${monster}`) })
-    }
-  }
+export const KingOfTokyoDuelOptionsSpecV2: OptionsSpecV2 = {
+  specVersion: 2,
+  players: { min: 2, max: 2 },
+  identities: { values: getEnumValues(Monster) }
 }

@@ -1,4 +1,4 @@
-import { KingOfTokyoDuelOptionsSpec } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelOptions'
+import { KingOfTokyoDuelOptionsSpecV2 } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelOptions'
 import { KingOfTokyoDuelRules } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelRules'
 import { KingOfTokyoDuelSetup } from '@gamepark/king-of-tokyo-duel/KingOfTokyoDuelSetup'
 import { GameProvider } from '@gamepark/react-game'
@@ -17,7 +17,7 @@ createRoot(document.getElementById('root')!).render(
     <GameProvider
       game="king-of-tokyo-duel"
       Rules={KingOfTokyoDuelRules}
-      optionsSpec={KingOfTokyoDuelOptionsSpec}
+      optionsSpec={KingOfTokyoDuelOptionsSpecV2}
       GameSetup={KingOfTokyoDuelSetup}
       material={Material}
       materialI18n={MaterialI18n}
