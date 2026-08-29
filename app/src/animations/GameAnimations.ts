@@ -16,36 +16,30 @@ class KingOfTokyoDuelAnimations extends MaterialGameAnimations {
 export const gameAnimations = new KingOfTokyoDuelAnimations()
 
 gameAnimations
-  .when()
-  .move((move) => isMoveItemType(MaterialType.Buzz)(move) && move.location.rotation !== undefined)
-  .duration(0.1)
+  .configure((move) => isMoveItemType(MaterialType.Buzz)(move) && move.location.rotation !== undefined)
+  .duration(100)
 
 gameAnimations
-  .when()
-  .move((move) => isMoveItemType(MaterialType.PowerCard)(move) && move.location.type === LocationType.PowerCardOnBoard)
-  .duration(0.4)
+  .configure((move) => isMoveItemType(MaterialType.PowerCard)(move) && move.location.type === LocationType.PowerCardOnBoard)
+  .duration(400)
 
 
 gameAnimations
-  .when()
-  .move((move) => isRollItemType(MaterialType.Dice)(move) && (move.location.type === LocationType.PlayerDiceRoll || move.location.type === LocationType.PlayerDiceKeep))
-  .duration(0.4)
+  .configure((move) => isRollItemType(MaterialType.Dice)(move) && (move.location.type === LocationType.PlayerDiceRoll || move.location.type === LocationType.PlayerDiceKeep))
+  .duration(400)
 
 gameAnimations
-  .when()
-  .move((move) =>
+  .configure((move) =>
     isMoveItemTypeAtOnce(MaterialType.Dice)(move) && move.location.type === LocationType.PlayerDiceRoll
     && move.location.player === undefined
   )
-  .duration(0.4)
+  .duration(400)
 
 gameAnimations
-  .when()
-  .move((move) => isMoveItemType(MaterialType.Dice)(move) && move.location.type === LocationType.PlayerDiceKeep
+  .configure((move) => isMoveItemType(MaterialType.Dice)(move) && move.location.type === LocationType.PlayerDiceKeep
   )
-  .duration(0.2)
+  .duration(200)
 
 gameAnimations
-  .when()
-  .move((move) => isMoveItemType(MaterialType.Dice)(move) && move.location.type === LocationType.PlayerDiceRoll)
-  .duration(0.2)
+  .configure((move) => isMoveItemType(MaterialType.Dice)(move) && move.location.type === LocationType.PlayerDiceRoll)
+  .duration(200)
